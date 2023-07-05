@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+	<header class="header_area" th:fragment="headerFragment">
+		
+	        <div class="main_menu">
+	            <nav class="navbar navbar-expand-lg navbar-light">
+	                <div class="container">
+	                	<div class="logo_main">
+	                		<a class="navbar-brand logo_h" href="/">
+	                    		<img src="../user/img/logo.png" height="36" width="158" alt="">                	
+	                    	</a>
+	                	</div>
+	                    
+	                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+	                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+	                        aria-expanded="false" aria-label="Toggle navigation">
+	                        <span class="icon-bar"></span>
+	                        <span class="icon-bar"></span>
+	                        <span class="icon-bar"></span>
+	                    </button>
+	                    
+	                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+	                        <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+	                            <li class="nav-item submenu dropdown">
+	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
+	                                    aria-haspopup="true" aria-expanded="false">마이페이지</a>
+	                                <ul class="dropdown-zmenu">
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myInfo">나의 정보</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myGuguCup">나의 구구컵</a></li>
+	                                </ul>
+	                            </li>
+	                            <li class="nav-item submenu dropdown">
+	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
+	                                    aria-haspopup="true" aria-expanded="false">보증금</a>
+	                                <ul class="dropdown-zmenu">
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myInfo">나의 보증금</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myGuguCup">보증금 결제</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myDeposite">보증금 환급</a></li>
+	                                </ul>
+	                            </li>
+	                            <li class="nav-item submenu dropdown">
+	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
+	                                    aria-haspopup="true" aria-expanded="false">포인트</a>
+	                                <ul class="dropdown-zmenu">
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/point/myPoint">나의 포인트</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/point/myPointRefund">포인트 환급</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/point/myPointRefundSponsorship">포인트 후원</a></li>
+	                                </ul>
+	                            </li>
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/kiosk/kioskPlace">무인기기 위치</a></li>
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/board/communityView">커뮤니티</a></li>
+	                            <li class="nav-item submenu dropdown">
+	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
+	                                    aria-haspopup="true" aria-expanded="false">고객센터</a>
+	                                <ul class="dropdown-menu">
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/service/lostGuguCup">무인기기 AS 신청</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/service/troubleKiosk">컵 분실 신고</a></li>
+	                                </ul>
+	                            </li>
+	                        </ul>
+	                        <ul class="nav-shop">
+	                            <li class="nav-item">
+	                            	<a class="navbar-login logo_h" href="/login">
+				                    	<img src="../user/img/login.png" height="36" width="87" alt="">
+				                    </a>
+	                            	<a class="navbar-join logo_h" href="/selectJoin">
+				                    	<img src="../user/img/join.png" height="36" width="107" alt="">
+				                    </a>
+
+	                            </li>
+	                        </ul>
+						</div>
+					</div>	
+					</nav>	
+				</div>			
+				
+	      
+    
+	
+	</header>
+</html>

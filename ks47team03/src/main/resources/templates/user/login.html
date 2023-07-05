@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+	
+  <!--================Login Box Area =================-->
+	<section class="login_box_area section-margin">
+		<div class="container">
+			<div class="rowlogin">
+				<div class="login_join_center">
+					<div class="login_form_inner">
+						<h3>로그인</h3>
+						<form class="row login_form" action="#/" id="contactForm" >
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="name" name="name" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
+							</div>
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="name" name="name" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
+							</div>
+							<div class="col-md-12 form-group">
+								<div class="creat_account">
+									<input type="checkbox" id="f-option2" name="selector">
+									<label for="f-option2">로그인 상태유지</label>
+								</div>
+							</div>
+							<div class="col-md-12 form-group">
+								<button type="submit" value="submit" class="loginbtn">
+									<img src="user/img/login.png" height="36" width="87" alt="">
+								</button>
+								<br><br><a href="#" style="display: inline;">아이디 찾기  /</a>
+								<a href="#" style="display: inline;">비밀번호 찾기</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Login Box Area =================-->
+   </th:block>
+</html>

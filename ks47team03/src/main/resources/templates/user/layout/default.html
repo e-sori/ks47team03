@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"	
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="${title}"></title>
+	<!-- 파비콘 -->
+	<link rel="icon" th:href="@{/user/img/Fevicon.png}" type="image/png">
+	<!-- 아이콘 폰트 css -->
+	<link rel="stylesheet" th:href="@{/user/vendors/fonts/feather.css}">
+	
+  	<link rel="stylesheet" th:href="@{/user/vendors/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/user/vendors/fontawesome/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/user/vendors/themify-icons/themify-icons.css}">
+    <link rel="stylesheet" th:href="@{/user/vendors/linericon/style.css}">
+    <link rel="stylesheet" th:href="@{/user/vendors/nice-select/nice-select.css}">
+    <link rel="stylesheet" th:href="@{/user/vendors/owl-carousel/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/user/vendors/owl-carousel/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/user/vendors/nouislider/nouislider.min.css}">
+        
+    <!-- 기본 스타일 css -->
+    <link rel="stylesheet" th:href="@{/user/css/style.css}">
+</head>
+<body>
+	<div id="wrapper">
+		<!-- header start -->
+		<div th:replace="~{user/fragments/header :: headerFragment}"> </div>
+		<!-- header end -->
+		
+		<!-- contents start -->
+		<div id="rightcolumn">
+			<!-- 페이지 마다 내용이 바뀌는 공간을 미리 정의 -->
+			<th:block layout:fragment="customContents">
+			
+			</th:block>
+		</div>
+		<!-- contents end -->
+		
+		<!-- footer start -->
+		<div th:replace="~{user/fragments/footer :: footerFragment}"></div>
+		<!-- footer end -->
+	</div>
+<!--페이지 마다 작성될 스크립트 공간 정의 -->
+	<th:block layout:fragment="customJs">
+	   <script th:src="@{/user/vendors/jquery/jquery-3.2.1.min.js}"></script>
+	    <script th:src="@{/user/vendors/bootstrap/bootstrap.bundle.min.js}"></script>
+	    <script th:src="@{/user/vendors/skrollr.min.js}"></script>
+	    <script th:src="@{/user/vendors/owl-carousel/owl.carousel.min.js}"></script>
+	    <script th:src="@{/user/vendors/nice-select/jquery.nice-select.min.js}"></script>
+	    <script th:src="@{/user/vendors/jquery.ajaxchimp.min.js}"></script>
+	    <script th:src="@{/user/vendors/mail-script.js}"></script>
+	    <script th:src="@{/user/js/main.js}"></script>
+	</th:block>
+</body>
+</html>
