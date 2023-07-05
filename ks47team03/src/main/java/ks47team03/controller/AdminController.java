@@ -35,7 +35,11 @@ public class AdminController {
 		this.adminService = adminService;
 	}
 	
-	
+	@GetMapping("/cupStock")
+	public String cupStack(Model model) {
+		model.addAttribute("title","구구 컵 재고 관리");
+		return "admin/cupStock";
+	}
 	// admin 메인화면
 	/**
 	 * userCommonContorller와 경로 설정 똑같이 / 지만 
