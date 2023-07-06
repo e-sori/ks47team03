@@ -2,14 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{admin/layout/default}">
+	  
 	<th:block layout:fragment="customContents">
 		<h2 class="page-title">구구컵 재고 관리</h2>
-              <div class="card shadow mb-4">
-                <div class="card-body">
-                  <div class="row">
-                  	<div class="col-md-6 my-4">
+             <div class="col-md-6 my-4">
                   <div class="card shadow">
-                    <div class="card-body">
+                    <div class="card-body">                    
                       <h5 class="card-title">Simple Table</h5>
                       <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                       <table class="table table-hover">
@@ -68,10 +66,7 @@
                       </table>
                     </div>
                   </div>
-                </div> <!-- simple table -->
-                  </div>  
-                </div>
-              </div>      	
+                </div> <!-- simple table -->     	
 	</th:block>
 	
 </html>
