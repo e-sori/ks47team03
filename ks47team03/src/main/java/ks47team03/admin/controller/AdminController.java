@@ -1,11 +1,12 @@
-package ks47team03.controller;
+package ks47team03.admin.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ks47team03.service.AdminService;
+import ks47team03.admin.service.AdminService;
+
 
 /**
  *  admin과 user 패키지에 같은 클래스가 존재할 때 오류 발생
@@ -38,7 +39,7 @@ public class AdminController {
 	@GetMapping("/cupStock")
 	public String cupStack(Model model) {
 		model.addAttribute("title","구구 컵 재고 관리");
-		return "admin/cupStock";
+		return "admin/cup/cupStock";
 	}
 	// admin 메인화면
 	/**
@@ -48,7 +49,7 @@ public class AdminController {
 	 * 위에서 @RequsestMapping을 admin으로 설정해줬기 때문
 	 */
 	@GetMapping("/")
-	public String adminIndex(Model model) {
+	public String index(Model model) {
 		model.addAttribute("title","관리자 메인화면");
 		return "admin/main";
 	}

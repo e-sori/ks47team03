@@ -1,16 +1,17 @@
-package ks47team03.controller;
+package ks47team03.user.controller;
 
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import ks47team03.service.UserService;
+import ks47team03.user.service.UserService;
+
 
 @Controller
 public class UserController {
 
-	private final UserService userService;
+	private final ks47team03.user.service.UserService userService;
 	
 	public UserController(UserService userService) {
 		this.userService = userService;
