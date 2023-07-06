@@ -333,7 +333,8 @@ a {
   padding: 0px 30px;
   transition: all 150ms linear;
   display: block;
-  margin-right: 0px
+  margin-right: 0px;
+  font-size: 14px;
 }
 
 .header_area .navbar .nav .nav-item.submenu ul .nav-item:last-child {
