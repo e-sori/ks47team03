@@ -1,5 +1,5 @@
 package ks47team03.admin.dto;
 
-public class Member {
+public class Cup {
 
 }
