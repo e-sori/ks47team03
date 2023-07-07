@@ -20,7 +20,16 @@ public class UserPartnerController {
 		this.partnerService = partnerService;
 	}
 
-	
+	@GetMapping("/washDiscardCup")
+	public String washDiscardCup(Model model) {
+		model.addAttribute("title", "폐기컵 등록");
+		return "user/partner/washDiscardCup";
+	}
+	@GetMapping("/businessAddCup")
+	public String businessAddCup(Model model) {
+		model.addAttribute("title", "추가 컵 배송");
+		return "user/partner/businessAddCup";
+	}
 
 
 }
