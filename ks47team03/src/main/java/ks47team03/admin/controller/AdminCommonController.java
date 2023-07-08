@@ -40,6 +40,18 @@ public class AdminCommonController {
 	public AdminCommonController(AdminCommonService adminService) {
 		this.adminService = adminService;
 	}
+	// 신고 회원 관리
+	@GetMapping("/user/blackUserManage")
+	public String blackUserManage(Model model) {
+		model.addAttribute("title","부정 회원 관리");
+		return "admin/user/blackUserManage";
+	}
+	// 신고 회원 관리
+	@GetMapping("/user/reportUserManage")
+	public String reportUserManage(Model model) {
+		model.addAttribute("title","신고 회원 관리");
+		return "admin/user/reportUserManage";
+	}
 	
 
 	// admin 메인화면
