@@ -54,6 +54,31 @@ body {
 	background-size: 3181px, 991px;
 }
 
+.notice-dot {
+  background-color: #88BFC2 !important; 
+  content: "";
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  top: -5px;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  
+  }
+  
+ .userHello{
+	position: relative;
+  	display: inline-block;
+  	color: #777; 
+ }
+ 
+  .userHello:hover{
+	position: relative;
+  	display: inline-block;
+  	color: #88BFC2; 
+ }
+
 .font{
   color: #777;
   font-family: "SpoqaHanSansNeo", sans-serif;
@@ -218,6 +243,8 @@ a {
   line-height: 1.667;
 }
 
+
+
 @media (max-width:1199px){
 	.header_area .navbar .nav .nav-item .mainmenu {
 	  margin-right: 15px;
@@ -258,6 +285,10 @@ a {
 .header_area .navbar .nav .nav-item:hover .mainmenu{
 	color: #88BFC2;
     font-weight: 900;
+}
+
+  .header_area .navbar .nav .nav-item .userHello-username{
+  margin-right: 0px;
 }
 
 .header_area .navbar .nav .nav-item .dropmenu{
