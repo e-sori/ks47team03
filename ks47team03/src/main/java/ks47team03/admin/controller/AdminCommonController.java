@@ -40,6 +40,24 @@ public class AdminCommonController {
 	public AdminCommonController(AdminCommonService adminService) {
 		this.adminService = adminService;
 	}
+	//회원 관리 기준
+	@GetMapping("/user/userMangeStandard")
+	public String userMangeStandard(Model model) {
+		model.addAttribute("title","회원 관리 기준");
+		return "admin/user/userMangeStandard";
+	}
+	//전체 회원 관리
+	@GetMapping("/user/userAll")
+	public String userAll(Model model) {
+		model.addAttribute("title","전체 회원 관리");
+		return "admin/user/userAll";
+	}
+	//회원 등급 관리
+	@GetMapping("/user/gradeManage")
+	public String gradeManage(Model model) {
+		model.addAttribute("title","회원 등급 관리");
+		return "admin/user/gradeManage";
+	}
 	// 신고 회원 관리
 	@GetMapping("/user/blackUserManage")
 	public String blackUserManage(Model model) {
@@ -52,7 +70,18 @@ public class AdminCommonController {
 		model.addAttribute("title","신고 회원 관리");
 		return "admin/user/reportUserManage";
 	}
-	
+	//휴면 회원 관리
+	@GetMapping("/user/userDormant")
+	public String userDormant(Model model) {
+		model.addAttribute("title","휴면 회원 관리");
+		return "admin/user/userDormant";
+	}
+	//탈퇴 회원 관리
+	@GetMapping("/user/userWithdrawal")
+	public String userWithdrawal(Model model) {
+		model.addAttribute("title","탈퇴 회원 관리");
+		return "admin/user/userWithdrawal";
+	}
 
 	// admin 메인화면
 	@GetMapping("/")
