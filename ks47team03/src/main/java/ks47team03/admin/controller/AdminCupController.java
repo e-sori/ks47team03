@@ -37,7 +37,11 @@ public class AdminCupController {
 		model.addAttribute("title","구구 컵 재고 관리");
 		return "admin/cup/cupStockManage";
 	}
-	
-
+	// 컵 전체 이용내역 관리
+	@GetMapping("/guguCupManage")
+	public String guguCupManage(Model model) {
+		model.addAttribute("title","구구 컵 전체 이용내역 관리");
+		return "admin/cup/guguCupManage";
+	}
 
 }
