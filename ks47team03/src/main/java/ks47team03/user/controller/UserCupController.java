@@ -9,7 +9,7 @@ import ks47team03.user.service.UserCupService;
 
 
 @Controller
-@RequestMapping("/cup")
+@RequestMapping("/mypage")
 public class UserCupController {
 	
 	// 의존성 주입
@@ -20,7 +20,12 @@ public class UserCupController {
 		this.cupService = cupService;
 	}
 
-	
+	// 나의 구구컵
+	@GetMapping("/myGuguCup")
+	public String myGuguCup(Model model) {
+		model.addAttribute("title","나의 구구컵");
+		return "user/mypage/myGuguCup";
+	}
 
 
 }
