@@ -19,7 +19,13 @@ public class AdminServiceController {
 	public AdminServiceController(AdminServiceService serviceService) {
 		this.serviceService = serviceService;
 	}
-
+	@GetMapping("/kioskAsApplyList")
+	public String kioskAsApplyList(Model model) {
+		
+		model.addAttribute("title","AS 접수");
+		
+		return "admin/service/kioskAsApplyList";
+	}
 	
 
 

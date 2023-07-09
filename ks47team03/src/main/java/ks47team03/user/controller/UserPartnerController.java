@@ -30,6 +30,31 @@ public class UserPartnerController {
 		model.addAttribute("title", "추가 컵 배송");
 		return "user/partner/businessAddCup";
 	}
+	@GetMapping("/businessKioskApply")
+	public String businessKioskApply(Model model) {
+		
+		model.addAttribute("title","무인기기 신청");
+		
+		return "user/partner/businessKioskApply";
+	}
+	@GetMapping("/kioskInstalledList")
+	public String kioskInstalledList(Model model) {
+		
+		model.addAttribute("title","설치된 무인기기 리스트");
+		
+		return "user/partner/kioskInstalledList";
+	}
+	@GetMapping("/businessKioskApplyResult")
+	public String businessKioskApplyResult(Model model) {
+		
+		model.addAttribute("title","무인기기 신청 확인");
+		
+		return "user/partner/businessKioskApplyResult";
+	}
+	
+	
+	
+	
 
 
 }
