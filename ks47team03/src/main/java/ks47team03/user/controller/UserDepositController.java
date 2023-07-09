@@ -20,6 +20,29 @@ public class UserDepositController {
 		this.depositService = depositService;
 	}
 
+
+	@GetMapping("/mydeposit")
+	public String mydeposit(Model model) {
+		
+		model.addAttribute("title","보증금 조회");
+		
+		return "user/deposit/mydepositPay.html";
+	}
+	@GetMapping("/mydepositPay")
+	public String mydepositPay(Model model) {
+		
+		model.addAttribute("title","보증금 결제 신청");
+		
+		return "user/deposit/mydepositPay";
+	}
+	@GetMapping("/mydepositRefund")
+	public String pointRefundSponsorship(Model model) {
+		
+		model.addAttribute("title","보증금 환급");
+		
+		return "user/deposit/mydepositRefund";
+	}
+	
 	
 
 
