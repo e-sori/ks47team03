@@ -41,6 +41,10 @@
 ::before {
     box-sizing: border-box
 }
+.fileUpload{
+	display: inline;
+}
+
 
 html {
     font-family: sans-serif;
@@ -2164,8 +2168,8 @@ select.form-control:focus::-ms-value {
 
 .form-control-file,
 .form-control-range {
-    display: block;
-    width: 100%
+    display: inline-block;
+    width: 70%
 }
 
 .col-form-label {
