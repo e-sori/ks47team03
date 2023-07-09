@@ -20,12 +20,25 @@ public class UserCupController {
 		this.cupService = cupService;
 	}
 
+	// 나의 정보
+	@GetMapping("/myInfo")
+	public String myInfo(Model model) {			
+		model.addAttribute("title","나의 정보");			
+		return "user/mypage/myInfo";
+	}
+	
 	// 나의 구구컵
 	@GetMapping("/myGuguCup")
 	public String myGuguCup(Model model) {
 		model.addAttribute("title","나의 구구컵");
 		return "user/mypage/myGuguCup";
 	}
-
+	
+	// 제휴업체 신청
+	@GetMapping("/partnerApply")
+	public String partnerApply(Model model) {			
+		model.addAttribute("title","제휴업체 신청");			
+		return "user/mypage/partnerApply";
+	}
 
 }
