@@ -21,6 +21,30 @@ public class AdminKioskController {
 	public AdminKioskController(AdminKioskService kioskService) {
 		this.kioskService = kioskService;
 	}
+	@GetMapping("/installKioskManage")
+	public String installKioskManage(Model model) {
+		
+		model.addAttribute("title","무인기기 위치 조회");
+		
+		return "admin/kiosk/installKioskManage";
+	}
+	@GetMapping("/returnlKioskManage")
+	public String returnlKioskManage(Model model) {
+		
+		model.addAttribute("title","무인기기 위치 조회");
+		
+		return "admin/kiosk/returnlKioskManage";
+	}
+	@GetMapping("/installedKioskList")
+	public String installedKioskList(Model model) {
+		
+		model.addAttribute("title","무인기기 위치 조회");
+		
+		return "admin/kiosk/installedKioskList";
+	}
+	
+	
+	
 
 	
 
