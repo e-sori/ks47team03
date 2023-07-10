@@ -51,6 +51,20 @@ public class UserPartnerController {
 		
 		return "user/partner/businessKioskApplyResult";
 	}
+	@GetMapping("/partnerInfo")
+	public String partnerInfo(Model model) {
+		
+		model.addAttribute("title","업체 정보 조회");
+		
+		return "user/partner/partnerInfo";
+	}
+	@GetMapping("/businessMyKioskList")
+	public String businessMyKioskList(Model model) {
+		
+		model.addAttribute("title","무인기기 확인");
+		
+		return "user/partner/businessMyKioskList";
+	}
 	
 	
 	
