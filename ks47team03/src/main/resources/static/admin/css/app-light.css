@@ -1189,7 +1189,8 @@ pre {
 .table {
   width: 100%;
   margin-bottom: 1rem;
-  color: #6c757d; }
+  color: #6c757d; 
+  text-align: center;}
   .table th,
   .table td {
     padding: 0.75rem;
@@ -1197,7 +1198,9 @@ pre {
     border-top: 1px solid #e9ecef; }
   .table thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid #e9ecef; }
+    border-bottom: 2px solid #e9ecef; 
+    background-color: #88BFC2;
+    }
   .table tbody + tbody {
     border-top: 2px solid #e9ecef; }
 
@@ -8119,7 +8122,7 @@ h1, h2, h3, h4, h5, h6, strong {
 .table {
   color: #6c757d; }
   .table thead th {
-    color: #ced4da; }
+    color: black; }
   .table tbody tr th {
     color: #001a4e; }
   .table tr.collapse {

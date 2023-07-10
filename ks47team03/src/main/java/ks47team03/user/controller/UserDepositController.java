@@ -26,7 +26,7 @@ public class UserDepositController {
 		
 		model.addAttribute("title","보증금 조회");
 		
-		return "user/deposit/mydepositPay.html";
+		return "user/deposit/mydeposit";
 	}
 	@GetMapping("/mydepositPay")
 	public String mydepositPay(Model model) {
