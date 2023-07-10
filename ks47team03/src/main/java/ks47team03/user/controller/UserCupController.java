@@ -28,10 +28,10 @@ public class UserCupController {
 	}
 	
 	// 나의 구구컵
-	@GetMapping("/myGuguCup")
-	public String myGuguCup(Model model) {
+	@GetMapping("/myCup")
+	public String myCup(Model model) {
 		model.addAttribute("title","나의 구구컵");
-		return "user/mypage/myGuguCup";
+		return "user/mypage/myCup";
 	}
 	
 	// 제휴업체 신청

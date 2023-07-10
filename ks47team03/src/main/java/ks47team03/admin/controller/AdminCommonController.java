@@ -58,6 +58,12 @@ public class AdminCommonController {
 		model.addAttribute("title","회원 등급 관리");
 		return "admin/user/gradeManage";
 	}
+	//회원 바코드 관리
+	@GetMapping("/user/barCodeManage")
+	public String barCodeManage(Model model) {
+		model.addAttribute("tilte","회원 바코드 관리");
+		return "admin/user/barCodeManage";
+	}
 	// 신고 회원 관리
 	@GetMapping("/user/blackUserManage")
 	public String blackUserManage(Model model) {
