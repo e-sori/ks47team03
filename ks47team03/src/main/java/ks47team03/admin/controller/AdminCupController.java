@@ -19,13 +19,13 @@ public class AdminCupController {
 	public AdminCupController(AdminCupService cupService) {
 		this.cupService = cupService;
 	}
-	//구구컵 상태 관리
+	// 컵 상태 관리
 	@GetMapping("/cupStateManage")
 	public String cupStateManage(Model model) {
 		model.addAttribute("title","구구컵 상태 관리");
 		return "admin/cup/cupStateManage";
 	}
-	//구구컵 관련 기준 관리
+	// 컵 관련 기준 관리
 	@GetMapping("/cupManageStandard")
 	public String cupManageStandard(Model model) {
 		model.addAttribute("title","구구컵 관련 기준 관리");
@@ -38,10 +38,10 @@ public class AdminCupController {
 		return "admin/cup/cupStockManage";
 	}
 	// 컵 전체 이용내역 관리
-	@GetMapping("/guguCupManage")
-	public String guguCupManage(Model model) {
-		model.addAttribute("title","구구 컵 전체 이용내역 관리");
-		return "admin/cup/guguCupManage";
+	@GetMapping("/CupManage")
+	public String CupManage(Model model) {
+		model.addAttribute("title","컵 전체 이용내역 관리");
+		return "admin/cup/CupManage";
 	}
 
 }
