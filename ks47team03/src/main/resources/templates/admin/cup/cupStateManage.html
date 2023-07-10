@@ -2,15 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{admin/layout/default}">
+	  
 	<th:block layout:fragment="customContents">
 		<h2 class="page-title">구구컵 상태 관리</h2>
-              <div class="card shadow mb-4">
-                <div class="card-body">
-                  <div class="row">
-
-                  </div>  
-                </div>
-              </div>      	
+             <div class="col-md-6 my-4">
+                  <div class="card shadow">
+                    <div class="card-body">                    
+                      <h5 class="card-title">99CUP 상태 관리</h5>
+                      <p class="card-text">현재 보유하고 있는 99CUP의 상태 관리</p>
+                      <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>99컵 QR</th>
+                            <th>현재 상태</th>
+                            <th>업데이트 날짜</th>
+                            <th>관리자</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>cupqr1</td>
+                            <td>이용가능</td>
+                            <td>2023-07-07</td>
+                            <td>일소리</td>
+                          </tr>
+                          <tr>
+                            <td>cupqr2</td>
+                            <td>이용가능</td>
+                            <td>2023-07-07</td>
+                            <td>서원</td>
+                          </tr>
+                          <tr>
+                            <td>cupqr3</td>
+                            <td>이용가능</td>
+                            <td>2023-07-07</td>
+                            <td>일소리</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->     	
 	</th:block>
 	
 </html>
