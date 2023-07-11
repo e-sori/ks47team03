@@ -6,7 +6,53 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminCupMapper">
+	<resultMap type="Cup" id="cupResultMap">
+		<id 	column="cup_QR_code" 				property="cupQR"/>
+		<result column="static_code" 				property="staticCode"/>
+		<result column="set_datetime" 				property="setDateTime"/>
+		<result column="admin_id" 					property="adminName"/>
+		<result column="up_datetime" 				property="upDateTime"/>
+	</resultMap>	
+	
+	<update id="modifyCupState" parameterType="Cup">
+		/* 상품수정 */
+		UPDATE cup_manage AS cm
+		<set>
+			<if test="staticCode != null and staticCode != ''">
+				cm.static_code = #{staticCode},
+			</if>
+			<if test="adminName != null and adminName != ''">
+				cm.admin_id = #{adminName}
+			</if>
+		</set>
+		WHERE
+			cm.cup_QR_code =#{cupQR};
+	</update>
 		
+	<select id="getCupInfoByQR" parameterType="String" resultMap="cupResultMap">
+		SELECT
+			cm.cup_QR_code,
+			cm.static_code,
+			cm.set_datetime,
+			cm.admin_id,
+			cm.up_datetime
+		FROM
+			cup_manage AS cm
+		WHERE
+			cm.cup_QR_code =#{cupQR};
+		
+	</select>
+	<select id="getCupStaticList" resultType="Static">
+		/*컵 상태코드 조회*/
+		SELECT
+			sc.static_code as staticCode,
+			sc.static_code_content as staticCodeContent
+		FROM
+			static_code AS sc
+		WHERE
+			SUBSTRING_INDEX(sc.static_code,'_',1)='cup';
+	</select>
+	
 	<select id="getCupStateList"  parameterType="map" resultType="map" >
 	/*컵 상태 조회*/
 		SELECT 
@@ -14,7 +60,7 @@
 			cm.cup_QR_code as cupQR,
 			sc.static_code_content as staticCode,
 			cm.set_datetime as setDate,
-			um.user_name as adminName,
+			cm.admin_id as adminName,
 			cm.up_datetime as upDateTime
 		FROM
 			cup_manage AS cm
@@ -22,10 +68,6 @@
 			static_code AS sc
 			on
 			cm.static_code = sc.static_code
-			INNER join
-			user_manage AS um
-			on
-			cm.admin_id = um.user_id
 		ORDER BY CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED) 	
 		<if test="startIndex != null and startIndex > -1 ">
 			LIMIT #{startIndex},#{rowPerPage};
