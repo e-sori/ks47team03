@@ -1,11 +1,15 @@
 package ks47team03.admin.controller;
 
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ks47team03.admin.service.AdminCommonService;
+import ks47team03.user.dto.User;
+import lombok.extern.slf4j.Slf4j;
 
 
 
@@ -22,6 +26,7 @@ import ks47team03.admin.service.AdminCommonService;
  *  @Qualifier("Bean에 저장된 이름")
  *  private final + @Qualifier 사용해서 의존성 주입해야함.
  */
+@Slf4j
 @Controller
 @RequestMapping("/admin")
 public class AdminCommonController {
@@ -48,10 +53,17 @@ public class AdminCommonController {
 	}
 	//전체 회원 관리
 	@GetMapping("/user/userAll")
-	public String userAll(Model model) {
-		model.addAttribute("title","전체 회원 관리");
+	public String userAll(Model model,
+							@RequestParam(value="searchKey", required = false, defaultValue = "") String searchKey,
+							@RequestParam(value="searchValue", required = false) String searchValue) {
+		log.info("searchKey : {}", searchKey);
+		log.info("searchValue : {}", searchValue);
+		List<User> userList = adminService.getUserList(searchKey, searchValue);
+		model.addAttribute("title", "회원목록");
+		model.addAttribute("userList", userList);
 		return "admin/user/userAll";
 	}
+	
 	//회원 등급 관리
 	@GetMapping("/user/gradeManage")
 	public String gradeManage(Model model) {
