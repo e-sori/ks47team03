@@ -88,7 +88,13 @@ public class AdminCommonController {
 		model.addAttribute("title","탈퇴 회원 관리");
 		return "admin/user/userWithdrawal";
 	}
-
+	//탈퇴 회원 관리
+	@GetMapping("/user/loginHistory")
+	public String loginHistory(Model model) {
+		model.addAttribute("title","로그인 이력 조회");
+		return "admin/user/loginHistory";
+	}
+	
 	// admin 메인화면
 	@GetMapping("/")
 	public String index(Model model) {
