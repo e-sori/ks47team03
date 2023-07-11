@@ -5,7 +5,39 @@
 
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
-<mapper namespace="ks47team03.admin.mapper.CupMapper">
-
+<mapper namespace="ks47team03.admin.mapper.AdminCupMapper">
+		
+	<select id="getCupStateList"  parameterType="map" resultType="map" >
+	/*컵 상태 조회*/
+		SELECT 
+			CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED) AS num,
+			cm.cup_QR_code as cupQR,
+			sc.static_code_content as staticCode,
+			cm.set_datetime as setDate,
+			um.user_name as adminName,
+			cm.up_datetime as upDateTime
+		FROM
+			cup_manage AS cm
+			INNER join
+			static_code AS sc
+			on
+			cm.static_code = sc.static_code
+			INNER join
+			user_manage AS um
+			on
+			cm.admin_id = um.user_id
+		ORDER BY CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED) 	
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select>
+	
+	<select id="getCupStateListCount" resultType="int">
+		/*컵 상태의 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			cup_manage;
+	</select>
 	
 </mapper>
