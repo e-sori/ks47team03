@@ -43,7 +43,7 @@
 											<option th:unless="${#lists.isEmpty(cupStaticInfo)}"
 													th:each="c : ${cupStaticInfo}"
 													th:selected="${c.staticCode} == *{staticCode}"
-													th:value="${c.staticCode} == *{staticCode}"
+													th:value="${c.staticCode}"
 													th:text="|${c.staticCode} :::: ${c.staticCodeContent}|">
 													<!-- | : 자바스크립트의 백틱 역할 -->
 											</option>
