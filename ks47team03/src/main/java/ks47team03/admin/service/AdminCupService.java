@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import ks47team03.admin.mapper.AdminCupMapper;
+import ks47team03.user.dto.Cup;
+import ks47team03.user.dto.Static;
 
 
 @Service
@@ -24,8 +26,20 @@ public class AdminCupService {
 	public AdminCupService(AdminCupMapper adminCupMapper) {
 		this.adminCupMapper = adminCupMapper;
 	}
-
-	
+	//한개 컵 상태 상태 수정 
+	public void modifyCupState(Cup cup) {
+		adminCupMapper.modifyCupState(cup);
+	}
+	//한개 컵 현재 상태 조회
+	public Cup getCupInfoByQR(String cupQR) {
+		Cup cupInfo= adminCupMapper.getCupInfoByQR(cupQR);
+		return cupInfo;
+	}
+	//컵 상태 코드 리스트 조회
+	public List<Static> getCupStaticList(){
+		List<Static> cupStaticList = adminCupMapper.getCupStaticList();
+		return cupStaticList;
+	};
 	//컵 상태 조회
 	public Map<String,Object> getCupStateList(int currentPage) {
 		//보여질 행의 갯수

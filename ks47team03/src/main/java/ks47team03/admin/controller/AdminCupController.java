@@ -1,27 +1,63 @@
 package ks47team03.admin.controller;
 
+
+
+
+
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks47team03.admin.service.AdminCupService;
+import ks47team03.user.dto.Cup;
+import ks47team03.user.dto.Static;
 
 
 @Controller
 @RequestMapping("/admin/cup")
 public class AdminCupController {
-	
+	private static final Logger log = LoggerFactory.getLogger(AdminCupService.class);
 	// 의존성 주입
 	private final AdminCupService cupService;
 
 	
 	public AdminCupController(AdminCupService cupService) {
 		this.cupService = cupService;
+	}
+	//컵 수정 화면 
+	@PostMapping("/cupStateModify")
+	public String cupStateModify (Cup cup) {
+		log.info("cupStateModify cup:{}", cup);
+		cupService.modifyCupState(cup);
+		
+		return "redirect:/admin/cup/cupStateManage";
+	}
+	
+	//컵 상태 수정 화면
+	@GetMapping("/cupStateModify")
+	public String cupStateModify(@RequestParam(value="cupQR") String cupQR,
+								Model model) {
+		
+		List<Static> cupStaticInfo = cupService.getCupStaticList();
+		Cup cupInfo =cupService.getCupInfoByQR(cupQR);
+		
+		log.info("cupInfo : {}" , cupInfo);
+		log.info("cupStaticInfo : {}" , cupStaticInfo);
+		
+		model.addAttribute("title", "컵 상태 수정");
+		model.addAttribute("cupStaticInfo", cupStaticInfo);
+		model.addAttribute("cupInfo", cupInfo);	
+		
+		
+		return "admin/cup/cupStateModify";
 	}
 	//컵 상태 관리
 	@SuppressWarnings("unchecked")
@@ -52,7 +88,7 @@ public class AdminCupController {
 	}
 	// 컵 재고 관리
 	@GetMapping("/cupStockManage")
-	public String cupStack(Model model) {
+	public String cupStockManage(Model model) {
 		model.addAttribute("title","구구 컵 재고 관리");
 		return "admin/cup/cupStockManage";
 	}
