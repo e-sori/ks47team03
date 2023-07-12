@@ -10,29 +10,28 @@
 			<div class="rowlogin">
 				<div class="login_join_center">
 					<div class="login_form_inner">
-						<h3>Create an account</h3>
+						<h3>제휴업체 신청</h3>
 						<form class="row login_form" action="#/" id="register_form" >
 							<div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+									<input type="text" class="form-control" id="name" name="name" placeholder="사업자 번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '사업자 번호'">
 								</div>
 								<div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+									<input type="text" class="form-control" id="email" name="email" placeholder="사업장명" onfocus="this.placeholder = ''" onblur="this.placeholder = '사업장명'">
 					              </div>
 					              <div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+									<input type="text" class="form-control" id="password" name="password" placeholder="사업장 타입" onfocus="this.placeholder = ''" onblur="this.placeholder = '사업장 타입'">
 					              </div>
-					              <div class="col-md-12 form-group">
-									<input type="text" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
-								</div>
-							<div class="col-md-12 form-group">
-									<div class="creat_account">
-										<input type="checkbox" id="f-option2" name="selector">
-										<label for="f-option2">Keep me logged in</label>
-									</div>
-								</div>
+					              <div>
+					              <select>
+					              <option value="">설치 사업장</option>
+					              <option value="">무인기기설치업체</option>
+					              <option value="">세척업체</option>
+					              </select>
+					              </div>
+
 								<div class="col-md-12 form-group">
 									<button type="submit" value="submit" class="loginbtn">
-										<img src="user/img/join.png" height="36" width="107" alt="">
+										<img src="/user/img/join.png" height="36" width="107" alt="">
 									</button>
 							</div>
 						</form>
