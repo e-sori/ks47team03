@@ -20,7 +20,7 @@ public class UserCommonController {
 		
 		// join 회원가입 화면
 		@GetMapping("/join")
-		public String userJoin(Model model) {
+		public String join(Model model) {
 			
 			model.addAttribute("title","구구컵 : 회원가입");
 			

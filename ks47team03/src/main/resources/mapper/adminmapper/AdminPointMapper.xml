@@ -5,7 +5,32 @@
 
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
-<mapper namespace="ks47team03.admin.mapper.PointMapper">
+<mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
 
+	<select id="getPointMaxCountStandard" parameterType="map" resultType="map">
+		/* 하루 최대 적립 포인트 횟수 기준 조회 */
+		SELECT
+			DMC.day_maximum_count_code AS dayMaximumCountCode,
+			DMC.user_maximum_count AS userMaximumCount,
+			DMC.set_datetime AS setDateTime,
+			DMC.admin_id AS adminId,
+			DMC.up_datetime AS upDateTime
+		FROM
+			day_maximum_count AS DMC
+		WHERE
+			DMC.day_maximum_count_code LIKE'%point%'
+		<if test="startIndex != null and startIndex > -1">
+			LIMIT #{currentFirstIndex},#{rowPerPage};
+		</if>;		
+	</select>
 	
+	<select id="getPointMaxCountStandardCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			day_maximum_count
+		WHERE
+			day_maximum_count_code LIKE'%point%';
+	</select>
+
 </mapper>
