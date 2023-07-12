@@ -40,17 +40,20 @@
 	                            <td>
 		                           	<select id="staticCode" name="staticCode">
 											<option value="">====현재 상태====</option>
-											<option th:unless="${#lists.isEmpty(cupStaticInfo)}"
-													th:each="c : ${cupStaticInfo}"
+											<th:block th:unless="${#lists.isEmpty(cupStaticInfo)}"
+										  			  th:each="c : ${cupStaticInfo}">
+											<option 
 													th:selected="${c.staticCode} == *{staticCode}"
-													th:value="${c.staticCode} == *{staticCode}"
+													th:value="${c.staticCode}"
 													th:text="|${c.staticCode} :::: ${c.staticCodeContent}|">
 													<!-- | : 자바스크립트의 백틱 역할 -->
 											</option>
 											<!-- db의 컬럼명을 화면에 노출시키지 않으려고 할 때 value를 변수로 사용한다. -->
 											<!-- 서버단에서 처리하기 위해서는 MemberService 클래스에서 searchKey를 m_id 등 컬럼명으로 바꿔주는 작업을 추가해야 한다. -->
+
+											</th:block>
 									</select>	
-	                            </td>
+	                             </td>
 	                          </tr>
 	                          <tr> 
 	                            <td>
@@ -62,8 +65,8 @@
 	                          </tr>
 	                          <tr>
 								<td colspan="2">
-									<button type="submit" id="modifyCupInfoBtn">등록</button>
-									<button type="reset" id="resetBtn">입력취소</button>
+									<button type="submit" id="modifyCupInfoBtn" class="btn mb-2 btn-secondary">등록</button>
+									<button type="reset" id="resetBtn" class="btn mb-2 btn-secondary">입력취소</button>
 								</td>
 			                  </tr>
                         </tbody>                     

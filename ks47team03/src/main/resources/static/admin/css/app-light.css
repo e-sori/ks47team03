@@ -2237,6 +2237,20 @@ fieldset:disabled a.btn {
   width: 100%; }
   .btn-block + .btn-block {
     margin-top: 0.5rem; }
+#cupQR{
+	background: none;
+	text-align: center;
+	border:  none;
+}
+#staticCode{
+	background: none;
+	text-align: center;
+	padding: 5px;
+}
+#adminIdModify{
+	background: none;
+	text-align: center;
+}
 
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
