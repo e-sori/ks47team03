@@ -186,6 +186,7 @@ svg {
 
 table {
   border-collapse: collapse; }
+  
 
 caption {
   padding-top: 0.75rem;
@@ -1203,6 +1204,10 @@ pre {
     }
   .table tbody + tbody {
     border-top: 2px solid #e9ecef; }
+    
+.table-margin-bottom{
+	margin-bottom:20px;
+}
 
 .table-sm th,
 .table-sm td {
