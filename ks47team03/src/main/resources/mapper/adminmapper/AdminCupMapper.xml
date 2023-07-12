@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- dao 작성 -->
+<!-- namespace : implememts와 같은 기능 -->
+<mapper namespace="ks47team03.admin.mapper.AdminCupMapper">
+	<resultMap type="Cup" id="cupResultMap">
+		<id 	column="cup_QR_code" 				property="cupQR"/>
+		<result column="static_code" 				property="staticCode"/>
+		<result column="set_datetime" 				property="setDateTime"/>
+		<result column="admin_id" 					property="adminName"/>
+		<result column="up_datetime" 				property="upDateTime"/>
+	</resultMap>	
+	
+	<update id="modifyCupState" parameterType="Cup">
+		/* 상품수정 */
+		UPDATE cup_manage AS cm
+		<set>
+			<if test="staticCode != null and staticCode != ''">
+				cm.static_code = #{staticCode},
+			</if>
+			<if test="adminName != null and adminName != ''">
+				cm.admin_id = #{adminName}
+			</if>
+				cm.up_datetime =NOW()
+		</set>
+		WHERE
+			cm.cup_QR_code =#{cupQR};
+	</update>
+		
+	<select id="getCupInfoByQR" parameterType="String" resultMap="cupResultMap">
+		SELECT
+			cm.cup_QR_code,
+			cm.static_code,
+			cm.set_datetime,
+			cm.admin_id,
+			cm.up_datetime
+		FROM
+			cup_manage AS cm
+		WHERE
+			cm.cup_QR_code =#{cupQR};
+		
+	</select>
+	<select id="getCupStaticList" resultType="Static">
+		/*컵 상태코드 조회*/
+		SELECT
+			sc.static_code as staticCode,
+			sc.static_code_content as staticCodeContent
+		FROM
+			static_code AS sc
+		WHERE
+			SUBSTRING_INDEX(sc.static_code,'_',1)='cup';
+	</select>
+	
+	<select id="getCupStateList"  parameterType="map" resultType="map" >
+	/*컵 상태 조회*/
+		SELECT 
+			CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED) AS num,
+			cm.cup_QR_code as cupQR,
+			sc.static_code_content as staticCode,
+			cm.set_datetime as setDate,
+			cm.admin_id as adminName,
+			cm.up_datetime as upDateTime
+		FROM
+			cup_manage AS cm
+			INNER join
+			static_code AS sc
+			on
+			cm.static_code = sc.static_code
+		ORDER BY CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED) 	
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select>
+	
+	<select id="getCupStateListCount" resultType="int">
+		/*컵 상태의 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			cup_manage;
+	</select>
+	
+	<select id="getCupManageList"  parameterType="map" resultType="map" >
+	/*컵 전체 이용 내역*/
+		SELECT
+			CAST(SUBSTRING(crenh.cup_QR_code,6) AS UNSIGNED) AS num,
+		    um.user_id AS userId,
+		    um.user_name AS userName,
+		    um.user_nick AS userNick,
+		    crenh.user_bar_code AS userBarcode,
+		    crenh.cup_QR_code AS cupQR,
+		    cast(crenh.cup_rental_datetime AS CHAR(20)) AS rentalDateTime,
+		    cast(IFNULL(creth.cup_return_datetime,'') AS CHAR(20)) AS returnDateTime
+		FROM
+	   		user_manage AS um
+			INNER JOIN
+	   		cup_rental_history AS crenh
+			ON
+	   		um.user_id = crenh.user_id
+			LEFT JOIN
+	   		cup_return_history AS creth
+			ON
+	   		um.user_id = creth.user_id 
+		AND 
+			crenh.cup_QR_code = creth.cup_QR_code
+		ORDER BY CAST(SUBSTRING(crenh.cup_QR_code,6) AS UNSIGNED)
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select>
+	
+	<select id="getCupManageListCount" resultType="int">
+		/*컵 이용 내역 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			cup_rental_history AS crenh
+			LEFT JOIN 
+			cup_return_history AS creth
+			ON
+			crenh.cup_QR_code = creth.cup_QR_code
+	</select>
+	
+</mapper>

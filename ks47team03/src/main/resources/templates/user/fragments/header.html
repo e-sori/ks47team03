@@ -26,16 +26,34 @@
 	                                    aria-haspopup="true" aria-expanded="false">마이페이지</a>
 	                                <ul class="dropdown-zmenu">
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myInfo">나의 정보</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myGuguCup">나의 구구컵</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myCup">나의 구구컵</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/partnerApply">제휴업체 신청</a></li>
 	                                </ul>
 	                            </li>
+	                            <!--업체 메인(공통)  -->
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/partner/partnerInfo">업체 정보</a></li>
+	                            <!--사업장 메뉴 -->
+	                            <li class="nav-item submenu dropdown">
+	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
+	                                    aria-haspopup="true" aria-expanded="false">설치 사업장</a>
+	                                <ul class="dropdown-zmenu">
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApply">무인기기 신청</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApplyResult">무인기기 신청 확인</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/kioskInstalledList">무인기기 리스트</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessAddCup">추가컵 배송 신청</a></li>
+	                                </ul>
+	                            </li>
+	                            <!--세척 업체-->
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/partner/washDiscardCup">세척 업체</a></li>
+	                            <!--무인기기 업체-->
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/partner/businessMyKioskList">무인기기 업체</a></li>
 	                            <li class="nav-item submenu dropdown">
 	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">보증금</a>
 	                                <ul class="dropdown-zmenu">
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myInfo">나의 보증금</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myGuguCup">보증금 결제</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myDeposite">보증금 환급</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydeposit">나의 보증금</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydepositPay">보증금 결제</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydepositRefund">보증금 환급</a></li>
 	                                </ul>
 	                            </li>
 	                            <li class="nav-item submenu dropdown">
@@ -48,14 +66,14 @@
 	                                </ul>
 	                            </li>
 	                            <li class="nav-item"><a class="nav-link mainmenu" href="/kiosk/kioskPlace">무인기기 위치</a></li>
-	                            <li class="nav-item"><a class="nav-link mainmenu" href="/board/communityView">커뮤니티</a></li>
-	                            <li class="nav-item submenu dropdown">
-	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
-	                                    aria-haspopup="true" aria-expanded="false">고객센터</a>
-	                                <ul class="dropdown-menu">
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/service/lostGuguCup">무인기기 AS 신청</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/service/troubleKiosk">컵 분실 신고</a></li>
-	                                </ul>
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/board/communityBoardView">커뮤니티</a></li>
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/service/troubleKiosk">AS 접수</a></li>
+	                            
+
+	                            <li class="nav-item">
+	                             	<a class="nav-link mainmenu userHello-username" href="/mypage/myInfo">...</a>
+	                             	<span>회원님 안녕하세요!</span>
+	                            	<a class="fe fe-16 fe-bell userHello" href="#"><span class="notice-dot"></span></a>	                            	                            	
 	                            </li>
 	                        </ul>
 	                        <ul class="nav-shop">
@@ -63,7 +81,10 @@
 	                            	<a class="navbar-login logo_h" href="/login">
 				                    	<img src="../user/img/login.png" height="36" width="87" alt="">
 				                    </a>
-	                            	<a class="navbar-join logo_h" href="/selectJoin">
+	                            	<a class="navbar-login logo_h" href="/">
+				                    	<img src="../user/img/logout.png" height="36" width="97" alt="">
+				                    </a>
+	                            	<a class="navbar-join logo_h" href="/join">
 				                    	<img src="../user/img/join.png" height="36" width="107" alt="">
 				                    </a>
 

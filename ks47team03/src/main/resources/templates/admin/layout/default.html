@@ -16,11 +16,12 @@
     <link rel="stylesheet" th:href="@{/admin/css/jquery.steps.css}">
     <link rel="stylesheet" th:href="@{/admin/css/jquery.timepicker.css}">
     <link rel="stylesheet" th:href="@{/admin/css/quill.snow.css}">
+    <!-- table CSS  -->
+    <link rel="stylesheet" th:href="@{/admin/css/dataTables.bootstrap4.css}">
     <!-- Date Range Picker CSS -->
     <link rel="stylesheet" th:href="@{/admin/css/daterangepicker.css}">
     <!-- App CSS -->
     <link rel="stylesheet" th:href="@{/admin/css/app-light.css}" id="lightTheme">
-    <link rel="stylesheet" th:href="@{/admin/css/app-dark.css}" id="darkTheme" disabled>
 </head>
 <body class="vertical  light">
 	<div class="wrapper">
@@ -247,7 +248,7 @@
 			  <!-- contents end -->
 	</div>
 <!--페이지 마다 작성될 스크립트 공간 정의 -->
-		<th:block layout:fragment="customJs">
+
 	      <script th:src="@{/admin/js/jquery.min.js}"></script>
 	      <script th:src="@{/admin/js/popper.min.js}"></script>
 	      <script th:src="@{/admin/js/moment.min.js}"></script>
@@ -257,7 +258,9 @@
 	      <script th:src="@{/admin/js/jquery.stickOnScroll.js}"></script>
 	      <script th:src="@{/admin/js/tinycolor-min.js}"></script>
 	      <script th:src="@{/admin/js/config.js}"></script>
-	      <script th:src="@{/admin/js/apps.js}"></script>
-	    </th:block>
+	   	  <script th:src="@{/admin/js/apps.js}"></script>
+	  	  <!--/* <script th:src="@{/admin/js/jquery-3.7.0.js}"></script> */-->
+	      <script th:src="@{/admin/js/jquery.dataTables.min.js}"></script>
+	      <th:block layout:fragment="customJs"></th:block>
 </body>
 </html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- dao 작성 -->
+<!-- namespace : implememts와 같은 기능 -->
+<mapper namespace="ks47team03.admin.mapper.AdminCommonMapper">
+
+	
+ 	 <select id="getUserList" parameterType="map" resultType="map">
+		/* 회원목록 조회 */
+		SELECT
+			user_id				AS userId,
+			user_pw				AS userPw,
+			user_name			AS userName,
+			user_level			AS userLevel,
+			user_Idcard_number	AS userIdcardnumber,
+			user_addr			AS userAddr,
+			user_email			AS userEmail,
+			user_phone			AS userPhone,
+			user_nick			AS userNick,
+			user_sms_check		AS userSmscheck,
+			user_email_check	AS userEmailcheck,
+			static_code			AS staticCode,
+			cast(user_join_datetime AS CHAR(20))	AS userJoindatetime
+		FROM 
+			user_manage
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select> 
+	<select id="getUserListCount" resultType="int">
+		/*회원 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			user_manage;
+	</select> 
+	
+</mapper>

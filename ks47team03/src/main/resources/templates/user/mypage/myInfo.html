@@ -8,12 +8,12 @@
   <section class="page-banner-area" id="category">
     <div class="container h-100">
         <div class="text-center">
-          <h1>포인트 후원</h1>
+          <h1>나의 정보</h1>
           <nav aria-label="breadcrumb" class="banner-breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
               <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">포인트 후원</li>
+              <li class="breadcrumb-item active" aria-current="page">나의 정보</li>
             </ol>
           </nav>
       </div>
@@ -26,12 +26,77 @@
   <section class="order_details section-margin--small">
     <div class="container">
       
-      <p class="font">텍스트 쓸 때는 p태그든 다른 태그든 어떤 태그를 쓰든 class에 font 꼭 넣어주셈</p>
-     
-      <p class="billing-alert">텍스트를 들여쓰고 싶을때는 billing-alert 클래스를 사용하삼</p>
-      
-      <a class="font" href="#">css는 내가 많이 수정했기 때문에 문제 생길 수 있으니 바꾸고싶으면 말하고 바꿔야함</a>
-      
+      <div class="row">
+			<div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+				<div class="sidebar">
+					<!-- User Widget -->
+					<div class="widget user-dashboard-profile">
+						<!-- User Image -->
+						<div class="profile-thumb">
+							<img src="images/user/user-thumb.jpg" alt="" class="rounded-circle">
+						</div>
+						<!-- User Name -->
+						<h5 class="text-center">Samanta Doe</h5>
+						<p>Joined February 06, 2017</p>
+					</div>
+					<!-- Dashboard Links -->
+					<div class="widget user-dashboard-menu">
+						<ul>
+							<li>
+								<a href="dashboard-my-ads.html"><i class="fa fa-user"></i>마이 페이지</a></li>
+							<li>
+								<a href=""><i class="fa fa-hourglass-end"></i> 배송 신청 </a>
+							</li>
+							<li>
+								<a href=""><i class="fa fa-truck"></i>배송 조회 </a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+				<!-- Edit Personal Info -->
+				<div class="widget personal-info">
+					<h1 class="widget-header user">배송 주문 정보</h1>
+					<form action="#">
+						<!-- First Name -->
+						<div class="form-group">
+						    <label for="first-name">주문자 이름</label>
+						    <input type="text" class="form-control" id="first-name" placeholder="이름을 입력해 주세요">
+						</div>
+						<!-- Last Name -->
+						<div class="form-group">
+						    <label for="last-name">주문자 연락처</label>
+						    <input type="text" class="form-control" id="last-name" placeholder="전화번호를 입력해 주세요">
+						</div>
+				</div>
+				<div class="widget personal-info">
+						<!-- Comunity Name -->
+						<div class="form-group">
+							<h1 class="widget-header user">배송지</h1>	
+							
+						    <input type="text" class="form-control" id="comunity-name" placeholder="&nbsp; &nbsp; &nbsp;➕ &nbsp; &nbsp; &nbsp; 배송지 추가하기">
+						</div>
+				</div>
+				<div class="widget personal-info">		
+					<h1 class="widget-header user">결제 수단</h1>		
+						<!-- Checkbox -->
+						<div class="form-check">
+						  <label class="form-check-label" for="hide-profile">
+						    <input class="form-check-input" type="radio" value="" id="hide-profile">
+						    일반결제
+						  </label>
+						</div>		
+							<div class="select">
+								<input type="radio" id="select" name="temp1"><label for="select">신용/체크카드</label>
+								<input type="radio" id="select2" name="temp1"><label for="select2">무통장 입금</label>
+						   </div>
+							<button type="button" class="btn btn-transparent btn-danger btn-block">결제하기</button>
+						</div>
+					</form>
+				</div>	
+			</div>
+		</div>
          
         
       

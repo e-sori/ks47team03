@@ -41,6 +41,10 @@
 ::before {
     box-sizing: border-box
 }
+.fileUpload{
+	display: inline;
+}
+
 
 html {
     font-family: sans-serif;
@@ -176,15 +180,13 @@ sup {
 }
 
 a {
-    color: #007bff;
     text-decoration: none;
     background-color: transparent;
     -webkit-text-decoration-skip: objects
 }
 
 a:hover {
-    color: #0056b3;
-    text-decoration: underline
+	text-decoration: none
 }
 
 a:not([href]):not([tabindex]) {
@@ -2020,13 +2022,14 @@ pre code {
     background-color: rgba(255, 255, 255, .075)
 }
 
+
 @media (max-width:575.98px) {
     .table-responsive-sm {
         display: block;
         width: 100%;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        -ms-overflow-style: -ms-autohiding-scrollbar
+        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
 
     .table-responsive-sm>.table-bordered {
@@ -2083,11 +2086,15 @@ pre code {
 .table-responsive {
     display: block;
     width: 100%;
+    text-align :center;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: -ms-autohiding-scrollbar
 }
+.addCupBtnTd{
+	text-align: right;
 
+}
 .table-responsive>.table-bordered {
     border: 0
 }
@@ -2164,8 +2171,8 @@ select.form-control:focus::-ms-value {
 
 .form-control-file,
 .form-control-range {
-    display: block;
-    width: 100%
+    display: inline-block;
+    width: 70%
 }
 
 .col-form-label {
