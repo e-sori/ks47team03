@@ -51,12 +51,12 @@
 	<!-- level="INFO" : INFO 레벨일 것은 모두 로그에 찍는다. -->
 	<!-- additivity="false" 로그를 한 번 만 찍겠다. true : 두 번 찍힘 -->
 	<!-- level="OFF" : 로그 OFF -->
-	<logger name="ks47team03" level="INFO" additivity="false">
+	<logger name="ks47team03" level="info" additivity="false">
 		<!-- 위에서 작성해뒀던 STDOUT를 찍겠다. appender-ref 태그 없으면 안 찍힘 -->
 		<appender-ref ref="STDOUT" />
 	</logger>
 	<!-- 아직 싱글톤 안나가서 하지 않는 것이 맞음 -->
-	<logger name="org.springframework" level="OFF" additivity="false">
+	<logger name="org.springframework" level="off" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>
 

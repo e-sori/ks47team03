@@ -75,8 +75,7 @@
 		                            </td>
 		                          </tr>
                           	</th:block>
-                          	<tr th:if="${#lists.isEmpty(userAll)}">
-								<td colspan="6">보유한 컵이 없습니다.</td>
+                          	<tr th:if="${#lists.isEmpty(userList)}">
 	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                                <span class="text-muted sr-only">Action</span>
 	                              </button>
@@ -90,7 +89,7 @@
                         </tbody>
                         <tfoot>
                         
-							<tr>
+							 <tr>
 								<td colspan="7">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/user/userAll}">처음으로</a>
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/user/userAll(currentPage=${currentPage-1})}">이전</a>
@@ -105,7 +104,7 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/user/userAll(currentPage=${lastPage})}>마지막으로</a>
 								</td>
-							</tr>
+							</tr> 
 						</tfoot>
                       </table>
                     </div>

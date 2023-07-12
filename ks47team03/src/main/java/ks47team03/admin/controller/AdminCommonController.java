@@ -1,6 +1,8 @@
 package ks47team03.admin.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,17 +54,41 @@ public class AdminCommonController {
 		return "admin/user/userMangeStandard";
 	}
 	//전체 회원 관리
+	/*
+	 * @GetMapping("/user/userAll") 
+	 * public String userAll(Model model,
+	 * 
+	 * @RequestParam(value="searchKey", required = false, defaultValue = "") String
+	 * searchKey,
+	 * 
+	 * @RequestParam(value="searchValue", required = false) String searchValue) {
+	 * log.info("searchKey : {}", searchKey); log.info("searchValue : {}",
+	 * searchValue); List<User> userList = adminService.getUserList(searchKey,
+	 * searchValue); model.addAttribute("title", "회원목록");
+	 * model.addAttribute("userList", userList); return "admin/user/userAll"; }
+	 */
+	@SuppressWarnings("unchecked")
 	@GetMapping("/user/userAll")
-	public String userAll(Model model,
-							@RequestParam(value="searchKey", required = false, defaultValue = "") String searchKey,
-							@RequestParam(value="searchValue", required = false) String searchValue) {
-		log.info("searchKey : {}", searchKey);
-		log.info("searchValue : {}", searchValue);
-		List<User> userList = adminService.getUserList(searchKey, searchValue);
-		model.addAttribute("title", "회원목록");
+	public String userAll(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+									Model model) {
+		//required= false 입력값 필수로 안받겠다. defaultValue = "1" 기본값 설정,문자열만 입력 가능 Modle=보내질 데이터
+		Map<String,Object> resultMap = adminService.getUserList(currentPage);
+		int lastPage = (int)resultMap.get("lastPage");
+		
+		List<Map<String,Object>> userList = (List<Map<String,Object>>)resultMap.get("userList");
+		log.info("userlist:{}",userList);
+		
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
+		model.addAttribute("title", "전체 회원 관리");
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
 		model.addAttribute("userList", userList);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
 		return "admin/user/userAll";
 	}
+	
 	
 	//회원 등급 관리
 	@GetMapping("/user/gradeManage")
