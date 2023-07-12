@@ -2242,10 +2242,11 @@ fieldset:disabled a.btn {
 	text-align: center;
 	border:  none;
 }
-#staticCode{
+#staticCode,#adminIdModify{
 	background: none;
 	text-align: center;
 	padding: 5px;
+	width: 195px
 }
 #adminIdModify{
 	background: none;

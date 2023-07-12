@@ -7,6 +7,16 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminCommonMapper">
 
+	<select id="getadminIdList" resultType="User">
+	/*관리자 아이디 조회*/
+		SELECT
+		 	um.user_id AS userId
+		FROM
+		 	user_manage AS um
+		WHERE
+			left(um.user_id,5) ='admin';
+	
+	</select>
 	
  	 <select id="getUserList" parameterType="map" resultType="map">
 		/* 회원목록 조회 */

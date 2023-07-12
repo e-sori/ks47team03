@@ -18,6 +18,10 @@ public interface AdminCupMapper {
 	public List<Static> getCupStaticList();
 	//컵 상태 전체 리스트 조회
 	public List<Map<String,Object>> getCupStateList (Map<String,Object>paramMap);
+	//컵 재고 전체 리스트 조회
+	public List<Map<String,Object>> getCupStockList (Map<String,Object>paramMap);
+	//컵 재고 리스트 갯수
+	public int getCupStockListCount();
 	//컵 상태 리스트 갯수
 	public int getCupStateListCount();
 	//컵 전체 이용 내역 조회

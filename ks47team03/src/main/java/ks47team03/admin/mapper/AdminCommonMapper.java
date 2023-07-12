@@ -11,7 +11,7 @@ import ks47team03.user.dto.User;
 public interface AdminCommonMapper {
 	//전체 회원 조회
 	//public List<User> getUserList(Map<String, Object> paramMap);
-	
+	public List<User>getadminIdList();
 	public List<Map<String,Object>> getUserList (Map<String,Object>paramMap);
 	public int getUserListCount();
 

@@ -22,7 +22,7 @@
 				cm.static_code = #{staticCode},
 			</if>
 			<if test="adminName != null and adminName != ''">
-				cm.admin_id = #{adminName}
+				cm.admin_id = #{adminName},
 			</if>
 				cm.up_datetime =NOW()
 		</set>
@@ -31,6 +31,7 @@
 	</update>
 		
 	<select id="getCupInfoByQR" parameterType="String" resultMap="cupResultMap">
+	/*하나의 컵 조회*/
 		SELECT
 			cm.cup_QR_code,
 			cm.static_code,
@@ -54,6 +55,26 @@
 			SUBSTRING_INDEX(sc.static_code,'_',1)='cup';
 	</select>
 	
+	<select id="getCupStockList"  parameterType="map" resultType="map" >
+	/*컵 재고 조회*/
+		SELECT
+			IFNULL(csm.approval_partner_plus_info_code, '-') AS partnerInfo,
+			IFNULL(csm.partner_name, '-') AS partnerName,
+			csm.wash_input_amount AS inputAmount,
+			csm.last_stock_amount AS stockAmount,
+			csm.business_out_amount AS outAmount,
+			csm.discard_stock_amount AS abnormalAmount,
+			csm.do_stock_research AS abnormalCheck,
+			csm.admin_id AS adminId,
+			csm.up_datetime AS upDateTime
+		FROM
+			cup_stack_manage AS csm
+		ORDER BY CAST(SUBSTRING_INDEX(csm.cup_stack_code,'code',-1) AS UNSIGNED)	
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select>
+	
 	<select id="getCupStateList"  parameterType="map" resultType="map" >
 	/*컵 상태 조회*/
 		SELECT 
@@ -75,6 +96,13 @@
 		</if>
 	</select>
 	
+	<select id="getCupStockListCount" resultType="int">
+		/*재고 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			cup_stack_manage;
+	</select>
 	<select id="getCupStateListCount" resultType="int">
 		/*컵 상태의 전체 행의 갯수*/
 		SELECT

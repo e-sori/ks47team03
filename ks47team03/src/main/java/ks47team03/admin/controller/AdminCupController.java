@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ks47team03.admin.service.AdminCommonService;
 import ks47team03.admin.service.AdminCupService;
 import ks47team03.user.dto.Cup;
 import ks47team03.user.dto.Static;
+import ks47team03.user.dto.User;
 
 
 @Controller
@@ -27,10 +29,11 @@ public class AdminCupController {
 	private static final Logger log = LoggerFactory.getLogger(AdminCupService.class);
 	// 의존성 주입
 	private final AdminCupService cupService;
+	private final AdminCommonService commonService;
 
-	
-	public AdminCupController(AdminCupService cupService) {
+	public AdminCupController(AdminCupService cupService, AdminCommonService commonService) {
 		this.cupService = cupService;
+		this.commonService = commonService;
 	}
 	//컵 수정 화면 
 	@PostMapping("/cupStateModify")
@@ -48,13 +51,14 @@ public class AdminCupController {
 		
 		List<Static> cupStaticInfo = cupService.getCupStaticList();
 		Cup cupInfo =cupService.getCupInfoByQR(cupQR);
-		
+		List<User> adminInfo = commonService.getadminIdList();
 		log.info("cupInfo : {}" , cupInfo);
 		log.info("cupStaticInfo : {}" , cupStaticInfo);
 		
 		model.addAttribute("title", "컵 상태 수정");
 		model.addAttribute("cupStaticInfo", cupStaticInfo);
 		model.addAttribute("cupInfo", cupInfo);	
+		model.addAttribute("adminInfo", adminInfo);	
 		
 		
 		return "admin/cup/cupStateModify";
@@ -87,11 +91,29 @@ public class AdminCupController {
 		return "admin/cup/cupManageStandard";
 	}
 	// 컵 재고 관리
+	@SuppressWarnings("unchecked")
 	@GetMapping("/cupStockManage")
-	public String cupStockManage(Model model) {
+	public String cupStockManage(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+						Model model) {
+		
+		
+		Map<String,Object> resultMap = cupService.getCupStockList(currentPage);
+		int lastPage = (int)resultMap.get("lastPage");
+		
+		List<Map<String,Object>> cupStockList = (List<Map<String,Object>>) resultMap.get("cupStockList");
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
 		model.addAttribute("title","구구 컵 재고 관리");
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("cupStockList", cupStockList);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+	
 		return "admin/cup/cupStockManage";
-	}
+		}
+	
+	
 	// 컵 전체 이용내역 관리
 	@SuppressWarnings("unchecked")
 	@GetMapping("/cupManage")
