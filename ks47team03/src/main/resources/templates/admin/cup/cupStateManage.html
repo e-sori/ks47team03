@@ -83,8 +83,8 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/cup/cupStateManage(currentPage=${num})}" th:text="${num}"></a>
-												<label class="btn mb-2 btn-secondary" th:if="${currentPage == num}" th:text="${num}"></label>
+												<a class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage != num}" th:href="@{/admin/cup/cupStateManage(currentPage=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/cup/cupStateManage(currentPage=${currentPage+1})}">다음</a>

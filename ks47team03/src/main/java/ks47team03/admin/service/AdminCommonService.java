@@ -21,28 +21,11 @@ public class AdminCommonService {
 		this.adminCommonMapper = adminCommonMapper;
 	}
 	
-	
-		
-	/*
-	 * public List<User> getUserList(String searchKey, String searchValue){
-	 * Map<String, Object> paramMap = null;
-	 * 
-	 * if(searchValue != null) { switch (searchKey) { case "userId" -> { searchKey =
-	 * "user_id"; } case "userName" -> { searchKey = "user_name"; } case "userEmail"
-	 * -> { searchKey = "user_email"; }
-	 * 
-	 * } paramMap = new HashMap<String, Object>(); paramMap.put("searchKey",
-	 * searchKey); paramMap.put("searchValue", searchValue); }
-	 * 
-	 * List<User> userList = adminCommonMapper.getUserList(paramMap);
-	 * 
-	 * log.info("userList : {}", userList);
-	 * 
-	 * return userList;
-	 * 
-	 * 
-	 * }
-	 */
+	//관리자 아이디 조회
+	public List<User> getadminIdList(){
+		List<User> adminIdList = adminCommonMapper.getadminIdList(); 
+		return adminIdList;
+	}
 	public Map<String,Object> getUserList(int currentPage) {
 		//보여질 행의 갯수
 		int rowPerPage = 16;
