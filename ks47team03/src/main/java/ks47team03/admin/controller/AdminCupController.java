@@ -93,10 +93,24 @@ public class AdminCupController {
 		return "admin/cup/cupStockManage";
 	}
 	// 컵 전체 이용내역 관리
-	@GetMapping("/CupManage")
-	public String CupManage(Model model) {
+	@SuppressWarnings("unchecked")
+	@GetMapping("/cupManage")
+	public String cupManage(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+							Model model) {
+		//required= false 입력값 필수로 안받겠다. defaultValue = "1" 기본값 설정,문자열만 입력 가능 Modle=보내질 데이터
+		Map<String,Object> resultMap = cupService.getCupManageList(currentPage);
+		int lastPage = (int)resultMap.get("lastPage");
+		
+		List<Map<String,Object>> cupManageList = (List<Map<String,Object>>)resultMap.get("cupManageList");
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
 		model.addAttribute("title","컵 전체 이용내역 관리");
-		return "admin/cup/CupManage";
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("cupManageList", cupManageList);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		return "admin/cup/cupManage";
 	}
 
 }
