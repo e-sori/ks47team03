@@ -17,16 +17,28 @@
                 <div class="col-md-12">
                   <div class="card shadow">
                     <div class="card-body">
-                    <table>
+                    <table class="table datatables table-hover" id="dataTable-1">
                     	<thead>
                     		<tr>
-                    			<th>재고 입력</th>
+                    			<th colspan="2">재고 입력</th>
                     		</tr>
                     	</thead>
                     	<tbody>
                     		<tr>
                     			<td><label for="inputAmount">입고 수량</label></td>
-                    			<td><input type="text" id="inputAmount" name="inputAmount"></td>
+                    			<td>
+                    			<form id="inputform" th:action="@{/admin/cup/cupStockManage}" method="get">
+                    				<input type="text" id="inputAmount" name="inputAmount"  placeholder="입고수량을 입력해주세요.">
+                    				<button type="submit" class="inputBtn btn mb-2 btn-secondary">등록</button>
+                    			</form>
+                    			</td>
+                    		</tr>
+                    		<tr>
+                    			<td><label for="outAmount">출고 수량</label></td>
+                    			<td>
+                    				<input type="text" id="outAmount" name="outAmount">
+                    				<button type="button" class="inputBtn btn mb-2 btn-secondary">등록</button>
+								</td>
                     		</tr>
                     	</tbody>
                     
