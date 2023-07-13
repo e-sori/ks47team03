@@ -7,6 +7,19 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
 
+	<delete id="delPointMaxCountStandard" parameterType="String">
+		/* 하루 최대 적립 포인트 횟수 기준 삭제 */
+	</delete>
+
+	<update id="modifyPointMaxCountStandard" parameterType="String">
+		/* 하루 최대 적립 포인트 횟수 기준 수정 */
+	</update>
+	
+	<insert id="addPointMaxCountStandard" parameterType="map">
+		/* 하루 최대 적립 포인트 횟수 기준 등록 */
+		
+	</insert>
+	
 	<select id="getPointMaxCountStandard" parameterType="map" resultType="map">
 		/* 하루 최대 적립 포인트 횟수 기준 조회 */
 		SELECT
@@ -25,6 +38,7 @@
 	</select>
 	
 	<select id="getPointMaxCountStandardCount" resultType="int">
+		/* 하루 최대 적립 포인트 횟수 기준 개수 조회 */
 		SELECT
 			COUNT(*)
 		FROM
