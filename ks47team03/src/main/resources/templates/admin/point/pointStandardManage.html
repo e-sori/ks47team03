@@ -18,16 +18,13 @@
                   <div class="card shadow">
                     <div class="card-body">                  
                       <!-- table -->
-                      <table class="table datatables table-hover" id="dataTable-1">
+                      <table class="table datatables table-hover dataTable-1">
                        <h5 class="mb-2 page-title">하루 최대 적립 포인트 횟수 기준</h5>
              			<p class="card-text"> 하루에 적립 가능한 포인트 횟수는 최대 [[${userMaximumCount}]]번입니다.</p>
                         <thead>
                           <tr>
                             <th>
-                            	<div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="check1">
-	                                <label class="custom-control-label" for="check2"></label>
-                              	</div>
+								<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
                             </th>
                             <th>NO.</th>
                            	<th>횟수 기준 코드</th>
@@ -43,11 +40,8 @@
                         				th:each ="p, state : ${pointMaxCountStandardList}">
 	                          <tr>
 	                            <td>
-	                              <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input">
-	                                <label class="custom-control-label"></label>
-	                              </div>
-	                            </td>
+	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
+								</td>
 	                            <td th:text="${state.count}" ></td>
 	                            <td th:text="${p.dayMaximumCountCode}"></td>
 	                            <td th:text="${p.userMaximumCount}"></td>
@@ -71,17 +65,17 @@
 								</td>
 								<td colspan="6">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage-1})}">이전</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageMax>1}" th:href="@{/admin/point/pointStandardManage(currentPageMax=${currentPageMax-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageMax>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
-											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/point/pointStandardManage(currentPage=${num})}" th:text="${num}"></a>
-												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
+											<th:block th:each="num : ${#numbers.sequence(startPageNumMax,endPageNumMax)}" >
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageMax != num}" th:href="@{/admin/point/pointStandardManage(currentPageMax=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageMax == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPageNum}" th:href="@/admin/point/pointStandardManage(currentPage=${currentPage+1})}">다음</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPageNum}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPage=${lastPageNum})}>마지막으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageMax<lastPageNumMax}" th:href="@/admin/point/pointStandardManage(currentPageMax=${currentPageMax+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageMax<lastPageNumMax}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageMax=${lastPageNumMax})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -94,25 +88,21 @@
                   </div>
                 </div>
                 <!-- 하루 최대 적립 포인트 횟수 기준 끝 -->   
-                <!-- 적립 포인트 기준 -->
+                <!-- 포인트 만료 기간 기준 -->
                 <div class="col-md-12 table-margin-bottom">
                   <div class="card shadow">
                     <div class="card-body">                  
-                      <!-- table -->
-                      <table class="table datatables table-hover" id="dataTable-1">
-                       <h5 class="mb-2 page-title">포인트 만료 기간 기준</h5>
-             			<p class="card-text"> 포인트 유효 기간은 [[${userMaximumCount}]]년입니다.</p>
+                      <table class="table datatables table-hover dataTable-1">
+                       <h5 class="mb-2 page-title">포인트 유효 기간 기준</h5>
+             			<p class="card-text"> 포인트 유효 기간은 [[${pointExpire}]]년입니다.</p>
                         <thead>
                           <tr>
                             <th>
-                            	<div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="check1">
-	                                <label class="custom-control-label" for="check2"></label>
-                              	</div>
+								<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
                             </th>
                             <th>NO.</th>
-                           	<th>횟수 기준 코드</th>
-                            <th>적립 횟수</th>
+                           	<th>유효 기간 코드</th>
+                            <th>유효 기간</th>
                             <th>최초 등록일</th>
                             <th>관리자</th>
                             <th>최종 수정일</th>
@@ -120,18 +110,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                        	<th:block 	th:unless="${#lists.isEmpty(pointMaxCountStandardList)}"
-                        				th:each ="p, state : ${pointMaxCountStandardList}">
+                        	<th:block 	th:unless="${#lists.isEmpty(pointExpireStandardList)}"
+                        				th:each ="p, state : ${pointExpireStandardList}">
 	                          <tr>
 	                            <td>
-	                              <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input">
-	                                <label class="custom-control-label"></label>
-	                              </div>
-	                            </td>
+	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
+								</td>
 	                            <td th:text="${state.count}" ></td>
-	                            <td th:text="${p.dayMaximumCountCode}"></td>
-	                            <td th:text="${p.userMaximumCount}"></td>
+	                            <td th:text="${p.pointExpireStandardCode}"></td>
+	                            <td th:text="${p.pointExpire}"></td>
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
@@ -152,17 +139,17 @@
 								</td>
 								<td colspan="6">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage-1})}">이전</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire>1}" th:href="@{/admin/point/pointStandardManage(currentPageExpire=${currentPageExpire-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageExpire>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
-											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/point/pointStandardManage(currentPage=${num})}" th:text="${num}"></a>
-												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
+											<th:block th:each="num : ${#numbers.sequence(startPageNumExpire,endPageNumExpire)}" >
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire != num}" th:href="@{/admin/point/pointStandardManage(currentPageExpire=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageExpire == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPageNum}" th:href="@/admin/point/pointStandardManage(currentPage=${currentPage+1})}">다음</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPageNum}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPage=${lastPageNum})}>마지막으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire<lastPageNumExpire}" th:href="@/admin/point/pointStandardManage(currentPageExpire=${currentPageExpire+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageExpire<lastPageNumExpire}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageExpire=${lastPageNumExpire})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -170,30 +157,26 @@
 								</td>
 							</tr>
 						</tfoot>
-                      </table>
-                     </div>
+                      </table>               
+                    </div>
                   </div>
                 </div>
-              <!-- 적립 포인트 기준 끝 -->
-                              <!-- 하루 최대 적립 포인트 횟수 기준 -->
+              <!-- 포인트 만료 기간 기준 끝 -->
+                <!-- 포인트 타입 기준 -->
                 <div class="col-md-12 table-margin-bottom">
                   <div class="card shadow">
                     <div class="card-body">                  
-                      <!-- table -->
-                      <table class="table datatables table-hover" id="dataTable-1">
+                      <table class="table datatables table-hover dataTable-1">
                        <h5 class="mb-2 page-title">포인트 타입</h5>
              			<p class="card-text"> 포인트 적립 및 사용 타입 기준입니다.</p>
-                        <thead>
+                       <thead>
                           <tr>
                             <th>
-                            	<div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="check1">
-	                                <label class="custom-control-label" for="check2"></label>
-                              	</div>
+								<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
                             </th>
                             <th>NO.</th>
-                           	<th>횟수 기준 코드</th>
-                            <th>적립 횟수</th>
+                           	<th>포인트 타입 코드</th>
+                            <th>포인트 타입</th>
                             <th>최초 등록일</th>
                             <th>관리자</th>
                             <th>최종 수정일</th>
@@ -201,18 +184,15 @@
                           </tr>
                         </thead>
                         <tbody>
-                        	<th:block 	th:unless="${#lists.isEmpty(pointMaxCountStandardList)}"
-                        				th:each ="p, state : ${pointMaxCountStandardList}">
+                        	<th:block 	th:unless="${#lists.isEmpty(pointTypeStandardList)}"
+                        				th:each ="p, state : ${pointTypeStandardList}">
 	                          <tr>
 	                            <td>
-	                              <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input">
-	                                <label class="custom-control-label"></label>
-	                              </div>
-	                            </td>
+	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
+								</td>
 	                            <td th:text="${state.count}" ></td>
-	                            <td th:text="${p.dayMaximumCountCode}"></td>
-	                            <td th:text="${p.userMaximumCount}"></td>
+	                            <td th:text="${p.pointSaveUseTypeCode}"></td>
+	                            <td th:text="${p.pointSaveUseType}"></td>
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
@@ -233,17 +213,17 @@
 								</td>
 								<td colspan="6">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage-1})}">이전</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageType>1}" th:href="@{/admin/point/pointStandardManage(currentPageType=${currentPageType-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageType>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
-											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/point/pointStandardManage(currentPage=${num})}" th:text="${num}"></a>
-												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
+											<th:block th:each="num : ${#numbers.sequence(startPageNumType,endPageNumType)}" >
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageType != num}" th:href="@{/admin/point/pointStandardManage(currentPageType=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageType == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPageNum}" th:href="@/admin/point/pointStandardManage(currentPage=${currentPage+1})}">다음</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPageNum}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPage=${lastPageNum})}>마지막으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageType<lastPageNumType}" th:href="@/admin/point/pointStandardManage(currentPageType=${currentPageType+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageType<lastPageNumType}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageType=${lastPageNumType})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -255,26 +235,25 @@
                     </div>
                   </div>
                 </div>
-                <!-- 하루 최대 적립 포인트 횟수 기준 끝 -->   
-                <!-- 적립 포인트 기준 -->
+                <!-- 포인트 타입 기준 끝 -->   
+                <!-- 포인트 적립 기준 -->
                 <div class="col-md-12 table-margin-bottom">
                   <div class="card shadow">
                     <div class="card-body">                  
                       <!-- table -->
-                      <table class="table datatables table-hover" id="dataTable-1">
+                      <table class="table datatables table-hover dataTable-1">
                        <h5 class="mb-2 page-title">포인트 적립 기준</h5>
              			<p class="card-text"> 포인트 적립 종류 별 포인트 적립 기준입니다.</p>
                         <thead>
                           <tr>
                             <th>
-                            	<div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="check1">
-	                                <label class="custom-control-label" for="check2"></label>
-                              	</div>
+								<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
                             </th>
                             <th>NO.</th>
-                           	<th>횟수 기준 코드</th>
-                            <th>적립 횟수</th>
+                           	<th>적립 기준 코드</th>
+                            <th>등급</th>
+                            <th>등급 달성 포인트</th>
+                            <th>이용 포인트</th>
                             <th>최초 등록일</th>
                             <th>관리자</th>
                             <th>최종 수정일</th>
@@ -282,18 +261,17 @@
                           </tr>
                         </thead>
                         <tbody>
-                        	<th:block 	th:unless="${#lists.isEmpty(pointMaxCountStandardList)}"
-                        				th:each ="p, state : ${pointMaxCountStandardList}">
+                        	<th:block 	th:unless="${#lists.isEmpty(pointSaveStandardList)}"
+                        				th:each ="p, state : ${pointSaveStandardList}">
 	                          <tr>
 	                            <td>
-	                              <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input">
-	                                <label class="custom-control-label"></label>
-	                              </div>
-	                            </td>
+	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
+								</td>
 	                            <td th:text="${state.count}" ></td>
-	                            <td th:text="${p.dayMaximumCountCode}"></td>
-	                            <td th:text="${p.userMaximumCount}"></td>
+	                            <td th:text="${p.pointSaveStandardCode}"></td>
+	                            <td th:text="${p.gradeName}"></td>
+	                            <td th:text="${p.gradeAttainPoint}"></td>
+	                            <td th:text="${p.useSavePoint}"></td>
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
@@ -312,19 +290,19 @@
 							<tr>
 								<td>
 								</td>
-								<td colspan="6">
+								<td colspan="8">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage-1})}">이전</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageSave>1}" th:href="@{/admin/point/pointStandardManage(currentPageSave=${currentPageSave-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageSave>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
-											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/point/pointStandardManage(currentPage=${num})}" th:text="${num}"></a>
-												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
+											<th:block th:each="num : ${#numbers.sequence(startPageNumSave,endPageNumSave)}" >
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageSave != num}" th:href="@{/admin/point/pointStandardManage(currentPageSave=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageSave == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPageNum}" th:href="@/admin/point/pointStandardManage(currentPage=${currentPage+1})}">다음</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPageNum}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPage=${lastPageNum})}>마지막으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageSave<lastPageNumSave}" th:href="@/admin/point/pointStandardManage(currentPageSave=${currentPageSave+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageSave<lastPageNumSave}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageSave=${lastPageNumSave})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -332,30 +310,29 @@
 								</td>
 							</tr>
 						</tfoot>
-                      </table>
-                     </div>
+                      </table>               
+                    </div>
                   </div>
                 </div>
-              <!-- 적립 포인트 기준 끝 --> 
-                              <!-- 적립 포인트 기준 -->
+              <!-- 포인트 적립 기준 끝 --> 
+               <!-- 포인트 환급 기준 기준 -->
                 <div class="col-md-12 table-margin-bottom">
                   <div class="card shadow">
                     <div class="card-body">                  
-                      <!-- table -->
-                      <table class="table datatables table-hover" id="dataTable-1">
+                      <table class="table datatables table-hover dataTable-1">
                        <h5 class="mb-2 page-title">포인트 환급 기준</h5>
              			<p class="card-text"> 포인트 환급 기준입니다.</p>
                         <thead>
                           <tr>
                             <th>
-                            	<div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="check1">
-	                                <label class="custom-control-label" for="check2"></label>
-                              	</div>
+								<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
                             </th>
                             <th>NO.</th>
-                           	<th>횟수 기준 코드</th>
-                            <th>적립 횟수</th>
+                           	<th>환급 기준 코드</th>
+                            <th>포인트 타입</th>
+                            <th>최소 환급 포인트</th>
+                            <th>환급 단위</th>
+                            <th>환급 수수료</th>
                             <th>최초 등록일</th>
                             <th>관리자</th>
                             <th>최종 수정일</th>
@@ -363,18 +340,18 @@
                           </tr>
                         </thead>
                         <tbody>
-                        	<th:block 	th:unless="${#lists.isEmpty(pointMaxCountStandardList)}"
-                        				th:each ="p, state : ${pointMaxCountStandardList}">
+                        	<th:block 	th:unless="${#lists.isEmpty(pointRefundStandardList)}"
+                        				th:each ="p, state : ${pointRefundStandardList}">
 	                          <tr>
 	                            <td>
-	                              <div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input">
-	                                <label class="custom-control-label"></label>
-	                              </div>
-	                            </td>
+	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
+								</td>
 	                            <td th:text="${state.count}" ></td>
-	                            <td th:text="${p.dayMaximumCountCode}"></td>
-	                            <td th:text="${p.userMaximumCount}"></td>
+	                            <td th:text="${p.pointRefundStandardCode}"></td>
+	                            <td th:text="${p.pointSaveUseType}"></td>
+	                            <td th:text="${p.minimumRefundStandard}"></td>
+	                            <td th:text="${p.refundUnit}"></td>
+	                            <td th:text="${p.refundFeeRate}"></td>
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
@@ -393,19 +370,19 @@
 							<tr>
 								<td>
 								</td>
-								<td colspan="6">
+								<td colspan="9">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage-1})}">이전</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund>1}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${currentPageRefund-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageRefund>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
-											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/point/pointStandardManage(currentPage=${num})}" th:text="${num}"></a>
-												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
+											<th:block th:each="num : ${#numbers.sequence(startPageNumRefund,endPageNumRefund)}" >
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund != num}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageRefund == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPageNum}" th:href="@/admin/point/pointStandardManage(currentPage=${currentPage+1})}">다음</a>
-									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPageNum}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPage=${lastPageNum})}>마지막으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund<lastPageNumRefund}" th:href="@/admin/point/pointStandardManage(currentPageRefund=${currentPageRefund+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPageRefund<lastPageNumRefund}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageRefund=${lastPageNumRefund})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -413,11 +390,11 @@
 								</td>
 							</tr>
 						</tfoot>
-                      </table>
-                     </div>
+                      </table>               
+                    </div>
                   </div>
                 </div>
-              <!-- 적립 포인트 기준 끝 -->                 
+              <!-- 포인트 환급 기준 끝 -->                 
           </div> <!-- end section -->
         </div> <!-- .col-12 -->
       </div> <!-- .row -->
@@ -425,32 +402,54 @@
    
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script>		
-			$(function(){
-		      $('#dataTable-1').DataTable({
-			        autoWidth: true,
-			        "lengthMenu": [
-			          [16, 32, 64, -1],
-			          [16, 32, 64, "All"]
-			        ],
-			        columnDefs: [{
+		<script>
+		
+		$(function(){
+			  $('.dataTable-1').each(function() {
+			    const table = $(this);
+			    table.DataTable({
+			      autoWidth: true,
+			      columnDefs: [{
 			            targets: 0,
 			            searchable: false,
 			            orderable: false,
 			            className: 'sorting_disabled'
 			            
-			         }
-			         ,{
-			            targets: $('#dataTable-1').find('th').length-1,
-			            searchable: false,
-			            orderable: false,
-			            className: 'sorting_disabled',	           
-			         	}
-			         ]
-						      	
-				});
-			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
-			});
+			      },
+			      {
+			          targets: table.find('th').length - 1,
+			          searchable: false,
+			          orderable: false,
+			          className: 'sorting_disabled',
+			        }]
+			      });
+			    });
+			  $('.dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+			  });
+			      
+			
+			// 체크박스 모두 선택 / 개별 선택
+		      $('table').click((e) => {
+		        if ($(e.target).is($('.allCheck'))) {
+		          const isChecked = $(e.currentTarget)
+		            .find('.allCheck')
+		            .prop('checked');
+		          $(e.currentTarget).find('.checks').prop('checked', isChecked);
+		        }
+		
+		        if ($(e.target).is($('.checks'))) {
+		          if (
+		            $(e.currentTarget).find('.checks').length ==
+		            $(e.currentTarget).find('.checks:checked').length
+		          ) {
+		            $(e.currentTarget).find('.allCheck').prop('checked', true);
+		          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
+		        }
+		      });
+		
+		      $('#delCheckBtn').click(function () {
+		        $('.checks:checked').closest('tr').remove();
+		      });
 		
 		</script>
 	</th:block>

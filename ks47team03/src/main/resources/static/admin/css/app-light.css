@@ -65,6 +65,10 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
     background-size:270%;
 }
 
+input, progress {
+  accent-color: #6c757d;
+}
+
 body {
   margin: 0;
   font-family: "Overpass", sans-serif;
@@ -2707,30 +2711,13 @@ input[type="button"].btn-block {
     .custom-control-input[disabled] ~ .custom-control-label::before, .custom-control-input:disabled ~ .custom-control-label::before {
       background-color: #e9ecef; }
 
-.custom-control-label {
+.checkbox {
   position: relative;
-  margin-bottom: 0;
-  vertical-align: top; }
-  .custom-control-label::before {
-    position: absolute;
-    top: 0.15625rem;
-    left: -1.5rem;
-    display: block;
-    width: 1rem;
-    height: 1rem;
-    pointer-events: none;
-    content: "";
-    background-color: #ffffff;
-    border: #ced4da solid 1px; }
-  .custom-control-label::after {
-    position: absolute;
-    top: 0.15625rem;
-    left: -1.5rem;
-    display: block;
-    width: 1rem;
-    height: 1rem;
-    content: "";
-    background: no-repeat 50% / 50% 50%; }
+  margin-bottom: 2px;
+  vertical-align: top;
+  width: 1rem;
+  margin-left: 10px; }
+
 
 .custom-checkbox .custom-control-label::before {
   border-radius: 0.25rem; }
