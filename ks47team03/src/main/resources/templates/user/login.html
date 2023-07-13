@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
+	
 	<th:block layout:fragment="customContents">
 	
   <!--================Login Box Area =================-->
@@ -11,12 +12,12 @@
 				<div class="login_join_center">
 					<div class="login_form_inner">
 						<h3>로그인</h3>
-						<form class="row login_form" action="#/" id="contactForm" >
+						<form class="row login_form" id="loginForm" th:action="@{/login}" method="post">
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
+								<input type="text" class="form-control input-check" id="userId" name="userId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
+								<input type="text" class="form-control input-check" id="UserPw" name="UserPw" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
@@ -25,7 +26,7 @@
 								</div>
 							</div>
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="loginbtn">
+								<button type="submit" class="loginbtn">
 									<img src="user/img/login.png" height="36" width="87" alt="">
 								</button>
 								<br><br><a href="#" style="display: inline;">아이디 찾기  /</a>
@@ -39,4 +40,41 @@
 	</section>
 	<!--================End Login Box Area =================-->
    </th:block>
+   <th:block layout:fragment="customJs">   
+    	<script type="text/javascript" th:inline="javascript">
+    	
+    		// cdata xml, html script : <, { 태그 관련 해서 예약어로 지정되어있는데  
+    		// <![CDATA['문자열']]> -> 'CDATA[ ] 대괄호 안은 문자열입니다.'를 지정하는데 사용
+    		/*<![CDATA[*/
+    		let msg = '[[${msg}]]';
+    		if(msg != 'null') alert(msg);
+    		/*]]>*/
+    		
+    		
+    		// 유효성검사 함수
+    		const validCheck = element => {
+    			let data = $(element).val();
+    			let eleId = $(element).attr('id');
+    			if(typeof data == 'undefined' || data == null || data == '' ){
+    				let cate = $(`label[for="${eleId}"]`).text();
+    				alert(`${cate} 필수 입력항목입니다.`);
+    				$(element).focus();
+    				return false;
+    			}
+    			return true;
+    		}
+    		
+    		$('.loginBtn').click(function(e){
+    			e.preventDefault();
+    			const validateEle = $('#loginForm').find('.input-check');
+    			let isSubmit = false;
+    			validateEle.each((idx, item) => {    				
+	    			isSubmit = validCheck(item);
+	    			return isSubmit;
+    			})
+    			if(isSubmit) $('#loginForm').submit();
+    		});
+    		
+    	</script>
+    </th:block>
 </html>

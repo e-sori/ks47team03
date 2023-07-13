@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import jakarta.annotation.PostConstruct;
 import ks47team03.user.dto.User;
 import ks47team03.admin.mapper.AdminCommonMapper;
 
@@ -19,6 +20,11 @@ public class AdminCommonService {
 	
 	public AdminCommonService(AdminCommonMapper adminCommonMapper) {
 		this.adminCommonMapper = adminCommonMapper;
+	}
+	
+	@PostConstruct
+	public void userServiceInit() {
+		System.out.println("userService 객체 생성");
 	}
 	
 	//관리자 아이디 조회
@@ -86,7 +92,30 @@ public class AdminCommonService {
 		return paramMap;
 		
 	}
-	
-	
+	//회원 검증 여부
+	public Map<String, Object> isValidUser(String userId, String userPw) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		boolean isValid = false;
+		
+		// 회원 검증 
+		User user = adminCommonMapper.getUserInfoById(userId);
+		if(user != null) {
+			String checkPw = user.getUserPw();
+			if(checkPw.equals(userPw)) {
+				isValid = true;
+				resultMap.put("userInfo", user);
+			}
+		}
+		
+		resultMap.put("isValid", isValid);
+		
+		return resultMap;
+	}
+	//회원 상세 조회
+	public User getUserInfoById(String userId) {
+		User userInfo = adminCommonMapper.getUserInfoById(userId);
+		return userInfo;
+	}
 	
 }

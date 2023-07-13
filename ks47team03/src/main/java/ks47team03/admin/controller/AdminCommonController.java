@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import ks47team03.admin.service.AdminCommonService;
-import ks47team03.user.dto.User;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -47,6 +47,8 @@ public class AdminCommonController {
 	public AdminCommonController(AdminCommonService adminService) {
 		this.adminService = adminService;
 	}
+	
+	
 	//회원 관리 기준
 	@GetMapping("/user/userMangeStandard")
 	public String userMangeStandard(Model model) {
@@ -54,19 +56,6 @@ public class AdminCommonController {
 		return "admin/user/userMangeStandard";
 	}
 	//전체 회원 관리
-	/*
-	 * @GetMapping("/user/userAll") 
-	 * public String userAll(Model model,
-	 * 
-	 * @RequestParam(value="searchKey", required = false, defaultValue = "") String
-	 * searchKey,
-	 * 
-	 * @RequestParam(value="searchValue", required = false) String searchValue) {
-	 * log.info("searchKey : {}", searchKey); log.info("searchValue : {}",
-	 * searchValue); List<User> userList = adminService.getUserList(searchKey,
-	 * searchValue); model.addAttribute("title", "회원목록");
-	 * model.addAttribute("userList", userList); return "admin/user/userAll"; }
-	 */
 	@SuppressWarnings("unchecked")
 	@GetMapping("/user/userAll")
 	public String userAll(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
