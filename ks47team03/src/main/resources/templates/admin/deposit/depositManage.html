@@ -4,69 +4,130 @@
 	  layout:decorate="~{admin/layout/default}">
 	  
 	<th:block layout:fragment="customContents">
-		<h2 class="page-title">보증금 내역 관리</h2>
-             <div class="col-md-6 my-4">
+
+     <div class="container-fluid">
+       <div class="row justify-content-center">
+          <div class="col-12">
+            <h2 class="mb-2 page-title">보증금 전체 내역 조회</h2>
+             <p class="card-text"></p>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
                   <div class="card shadow">
-                    <div class="card-body">                    
-                      <h5 class="card-title">Simple Table</h5>
-                      <p class="card-text">보증금 내역 관리</p>
-                      <table class="table table-hover">
-                        <thead>
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables table-hover" id="dataTable-1">
+                      <thead>
                           <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Company</th>
-                            <th>Address</th>
-                            <th>Date</th>
-                            <th>Status</th>
+                            <th>
+                            	<div class="custom-control custom-checkbox">
+	                                <input type="checkbox" class="custom-control-input" id="check1">
+	                                <label class="custom-control-label" for="check1"></label>
+                              	</div>
+                            </th>                           
+                            <th>아이디</th>
+                           	<th>보증금 타입</th>
+                            <th>사용된 보증금</th>
+                            <th>과거보증금</th>
+                            <th>현재포인트</th>
+                            <th>업데이트날짜</th>
+                            <th>수정/삭제</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>3224</td>
-                            <td>Keith Baird</td>
-                            <td>Enim Limited</td>
-                            <td>901-6206 Cras Av.</td>
-                            <td>Apr 24, 2019</td>
-                            <td><span class="badge badge-pill badge-warning">Hold</span></td>
-                          </tr>
-                          <tr>
-                            <td>3218</td>
-                            <td>Graham Price</td>
-                            <td>Nunc Lectus Incorporated</td>
-                            <td>Ap #705-5389 Id St.</td>
-                            <td>May 23, 2020</td>
-                            <td><span class="badge badge-pill badge-success">Success</span></td>
-                          </tr>
-                          <tr>
-                            <td>2651</td>
-                            <td>Reuben Orr</td>
-                            <td>Nisi Aenean Eget Limited</td>
-                            <td>7425 Malesuada Rd.</td>
-                            <td>Nov 4, 2019</td>
-                            <td><span class="badge badge-pill badge-warning">Hold</span></td>
-                          </tr>
-                          <tr>
-                            <td>2636</td>
-                            <td>Akeem Holder</td>
-                            <td>Pellentesque Associates</td>
-                            <td>896 Sodales St.</td>
-                            <td>Mar 27, 2020</td>
-                            <td><span class="badge badge-pill badge-danger">Danger</span></td>
-                          </tr>
-                          <tr>
-                            <td>2757</td>
-                            <td>Beau Barrera</td>
-                            <td>Augue Incorporated</td>
-                            <td>4583 Id St.</td>
-                            <td>Jan 13, 2020</td>
-                            <td><span class="badge badge-pill badge-success">Success</span></td>
-                          </tr>
+                        	<th:block th:unless="${#lists.isEmpty(depositManageList)}"  th:each="dm : ${depositManageList}">
+		                          <tr>
+		                            <td>
+		                              <div class="custom-control custom-checkbox">
+		                                <input type="checkbox" class="custom-control-input" id="check1">
+		                                <label class="custom-control-label" for="check1"></label>
+		                              </div>
+		                            </td>		               
+		                            <td th:text="${dm.userId}"></td>
+		                            <td th:text="${dm.depositUsingType}"></td>
+		                            <td th:text="${dm.pastHoldingDeposit}"></td>
+		                            <td th:text="${dm.depositPayUseHistory}"></td>
+		                            <td th:text="${dm.currentHoldingDeposit}"></td>
+		                            <td th:text="${dm.upDatetime}"></td>
+		                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                <span class="text-muted sr-only">Action</span>
+		                              </button>
+		                              <div class="dropdown-menu dropdown-menu-right">
+		                                <a class="dropdown-item" href="">Remove</a>
+		                              </div>
+		                            </td>
+		                          </tr>
+                          	</th:block>
+                          	<tr th:if="${#lists.isEmpty(depositStandardList)}">
+	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                                <span class="text-muted sr-only">Action</span>
+	                              </button>
+	                              <div class="dropdown-menu dropdown-menu-right">
+	                                <a class="dropdown-item" href="#">Edit</a>
+	                                <a class="dropdown-item" href="#">Remove</a>
+	                                <a class="dropdown-item" href="#">Assign</a>
+	                              </div>
+	                            </td>
+							</tr>
                         </tbody>
+                        <tfoot>
+                        
+							 <tr>
+								<td colspan="7">
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/deposit/depositManage}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/deposit/depositManage(currentPage=${currentPage-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+										<div class="btn-group mr-2" role="group" aria-label="First group">
+											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
+												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/deposit/depositManage(currentPage=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary" th:if="${currentPage == num}" th:text="${num}"></label>
+											</th:block>
+										</div>				
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/deposit/depositManage(currentPage=${currentPage+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/deposit/depositManage(currentPage=${lastPage})}>마지막으로</a>
+								</td>
+							</tr> 
+						</tfoot>
                       </table>
                     </div>
                   </div>
-                </div> <!-- simple table -->     	
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+           </div>
+          </div>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script>		
+			$(function(){
+		      $('#dataTable-1').DataTable({
+			        autoWidth: true,
+			        "lengthMenu": [
+			          [16, 32, 64, -1],
+			          [16, 32, 64, "All"]
+			        ],
+			        columnDefs: [{
+			            targets: 0,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled'
+			            
+			         }
+			         ,{
+			            targets: $('#dataTable-1').find('th').length-1,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled',	           
+			         	}
+			         ]
+						 
+				});
+	
+			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+			});
+		
+		</script>
 	</th:block>
 	
 </html>
