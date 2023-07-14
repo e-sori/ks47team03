@@ -58,6 +58,7 @@
 	<select id="getCupStockList"  parameterType="map" resultType="map" >
 	/*컵 재고 조회*/
 		SELECT
+			CAST(SUBSTRING_INDEX(csm.cup_stack_code,'code',-1) AS UNSIGNED) AS num,
 			IFNULL(csm.approval_partner_plus_info_code, '-') AS partnerInfo,
 			IFNULL(csm.partner_name, '-') AS partnerName,
 			csm.wash_input_amount AS inputAmount,
