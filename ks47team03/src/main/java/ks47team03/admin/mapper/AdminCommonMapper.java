@@ -10,7 +10,7 @@ import ks47team03.user.dto.User;
 @Mapper
 public interface AdminCommonMapper {
 	
-	
+	//관리자 계정 조회
 	public List<User>getadminIdList();
 	
 	//전체 회원 조회

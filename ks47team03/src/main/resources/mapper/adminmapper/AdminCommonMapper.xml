@@ -18,7 +18,18 @@
 	
 	</select>
 	
- 	 <select id="getUserList" parameterType="map" resultType="map">
+	<insert id="joinUser" parameterType="User">
+		/* 회원가입 */
+		INSERT INTO user_manage
+			(user_id, user_pw, user_name, user_level, user_Idcard_number, user_addr, 
+			user_email, user_phone, user_nick, user_sms_check, user_email_check, user_join_datetime)
+		VALUES 
+			(#{user_id}, #{user_pw}, #{user_name}, #{user_level}, #{user_Idcard_number}, #{user_addr}, 
+			#{user_email},#{user_phone},#{user_nick},#{user_sms_check},#{user_email_check},CURDATE());
+	</insert>
+	
+	
+	 <select id="getUserList" parameterType="map" resultType="map">
 		/* 회원목록 조회 */
 		SELECT
 			user_id				AS userId,

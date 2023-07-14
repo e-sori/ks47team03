@@ -25,7 +25,13 @@ public class UserCommonController {
 		this.userService = userService;
 	}
 	
-
+		// juso
+		@GetMapping("/juso")
+		public String juso(Model model) {
+			model.addAttribute("title","도로명 : 주소입력");
+			
+			return "user/juso";
+		}
 		
 		// join 회원가입 화면
 		@GetMapping("/join")
@@ -45,7 +51,7 @@ public class UserCommonController {
 			
 			return "redirect:/login";
 		}
-		
+		//login
 		@PostMapping("/login")
 		public String login(@RequestParam(value="userId") String userId,
 							@RequestParam(value="userPw") String userPw,

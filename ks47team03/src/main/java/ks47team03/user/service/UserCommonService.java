@@ -8,17 +8,19 @@ import org.springframework.stereotype.Service;
 
 import ks47team03.user.dto.User;
 import ks47team03.user.mapper.UserCommonMapper;
+import ks47team03.admin.mapper.*;
 
 @Service
 public class UserCommonService {
 		
 
-
+	private final AdminCommonMapper adminCommonMapper;
 	private final UserCommonMapper userCommonMapper;
 	
 	// 생성자 메소드 의존성 주입방식
-	public UserCommonService(UserCommonMapper userCommonMapper) {
+	public UserCommonService(UserCommonMapper userCommonMapper, AdminCommonMapper adminCommonMapper) {
 		this.userCommonMapper = userCommonMapper;
+		this.adminCommonMapper = adminCommonMapper;
 	}
 	
 	//회원 검증 여부
@@ -28,7 +30,7 @@ public class UserCommonService {
 			boolean isValid = false;
 			
 			// 회원 검증 
-			User user = userCommonMapper.getUserInfoById(userId);
+			User user = adminCommonMapper.getUserInfoById(userId);
 			if(user != null) {
 				String checkPw = user.getUserPw();
 				if(checkPw.equals(userPw)) {
@@ -43,7 +45,7 @@ public class UserCommonService {
 		}
 		//회원 상세 조회
 		public User getUserInfoById(String userId) {
-			User userInfo = userCommonMapper.getUserInfoById(userId);
+			User userInfo = adminCommonMapper.getUserInfoById(userId);
 			return userInfo;
 		}
 }

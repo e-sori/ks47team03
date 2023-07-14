@@ -44,15 +44,15 @@ public class WebConfig implements WebMvcConfigurer{
 				.excludePathPatterns("/favicon.ico")
 				.excludePathPatterns(excludePathList);
 		
-		registry.addInterceptor(loginInterceptor)
-				.addPathPatterns("/**")
-				.excludePathPatterns("/favicon.ico")
-				.excludePathPatterns("/")
-				.excludePathPatterns("/login")
-//				.excludePathPatterns("/logout")
-//				.excludePathPatterns("/addMember")
-//				.excludePathPatterns("/idCheck")
-				.excludePathPatterns(excludePathList);
+//		registry.addInterceptor(loginInterceptor)
+//				.addPathPatterns("/**")
+//				.excludePathPatterns("/favicon.ico")
+		//		.excludePathPatterns("/")
+		//		.excludePathPatterns("/login")
+		//		.excludePathPatterns("/logout")
+		//		.excludePathPatterns("/addMember")
+		//		.excludePathPatterns("/idCheck")
+		//		.excludePathPatterns(excludePathList);
 		
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
