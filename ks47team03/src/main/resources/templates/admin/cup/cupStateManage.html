@@ -21,10 +21,9 @@
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
                           <tr>
-                            <th>
+                           <th>
                             	<div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="check1">
-	                                <label class="custom-control-label" for="check1"></label>
+	                               <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
                               	</div>
                             </th>
                             <th>NO.</th>
@@ -41,8 +40,7 @@
 		                          <tr>
 		                            <td>
 		                              <div class="custom-control custom-checkbox">
-		                                <input type="checkbox" class="custom-control-input" id="check1">
-		                                <label class="custom-control-label" for="check1"></label>
+		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 		                              </div>
 		                            </td>
 		                            <td th:text="${c.num}"></td>
@@ -91,6 +89,10 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/cup/cupStateManage(currentPage=${lastPage})}>마지막으로</a>
 								</td>
+								<td class="btn-right-align">
+									<a class="btn mb-2 btn-secondary" th:href="@{/admin/cup/addCupStateManage}">등록</a>
+									<a class="btn mb-2 btn-secondary" th:href="@{/admin/cup/cupStateManage}">삭제</a>
+								</td>
 							</tr>
 						</tfoot>
                       </table>
@@ -129,7 +131,28 @@
 				});
 			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
 			});
-		
+			
+			 $('table').click((e) => {
+			        if ($(e.target).is($('.allCheck'))) {
+			          const isChecked = $(e.currentTarget)
+			            .find('.allCheck')
+			            .prop('checked');
+			          $(e.currentTarget).find('.checks').prop('checked', isChecked);
+			        }
+			
+			        if ($(e.target).is($('.checks'))) {
+			          if (
+			            $(e.currentTarget).find('.checks').length ==
+			            $(e.currentTarget).find('.checks:checked').length
+			          ) {
+			            $(e.currentTarget).find('.allCheck').prop('checked', true);
+			          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
+			        }
+			      });
+			
+			      $('#delCheckBtn').click(function () {
+			        $('.checks:checked').closest('tr').remove();
+			      });
 		</script>
 	</th:block>
 </html>

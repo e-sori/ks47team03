@@ -17,36 +17,11 @@
                 <div class="col-md-12">
                   <div class="card shadow">
                     <div class="card-body">
-                    <table class="table datatables table-hover" id="dataTable-1">
-                    	<thead>
-                    		<tr>
-                    			<th colspan="2">재고 입력</th>
-                    		</tr>
-                    	</thead>
-                    	<tbody>
-                    		<tr>
-                    			<td><label for="inputAmount">입고 수량</label></td>
-                    			<td>
-                    			<form id="inputform" th:action="@{/admin/cup/cupStockManage}" method="get">
-                    				<input type="text" id="inputAmount" name="inputAmount"  placeholder="입고수량을 입력해주세요.">
-                    				<button type="submit" class="inputBtn btn mb-2 btn-secondary">등록</button>
-                    			</form>
-                    			</td>
-                    		</tr>
-                    		<tr>
-                    			<td><label for="outAmount">출고 수량</label></td>
-                    			<td>
-                    				<input type="text" id="outAmount" name="outAmount">
-                    				<button type="button" class="inputBtn btn mb-2 btn-secondary">등록</button>
-								</td>
-                    		</tr>
-                    	</tbody>
-                    
-                    </table>
                       <!-- table -->
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
                           <tr>
+                          	<th>No.</th>
                             <th>제휴업체 코드</th>
                             <th>사업장 명</th>
                             <th>매입/입고 수량</th>
@@ -56,12 +31,12 @@
                             <th>비정상 재고 확인 유무</th>
                             <th>관리자 아이디</th>
                             <th>업데이트 날짜</th>
-                            <th>ACTION</th>
                           </tr>
                         </thead>
                         <tbody>
                         	<th:block th:unless="${#lists.isEmpty(cupStockList)}"  th:each="c : ${cupStockList}">
 		                          <tr>
+		                            <td th:text="${c.num}"></td>
 		                            <td th:text="${c.partnerInfo}"></td>
 		                            <td th:text="${c.partnerName}"></td>
 		                            <td th:text="${c.inputAmount}"></td>
@@ -71,45 +46,28 @@
 		                            <td th:text="${c.abnormalCheck}"></td>
 		                            <td th:text="${c.adminId}"></td>
 		                            <td th:text="${c.upDateTime}"></td>
-		                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                <span class="text-muted sr-only">Action</span>
-		                              </button>
-		                              <div class="dropdown-menu dropdown-menu-right">
-		                                <a class="dropdown-item" href="#">Edit</a>
-		                                <a class="dropdown-item" href="#">Remove</a>
-		                              </div>
-		                            </td>
 		                          </tr>
                           	</th:block>
                           	<tr th:if="${#lists.isEmpty(cupStockList)}">
-								<td colspan="10">보유한 컵이 없습니다.</td>
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Action</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="#">Edit</a>
-	                                <a class="dropdown-item" href="#">Remove</a>
-	                                <a class="dropdown-item" href="#">Assign</a>
-	                              </div>
-	                            </td>
+								<td colspan="9">보유한 컵이 없습니다.</td>
 							</tr>
                         </tbody>
                         <tfoot>
                         
 							<tr>
-								<td colspan="10">
-									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/cup/cupStateManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/cup/cupStateManage(currentPage=${currentPage-1})}">이전</a>
+								<td colspan="9">
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/cup/cupStockManage}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/cup/cupStockManage(currentPage=${currentPage-1})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage != num}" th:href="@{/admin/cup/cupStateManage(currentPage=${num})}" th:text="${num}"></a>
+												<a class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage != num}" th:href="@{/admin/cup/cupStockManage}(currentPage=${num})}" th:text="${num}"></a>
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/cup/cupStateManage(currentPage=${currentPage+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/cup/cupStockManage(currentPage=${currentPage+1})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/cup/cupStateManage(currentPage=${lastPage})}>마지막으로</a>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/cup/cupStockManage(currentPage=${lastPage})}>마지막으로</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -125,31 +83,18 @@
 	<th:block layout:fragment="customJs">
 		<script>		
 			$(function(){
-		      $('#dataTable-1').DataTable({
-			        autoWidth: true,
-			        "lengthMenu": [
-			          [16, 32, 64, -1],
-			          [16, 32, 64, "All"]
-			        ],
-			        columnDefs: [{
-			            targets: 0,
-			            searchable: false,
-			            orderable: false,
-			            className: 'sorting_disabled'
-			            
-			         }
-			         ,{
-			            targets: $('#dataTable-1').find('th').length-1,
-			            searchable: false,
-			            orderable: false,
-			            className: 'sorting_disabled',	           
-			         	}
-			         ]
-						      	
+			      $('#dataTable-1').DataTable({
+				        autoWidth: true, 
+				            targets: $('#dataTable-1').find('th').length-1,
+				            searchable: false,
+				            orderable: false,
+				            className: 'sorting_disabled',	           
+				         	}
+				        
+							      	
+					);
+				$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
 				});
-			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
-			});
-		
 		</script>
 	</th:block>
 </html>
