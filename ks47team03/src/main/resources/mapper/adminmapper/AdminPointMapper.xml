@@ -10,6 +10,7 @@
 	<select id="getPointRefundStandard" parameterType="map" resultType="map">
 		/* 5-2 포인트 환급 기준 조회 */
 		SELECT
+			CAST(SUBSTRING_INDEX(point_refund_standard_code,'code',-1) AS UNSIGNED) AS num,
 			point_refund_standard_code AS pointRefundStandardCode,
 			point_save_use_type AS pointSaveUseType,
 			minimum_refund_standard AS minimumRefundStandard,
@@ -20,22 +21,16 @@
 			up_datetime AS upDateTime
 		FROM 
 			point_refund_standard
-		<if test="startIndex != null and startIndex > -1">
+		ORDER BY num
+		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	
-	</select>
-	
-	<select id="getPointRefundStandardCount" resultType="int">
-		/* 5-1 포인트 환급 기준 개수 조회 */
-		SELECT
-			COUNT(*)
-		FROM
-			point_refund_standard;
 	</select>
 
 	<select id="getPointSaveStandard" parameterType="map" resultType="map">
 		/* 4-2 포인트 적립 기준 조회 */
 		SELECT
+			CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED) AS num,
 			PSS.point_save_standard_code AS pointSaveStandardCode,
 			GS.grade_name AS gradeName,
 			PSS.grade_attain_point AS gradeAttainPoint,
@@ -49,22 +44,16 @@
 			grade_standard AS GS
 			ON
 			PSS.grade_standard_code = GS.grade_standard_code
-		<if test="startIndex != null and startIndex > -1">
+		ORDER BY num
+		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	
-	</select>
-	
-	<select id="getPointSaveStandardCount" resultType="int">
-		/* 4-1 포인트 적립 기준 개수 조회 */
-		SELECT
-			COUNT(*)
-		FROM
-			point_save_standard;
 	</select>
 	
 	<select id="getPointTypeStandard" parameterType="map" resultType="map">
 		/* 3-2 포인트 타입 기준 조회 */
 		SELECT
+			CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED) AS num,
 			point_save_use_type_code AS pointSaveUseTypeCode,
 			point_save_use_type AS pointSaveUseType,
 			set_datetime AS setDateTime,
@@ -72,22 +61,16 @@
 			up_datetime AS upDateTime
 		FROM
 			point_save_use_type
-		<if test="startIndex != null and startIndex > -1">
+		ORDER BY num
+		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>		
-	</select>
-	
-	<select id="getPointTypeStandardCount" resultType="int">
-		/* 3-1 포인트 타입 기준 개수 조회 */
-		SELECT
-			COUNT(*)
-		FROM
-			point_save_use_type;
 	</select>
 	
 	<select id="getPointExpireStandard" parameterType="map" resultType="map">
 		/* 2-2 포인트 만료 기간 기준 조회 */
 		SELECT
+			CAST(SUBSTRING_INDEX(point_expire_standard_code,'code',-1) AS UNSIGNED) AS num,
 			point_expire_standard_code AS pointExpireStandardCode,
 			point_expire AS pointExpire,
 			set_datetime AS setDateTime,
@@ -95,18 +78,12 @@
 			up_datetime AS upDateTime
 		FROM
 			point_expire_standard
-		<if test="startIndex != null and startIndex > -1">
+		ORDER BY num
+		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	
 	</select>
 	
-	<select id="getPointExpireStandardCount" resultType="int">
-		/* 2-1 포인트 만료 기간 개수 조회 */
-		SELECT
-			COUNT(*)
-		FROM
-			point_expire_standard;
-	</select>
 
 	<delete id="delPointMaxCountStandard" parameterType="String">
 		/* 1-5 하루 최대 적립 포인트 횟수 기준 삭제 */
@@ -133,9 +110,17 @@
 			day_maximum_count AS DMC
 		WHERE
 			DMC.day_maximum_count_code LIKE'%point%'
-		<if test="startIndex != null and startIndex > -1">
+		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
-		</if>;		
+		</if>	
+	</select>
+	
+	<select id="getPointStandardCount" parameterType="String" resultType="int">
+		/* 2,3,4,5-1 데이터 개수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			${tableName};
 	</select>
 	
 	<select id="getPointMaxCountStandardCount" resultType="int">

@@ -11,7 +11,7 @@
        <div class="row justify-content-center">
           <div class="col-12">
             <h2 class="mb-2 page-title">포인트 관련 기준 관리</h2>
-             <p class="card-text"> 하루 최대 적립 포인트 횟수 기준</p>
+             <p class="card-text"> 하루 최대 적립 포인트 횟수 기준 / 포인트 유효 기간 기준 / 포인트 타입 / 포인트 적립 기준 / 포인트 환급 기준</p>
               <div class="row my-4">
                 <!-- 하루 최대 적립 포인트 횟수 기준 -->
                 <div class="col-md-12 table-margin-bottom">
@@ -190,7 +190,7 @@
 	                            <td>
 	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 								</td>
-	                            <td th:text="${state.count}" ></td>
+	                            <td th:text="${p.num}" ></td>
 	                            <td th:text="${p.pointSaveUseTypeCode}"></td>
 	                            <td th:text="${p.pointSaveUseType}"></td>
 	                            <td th:text="${p.setDateTime}"></td>
@@ -221,7 +221,7 @@
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageType == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageType<lastPageNumType}" th:href="@/admin/point/pointStandardManage(currentPageType=${currentPageType+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageType<lastPageNumType}" th:href="@{/admin/point/pointStandardManage(currentPageType=${currentPageType+1})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageType<lastPageNumType}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageType=${lastPageNumType})}>마지막으로</a>
 								</td>
@@ -380,7 +380,7 @@
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageRefund == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund<lastPageNumRefund}" th:href="@/admin/point/pointStandardManage(currentPageRefund=${currentPageRefund+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund<lastPageNumRefund}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${currentPageRefund+1})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageRefund<lastPageNumRefund}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageRefund=${lastPageNumRefund})}>마지막으로</a>
 								</td>

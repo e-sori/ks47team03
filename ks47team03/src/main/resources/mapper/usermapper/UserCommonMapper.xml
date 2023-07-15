@@ -5,7 +5,22 @@
 
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
-<mapper namespace="ks47team03.admin.mapper.UserMapper">
 
-	
+<mapper namespace="ks47team03.user.mapper.UserCommonMapper">
+	<select id="getIncreaseCode" resultType="String" parameterType="String">
+		/* 자동 숫자 증가 코드 가져오기 */
+		<![CDATA[
+		SELECT
+			CASE
+				WHEN COUNT(*) = 0
+				THEN '${tableName}_code1'
+			ELSE	
+				CONCAT('${tableName}_code',
+				MAX(CAST(SUBSTRING_INDEX(${tableName}_code,'code',-1) AS UNSIGNED))+1)
+			END AS increaseCode
+		FROM
+			${tableName}
+		]]>
+	</select>
+		
 </mapper>
