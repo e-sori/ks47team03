@@ -5,7 +5,7 @@
 
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
-<mapper namespace="ks47team03.admin.mapper.PointMapper">
+<mapper namespace="ks47team03.user.mapper.UserPointMapper">
 
 	
 </mapper>

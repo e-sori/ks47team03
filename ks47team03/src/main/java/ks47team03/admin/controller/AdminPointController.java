@@ -66,9 +66,9 @@ public class AdminPointController {
 	@SuppressWarnings("unchecked")
 	public String pointStandardManage(@RequestParam(value="currentPageMax", required = false, defaultValue = "1")int currentPageMax,
 										@RequestParam(value="currentPageExpire", required = false, defaultValue = "1")int currentPageExpire,
-										@RequestParam(value="currentPageMax", required = false, defaultValue = "1")int currentPageType,
-										@RequestParam(value="currentPageMax", required = false, defaultValue = "1")int currentPageSave,
-										@RequestParam(value="currentPageSave", required = false, defaultValue = "1")int currentPageRefund,
+										@RequestParam(value="currentPageType", required = false, defaultValue = "1")int currentPageType,
+										@RequestParam(value="currentPageSave", required = false, defaultValue = "1")int currentPageSave,
+										@RequestParam(value="currentPageRefund", required = false, defaultValue = "1")int currentPageRefund,
 													Model model) {
 		
 		/* 5-2 포인트 환급 기준 조회 */
@@ -102,9 +102,9 @@ public class AdminPointController {
 		/* 3-2 포인트 타입 기준 조회 */
 		Map<String,Object> pointTypeStandardResultMap = adminPointService.getPointTypeStandard(currentPageType);
 		
-		int startPageNumType = (int)pointTypeStandardResultMap.get("startPageNumType");
-		int endPageNumType = (int)pointTypeStandardResultMap.get("endPageNumType");
-		int lastPageNumType = (int)pointTypeStandardResultMap.get("lastPageNumType");		
+		int startPageNumType = (int)pointTypeStandardResultMap.get("startPageNum");
+		int endPageNumType = (int)pointTypeStandardResultMap.get("endPageNum");
+		int lastPageNumType = (int)pointTypeStandardResultMap.get("lastPageNum");		
 		List<Map<String,Object>> pointTypeStandardList = (List<Map<String,Object>>)pointTypeStandardResultMap.get("pointTypeStandardList");
 		
 		model.addAttribute("startPageNumType", startPageNumType);

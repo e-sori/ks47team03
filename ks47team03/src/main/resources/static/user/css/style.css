@@ -311,13 +311,27 @@ a {
 	  line-height: 1.667;
 	  background-color: #fbfbfb;
 	  padding-left: 10px;
-	}
+	} 
     
     .header_area .navbar .nav .nav-item.submenu ul {	    
 	    margin-left: 20px;
 	}
 	
+	.header_area .navbar .nav .nav-item .userHello-username {
+	  margin-right: 15px;
+	  margin-left: 15px;
+	  color: #777;
+	  font-family: "SpoqaHanSansNeo", sans-serif !important;
+	  font-size: 17px;
+	  font-weight: 400;
+	  line-height: 1.667;
+	  padding-left: 10px;
+	  margin-bottom: 10px;
+      margin-top: 20px;
+	}
+	
 }
+
 
 
 .header_area .navbar .nav .nav-item .nav-link {
@@ -328,6 +342,9 @@ a {
 
 @media (min-width: 1200px) {
   .header_area .navbar .nav .nav-item .mainmenu {
+    padding: 32px 0px
+  }
+  .header_area .navbar .nav .nav-item .userHello-username {
     padding: 32px 0px
   }
 }
