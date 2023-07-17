@@ -11,12 +11,12 @@
 				<div class="login_join_center">
 					<div class="login_form_inner">
 						<h3>로그인</h3>
-						<form class="row login_form" action="#/" id="contactForm" >
+						<form class="row login_form" th:action="@{/login}" method="post" id="contactForm" >
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
+								<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
+								<input type="text" class="form-control" id="userPw" name="userPw" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
@@ -39,4 +39,40 @@
 	</section>
 	<!--================End Login Box Area =================-->
    </th:block>
+   <th:block layout:fragment="customJs">
+    	<script th:src="@{/user/js/jquery-3.7.0.js}"></script>
+    	<script type="text/javascript" th:inline="javascript">
+    		// cdata xml, html script : <, { 태그 관련 해서 예약어로 지정되어있는데  
+    		// <![CDATA['문자열']]> -> 'CDATA[ ] 대괄호 안은 문자열입니다.'를 지정하는데 사용
+    		/*<![CDATA[*/
+    		let msg = '[[${msg}]]';
+    		if(msg != 'null') alert(msg);
+    		/*]]>*/
+    		
+    		// 유효성검사 함수
+    		const validCheck = element => {
+    			let data = $(element).val();
+    			let eleId = $(element).attr('id');
+    			if(typeof data == 'undefined' || data == null || data == '' ){
+    				let cate = $(`label[for="${eleId}"]`).text();
+    				alert(`${cate} 필수 입력항목입니다.`);
+    				$(element).focus();
+    				return false;
+    			}
+    			return true;
+    		}
+    		
+    		$('#loginBtn').click(function(e){
+    			e.preventDefault(); // 요소의 기본 이벤트 동작 방지
+    			const validateEle = $('#loginForm input');
+    			let isSubmit = false;
+    			validateEle.each((idx, item) => {    				
+	    			isSubmit = validCheck(item);
+	    			return isSubmit;
+    			})
+    			if(isSubmit) $('#loginForm').submit();
+    		});
+    		
+    	</script>
+    </th:block>
 </html>
