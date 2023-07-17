@@ -21,6 +21,7 @@
 	                    
 	                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 	                        <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+	                        	<!--일반회원 메뉴 / 비회원이 볼 수는 있지만 들어갈 수 없음 -->
 	                            <li class="nav-item submenu dropdown">
 	                                <a th:if="${session.SID != null}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">마이페이지</a>
@@ -30,59 +31,64 @@
 	                                    <li class="nav-item"><a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/mypage/partnerApply">제휴업체 신청</a></li>
 	                                </ul>
 	                            </li>
-	                            <!--업체 메인(공통)  -->
+	                            <!--업체 메뉴 (공통)  -->
 	                            <li class="nav-item"><a th:if="${session.SID != null}" class="nav-link mainmenu" href="/partner/partnerInfo">업체 정보</a></li>
 	                            <!--사업장 메뉴 -->
 	                            <li class="nav-item submenu dropdown">
 	                                <a th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">설치 사업장</a>
 	                                <ul class="dropdown-zmenu">
-	                                    <li class="nav-item"><a th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/partner/businessKioskApply">무인기기 신청</a></li>
-	                                    <li class="nav-item"><a th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/partner/businessKioskApplyResult">무인기기 신청 확인</a></li>
-	                                    <li class="nav-item"><a th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/partner/kioskInstalledList">무인기기 리스트</a></li>
-	                                    <li class="nav-item"><a th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/partner/businessAddCup">추가컵 배송 신청</a></li>
+	                                    <li th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApply">무인기기 신청</a></li>
+	                                    <li th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApplyResult">무인기기 신청 확인</a></li>
+	                                    <li th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/partner/kioskInstalledList">무인기기 리스트</a></li>
+	                                    <li th:if="${session.SID == '설치사업장' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/partner/businessAddCup">추가컵 배송 신청</a></li>
 	                                </ul>
 	                            </li>
 	                            <!--세척 업체-->
-	                            <li class="nav-item"><a th:if="${session.SID == '세척업체' and session.SLEVEL == '관리자'}" class="nav-link mainmenu" href="/partner/washDiscardCup">세척 업체</a></li>
+	                            <li th:if="${session.SID == '세척업체' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/washDiscardCup">세척 업체</a></li>
 	                            <!--무인기기 업체-->
-	                            <li class="nav-item"><a th:if="${session.SID == '무인기기설치업체' and session.SLEVEL == '관리자'}" class="nav-link mainmenu" href="/partner/businessMyKioskList">무인기기 업체</a></li>
+	                            <li th:if="${session.SID == '무인기기설치업체' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/businessMyKioskList">무인기기 업체</a></li>
+	                            <!--일반회원 메뉴 / 비회원이 볼 수는 있지만 들어갈 수 없음 -->
 	                            <li class="nav-item submenu dropdown">
 	                                <a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">보증금</a>
 	                                <ul class="dropdown-zmenu">
-	                                    <li class="nav-item"><a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/deposit/mydeposit">나의 보증금</a></li>
-	                                    <li class="nav-item"><a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/deposit/mydepositPay">보증금 결제</a></li>
-	                                    <li class="nav-item"><a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/deposit/mydepositRefund">보증금 환급</a></li>
+	                                    <li th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydeposit">나의 보증금</a></li>
+	                                    <li th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydepositPay">보증금 결제</a></li>
+	                                    <li th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydepositRefund">보증금 환급</a></li>
 	                                </ul>
 	                            </li>
 	                            <li class="nav-item submenu dropdown">
 	                                <a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">포인트</a>
 	                                <ul class="dropdown-zmenu">
-	                                    <li class="nav-item"><a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/point/myPoint">나의 포인트</a></li>
-	                                    <li class="nav-item"><a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/point/myPointRefund">포인트 환급</a></li>
-	                                    <li class="nav-item"><a th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-link dropmenu" href="/point/myPointRefundSponsorship">포인트 후원</a></li>
+	                                    <li th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/point/myPoint">나의 포인트</a></li>
+	                                    <li th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/point/myPointRefund">포인트 환급</a></li>
+	                                    <li th:if="${session.SID == '일반사용자' and session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link dropmenu" href="/point/myPointRefundSponsorship">포인트 후원</a></li>
 	                                </ul>
 	                            </li>
-	                            <li class="nav-item"><a th:if="${session.SID != null}" class="nav-link mainmenu" href="/kiosk/kioskPlace">무인기기 위치</a></li>
-	                            <li class="nav-item"><a th:if="${session.SID != null}" class="nav-link mainmenu" href="/board/communityBoardView">커뮤니티</a></li>
-	                            <li class="nav-item"><a th:if="${session.SID != null}" class="nav-link mainmenu" href="/service/troubleKiosk">AS 접수</a></li>
+	                            <li th:if="${session.SID != null}" class="nav-item"><a class="nav-link mainmenu" href="/kiosk/kioskPlace">무인기기 위치</a></li>
+	                            <li th:if="${session.SID != null}" class="nav-item"><a class="nav-link mainmenu" href="/board/communityBoardView">커뮤니티</a></li>
+	                            <li th:if="${session.SID != null}" class="nav-item"><a class="nav-link mainmenu" href="/service/troubleKiosk">AS 접수</a></li>
 	                            
-
-	                            <li class="nav-item">
-	                             	<a th:if="${session.SID != null}"class="userHello-username" href="/mypage/myInfo"><span>#{"userName"} 안녕하세요!</span></a>
-	                            	<a th:if="${session.SID != null}" class="fe fe-16 fe-bell userHello" href="#"><span class="notice-dot"></span></a>	                            	                            	
+								<!--로그인한 모든 회원-->
+	                            <li th:if="${session.SID != null}" class="nav-item">
+	                             	<a class="userHello-username" href="/mypage/myInfo" th:text="${session.SNAME}"></a>
+	                             	<span>님 안녕하세요!</span>
+	                            	<a class="fe fe-16 fe-bell userHello" href="#"><span class="notice-dot"></span></a>                         	                            	
 	                            </li>
 	                        </ul>
 	                        <ul class="nav-shop">
 	                            <li class="nav-item">
+	                            	<!--로그인 전-->
 	                            	<a th:if="${session.SID == null}" class="navbar-login logo_h" href="/login">
 				                    	<img src="../user/img/login.png" height="36" width="87" alt="">
 				                    </a>
+				                    <!--로그인 후-->
 	                            	<a th:unless="${session.SID == null}" class="navbar-login logo_h" href="/logout">
 				                    	<img src="../user/img/logout.png" height="36" width="97" alt="">
 				                    </a>
+				                    <!--로그인 전-->
 	                            	<a th:if="${session.SID == null or session.SLEVEL == '관리자'}" class="navbar-join logo_h" href="/join">
 				                    	<img src="../user/img/join.png" height="36" width="107" alt="">
 				                    </a>
