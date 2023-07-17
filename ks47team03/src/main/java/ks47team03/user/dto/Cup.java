@@ -50,6 +50,13 @@ public class Cup {
 	private String setDateTime;
 	private String adminName;
 	private String upDateTime;
+	private String partnerInfo;
+	public String getPartnerInfo() {
+		return partnerInfo;
+	}
+	public void setPartnerInfo(String partnerInfo) {
+		this.partnerInfo = partnerInfo;
+	}
 	public String getCupQR() {
 		return cupQR;
 	}
@@ -105,6 +112,8 @@ public class Cup {
 		builder.append(adminName);
 		builder.append(", upDateTime=");
 		builder.append(upDateTime);
+		builder.append(", partnerInfo=");
+		builder.append(partnerInfo);
 		builder.append("]");
 		return builder.toString();
 	}

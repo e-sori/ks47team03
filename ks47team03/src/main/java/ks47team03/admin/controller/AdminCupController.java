@@ -35,6 +35,26 @@ public class AdminCupController {
 		this.cupService = cupService;
 		this.commonService = commonService;
 	}
+	//폐기컵 관리 화면
+	@GetMapping("/discardCupManage")
+	@SuppressWarnings("unchecked")
+	public String discardCupManage (@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,Model model) {
+		
+		Map<String,Object> resultMap = cupService.getDiscardCupList(currentPage);
+		int lastPage = (int)resultMap.get("lastPage");
+		
+		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
+		model.addAttribute("title", "컵 상태 관리");
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("discardCupList", discardCupList);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+
+		return "admin/cup/discardCupManage";
+	}
 	//컵 수정 화면 
 	@PostMapping("/cupStateModify")
 	public String cupStateModify (Cup cup) {
