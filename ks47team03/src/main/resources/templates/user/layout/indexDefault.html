@@ -15,10 +15,22 @@
 </head>
 
 <body class="goto-here">
-<th:block layout:fragment="customContents"></th:block>
+	<th:block layout:fragment="customContents"></th:block>
+	<div>
+		<span style="cursor:pointer;" class="gotop fe fe-16 fe-chevrons-up"></span>
+	</div> 
 
 
 <!-- 페이지마다 작성될 스크립트 공간 정의 -->
+	<script th:src="@{/admin/js/jquery.min.js}"></script>
+     <script type="text/javascript">
+		$(document).ready(function() {
+		  $('.gotop').bind('click', function() {
+		    $('html, body').animate({scrollTop: '0'}, 680);
+		  });
+		  // 애니메이션 효과로 자연스럽게 이동됨, 0.68초
+		});
+	</script>
 <th:block layout:fragment="customJs"></th:block>
 </body>
 </html>

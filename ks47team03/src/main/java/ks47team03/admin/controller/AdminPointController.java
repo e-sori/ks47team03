@@ -61,7 +61,7 @@ public class AdminPointController {
 		return "admin/point/modifyPointMaxCountStandard";
 	}		
 
-	// 포인트 관련 기준 관리 화면
+	// 포인트 관련 기준 관리 화면	
 	@GetMapping("/pointStandardManage")
 	@SuppressWarnings("unchecked")
 	public String pointStandardManage(@RequestParam(value="currentPageMax", required = false, defaultValue = "1")int currentPageMax,

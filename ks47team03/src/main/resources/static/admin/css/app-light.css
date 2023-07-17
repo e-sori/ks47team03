@@ -69,6 +69,26 @@ input, progress {
   accent-color: #6c757d;
 }
 
+.gotop{
+	width:40px;
+	height:40px;
+	display:inline-block;
+	margin :10px;
+	background-color: #88BFC2;
+	border-radius : 100px;
+	text-align:center;
+	padding-top: 10px;
+	color:#fff;
+	position: fixed;
+    bottom: 10px;
+    right: 10px;
+    
+    }
+
+.gotop:hover{
+	background-color:#6c757d;
+}
+
 body {
   margin: 0;
   font-family: "Overpass", sans-serif;
