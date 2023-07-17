@@ -38,11 +38,29 @@ public class UserCommonController {
 		}
 		
 		// user 메인 화면
-		@GetMapping("/")
-		public String index(Model model) {
+		@GetMapping("/main")
+		public String main(Model model) {
 			
 			model.addAttribute("title","구구컵프로젝트");
 			
 			return "user/main";
+		}
+		
+		// 메인 프로젝트 프로필 화면
+		@GetMapping("/projectIntro")
+		public String projectIntro(Model model) {
+			
+			model.addAttribute("title","구구컵프로젝트를 소개합니다");
+			
+			return "user/projectIntro";
+		}
+		
+		// 메인 프로젝트 프로필 화면
+		@GetMapping("/")
+		public String index(Model model) {
+			
+			model.addAttribute("title","구구컵프로젝트를 소개합니다");
+			
+			return "user/index";
 		}
 }
