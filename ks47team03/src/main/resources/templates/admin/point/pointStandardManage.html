@@ -11,6 +11,7 @@
        <div class="row justify-content-center">
           <div class="col-12">
             <h2 class="mb-2 page-title">포인트 관련 기준 관리</h2>
+            <a class="btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage(currentPageType=1,currentPageSave=1,currentPageExpire=1,currentPageRefund=1)}">모든 기준 첫 페이지로</a>
              <p class="card-text"> 하루 최대 적립 포인트 횟수 기준 / 포인트 유효 기간 기준 / 포인트 타입 / 포인트 적립 기준 / 포인트 환급 기준</p>
               <div class="row my-4">
                 <!-- 하루 최대 적립 포인트 횟수 기준 -->
@@ -37,12 +38,12 @@
                         </thead>
                         <tbody>
                         	<th:block 	th:unless="${#lists.isEmpty(pointMaxCountStandardList)}"
-                        				th:each ="p, state : ${pointMaxCountStandardList}">
+                        				th:each ="p : ${pointMaxCountStandardList}">
 	                          <tr>
 	                            <td>
 	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 								</td>
-	                            <td th:text="${state.count}" ></td>
+	                            <td th:text="${p.num}" ></td>
 	                            <td th:text="${p.dayMaximumCountCode}"></td>
 	                            <td th:text="${p.userMaximumCount}"></td>
 	                            <td th:text="${p.setDateTime}"></td>
@@ -64,18 +65,18 @@
 								<td>
 								</td>
 								<td colspan="6">
-									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageMax>1}" th:href="@{/admin/point/pointStandardManage(currentPageMax=${currentPageMax-1})}">이전</a>
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage(currentPageType=${currentPageType},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageMax>1}" th:href="@{/admin/point/pointStandardManage(currentPageMax=${currentPageMax-1},currentPageType=${currentPageType},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageMax>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNumMax,endPageNumMax)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPageMax != num}" th:href="@{/admin/point/pointStandardManage(currentPageMax=${num})}" th:text="${num}"></a>
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageMax != num}" th:href="@{/admin/point/pointStandardManage(currentPageMax=${num},currentPageType=${currentPageType},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}" th:text="${num}"></a>
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageMax == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageMax<lastPageNumMax}" th:href="@/admin/point/pointStandardManage(currentPageMax=${currentPageMax+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageMax<lastPageNumMax}" th:href="@{/admin/point/pointStandardManage(currentPageMax=${currentPageMax+1},currentPageType=${currentPageType},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageMax<lastPageNumMax}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageMax=${lastPageNumMax})}>마지막으로</a>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageMax=${lastPageNumMax},currentPageType=${currentPageType},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -111,12 +112,12 @@
                         </thead>
                         <tbody>
                         	<th:block 	th:unless="${#lists.isEmpty(pointExpireStandardList)}"
-                        				th:each ="p, state : ${pointExpireStandardList}">
+                        				th:each ="p : ${pointExpireStandardList}">
 	                          <tr>
 	                            <td>
 	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 								</td>
-	                            <td th:text="${state.count}" ></td>
+	                            <td th:text="${p.num}" ></td>
 	                            <td th:text="${p.pointExpireStandardCode}"></td>
 	                            <td th:text="${p.pointExpire}"></td>
 	                            <td th:text="${p.setDateTime}"></td>
@@ -138,18 +139,18 @@
 								<td>
 								</td>
 								<td colspan="6">
-									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire>1}" th:href="@{/admin/point/pointStandardManage(currentPageExpire=${currentPageExpire-1})}">이전</a>
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage(currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire>1}" th:href="@{/admin/point/pointStandardManage(currentPageExpire=${currentPageExpire-1},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageExpire>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNumExpire,endPageNumExpire)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire != num}" th:href="@{/admin/point/pointStandardManage(currentPageExpire=${num})}" th:text="${num}"></a>
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire != num}" th:href="@{/admin/point/pointStandardManage(currentPageExpire=${num},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}" th:text="${num}"></a>
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageExpire == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire<lastPageNumExpire}" th:href="@/admin/point/pointStandardManage(currentPageExpire=${currentPageExpire+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageExpire<lastPageNumExpire}" th:href="@{/admin/point/pointStandardManage(currentPageExpire=${currentPageExpire+1},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageExpire<lastPageNumExpire}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageExpire=${lastPageNumExpire})}>마지막으로</a>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageExpire=${lastPageNumExpire},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -185,7 +186,7 @@
                         </thead>
                         <tbody>
                         	<th:block 	th:unless="${#lists.isEmpty(pointTypeStandardList)}"
-                        				th:each ="p, state : ${pointTypeStandardList}">
+                        				th:each ="p : ${pointTypeStandardList}">
 	                          <tr>
 	                            <td>
 	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
@@ -212,18 +213,18 @@
 								<td>
 								</td>
 								<td colspan="6">
-									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageType>1}" th:href="@{/admin/point/pointStandardManage(currentPageType=${currentPageType-1})}">이전</a>
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage(currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageType>1}" th:href="@{/admin/point/pointStandardManage(currentPageType=${currentPageType-1},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageType>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNumType,endPageNumType)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPageType != num}" th:href="@{/admin/point/pointStandardManage(currentPageType=${num})}" th:text="${num}"></a>
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageType != num}" th:href="@{/admin/point/pointStandardManage(currentPageType=${num},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}" th:text="${num}"></a>
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageType == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageType<lastPageNumType}" th:href="@{/admin/point/pointStandardManage(currentPageType=${currentPageType+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageType<lastPageNumType}" th:href="@{/admin/point/pointStandardManage(currentPageType=${currentPageType+1},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageType<lastPageNumType}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageType=${lastPageNumType})}>마지막으로</a>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageType=${lastPageNumType},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -262,12 +263,12 @@
                         </thead>
                         <tbody>
                         	<th:block 	th:unless="${#lists.isEmpty(pointSaveStandardList)}"
-                        				th:each ="p, state : ${pointSaveStandardList}">
+                        				th:each ="p : ${pointSaveStandardList}">
 	                          <tr>
 	                            <td>
 	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 								</td>
-	                            <td th:text="${state.count}" ></td>
+	                            <td th:text="${p.num}" ></td>
 	                            <td th:text="${p.pointSaveStandardCode}"></td>
 	                            <td th:text="${p.gradeName}"></td>
 	                            <td th:text="${p.gradeAttainPoint}"></td>
@@ -291,18 +292,18 @@
 								<td>
 								</td>
 								<td colspan="8">
-									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageSave>1}" th:href="@{/admin/point/pointStandardManage(currentPageSave=${currentPageSave-1})}">이전</a>
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage(currentPageMax=${currentPageMax},currentPageType=${currentPageType},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageSave>1}" th:href="@{/admin/point/pointStandardManage(currentPageSave=${currentPageSave-1},currentPageMax=${currentPageMax},currentPageType=${currentPageType},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageSave>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNumSave,endPageNumSave)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPageSave != num}" th:href="@{/admin/point/pointStandardManage(currentPageSave=${num})}" th:text="${num}"></a>
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageSave != num}" th:href="@{/admin/point/pointStandardManage(currentPageSave=${num},currentPageMax=${currentPageMax},currentPageType=${currentPageType},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}" th:text="${num}"></a>
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageSave == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageSave<lastPageNumSave}" th:href="@/admin/point/pointStandardManage(currentPageSave=${currentPageSave+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageSave<lastPageNumSave}" th:href="@{/admin/point/pointStandardManage(currentPageSave=${currentPageSave+1},currentPageMax=${currentPageMax},currentPageType=${currentPageType},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageSave<lastPageNumSave}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageSave=${lastPageNumSave})}>마지막으로</a>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageSave=${lastPageNumSave},currentPageMax=${currentPageMax},currentPageType=${currentPageType},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -341,12 +342,12 @@
                         </thead>
                         <tbody>
                         	<th:block 	th:unless="${#lists.isEmpty(pointRefundStandardList)}"
-                        				th:each ="p, state : ${pointRefundStandardList}">
+                        				th:each ="p : ${pointRefundStandardList}">
 	                          <tr>
 	                            <td>
 	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 								</td>
-	                            <td th:text="${state.count}" ></td>
+	                            <td th:text="${p.num}" ></td>
 	                            <td th:text="${p.pointRefundStandardCode}"></td>
 	                            <td th:text="${p.pointSaveUseType}"></td>
 	                            <td th:text="${p.minimumRefundStandard}"></td>
@@ -371,18 +372,18 @@
 								<td>
 								</td>
 								<td colspan="9">
-									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund>1}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${currentPageRefund-1})}">이전</a>
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage(currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageType=${currentPageType})}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund>1}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${currentPageRefund-1},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageType=${currentPageType})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageRefund>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNumRefund,endPageNumRefund)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund != num}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${num})}" th:text="${num}"></a>
+												<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund != num}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${num},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageType=${currentPageType})}" th:text="${num}"></a>
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPageRefund == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund<lastPageNumRefund}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${currentPageRefund+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPageRefund<lastPageNumRefund}" th:href="@{/admin/point/pointStandardManage(currentPageRefund=${currentPageRefund+1},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageType=${currentPageType})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageRefund<lastPageNumRefund}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageRefund=${lastPageNumRefund})}>마지막으로</a>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageRefund=${lastPageNumRefund},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageType=${currentPageType})}>마지막으로</a>
 								</td>
 								<td class="btn-right-align">
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
@@ -390,7 +391,7 @@
 								</td>
 							</tr>
 						</tfoot>
-                      </table>               
+                      </table>              
                     </div>
                   </div>
                 </div>
@@ -445,7 +446,7 @@
 		            $(e.currentTarget).find('.allCheck').prop('checked', true);
 		          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
 		        }
-		      });
+		      });		
 		
 		</script>
 	</th:block>

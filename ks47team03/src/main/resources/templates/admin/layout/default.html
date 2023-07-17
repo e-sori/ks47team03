@@ -42,6 +42,9 @@
 						<!-- 페이지 마다 내용이 바뀌는 공간을 미리 정의 -->
 						<th:block layout:fragment="customContents">	
               			</th:block>
+              			<div>
+							<span style="cursor:pointer;" class="gotop fe fe-16 fe-chevrons-up"></span>
+						</div> 
             			</div>
           			</div>
         		</div>
@@ -259,8 +262,15 @@
 	      <script th:src="@{/admin/js/tinycolor-min.js}"></script>
 	      <script th:src="@{/admin/js/config.js}"></script>
 	   	  <script th:src="@{/admin/js/apps.js}"></script>
-	  	  <!--/* <script th:src="@{/admin/js/jquery-3.7.0.js}"></script> */-->
 	      <script th:src="@{/admin/js/jquery.dataTables.min.js}"></script>
+	      <script type="text/javascript">
+			$(document).ready(function() {
+			  $('.gotop').bind('click', function() {
+			    $('html, body').animate({scrollTop: '0'}, 680);
+			  });
+			  // 애니메이션 효과로 자연스럽게 이동됨, 0.68초
+			});
+		</script>	
 	      <th:block layout:fragment="customJs"></th:block>
 </body>
 </html>

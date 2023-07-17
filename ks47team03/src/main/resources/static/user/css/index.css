@@ -157,3 +157,12 @@ a{
 	text-decoration: none;
 	color:gray;
 }
+
+.gotop {
+    height: 30px !important;
+}
+
+.gotop:hover{
+	background-color: #d0ff01;
+	color:#6c757d;
+}

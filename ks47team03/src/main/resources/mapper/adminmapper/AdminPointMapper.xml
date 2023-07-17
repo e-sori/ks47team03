@@ -101,15 +101,17 @@
 	<select id="getPointMaxCountStandard" parameterType="map" resultType="map">
 		/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
 		SELECT
-			DMC.day_maximum_count_code AS dayMaximumCountCode,
-			DMC.user_maximum_count AS userMaximumCount,
-			DMC.set_datetime AS setDateTime,
-			DMC.admin_id AS adminId,
-			DMC.up_datetime AS upDateTime
+			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS num,
+			day_maximum_count_code AS dayMaximumCountCode,
+			user_maximum_count AS userMaximumCount,
+			set_datetime AS setDateTime,
+			admin_id AS adminId,
+			up_datetime AS upDateTime
 		FROM
-			day_maximum_count AS DMC
+			day_maximum_count
 		WHERE
-			DMC.day_maximum_count_code LIKE'%point%'
+			day_maximum_count_code LIKE'%point%'
+		ORDER BY num
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	
