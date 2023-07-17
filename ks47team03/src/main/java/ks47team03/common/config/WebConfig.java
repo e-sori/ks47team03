@@ -31,6 +31,8 @@ public class WebConfig implements WebMvcConfigurer{
 		excludePathList.add("/user/js/**");
 		excludePathList.add("/user/scss/**");
 		excludePathList.add("/user/vendors/**");
+		excludePathList.add("/error");
+		
 		
 		
 		registry.addInterceptor(loggerInterceptor)

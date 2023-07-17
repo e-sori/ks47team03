@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title}"></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- 아이콘 폰트 css -->
+	<link rel="stylesheet" th:href="@{/user/vendors/fonts/feather.css}">
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/user/css/index.css}">
+ 	<link rel="stylesheet" type="text/css" th:href="@{/user/css/style.css}">
+
+</head>
+
+<body class="goto-here">
+<th:block layout:fragment="customContents"></th:block>
+
+
+<!-- 페이지마다 작성될 스크립트 공간 정의 -->
+<th:block layout:fragment="customJs"></th:block>
+</body>
+</html>
