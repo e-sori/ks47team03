@@ -14,5 +14,7 @@ public interface AdminCommonMapper {
 	public List<User>getadminIdList();
 	public List<Map<String,Object>> getUserList (Map<String,Object>paramMap);
 	public int getUserListCount();
-
+	
+	//코드 번호 자동 증가	
+	public String getIncreaseCode(String tableName);
 }
