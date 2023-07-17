@@ -7,10 +7,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.transaction.Transactional;
-
 import ks47team03.admin.mapper.AdminCupMapper;
+import ks47team03.admin.utill.SpreadsheetFilePasing;
 import ks47team03.user.dto.Cup;
 import ks47team03.user.dto.Static;
 
@@ -22,11 +23,81 @@ public class AdminCupService {
 	private static final Logger log = LoggerFactory.getLogger(AdminCupService.class);
 	//의존성 주입
 	private AdminCupMapper adminCupMapper;
+	private SpreadsheetFilePasing spreadsheetFilePasing;
 	// 의존성 주입 끝 (생성자 메소드 방식)
-	public AdminCupService(AdminCupMapper adminCupMapper) {
+	public AdminCupService(AdminCupMapper adminCupMapper,SpreadsheetFilePasing spreadsheetFilePasing) {
 		this.adminCupMapper = adminCupMapper;
+		this.spreadsheetFilePasing = spreadsheetFilePasing;
 	}
-	
+	//엑셀파일 업로드
+	public boolean addDiscardCupByExcelFile(MultipartFile file) {
+		boolean isRead = false;
+		
+		if(file != null) {
+			String contentType = file.getContentType();
+			if(contentType != null && (contentType.indexOf("spreadsheet") > -1 || contentType.indexOf("xlsx") > -1)) {
+				List<Cup> discardCupList = spreadsheetFilePasing.pasingToDiscardCupList(file);
+				if(discardCupList != null) {		
+					log.info("discardCupList : {}", discardCupList);
+					adminCupMapper.addDiscardCupByExcelFile(discardCupList);
+					isRead = true;
+				}
+				
+			}
+		}
+		
+		return isRead;
+	}
+	//폐기컵 조회
+	public Map<String,Object> getDiscardCupList(int currentPage) {
+		//보여질 행의 갯수
+		int rowPerPage = 16;
+		
+		//페이지 계산(시작될 행의 인덱스)
+		int startIndex = (currentPage-1)*rowPerPage;
+		
+		//마지막 페이지 계산 
+		//1. 보여질 테이블의 전체 행의 갯수
+		double rowsCount = adminCupMapper.getDiscardCupListCount();
+		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
+		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨
+		//2. 마지막 페이지
+		int lastPage = (int) Math.ceil(rowsCount/rowPerPage);
+		//Math.ceil 올림 처리
+		// 처음 번호
+        int startPageNum = 1;
+
+        // 마지막 번호
+        int endPageNum = (lastPage < 10)? lastPage : 10;
+
+        if(currentPage >= 7 && lastPage > 10) {
+        	startPageNum = currentPage - 5;
+            endPageNum = currentPage + 4;
+            if(endPageNum >= lastPage) {
+            	startPageNum = lastPage - 9;
+            	endPageNum = lastPage;
+            }
+        }
+        
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("startIndex", startIndex);
+		paramMap.put("rowPerPage", rowPerPage);
+		
+		//화면에 보여질 로그인이력 데이터
+		List<Map<String,Object>> discardCupList = adminCupMapper.getDiscardCupList(paramMap);
+		log.info("폐기컵 리스트:{}",discardCupList);
+
+		//controller에 전달
+		paramMap.clear(); // map 객체 안의 data초기화
+		paramMap.put("lastPage", lastPage);
+		paramMap.put("discardCupList", discardCupList);
+		paramMap.put("startPageNum", startPageNum);
+		paramMap.put("endPageNum", endPageNum);
+		
+		return paramMap;
+		
+	}
+
 	//한개 컵 상태 상태 수정 
 	public void modifyCupState(Cup cup) {
 		adminCupMapper.modifyCupState(cup);

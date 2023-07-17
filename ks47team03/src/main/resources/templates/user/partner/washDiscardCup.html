@@ -29,7 +29,7 @@
       <div class="order_details_table">
         <h2>Discard Cup Upload</h2>
         <div class="table-responsive">
-        <form>
+        <form id="discardform" th:action="@{/partner/excel/fileupload}" method="post" enctype="multipart/form-data">
           <table class="table">
             <thead>
               <tr>
@@ -41,12 +41,12 @@
             <tbody>
               <tr>
                 <td class="washDiscardCup">
-                	<input type="file" id="example-fileinput" class="form-control-file">
+                	<input type="file" name="excelFile" id="example-fileinput" class="form-control-file">
                 </td>
                 <td>
                 </td>
                 <td>
-                	<button type="button" class="btn mb-2 btn-outline-success"><span class="fe fe-upload-cloud fe-16"></span></button>    
+                	<button type="submit" class="btn mb-2 btn-outline-success" id="commitBtn"><span class="fe fe-upload-cloud fe-16"></span></button>    
                 </td>
               </tr>
               <tr>
@@ -61,8 +61,8 @@
                 </td>
               </tr>
             </tbody>
-          </table>
-         </form> 
+          </table> 
+         </form>
         </div>
       </div>
     </div>
@@ -70,4 +70,11 @@
   <!--================End Order Details Area =================-->
 
    </th:block>
+   	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:inline="javascript">
+		let msg = '[[${msg}]]';
+		console.log(msg);
+		if(msg != 'null') alert(msg);
+		</script>
+	</th:block>
 </html>

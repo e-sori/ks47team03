@@ -13,6 +13,55 @@
 		<result column="admin_id" 					property="adminName"/>
 		<result column="up_datetime" 				property="upDateTime"/>
 	</resultMap>	
+	<insert id="addDiscardCupByExcelFile" parameterType="Cup">
+		/* 회원가입 */
+		INSERT INTO
+			cup_discard_manage
+		VALUES
+		<foreach collection="list" item="cup" separator=",">	
+			((SELECT
+				cup_discard_manage_code
+			FROM
+				(SELECT
+						    CASE
+						    WHEN COUNT(*) = 0 THEN 'cup_discard_manage_code1'
+						    ELSE 
+						        CONCAT('cup_discard_manage_code', 
+						                    MAX(CAST(SUBSTRING_INDEX(cup_discard_manage_code,'code', -1) AS UNSIGNED))+1)
+						 
+						    END AS cup_discard_manage_code
+				FROM
+						    cup_discard_manage)sub_sc),
+				#{cup.partnerInfo},
+				#{cup.cupQR},
+				'adminid001',
+				CURDATE())
+		</foreach>
+	</insert>
+	<select id="getDiscardCupList"  parameterType="map" resultType="map" >
+	/*폐기컵  조회*/
+		SELECT 
+			CAST(SUBSTRING_INDEX(cdm.cup_discard_manage_code,'code',-1) AS UNSIGNED) AS num,
+			cdm.approval_partner_plus_info_code AS partnerInfo,
+			cdm.cup_QR_code AS cupQR,
+			cdm.admin_id AS adminName,
+			cdm.up_datetime AS upDateTime
+		FROM
+			cup_discard_manage AS cdm
+
+		ORDER BY CAST(SUBSTRING_INDEX(cdm.cup_discard_manage_code,'code',-1) AS UNSIGNED)	
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select>
+	
+	<select id="getDiscardCupListCount" resultType="int">
+		/*컵 상태의 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			cup_discard_manage;
+	</select>
 	
 	<update id="modifyCupState" parameterType="Cup">
 		/* 상품수정 */
