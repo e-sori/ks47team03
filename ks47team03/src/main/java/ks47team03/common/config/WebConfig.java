@@ -50,7 +50,7 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/main")
 		.excludePathPatterns("/login")
 		.excludePathPatterns("/logout")
-//		.excludePathPatterns("/addMember")
+		.excludePathPatterns("/join")
 		.excludePathPatterns("/idCheck")
 		.excludePathPatterns(excludePathList);
 		
