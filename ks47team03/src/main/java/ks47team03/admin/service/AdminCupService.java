@@ -97,7 +97,10 @@ public class AdminCupService {
 		return paramMap;
 		
 	}
-
+	//체크된 컵 삭제
+	public void removeCupState(List<String> cupQRArr) {
+		adminCupMapper.removeCupState(cupQRArr);
+	}
 	//한개 컵 상태 상태 수정 
 	public void modifyCupState(Cup cup) {
 		adminCupMapper.modifyCupState(cup);
@@ -113,7 +116,28 @@ public class AdminCupService {
 		return cupStaticList;
 	};
 	//컵 상태 조회
-	public Map<String,Object> getCupStateList(int currentPage) {
+	public Map<String,Object> getCupStateList(int currentPage,String searchKey, String searchValue) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		if(searchValue != null) {
+			switch(searchKey) {
+				case "cupQR"->{
+					searchKey="cm.cup_QR_code";
+				}
+				case "staticCode"->{
+					searchKey="sc.static_code_content";				
+								}
+				case "adminId"->{
+					searchKey="cm.admin_id";				
+								}
+				case "upDateTime"->{
+					searchKey="cm.up_datetime";				
+								}				
+			}
+			
+			paramMap.put("searchKey", searchKey);
+			paramMap.put("searchValue", searchValue);
+		
+		}		
 		//보여질 행의 갯수
 		int rowPerPage = 16;
 		
@@ -142,8 +166,6 @@ public class AdminCupService {
             	endPageNum = lastPage;
             }
         }
-        
-		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("startIndex", startIndex);
 		paramMap.put("rowPerPage", rowPerPage);
 		

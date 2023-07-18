@@ -68,7 +68,10 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 input, progress {
   accent-color: #6c757d;
 }
-
+.cupSearchValue{
+	width:100%;
+	height:40px;
+}
 .gotop{
 	width:40px;
 	height:40px;
@@ -1475,7 +1478,7 @@ pre {
   .table-responsive > .table-bordered {
     border: 0; }
 
-.form-control {
+.form-control,.cupSearchValue {
   display: block;
   width: 100%;
   height: calc(1.5em + 0.75rem + 2px);
@@ -1503,7 +1506,7 @@ pre {
     background-color: #ffffff;
     border-color: #9bbcff;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(27, 104, 255, 0.25); }
+    box-shadow: 0 0 0 0.2rem  #88BFC2; }
   .form-control::placeholder {
     color: #6c757d;
     opacity: 1; }
@@ -3356,7 +3359,7 @@ input[type="button"].btn-block {
     flex: 1 1 auto;
     min-height: 1px;
     padding-left: 2.5rem;
-    padding-top: 3rem;
+    padding-top: 2rem;
     padding-right: 2.5rem;
     padding-bottom: 1.5rem; }
 
@@ -8380,7 +8383,7 @@ form.was-validated select:valid ~ .select2-container--bootstrap4 .select2-select
 
 .select2-container--bootstrap4 .select2-results__option--highlighted,
 .select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected=true] {
-  background-color: #1b68ff;
+  background-color: orange;
   color: #ffffff; }
 
 .select2-container--bootstrap4 .select2-results__option[role=group] {
@@ -8408,8 +8411,9 @@ form.was-validated select:valid ~ .select2-container--bootstrap4 .select2-select
   color: #f8f9fa;
   float: right;
   margin-right: 0.3em; }
-  .select2-container--bootstrap4 .select2-selection__clear:hover {
+ .select2-container--bootstrap4 .select2-selection__clear:hover {
     background-color: #dae0e5; }
+   
 
 /*!
  * bsStepper v1.7.0 (https://github.com/Johann-S/bs-stepper)

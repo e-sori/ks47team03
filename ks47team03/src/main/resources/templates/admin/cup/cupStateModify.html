@@ -57,15 +57,15 @@
 	                          </tr>
 	                          <tr> 
 	                            <td>
-	                            	<label for="adminName" >관리자 ID</label>
+	                            	<label for="userId" >관리자 ID</label>
 	                            </td>
 	                           <td>
-		                           	<select id="adminName" name="adminName">
+		                           	<select id="userId" name="userId">
 											<option value="">====관리자 선택====</option>
 											<th:block th:unless="${#lists.isEmpty(adminInfo)}"
 										  			  th:each="a : ${adminInfo}">
 											<option 
-													th:selected="${a.userId} == *{adminName}"
+													th:selected="${a.userId} == *{userId}"
 													th:value="${a.userId}"
 													th:text="${a.userId}">
 											</option>

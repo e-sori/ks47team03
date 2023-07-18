@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks47team03.admin.service.AdminCommonService;
 import ks47team03.admin.service.AdminCupService;
@@ -63,7 +64,22 @@ public class AdminCupController {
 		
 		return "redirect:/admin/cup/cupStateManage";
 	}
-	
+	//컵 상태 삭제
+	@PostMapping("/cupStateRemove")
+	public String cupStateRemove (Model model,
+								  @RequestParam(name="cupQR") List<String> cupQRArr,
+								  RedirectAttributes reAttr) {
+		cupService.removeCupState(cupQRArr);
+		reAttr.addAttribute("msg", "삭제완료");
+		
+		/*
+		 * //cupQRArr 배열을 돌아 값을 cupQR에 담아준다. for(String cupQR : cupQRArr) {
+		 * 
+		 * log.info("cupQR:{}",cupQR); }
+		 */
+		
+		return "redirect:/admin/cup/cupStateManage";
+	}
 	//컵 상태 수정 화면
 	@GetMapping("/cupStateModify")
 	public String cupStateModify(@RequestParam(value="cupQR") String cupQR,
@@ -87,14 +103,20 @@ public class AdminCupController {
 	@SuppressWarnings("unchecked")
 	@GetMapping("/cupStateManage")
 	public String cupStateManage(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
-									Model model) {
+								 @RequestParam (value="searchKey", required= false) String searchKey,
+							     @RequestParam (value="searchValue", required= false) String searchValue,
+								 @RequestParam(value="msg", required = false) String msg,
+								 Model model) {
+		//search 
+		
 		//required= false 입력값 필수로 안받겠다. defaultValue = "1" 기본값 설정,문자열만 입력 가능 Modle=보내질 데이터
-		Map<String,Object> resultMap = cupService.getCupStateList(currentPage);
+		Map<String,Object> resultMap = cupService.getCupStateList(currentPage,searchKey,searchValue);
 		int lastPage = (int)resultMap.get("lastPage");
 		
 		List<Map<String,Object>> cupStateList = (List<Map<String,Object>>)resultMap.get("cupStateList");
 		int startPageNum = (int) resultMap.get("startPageNum");
 		int endPageNum = (int) resultMap.get("endPageNum");
+		if(msg != null) model.addAttribute("msg", msg);
 		model.addAttribute("title", "컵 상태 관리");
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", lastPage);
