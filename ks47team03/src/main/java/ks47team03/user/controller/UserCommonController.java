@@ -31,14 +31,7 @@ public class UserCommonController {
 		this.userCommonMapper  = userCommonMapper;
 	}
 		
-		// join 회원가입 화면
-		@GetMapping("/join")
-		public String join(Model model) {
-			
-			model.addAttribute("title","구구컵 : 회원가입");
-			
-			return "user/join";
-		}
+	
 		//logout
 		@GetMapping("/logout")
 		public String logout(HttpSession session) {
@@ -86,7 +79,7 @@ public class UserCommonController {
 			return "user/login";
 		}
 		
-		@PostMapping("/joinUser")
+		@PostMapping("/join")
 		public String joinUser(User user) {
 			
 			log.info("회원가입시 입력정보: {}", user);
@@ -106,18 +99,15 @@ public class UserCommonController {
 			boolean result = userCommonMapper.idCheck(userId);
 			log.info("id 중복체크 결과값:{}", result);
 			return result;
-		}
+		} 
 		
-		@GetMapping("/joinUser")
-		public String joinUser(Model model, HttpSession session) {
+		// join 회원가입 화면
+		@GetMapping("/join")
+		public String joinUser(Model model) {
 			
-			List<User> userLevelList = userCommonService.getUserLevelList();
-
-			model.addAttribute("userLevelList", userLevelList);
+			model.addAttribute("title","구구컵 : 회원가입");
 			
-			model.addAttribute("title", "회원가입");
-							
-			return "/joinUser";
+			return "user/join";
 		}
 		
 		
