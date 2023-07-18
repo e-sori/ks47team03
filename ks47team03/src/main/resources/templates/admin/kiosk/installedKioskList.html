@@ -4,19 +4,125 @@
 	  layout:decorate="~{admin/layout/default}">
 	  
 	<th:block layout:fragment="customContents">
-		<h2 class="page-title">설치된 무인기기 목록</h2>
-             <div class="col-md-6 my-4">
+
+     <div class="container-fluid">
+       <div class="row justify-content-center">
+          <div class="col-12">
+            <h2 class="mb-2 page-title">설치된 무인기기 목록</h2>
+             <p class="card-text"></p>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
                   <div class="card shadow">
-                    <div class="card-body">                    
-                      <h5 class="card-title"></h5>
-                      <p class="card-text"></p>
-                      <table class="table table-hover">
-                   
-      
+                    <div class="card-body">
+                      <!-- table -->
+                      <table class="table datatables table-hover" id="dataTable-1">
+                      <thead>
+                          <tr>
+                            <th>
+                            	<div class="custom-control custom-checkbox">
+	                                <input type="checkbox" class="custom-control-input" id="check1">
+	                                <label class="custom-control-label" for="check1"></label>
+                              	</div>
+                            </th>
+                           	<th>사업장명</th>
+                            <th>설치위치</th>
+                            <th>설치일자</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        	<th:block th:unless="${#lists.isEmpty(installKioskListList)}"  th:each="dr : ${installKioskListList}">
+		                          <tr>
+		                            <td>
+		                              <div class="custom-control custom-checkbox">
+		                                <input type="checkbox" class="custom-control-input" id="check1">
+		                                <label class="custom-control-label" for="check1"></label>
+		                              </div>
+		                            </td>
+		                            <td th:text="${ik.partnerName}"></td>
+		                            <td th:text="${ik.installKioskPlace}"></td>
+		                            <td th:text="${ik.kioskInstalleddatetime}"></td>	                      
+		                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		                                <span class="text-muted sr-only">Action</span>
+		                              </button>
+		                              <div class="dropdown-menu dropdown-menu-right">
+		                                
+		                                <a class="dropdown-item" href="">Remove</a>
+		                              </div>
+		                            </td>
+		                          </tr>
+                          	</th:block>
+                          	<tr th:if="${#lists.isEmpty(installedKioskListList)}">
+	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                                <span class="text-muted sr-only">Action</span>
+	                              </button>
+	                              <div class="dropdown-menu dropdown-menu-right">
+	                                <a class="dropdown-item" href="#">Edit</a>
+	                                <a class="dropdown-item" href="#">Remove</a>
+	                                <a class="dropdown-item" href="#">Assign</a>
+	                              </div>
+	                            </td>
+							</tr>
+                        </tbody>
+                        <tfoot>
+                        
+							 <tr>
+								<td colspan="7">
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/kiosk/installedKioskList}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/kiosk/installedKioskList(currentPage=${currentPage-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+										<div class="btn-group mr-2" role="group" aria-label="First group">
+											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
+												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/kiosk/installedKioskList(currentPage=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary" th:if="${currentPage == num}" th:text="${num}"></label>
+											</th:block>
+										</div>				
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/kiosk/installedKioskList(currentPage=${currentPage+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/kiosk/installedKioskList(currentPage=${lastPage})}>마지막으로</a>
+								</td>
+							</tr> 
+							
+						</tfoot>
                       </table>
                     </div>
                   </div>
-                </div> <!-- simple table -->     	
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+           </div>
+          </div>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script>		
+			$(function(){
+		      $('#dataTable-1').DataTable({
+			        autoWidth: true,
+			        "lengthMenu": [
+			          [16, 32, 64, -1],
+			          [16, 32, 64, "All"]
+			        ],
+			        columnDefs: [{
+			            targets: 0,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled'
+			            
+			         }
+			         ,{
+			            targets: $('#dataTable-1').find('th').length-1,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled',	           
+			         	}
+			         ]
+						      	
+				});
+			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+			});
+		
+		</script>
 	</th:block>
 	
 </html>
