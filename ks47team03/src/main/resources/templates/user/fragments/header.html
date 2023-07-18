@@ -35,7 +35,7 @@
 	                            <li class="nav-item"><a class="nav-link mainmenu" href="/partner/partnerInfo">업체 정보</a></li>
 	                            <!--사업장 메뉴 -->
 	                            <li class="nav-item submenu dropdown">
-	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
+	                                <a th:if="${session.SLEVEL == '설치사업장' or session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">설치 사업장</a>
 	                                <ul class="dropdown-zmenu">
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApply">무인기기 신청</a></li>
@@ -45,12 +45,12 @@
 	                                </ul>
 	                            </li>
 	                            <!--세척 업체-->
-	                            <li class="nav-item"><a class="nav-link mainmenu" href="/partner/washDiscardCup">세척 업체</a></li>
+	                            <li th:if="${session.SLEVEL == '세척업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/washDiscardCup">세척 업체</a></li>
 	                            <!--무인기기 업체-->
-	                            <li class="nav-item"><a class="nav-link mainmenu" href="/partner/businessMyKioskList">무인기기 업체</a></li>
+	                            <li th:if="${session.SLEVEL == '무인기기설치업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/businessMyKioskList">무인기기 업체</a></li>
 	                            <!--일반회원 메뉴 / 비회원이 볼 수는 있지만 들어갈 수 없음 -->
 	                            <li class="nav-item submenu dropdown">
-	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
+	                                <a th:if="${session.SLEVEL == '일반사용자' or session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">보증금</a>
 	                                <ul class="dropdown-zmenu">
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydeposit">나의 보증금</a></li>
@@ -59,7 +59,7 @@
 	                                </ul>
 	                            </li>
 	                            <li class="nav-item submenu dropdown">
-	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
+	                                <a th:if="${session.SLEVEL == '일반사용자' or session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">포인트</a>
 	                                <ul class="dropdown-zmenu">
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/point/myPoint">나의 포인트</a></li>
