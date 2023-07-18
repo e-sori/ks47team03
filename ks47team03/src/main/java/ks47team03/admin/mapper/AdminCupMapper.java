@@ -17,6 +17,8 @@ public interface AdminCupMapper {
 	public List<Map<String,Object>> getDiscardCupList (Map<String,Object>paramMap);
 	//폐기컵 전체 행 조회
 	public int getDiscardCupListCount();
+	//체크 된 컵 삭제
+	public void removeCupState(List<String> cupQRArr);
 	//한개 컵 상태 수정
 	public int modifyCupState(Cup cup);
 	//한개의 컵 상태 조회
