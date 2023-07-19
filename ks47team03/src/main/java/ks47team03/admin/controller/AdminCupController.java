@@ -1,22 +1,22 @@
 package ks47team03.admin.controller;
 
 
-
-
-
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import ks47team03.admin.service.AdminCommonService;
 import ks47team03.admin.service.AdminCupService;
 import ks47team03.user.dto.Cup;
@@ -28,6 +28,9 @@ import ks47team03.user.dto.User;
 @RequestMapping("/admin/cup")
 public class AdminCupController {
 	private static final Logger log = LoggerFactory.getLogger(AdminCupService.class);
+	
+	@Value("${files.path}")
+	private String filePath;
 	// 의존성 주입
 	private final AdminCupService cupService;
 	private final AdminCommonService commonService;
@@ -36,10 +39,23 @@ public class AdminCupController {
 		this.cupService = cupService;
 		this.commonService = commonService;
 	}
+	
+	
+	//폐기컵 관련 파일 업로드
+	@PostMapping("/file/upload")
+	public String archiveUpload(@RequestParam MultipartFile[] uploadfile, Model model, HttpServletRequest request,RedirectAttributes reAttr) {
+		
+		cupService.fileUpload(uploadfile);
+		reAttr.addAttribute("msg", "파일 업로드 완료💗");
+		return "redirect:/admin/cup/discardCupManage";
+	}
+	
 	//폐기컵 관리 화면
 	@GetMapping("/discardCupManage")
 	@SuppressWarnings("unchecked")
-	public String discardCupManage (@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,Model model) {
+	public String discardCupManage (@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+									@RequestParam(value="msg", required = false) String msg,
+									Model model) {
 		
 		Map<String,Object> resultMap = cupService.getDiscardCupList(currentPage);
 		int lastPage = (int)resultMap.get("lastPage");
@@ -47,6 +63,9 @@ public class AdminCupController {
 		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
 		int startPageNum = (int) resultMap.get("startPageNum");
 		int endPageNum = (int) resultMap.get("endPageNum");
+		
+		model.addAttribute("fileList", cupService.getFileList());
+		model.addAttribute("msg", msg);
 		model.addAttribute("title", "컵 상태 관리");
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", lastPage);
@@ -56,6 +75,7 @@ public class AdminCupController {
 
 		return "admin/cup/discardCupManage";
 	}
+	
 	//컵 수정 화면 
 	@PostMapping("/cupStateModify")
 	public String cupStateModify (Cup cup) {

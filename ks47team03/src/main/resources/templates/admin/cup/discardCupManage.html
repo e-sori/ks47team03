@@ -16,6 +16,54 @@
                 <div class="col-md-12">
                   <div class="card shadow">
                     <div class="card-body">
+                     <div class="download-file-discardForm">
+                    	<table class="table table-borderless">
+                    		<thead>
+                    			<tr>
+	                    		<th  colspan="4">
+	                     			<p class="upload-file-discard-p">💦세척업체에게 현재 올려준 파일</p>
+	                     		</th>
+	                     		</tr>
+							</thead>
+							<tbody class="discard-height">
+								<tr  th:if="${not #lists.isEmpty(fileList)}" th:each="l, index : ${fileList}">
+									<td th:text="${index.count}"></td>
+									<td colspan="2" th:text="${l.fileOriginalName}"></td>
+									
+									<td class="td-class-file">
+										<a class="btn mb-2 btn-light" th:href="@{/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
+										<a class="btn mb-2 btn-light" th:href="@{#}" th:data-file-idx="${l.fileIdx}">삭제</a>
+									</td>
+								</tr>
+								<tr th:unless="${not #lists.isEmpty(fileList)}">
+									<td colspan="4">목록이 없습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+                     <div class="upload-file-discardForm">
+                    	<form th:action="@{/admin/cup/file/upload}" method="post" enctype="multipart/form-data">
+                    		<table class="table table-borderless">
+                    		<thead>
+                    			<tr>
+	                    		<th  colspan="2">
+	                     			<p class="upload-file-discard-p">💦세척업체가 다운 받아야 하는 파일 업로드</p>
+	                     		</th>
+	                     		</tr>
+							</thead>
+                    		<tbody>
+                    			<tr>
+                    			<td>
+									<input type="file" name="uploadfile" multiple="multiple"/>
+								</td>
+								<td class="td-class-file">
+								<button class="btn mb-2 btn-light" type="submit">업로드</button>
+								</td>
+								</tr>
+                    		</tbody>
+							</table>
+						</form>
+					</div>
                       <!-- table -->
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
@@ -80,7 +128,11 @@
           </div>
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script>		
+		<script type="text/javascript" th:inline="javascript">
+			let msg = '[[${msg}]]';
+			console.log(msg);
+			if(msg != 'null') alert(msg);
+			
 			$(function(){
 		      $('#dataTable-1').DataTable({
 			        autoWidth: true,
@@ -131,3 +183,7 @@
 		</script>
 	</th:block>
 </html>
+
+
+
+

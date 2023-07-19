@@ -1,5 +1,6 @@
 package ks47team03.user.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import ks47team03.admin.service.AdminCupService;
 import ks47team03.user.service.UserPartnerService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/partner")
 public class UserPartnerController {
 	
+	@Value("${files.path}")
+	private String filePath;
 	// 의존성 주입
 	private final UserPartnerService partnerService;
 	private final AdminCupService adminCupService;
@@ -27,7 +31,9 @@ public class UserPartnerController {
 		this.partnerService = partnerService;
 		this.adminCupService =adminCupService;
 	}
+	
 
+	
 	@PostMapping("/excel/fileupload")
 	public String excelFileUpload(@RequestParam("excelFile") MultipartFile files,RedirectAttributes reAttr) {
 		
@@ -42,6 +48,7 @@ public class UserPartnerController {
 	public String washDiscardCup(Model model,
 								@RequestParam(value="msg", required = false) String msg) {
 		if(msg != null) model.addAttribute("msg", msg);
+		model.addAttribute("fileList", adminCupService.getFileList());
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";
 	}
