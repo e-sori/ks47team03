@@ -11,8 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.transaction.Transactional;
 import ks47team03.admin.mapper.AdminCupMapper;
+import ks47team03.admin.mapper.AdminFileMapper;
+import ks47team03.admin.utill.FileUtil;
 import ks47team03.admin.utill.SpreadsheetFilePasing;
 import ks47team03.user.dto.Cup;
+import ks47team03.user.dto.FileDto;
 import ks47team03.user.dto.Static;
 
 
@@ -22,12 +25,33 @@ public class AdminCupService {
 	// 로그 찍을 준비
 	private static final Logger log = LoggerFactory.getLogger(AdminCupService.class);
 	//의존성 주입
+	private final FileUtil fileUtil;
 	private AdminCupMapper adminCupMapper;
+	private AdminFileMapper adminFileMapper;
 	private SpreadsheetFilePasing spreadsheetFilePasing;
+	
 	// 의존성 주입 끝 (생성자 메소드 방식)
-	public AdminCupService(AdminCupMapper adminCupMapper,SpreadsheetFilePasing spreadsheetFilePasing) {
+	public AdminCupService(AdminCupMapper adminCupMapper,SpreadsheetFilePasing spreadsheetFilePasing,AdminFileMapper adminFileMapper,FileUtil fileUtil) {
 		this.adminCupMapper = adminCupMapper;
+		this.adminFileMapper = adminFileMapper;
 		this.spreadsheetFilePasing = spreadsheetFilePasing;
+		this.fileUtil=fileUtil;
+	}
+	
+	//폐기컵 업로드된 파일 리스트 
+	public List<FileDto> getFileList(){
+		List<FileDto> fileList = adminFileMapper.getFileList();
+		
+		return fileList;
+	}
+	
+	//폐기컵 관련 파일 업로드
+	public void fileUpload(MultipartFile[] uploadfile) {
+		
+		List<FileDto> fileList= fileUtil.parseFileInfo(uploadfile);
+				
+		if(fileList != null) adminFileMapper.addFile(fileList);
+		
 	}
 	//엑셀파일 업로드
 	public boolean addDiscardCupByExcelFile(MultipartFile file) {

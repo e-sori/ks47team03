@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- dao 작성 -->
+<!-- namespace : implememts와 같은 기능 -->
+<mapper namespace="ks47team03.admin.mapper.AdminFileMapper">
+
+	<resultMap type="FileDto" id="fileResultMap">
+		<result property="fileIdx" 			column="file_idx"/>
+		<result property="fileNewName" 		column="file_new_name"/>
+		<result property="fileOriginalName" column="file_original_name"/>
+		<result property="filePath" 		column="file_path"/>
+		<result property="fileSize" 		column="file_size"/>
+	</resultMap>
+	<select id="getFileList" resultMap="fileResultMap">
+		SELECT
+			 file_idx
+			,file_new_name
+			,file_original_name
+			,file_path
+			,file_size
+		FROM
+			file_upload
+	</select>
+	<insert id="addFile" parameterType="list">
+		INSERT INTO file_upload
+		(
+			 file_idx
+			,file_new_name
+			,file_original_name
+			,file_path
+			,file_size
+		)VALUES
+		<foreach collection="list" item="data" separator=",">
+		( 
+			 #{data.fileIdx}
+			,#{data.fileNewName}
+			,#{data.fileOriginalName}
+			,#{data.filePath}
+			,#{data.fileSize}
+		)
+		</foreach>
+	</insert>	
+	
+</mapper>

@@ -26,6 +26,29 @@
   
    <section class="order_details section-margin--small">
     <div class="container">
+    <div class="download-file-discardForm">
+		<table class="table">
+			<thead>
+				<tr>
+					<th  colspan="3">
+					<p>다운 받아 <mark>서식에 맞게</mark> 작성 후 업로드 부탁드립니다💙</p>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr  th:if="${not #lists.isEmpty(fileList)}" th:each="l, index : ${fileList}">
+					<td th:text="${index.count}"></td>
+					<td th:text="${l.fileOriginalName}"></td>
+					<td class="td-class-file">
+						<a class="btn mb-2 btn-light" th:href="@{/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
+					</td>
+				</tr>
+				<tr th:unless="${not #lists.isEmpty(fileList)}">
+					<td colspan="4">목록이 없습니다.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
       <div class="order_details_table">
         <h2>Discard Cup Upload</h2>
         <div class="table-responsive">
