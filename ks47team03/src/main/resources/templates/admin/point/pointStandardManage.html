@@ -29,9 +29,9 @@
                             </th>
                             <th>NO.</th>
                            	<th>횟수 기준 코드</th>
-                            <th>적립 횟수</th>
+                            <th>적립 가능 횟수</th>
                             <th>최초 등록일</th>
-                            <th>관리자</th>
+                            <th>관리자 ID</th>
                             <th>최종 수정일</th>
                             <th>수정/삭제</th>
                           </tr>
@@ -49,14 +49,86 @@
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Active</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="/admin/point/modifyPointMaxCountStandard">수정</a>
-	                                <a class="dropdown-item" href="/admin/point/pointStandardManage">삭제</a>
-	                              </div>
-	                            </td>
+	                            <td>
+	                            	<div class="btn-group" role="group" aria-label="Basic example">
+	                            	<!-- 개별/수정 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light"th:href="@{/admin/point/PointStandardManage(pointStandardCode=${p.dayMaximumCountCode})}" data-toggle="modal" data-target="#varyModalModifyMax" data-whatever="@mdo">수정</button>
+				                      <div class="modal fade modal-varyModal" id="varyModalModifyMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModifyMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelModifyMax">하루 최대 적립 포인트 횟수 기준 수정</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.dayMaximumCountCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">수정 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+				                      <!-- 개별/삭제 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light" th:href="@{/admin/point/PointStandardManage(pointStandardCode=${p.dayMaximumCountCode})}" data-toggle="modal" data-target="#varyModalSelectDeleteMax" data-whatever="@mdo">삭제</button>
+									  <div class="modal fade modal-varyModal" id="varyModalSelectDeleteMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDeleteMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelSelectDeleteMax">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.dayMaximumCountCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">삭제 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+									</div>
+	                              </td>
 	                          </tr>  
                         	</th:block>                
                         </tbody>
@@ -78,9 +150,79 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageMax<lastPageNumMax}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageMax=${lastPageNumMax},currentPageType=${currentPageType},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}>마지막으로</a>
 								</td>
-								<td class="btn-right-align">
-									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
-									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">삭제</a>
+								<td>
+								<!-- 등록버튼 -->
+									<button type="button" class="btn mb-2 btn-secondary"th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" data-target="#varyModalInsertMax" data-whatever="@mdo">등록</button>
+				                      <div class="modal fade" id="varyModalInsertMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelInsertMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelInsertMax">하루 최대 적립 포인트 횟수 기준 등록</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">입력 취소</button>
+				                              <button type="button" class="btn mb-2 btn-secondary">등록 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+				                     <!-- 선택/삭제 버튼 -->
+									<button type="button" class="btn mb-2 btn-secondary select-delete" data-toggle="modal" data-target="#varyModalDeleteMax" data-whatever="@mdo">삭제</button>
+				                      <div class="modal fade" id="varyModalDeleteMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelDeleteMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelDeleteMax">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">입력 취소</button>
+				                              <button type="button" class="btn mb-2 btn-secondary" id="varyModalDeleteMaxBtn">삭제 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
 								</td>
 							</tr>
 						</tfoot>
@@ -105,7 +247,7 @@
                            	<th>유효 기간 코드</th>
                             <th>유효 기간</th>
                             <th>최초 등록일</th>
-                            <th>관리자</th>
+                            <th>관리자 ID</th>
                             <th>최종 수정일</th>
                             <th>수정/삭제</th>
                           </tr>
@@ -123,14 +265,86 @@
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Active</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="/admin/point/modifyPointMaxCountStandard">수정</a>
-	                                <a class="dropdown-item" href="/admin/point/pointStandardManage">삭제</a>
-	                              </div>
-	                            </td>
+	                            <td>
+	                            	<div class="btn-group" role="group" aria-label="Basic example">
+	                            	<!-- 개별/수정 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light"th:href="@{/admin/point/PointStandardManage(pointStandardCode=${p.pointExpireStandardCode})}" data-toggle="modal" data-target="#varyModalModifyMax" data-whatever="@mdo">수정</button>
+				                      <div class="modal fade modal-varyModal" id="varyModalModifyMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModifyMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelModifyMax">하루 최대 적립 포인트 횟수 기준 수정</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.pointExpireStandardCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">수정 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+				                      <!-- 개별/삭제 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light" th:href="@{/admin/point/PointStandardManage(pointStandardCode=${p.pointExpireStandardCode})}" data-toggle="modal" data-target="#varyModalSelectDeleteMax" data-whatever="@mdo">삭제</button>
+									  <div class="modal fade modal-varyModal" id="varyModalSelectDeleteMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDeleteMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelSelectDeleteMax">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.pointExpireStandardCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">삭제 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+									</div>
+	                              </td>
 	                          </tr>  
                         	</th:block>                
                         </tbody>
@@ -152,9 +366,9 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageExpire<lastPageNumExpire}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageExpire=${lastPageNumExpire},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}>마지막으로</a>
 								</td>
-								<td class="btn-right-align">
+								<td>
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
-									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">삭제</a>
+									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/delPointStandard}">삭제</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -179,7 +393,7 @@
                            	<th>포인트 타입 코드</th>
                             <th>포인트 타입</th>
                             <th>최초 등록일</th>
-                            <th>관리자</th>
+                            <th>관리자 ID</th>
                             <th>최종 수정일</th>
                             <th>수정/삭제</th>
                           </tr>
@@ -197,16 +411,88 @@
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Active</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="/admin/point/modifyPointMaxCountStandard">수정</a>
-	                                <a class="dropdown-item" href="/admin/point/pointStandardManage">삭제</a>
-	                              </div>
-	                            </td>
+	                            <td>
+	                            	<div class="btn-group" role="group" aria-label="Basic example">
+	                            	<!-- 개별/수정 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light"th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" data-target="#varyModalModifyMax" data-whatever="@mdo">수정</button>
+				                      <div class="modal fade modal-varyModal" id="varyModalModifyMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModifyMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelModifyMax">하루 최대 적립 포인트 횟수 기준 수정</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.pointSaveUseTypeCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">수정 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+				                      <!-- 개별/삭제 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light" th:href="@{/admin/point/PointStandardManage(pointStandardCode=${p.pointSaveUseTypeCode})}" data-toggle="modal" data-target="#varyModalSelectDeleteMax" data-whatever="@mdo">삭제</button>
+									  <div class="modal fade modal-varyModal" id="varyModalSelectDeleteMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDeleteMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelSelectDeleteMax">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.pointSaveUseTypeCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">삭제 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+									</div>
+	                              </td>
 	                          </tr>  
-                        	</th:block>                
+                        	</th:block>   
                         </tbody>
                         <tfoot>
 							<tr>
@@ -226,9 +512,9 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageType<lastPageNumType}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageType=${lastPageNumType},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}>마지막으로</a>
 								</td>
-								<td class="btn-right-align">
+								<td>
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
-									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">삭제</a>
+									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/delPointStandard}">삭제</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -256,7 +542,7 @@
                             <th>등급 달성 포인트</th>
                             <th>이용 포인트</th>
                             <th>최초 등록일</th>
-                            <th>관리자</th>
+                            <th>관리자 ID</th>
                             <th>최종 수정일</th>
                             <th>수정/삭제</th>
                           </tr>
@@ -265,10 +551,7 @@
                         	<th:block 	th:unless="${#lists.isEmpty(pointSaveStandardList)}"
                         				th:each ="p : ${pointSaveStandardList}">
 	                          <tr>
-	                            <td>
-	                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
-								</td>
-	                            <td th:text="${p.num}" ></td>
+	                          <td th:text="${p.num}" ></td>
 	                            <td th:text="${p.pointSaveStandardCode}"></td>
 	                            <td th:text="${p.gradeName}"></td>
 	                            <td th:text="${p.gradeAttainPoint}"></td>
@@ -276,16 +559,89 @@
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Active</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="/admin/point/modifyPointMaxCountStandard">수정</a>
-	                                <a class="dropdown-item" href="/admin/point/pointStandardManage">삭제</a>
-	                              </div>
-	                            </td>
+	                            <td>
+	                            <td>
+	                            	<div class="btn-group" role="group" aria-label="Basic example">
+	                            	<!-- 개별/수정 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light"th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" data-target="#varyModalModifyMax" data-whatever="@mdo">수정</button>
+				                      <div class="modal fade modal-varyModal" id="varyModalModifyMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModifyMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelModifyMax">하루 최대 적립 포인트 횟수 기준 수정</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.pointSaveStandardCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">수정 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+				                      <!-- 개별/삭제 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light" th:href="@{/admin/point/PointStandardManage(pointStandardCode=${p.pointSaveStandardCode})}" data-toggle="modal" data-target="#varyModalSelectDeleteMax" data-whatever="@mdo">삭제</button>
+									  <div class="modal fade modal-varyModal" id="varyModalSelectDeleteMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDeleteMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelSelectDeleteMax">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.pointSaveStandardCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">삭제 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+									</div>
+	                              </td>
 	                          </tr>  
-                        	</th:block>                
+                        	</th:block>      
                         </tbody>
                         <tfoot>
 							<tr>
@@ -305,9 +661,9 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageSave<lastPageNumSave}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageSave=${lastPageNumSave},currentPageMax=${currentPageMax},currentPageType=${currentPageType},currentPageExpire=${currentPageExpire},currentPageRefund=${currentPageRefund})}>마지막으로</a>
 								</td>
-								<td class="btn-right-align">
+								<td>
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
-									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">삭제</a>
+									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/delPointStandard}">삭제</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -335,7 +691,7 @@
                             <th>환급 단위</th>
                             <th>환급 수수료</th>
                             <th>최초 등록일</th>
-                            <th>관리자</th>
+                            <th>관리자 ID</th>
                             <th>최종 수정일</th>
                             <th>수정/삭제</th>
                           </tr>
@@ -356,16 +712,88 @@
 	                            <td th:text="${p.setDateTime}"></td>
 	                            <td th:text="${p.adminId}"></td>
 	                            <td th:text="${p.upDateTime}"></td>
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Active</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="/admin/point/modifyPointMaxCountStandard">수정</a>
-	                                <a class="dropdown-item" href="/admin/point/pointStandardManage">삭제</a>
-	                              </div>
-	                            </td>
+	                            <td>
+	                            	<div class="btn-group" role="group" aria-label="Basic example">
+	                            	<!-- 개별/수정 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light"th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" data-target="#varyModalModifyMax" data-whatever="@mdo">수정</button>
+				                      <div class="modal fade modal-varyModal" id="varyModalModifyMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModifyMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelModifyMax">하루 최대 적립 포인트 횟수 기준 수정</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.pointRefundStandardCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">수정 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+				                      <!-- 개별/삭제 버튼 -->
+									  <button type="button" class="btn mb-2 btn-light" th:href="@{/admin/point/PointStandardManage(pointStandardCode=${p.pointRefundStandardCode})}" data-toggle="modal" data-target="#varyModalSelectDeleteMax" data-whatever="@mdo">삭제</button>
+									  <div class="modal fade modal-varyModal" id="varyModalSelectDeleteMax" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDeleteMax" aria-hidden="true">
+				                        <div class="modal-dialog" role="document">
+				                          <div class="modal-content">
+				                            <div class="modal-header">
+				                              <h5 class="modal-title" id="varyModalLabelSelectDeleteMax">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+				                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				                                <span aria-hidden="true">&times;</span>
+				                              </button>
+				                            </div>
+				                            <div class="modal-body">
+				                              <form>
+				                                <div class="form-group">
+				                                  <label for="recipient-name" class="col-form-label">코드:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.pointRefundStandardCode}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" value="횟수">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">관리자 ID:</label>
+				                                  <input type="text" class="form-control" id="recipient-name" readonly="readonly" th:value="${p.adminId}">
+				                                </div>
+				                                <div class="form-group">
+				                                  <label for="message-text" class="col-form-label">비밀번호 : </label>
+				                                  <input type="password" class="form-control" id="recipient-name">
+				                                </div>
+				                              </form>
+				                            </div>
+				                            <div class="modal-footer">
+				                              <button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+				                              <button type="submit" class="btn mb-2 btn-secondary">삭제 확인</button>
+				                            </div>
+				                          </div>
+				                        </div>
+				                      </div>
+									</div>
+	                              </td>
 	                          </tr>  
-                        	</th:block>                
+                        	</th:block>  
                         </tbody>
                         <tfoot>
 							<tr>
@@ -385,9 +813,9 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPageRefund<lastPageNumRefund}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPageRefund=${lastPageNumRefund},currentPageMax=${currentPageMax},currentPageSave=${currentPageSave},currentPageExpire=${currentPageExpire},currentPageType=${currentPageType})}>마지막으로</a>
 								</td>
-								<td class="btn-right-align">
+								<td>
 									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/addPointMaxCountStandard}">등록</a>
-									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage}">삭제</a>
+									<a class="btn mb-2 btn-secondary" th:href="@{/admin/point/delPointStandard}">삭제</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -403,8 +831,7 @@
    
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script>
-		
+		<script>		
 		$(function(){
 			  $('.dataTable-1').each(function() {
 			    const table = $(this);
@@ -446,8 +873,33 @@
 		            $(e.currentTarget).find('.allCheck').prop('checked', true);
 		          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
 		        }
-		      });		
-		
+		      });	
+			
+		      $('.select-delete').click(e => {
+					$(e.target);
+					const cupQrArr = [];
+					const $checkedEle = $('.checks:checked');
+					$checkedEle.each((idx, item) => {
+						let cupQr = $(item).data('cupQr');
+						cupQrArr.push(cupQr);
+					})
+					console.log(cupQrArr);
+					if(cupQrArr.length != 0){
+						const newForm = $('<form></form>');
+						//새로운 폼 생성 ->jquery
+						//set attribute (form) 	
+						newForm.attr("method","post");
+						newForm.attr("action","/admin/cup/cupStateRemove");
+						// create element & set attribute (input)
+						$.each(cupQrArr, (idx, item) => {
+							newForm.append($('<input/>', {type: 'hidden', name: 'cupQR', value:item}));
+						})
+						// append form (to body) 
+						newForm.appendTo('body');
+						newForm.submit();
+					}
+				});
+
 		</script>
 	</th:block>
 </html>

@@ -8,30 +8,25 @@
 	<div class="container-fluid">
 		<div class="row justify-content-center">
 			<div class="col-12">
-				<h2 class="mb-2 page-title">하루 최대 적립 포인트 횟수 기준 수정</h2>
-				<p class="card-text">하루 최대 적립 포인트 횟수 기준을 수정 합니다! </p>
+				<h2 class="mb-2 page-title">포인트 관련 기준 삭제</h2>
+				<p class="card-text">포인트 관련 기준을 삭제합니다. </p>
 				<div class="row my-4">
 					<!-- Small table -->
 					<div class="col-md-12">
 						<div class="card shadow">
 							<div class="card-body">
 								<!-- table -->
-								<form id="cupStateModifyForm" th:action="@{/admin/point/modifyPointMaxCountStandard}"
+								<form id="delPointStandardForm" th:action="@{/admin/point/delPointStandard}"
 									method="post">
 									<table class="table datatables table-hover" id="dataTable-1">
-										<thead>
-											<tr>
-												<th colspan="2">하루 최대 적립 포인트 횟수 기준 수정</th>
-											</tr>
-										</thead>
-										<tbody th:object="${cupInfo}">
+										<tbody th:object="${pointStandardInfo}">
 											<tr>
 												<td>
-													<label for="cupQR">컵 QR</label>
+													<label for="pointStandardCode">포인트 기준 코드</label>
 												</td>
 												<td>
-													<input type="text" id="cupQR" name="cupQR" th:value="*{cupQR}"
-														readonly="readonly">
+													<input type="text" id="pointStandardCode" name="pointStandardCode"
+														th:value="*{cupQR}" readonly="readonly">
 												</td>
 											</tr>
 											<tr>
@@ -66,8 +61,8 @@
 											</tr>
 											<tr>
 												<td colspan="2">
-													<button type="submit" id="modifyPointMaxCountStandartdBtn"
-														class="btn mb-2 btn-secondary">등록</button>
+													<button type="submit" id="delPointStandardBtn"
+														class="btn mb-2 btn-secondary">삭제</button>
 													<button type="reset" id="resetBtn"
 														class="btn mb-2 btn-secondary">입력취소</button>
 												</td>

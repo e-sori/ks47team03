@@ -1584,7 +1584,8 @@ textarea.form-control {
   height: auto; }
 
 .form-group {
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem; 
+  text-align: left;}
 
 .form-text {
   display: block;
@@ -1852,9 +1853,7 @@ textarea.form-control {
   .btn:hover {
     color: #6c757d;
     text-decoration: none; }
-  .btn:focus, .btn.focus {
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(27, 104, 255, 0.25); }
+
   .btn.disabled, .btn:disabled {
     opacity: 0.65; }
   .btn:not(:disabled):not(.disabled) {
@@ -1897,11 +1896,7 @@ fieldset:disabled a.btn {
     color: #ffffff;
     background-color: #5a6268;
     border: none;}
-  .btn-secondary:focus, .btn-secondary.focus {
-    color: #ffffff;
-    background-color: #5a6268;
-    border: none;
-    box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5); }
+
   .btn-secondary.disabled, .btn-secondary:disabled {
     color: #ffffff;
     background-color: #6c757d;
@@ -2036,11 +2031,7 @@ fieldset:disabled a.btn {
     color: #212529;
     background-color: #e2e6ea;
     border-color: #dae0e5; }
-  .btn-light:focus, .btn-light.focus {
-    color: #212529;
-    background-color: #e2e6ea;
-    border-color: #dae0e5;
-    box-shadow: 0 0 0 0.2rem rgba(216, 217, 219, 0.5); }
+
   .btn-light.disabled, .btn-light:disabled {
     color: #212529;
     background-color: #f8f9fa;

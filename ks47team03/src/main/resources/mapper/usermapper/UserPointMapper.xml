@@ -7,5 +7,39 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserPointMapper">
 
+	<resultMap type="Point" id="pointResultMap">
+		<id column="point_past_now_history_code" 	property="pointPastNowHistoryCode"/>
+		<result column="user_id" 					property="userId"/>
+		<result column="current_holding_point" 		property="currentHoldingPoint"/>		
+		<result column="admin_id" 					property="adminId"/>		
+		<result column="up_datetime" 				property="upDatetime"/>		
+	</resultMap>
+	
+	<select id="getUserPoint" resultMap="pointResultMap">
+		/* 특정 회원 현재 보유 포인트 조회*/
+		SELECT
+			point_past_now_history_code,
+			user_id,
+			current_holding_point,
+			admin_id,
+			up_datetime
+		FROM
+			point_past_now_history
+	</select>
+
+	<select id="getAllUserPoint" parameterType="map" resultMap="pointResultMap">
+		/* 전체 회원 현재 보유 포인트 조회*/
+		SELECT
+			point_past_now_history_code,
+			user_id,
+			current_holding_point,
+			admin_id,
+			up_datetime
+		FROM
+			point_past_now_history
+		<if test="currentFirstIndex != null and currentFirstIndex > -1">
+			LIMIT #{currentFirstIndex},#{rowPerPage};
+		</if>
+	</select>
 	
 </mapper>
