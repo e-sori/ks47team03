@@ -69,7 +69,7 @@ public class WebConfig implements WebMvcConfigurer{
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**")
-				.addResourceLocations("file:///c:" + filePath + "resources/")
+				.addResourceLocations("file:///" + filePath + "resources/")
 				.setCachePeriod(3600)
 				.resourceChain(true)
 				.addResolver(new PathResourceResolver());
