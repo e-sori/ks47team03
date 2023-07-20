@@ -64,7 +64,7 @@
 
 	<!-- log4jdbc 옵션 설정 --> 
 	<!-- 모든 로그를 찍겠다. -->
-	<logger name="jdbc" level="OFF" additivity="false">
+	<logger name="jdbc" level="INFO" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger> 
 	
