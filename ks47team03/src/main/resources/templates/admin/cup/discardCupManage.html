@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{admin/layout/default}">
+	  
+
+	  
+<th:block layout:fragment="customContents">
+
+     <div class="container-fluid">
+       <div class="row justify-content-center">
+          <div class="col-12">
+            <h2 class="mb-2 page-title">폐기컵 관리</h2>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                     <div class="download-file-discardForm">
+                    	<table class="table table-borderless">
+                    		<thead>
+                    			<tr>
+	                    		<th  colspan="4">
+	                     			<p class="upload-file-discard-p">💦세척업체에게 현재 올려준 파일</p>
+	                     		</th>
+	                     		</tr>
+							</thead>
+							<tbody class="discard-height">
+								<tr  th:if="${not #lists.isEmpty(fileList)}" th:each="l, index : ${fileList}">
+									<td th:text="${index.count}"></td>
+									<td colspan="2" th:text="${l.fileOriginalName}"></td>
+									
+									<td class="td-class-file">
+										<a class="btn mb-2 btn-light" th:href="@{/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
+										<a class="btn mb-2 btn-light" th:href="@{#}" th:data-file-idx="${l.fileIdx}">삭제</a>
+									</td>
+								</tr>
+								<tr th:unless="${not #lists.isEmpty(fileList)}">
+									<td colspan="4">목록이 없습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+                     <div class="upload-file-discardForm">
+                    	<form th:action="@{/admin/cup/file/upload}" method="post" enctype="multipart/form-data">
+                    		<table class="table table-borderless">
+                    		<thead>
+                    			<tr>
+	                    		<th  colspan="2">
+	                     			<p class="upload-file-discard-p">💦세척업체가 다운 받아야 하는 파일 업로드</p>
+	                     		</th>
+	                     		</tr>
+							</thead>
+                    		<tbody>
+                    			<tr>
+                    			<td>
+									<input type="file" name="uploadfile" multiple="multiple"/>
+								</td>
+								<td class="td-class-file">
+								<button class="btn mb-2 btn-light" type="submit">업로드</button>
+								</td>
+								</tr>
+                    		</tbody>
+							</table>
+						</form>
+					</div>
+                      <!-- table -->
+                      <table class="table datatables table-hover" id="dataTable-1">
+                      <thead>
+                          <tr>
+                           <th>
+                            	<div class="custom-control custom-checkbox">
+	                               <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
+                              	</div>
+                            </th>
+                            <th>NO.</th>
+                           	<th>사업장 코드</th>
+                            <th>컵 QR</th>
+                            <th>업데이트 날짜</th>
+                            <th>관리자 ID</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d : ${discardCupList}">
+		                          <tr>
+		                            <td>
+		                              <div class="custom-control custom-checkbox">
+		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
+		                              </div>
+		                            </td>
+		                            <td th:text="${d.num}"></td>
+		                            <td th:text="${d.partnerInfo}"></td>
+		                            <td th:text="${d.cupQR}"></td>
+		                            <td th:text="${d.upDateTime}"></td>
+		                            <td th:text="${d.adminId}"></td>
+		                          </tr>
+                          	</th:block>
+                          	<tr th:if="${#lists.isEmpty(discardCupList)}">
+								<td colspan="6">폐기컵이 없습니다.</td>
+	               
+							</tr>
+                        </tbody>
+                        <tfoot>
+							<tr>
+								<td colspan="6">
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/cup/discardCupManage}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/cup/discardCupManage(currentPage=${currentPage-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+										<div class="btn-group mr-2" role="group" aria-label="First group">
+											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
+												<a class="btn mb-2 btn-secondary " th:if="${currentPage != num}" th:href="@{/admin/cup/discardCupManage(currentPage=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
+											</th:block>
+										</div>				
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/cup/discardCupManage(currentPage=${currentPage+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/cup/discardCupManage(currentPage=${lastPage})}>마지막으로</a>
+								</td>
+							</tr>
+						</tfoot>
+                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+           </div>
+          </div>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:inline="javascript">
+			let msg = '[[${msg}]]';
+			console.log(msg);
+			if(msg != 'null') alert(msg);
+			
+			$(function(){
+		      $('#dataTable-1').DataTable({
+			        autoWidth: true,
+			        "lengthMenu": [
+			          [16, 32, 64, -1],
+			          [16, 32, 64, "All"]
+			        ],
+			        columnDefs: [{
+			            targets: 0,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled'
+			            
+			         }
+			         ,{
+			            targets: $('#dataTable-1').find('th').length-1,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled',	           
+			         	}
+			         ]
+						      	
+				});
+			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+			});
+			
+			 $('table').click((e) => {
+			        if ($(e.target).is($('.allCheck'))) {
+			          const isChecked = $(e.currentTarget)
+			            .find('.allCheck')
+			            .prop('checked');
+			          $(e.currentTarget).find('.checks').prop('checked', isChecked);
+			        }
+			
+			        if ($(e.target).is($('.checks'))) {
+			          if (
+			            $(e.currentTarget).find('.checks').length ==
+			            $(e.currentTarget).find('.checks:checked').length
+			          ) {
+			            $(e.currentTarget).find('.allCheck').prop('checked', true);
+			          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
+			        }
+			      });
+			
+			      $('#delCheckBtn').click(function () {
+			        $('.checks:checked').closest('tr').remove();
+			      });
+		</script>
+	</th:block>
+</html>
+
+
+
+

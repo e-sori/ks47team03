@@ -11,7 +11,7 @@
           <h1>폐기컵 등록</h1>
           <nav aria-label="breadcrumb" class="banner-breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+              <li class="breadcrumb-item"><a href="/main"><span class="fe fe-16 fe-home"></span></a></li>
               <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
               <li class="breadcrumb-item active" aria-current="page">폐기컵 등록</li>
             </ol>
@@ -26,10 +26,33 @@
   
    <section class="order_details section-margin--small">
     <div class="container">
+    <div class="download-file-discardForm">
+		<table class="table">
+			<thead>
+				<tr>
+					<th  colspan="3">
+					<p>다운 받아 <mark>서식에 맞게</mark> 작성 후 업로드 부탁드립니다💙</p>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr  th:if="${not #lists.isEmpty(fileList)}" th:each="l, index : ${fileList}">
+					<td th:text="${index.count}"></td>
+					<td th:text="${l.fileOriginalName}"></td>
+					<td class="td-class-file">
+						<a class="btn mb-2 btn-light" th:href="@{/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
+					</td>
+				</tr>
+				<tr th:unless="${not #lists.isEmpty(fileList)}">
+					<td colspan="4">목록이 없습니다.</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
       <div class="order_details_table">
         <h2>Discard Cup Upload</h2>
         <div class="table-responsive">
-        <form>
+        <form id="discardform" th:action="@{/partner/excel/fileupload}" method="post" enctype="multipart/form-data">
           <table class="table">
             <thead>
               <tr>
@@ -41,12 +64,12 @@
             <tbody>
               <tr>
                 <td class="washDiscardCup">
-                	<input type="file" id="example-fileinput" class="form-control-file">
+                	<input type="file" name="excelFile" id="example-fileinput" class="form-control-file">
                 </td>
                 <td>
                 </td>
                 <td>
-                	<button type="button" class="btn mb-2 btn-outline-success"><span class="fe fe-upload-cloud fe-16"></span></button>    
+                	<button type="submit" class="btn mb-2 btn-outline-success" id="commitBtn"><span class="fe fe-upload-cloud fe-16"></span></button>    
                 </td>
               </tr>
               <tr>
@@ -61,8 +84,8 @@
                 </td>
               </tr>
             </tbody>
-          </table>
-         </form> 
+          </table> 
+         </form>
         </div>
       </div>
     </div>
@@ -70,4 +93,11 @@
   <!--================End Order Details Area =================-->
 
    </th:block>
+   	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:inline="javascript">
+		let msg = '[[${msg}]]';
+		console.log(msg);
+		if(msg != 'null') alert(msg);
+		</script>
+	</th:block>
 </html>

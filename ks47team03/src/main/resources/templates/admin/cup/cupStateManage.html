@@ -17,15 +17,13 @@
                 <div class="col-md-12">
                   <div class="card shadow">
                     <div class="card-body">
+                    <div th:insert="~{/admin/search/search :: cupStateSearchFragment}"></div>
                       <!-- table -->
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
                           <tr>
-                            <th>
-                            	<div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="check1">
-	                                <label class="custom-control-label" for="check1"></label>
-                              	</div>
+                           <th>
+	                           <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
                             </th>
                             <th>NO.</th>
                            	<th>컵 QR 코드</th>
@@ -40,16 +38,13 @@
                         	<th:block th:unless="${#lists.isEmpty(cupStateList)}"  th:each="c : ${cupStateList}">
 		                          <tr>
 		                            <td>
-		                              <div class="custom-control custom-checkbox">
-		                                <input type="checkbox" class="custom-control-input" id="check1">
-		                                <label class="custom-control-label" for="check1"></label>
-		                              </div>
+		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks" th:data-cup-qr="${c.cupQR}">
 		                            </td>
 		                            <td th:text="${c.num}"></td>
 		                            <td th:text="${c.cupQR}"></td>
 		                            <td th:text="${c.staticCode}"></td>
 		                            <td th:text="${c.setDate}"></td>
-		                            <td th:text="${c.adminName}"></td>
+		                            <td th:text="${c.adminId}"></td>
 		                            <td th:text="${c.upDateTime}"></td>
 		                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		                                <span class="text-muted sr-only">Action</span>
@@ -62,7 +57,7 @@
 		                          </tr>
                           	</th:block>
                           	<tr th:if="${#lists.isEmpty(cupStateList)}">
-								<td colspan="6">보유한 컵이 없습니다.</td>
+								<td colspan="7">보유한 컵이 없습니다.</td>
 	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                                <span class="text-muted sr-only">Action</span>
 	                              </button>
@@ -74,6 +69,7 @@
 	                            </td>
 							</tr>
                         </tbody>
+                     
                         <tfoot>
                         
 							<tr>
@@ -83,13 +79,16 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/cup/cupStateManage(currentPage=${num})}" th:text="${num}"></a>
-												<label class="btn mb-2 btn-secondary" th:if="${currentPage == num}" th:text="${num}"></label>
+												<a class="btn mb-2 btn-secondary " th:if="${currentPage != num}" th:href="@{/admin/cup/cupStateManage(currentPage=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/cup/cupStateManage(currentPage=${currentPage+1})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/cup/cupStateManage(currentPage=${lastPage})}>마지막으로</a>
+								</td>
+								<td class="btn-right-align">
+									<button type="button" class="btn mb-2 btn-secondary" id="delCheckBtn" >삭제</button>
 								</td>
 							</tr>
 						</tfoot>
@@ -103,7 +102,11 @@
           </div>
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script>		
+	<script type="text/javascript" th:inline="javascript">
+		let msg = '[[${msg}]]';
+		console.log(msg);
+		if(msg != 'null') alert(msg);
+	
 			$(function(){
 		      $('#dataTable-1').DataTable({
 			        autoWidth: true,
@@ -129,7 +132,60 @@
 				});
 			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
 			});
-		
+			
+			 $('table').click((e) => {
+			        if ($(e.target).is($('.allCheck'))) {
+			          const isChecked = $(e.currentTarget)
+			            .find('.allCheck')
+			            .prop('checked');
+			          $(e.currentTarget).find('.checks').prop('checked', isChecked);
+			        }
+			
+			        if ($(e.target).is($('.checks'))) {
+			          if (
+			            $(e.currentTarget).find('.checks').length ==
+			            $(e.currentTarget).find('.checks:checked').length
+			          ) {
+			            $(e.currentTarget).find('.allCheck').prop('checked', true);
+			          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
+			        }
+			      });
+	
+			  $('#delCheckBtn').click(function(e){
+				  //배열 선언
+					const cupQrArr = [];
+				  //check 클래스 중 속성이 checked된 요소만 변수에 담아줌
+					const $checkedEle = $('.checks:checked');
+				  //배열 순회
+					$checkedEle.each((idx, item) => {
+						//input태그에 속성인 th:data-cup-qr (cup-qr은 자동으로 cupQr로 변환)
+						let cupQr = $(item).data('cupQr');
+						//베열에 cupQr 담아줌
+						cupQrArr.push(cupQr);
+					})
+					console.log(cupQrArr);
+				  	//배열의 길이가 0이 아니면
+					if(cupQrArr.length != 0){
+						//새로운 폼 생성 ->jquery
+						const newForm = $('<form></form>');
+						//새로운 폼에 set attribute	
+						newForm.attr("method","post");
+						newForm.attr("action","/admin/cup/cupStateRemove");
+						// create element & set attribute (input)
+						//$ 제이쿼리 배열을 순회하는데 순회하는 배열은 괄호 안쪽에서 부름
+						$.each(cupQrArr, (idx, item) => {
+							newForm.append($('<input/>', {type: 'hidden', name: 'cupQR', value:item}));
+						})
+						// append form (to body) 
+						// newForm은 이미 제이쿼리 문법으로 선언
+						newForm.appendTo('body');
+						newForm.submit();
+					}
+						
+					
+
+				});
+				
 		</script>
 	</th:block>
 </html>

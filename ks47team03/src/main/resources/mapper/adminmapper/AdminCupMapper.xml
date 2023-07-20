@@ -10,10 +10,68 @@
 		<id 	column="cup_QR_code" 				property="cupQR"/>
 		<result column="static_code" 				property="staticCode"/>
 		<result column="set_datetime" 				property="setDateTime"/>
-		<result column="admin_id" 					property="adminName"/>
+		<result column="admin_id" 					property="userId"/>
 		<result column="up_datetime" 				property="upDateTime"/>
 	</resultMap>	
+	<insert id="addDiscardCupByExcelFile" parameterType="Cup">
+		/* 엑셀파일 업로드*/
+		INSERT INTO
+			cup_discard_manage
+		VALUES
+		<foreach collection="list" item="cup" separator=",">	
+			((SELECT
+				cup_discard_manage_code
+			FROM
+				(SELECT
+						    CASE
+						    WHEN COUNT(*) = 0 THEN 'cup_discard_manage_code1'
+						    ELSE 
+						        CONCAT('cup_discard_manage_code', 
+						                    MAX(CAST(SUBSTRING_INDEX(cup_discard_manage_code,'code', -1) AS UNSIGNED))+1)
+						 
+						    END AS cup_discard_manage_code
+				FROM
+						    cup_discard_manage)sub_sc),
+				#{cup.partnerInfo},
+				#{cup.cupQR},
+				'adminid001',
+				CURDATE())
+		</foreach>
+	</insert>
+	<select id="getDiscardCupList"  parameterType="map" resultType="map" >
+	/*폐기컵  조회*/
+		SELECT 
+			CAST(SUBSTRING_INDEX(cdm.cup_discard_manage_code,'code',-1) AS UNSIGNED) AS num,
+			cdm.approval_partner_plus_info_code AS partnerInfo,
+			cdm.cup_QR_code AS cupQR,
+			cdm.admin_id AS adminId,
+			cdm.up_datetime AS upDateTime
+		FROM
+			cup_discard_manage AS cdm
+
+		ORDER BY CAST(SUBSTRING_INDEX(cdm.cup_discard_manage_code,'code',-1) AS UNSIGNED)	
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select>
 	
+	<select id="getDiscardCupListCount" resultType="int">
+		/*컵 상태의 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			cup_discard_manage;
+	</select>
+	<delete id="removeCupState" parameterType="List">
+	/*체크된 컵 삭제*/
+		DELETE FROM cup_manage
+		WHERE
+			cup_QR_code IN
+			
+    	<foreach collection="list" item="item" index="i" open="(" separator="," close=")">
+      		#{item}
+    	</foreach>
+	</delete>
 	<update id="modifyCupState" parameterType="Cup">
 		/* 상품수정 */
 		UPDATE cup_manage AS cm
@@ -21,8 +79,8 @@
 			<if test="staticCode != null and staticCode != ''">
 				cm.static_code = #{staticCode},
 			</if>
-			<if test="adminName != null and adminName != ''">
-				cm.admin_id = #{adminName}
+			<if test="userId != null and userId != ''">
+				cm.admin_id = #{userId},
 			</if>
 				cm.up_datetime =NOW()
 		</set>
@@ -31,6 +89,7 @@
 	</update>
 		
 	<select id="getCupInfoByQR" parameterType="String" resultMap="cupResultMap">
+	/*하나의 컵 조회*/
 		SELECT
 			cm.cup_QR_code,
 			cm.static_code,
@@ -54,6 +113,27 @@
 			SUBSTRING_INDEX(sc.static_code,'_',1)='cup';
 	</select>
 	
+	<select id="getCupStockList"  parameterType="map" resultType="map" >
+	/*컵 재고 조회*/
+		SELECT
+			CAST(SUBSTRING_INDEX(csm.cup_stack_code,'code',-1) AS UNSIGNED) AS num,
+			IFNULL(csm.approval_partner_plus_info_code, '-') AS partnerInfo,
+			IFNULL(csm.partner_name, '-') AS partnerName,
+			csm.wash_input_amount AS inputAmount,
+			csm.last_stock_amount AS stockAmount,
+			csm.business_out_amount AS outAmount,
+			csm.discard_stock_amount AS abnormalAmount,
+			csm.do_stock_research AS abnormalCheck,
+			csm.admin_id AS adminId,
+			csm.up_datetime AS upDateTime
+		FROM
+			cup_stack_manage AS csm
+		ORDER BY CAST(SUBSTRING_INDEX(csm.cup_stack_code,'code',-1) AS UNSIGNED)	
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select>
+	
 	<select id="getCupStateList"  parameterType="map" resultType="map" >
 	/*컵 상태 조회*/
 		SELECT 
@@ -61,7 +141,7 @@
 			cm.cup_QR_code as cupQR,
 			sc.static_code_content as staticCode,
 			cm.set_datetime as setDate,
-			cm.admin_id as adminName,
+			cm.admin_id as adminId,
 			cm.up_datetime as upDateTime
 		FROM
 			cup_manage AS cm
@@ -69,12 +149,24 @@
 			static_code AS sc
 			on
 			cm.static_code = sc.static_code
-		ORDER BY CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED) 	
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue}
+        	</if>
+        </where>
+		ORDER BY num 	
 		<if test="startIndex != null and startIndex > -1 ">
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
 	</select>
 	
+	<select id="getCupStockListCount" resultType="int">
+		/*재고 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			cup_stack_manage;
+	</select>
 	<select id="getCupStateListCount" resultType="int">
 		/*컵 상태의 전체 행의 갯수*/
 		SELECT

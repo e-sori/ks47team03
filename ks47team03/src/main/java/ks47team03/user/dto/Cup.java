@@ -48,8 +48,14 @@ public class Cup {
 	private String cupQR;
 	private String staticCode;
 	private String setDateTime;
-	private String adminName;
 	private String upDateTime;
+	private String partnerInfo;
+	public String getPartnerInfo() {
+		return partnerInfo;
+	}
+	public void setPartnerInfo(String partnerInfo) {
+		this.partnerInfo = partnerInfo;
+	}
 	public String getCupQR() {
 		return cupQR;
 	}
@@ -67,12 +73,6 @@ public class Cup {
 	}
 	public void setSetDateTime(String setDateTime) {
 		this.setDateTime = setDateTime;
-	}
-	public String getAdminName() {
-		return adminName;
-	}
-	public void setAdminName(String adminName) {
-		this.adminName = adminName;
 	}
 	public String getUpDateTime() {
 		return upDateTime;
@@ -101,10 +101,10 @@ public class Cup {
 		builder.append(staticCode);
 		builder.append(", setDateTime=");
 		builder.append(setDateTime);
-		builder.append(", adminName=");
-		builder.append(adminName);
 		builder.append(", upDateTime=");
 		builder.append(upDateTime);
+		builder.append(", partnerInfo=");
+		builder.append(partnerInfo);
 		builder.append("]");
 		return builder.toString();
 	}

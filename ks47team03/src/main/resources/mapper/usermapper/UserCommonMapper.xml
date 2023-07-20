@@ -5,7 +5,68 @@
 
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
-<mapper namespace="ks47team03.admin.mapper.UserMapper">
 
+<mapper namespace="ks47team03.user.mapper.UserCommonMapper">
+	<resultMap type="User" id="userResultMap">
+		<!-- id태그는 조회시 테이블의 PK(기본키) -->
+		<id 	column="user_id" 		property="userId"/>
+		<!-- result태그는 조회시 테이블의 일반컬럼 혹은 외래키 -->
+		<result column="user_pw" 		property="userPw"/>
+		<result column="user_name" 	property="userName"/>
+		<result column="user_level" 	property="userLevel"/>
+		<result column="user_Idcard_number" 	property="userIdcardnumber"/>
+		<result column="user_addr" 	property="userAddr"/>
+		<result column="user_email" property="userEmail"/>
+		<result column="user_phone" property="userPhone"/>
+		<result column="user_nick" property="userNick"/>
+		<result column="user_sms_check" property="userSmscheck"/>
+		<result column="user_email_check" property="userEmailcheck"/>
+		<result column="static_code" property="staticCode"/>
+		<result column="user_join_datetime" property="userJoindatetime"/>
+	</resultMap>
+
+
+
+	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">
+		/* 회원별 상세조회 */
+		SELECT
+			u.user_id,
+			u.user_pw,
+			u.user_name,
+			u.user_level,
+			u.user_Idcard_number,
+			u.user_addr,
+			u.user_email,
+			u.user_phone,
+			u.user_nick,
+			u.user_sms_check,
+			u.user_email_check,
+			u.static_code,
+			u.user_join_datetime
+		FROM 
+			user_manage AS u
+		WHERE 
+			u.user_id = #{userId};
+	</select>
+
+
+	<insert id="joinUser" parameterType="User">
+		/* 회원가입 */
+		INSERT INTO user_manage
+			(user_id, user_pw, user_name, user_level, user_Idcard_number, user_addr, 
+			user_email, user_phone, user_nick, user_sms_check, user_email_check, static_code, user_join_datetime)
+		VALUES 
+			(#{user_id}, #{user_pw}, #{user_name}, #{user_level}, #{user_Idcard_number}, #{user_addr}, 
+			#{user_email},#{user_phone},#{user_nick},#{user_sms_check},#{user_email_check},#{static_code},CURDATE());
+	</insert>
 	
+	<select id="idCheck" resultType="boolean" parameterType="String">
+		/* 아이디 중복체크 */
+		SELECT 
+			IF(COUNT(u.user_id) > 0, 1, 0)
+		FROM
+			user_manage AS u
+		WHERE 
+			u.user_id = #{userId};
+	</select>
 </mapper>
