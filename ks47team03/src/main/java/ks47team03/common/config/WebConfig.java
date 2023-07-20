@@ -52,6 +52,7 @@ public class WebConfig implements WebMvcConfigurer{
 		.addPathPatterns("/**")
 		.excludePathPatterns("/favicon.ico")
 		.excludePathPatterns("/")
+		.excludePathPatterns("/admin/")
 		.excludePathPatterns("/main")
 		.excludePathPatterns("/login")
 		.excludePathPatterns("/logout")

@@ -13,10 +13,11 @@
 						<h3>로그인</h3>
 						<form class="row login_form" th:action="@{/login}" method="post" id="contactForm" >
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
+							<mark>관리자 아이디 로그인</mark>
+								<input type="text" class="form-control" id="userId" name="userId"  value="adminid001" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userPw" name="userPw" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
+								<input type="text" class="form-control" id="userPw" name="userPw" value="adminpw001" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
