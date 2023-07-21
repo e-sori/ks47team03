@@ -23,25 +23,27 @@
 												<input type="checkbox"
 													class="custom-control custom-checkbox checkbox allCheck">
 											</th>
+											<th>NO.</th>
+											<th>코드</th>
 											<th>아이디</th>
 											<th>현재 보유 포인트</th>
 											<th>관리자 ID</th>
 											<th>업데이트 날짜</th>
-											<th>디테일</th>
+											<th>수정/취소</th>
 										</tr>
 									</thead>
 									<tbody>
-										<th:block th:unless="${#lists.isEmpty(pointMaxCountStandardList)}"
-											th:each="p : ${pointMaxCountStandardList}">
+										<th:block th:unless="${#lists.isEmpty(allUserPointList)}"
+											th:each="p : ${allUserPointList}">
 											<tr>
 												<td>
 													<input type="checkbox"
 														class="custom-control custom-checkbox checkbox checks">
 												</td>
 												<td th:text="${p.num}"></td>
-												<td th:text="${p.dayMaximumCountCode}"></td>
-												<td th:text="${p.useMaximumCount}"></td>
-												<td th:text="${p.setDateTime}"></td>
+												<td th:text="${p.userDepositPointCode}"></td>
+												<td th:text="${p.userId}"></td>
+												<td th:text="${p.currentHoldingPoint}"></td>
 												<td th:text="${p.adminId}"></td>
 												<td th:text="${p.upDateTime}"></td>
 												<td><button class="btn btn-sm dropdown-toggle more-horizontal"

@@ -267,6 +267,7 @@
                         </div>
                         <div class="tab-pane fade" id="pills-expire" role="tabpanel" aria-labelledby="pills-expire-tab">
                         	<!-- 포인트 만료 기간 기준 -->
+                        	
 			                
                         </div>
                         <div class="tab-pane fade" id="pills-type" role="tabpanel" aria-labelledby="pills-type-tab"> 
@@ -282,9 +283,7 @@
                         </div>
                     </div>
                     <!-- tab 끝 -->                
-                      
-               
-          </div> <!-- end section -->
+             </div> <!-- end section -->
         </div> <!-- .col-12 -->
       </div> <!-- .row -->
     </div> <!-- .container-fluid -->
@@ -314,6 +313,43 @@
 			    });
 			  $('.dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
 			  });
+		
+		// 아이디중복버튼 이벤트
+		$('#idCheck').click(function(){
+			const $userId = $('#userId');
+			let userId = $userId.val();
+			
+			// 유효성검사
+			let valid = validCheck($userId);
+			if(!valid) return false;
+			
+			// ajax 호출
+			const request = $.ajax({
+				url: '/user/idCheck',
+				method: 'POST',
+				data: { 'userId' : userId },
+				dataType: 'text'
+				});
+				
+				request.done(function( response ) {
+					if(response == 'true'){
+						alert('이미 등록된 아이디입니다.');
+						$userId.val('');
+						$userId.focus();
+	    				return false;
+					}else{
+						$('#joinUserForm input').prop('disabled', false);
+						$('#joinUserForm select').prop('disabled', false);
+						$('#joinUserForm button').prop('disabled', false);
+					}
+				//console.log(response);
+				});
+				 
+				request.fail(function( jqXHR, textStatus ) {
+				alert( "Request failed: " + textStatus );
+				});
+			
+			});
 			      
 			
 			// 체크박스 모두 선택 / 개별 선택
