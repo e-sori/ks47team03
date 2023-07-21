@@ -61,7 +61,7 @@ public class UserCommonController {
 				session.setAttribute("SLEVEL", userLevel);
 				session.setAttribute("SNAME", userName);
 				
-				return "redirect:/main";
+				return "redirect:/";
 			}
 			
 			reAttr.addAttribute("msg", "일치하는 회원의 정보가 없습니다.");
@@ -89,7 +89,7 @@ public class UserCommonController {
 			// response.sendRedirect("/member/memberList");
 			// spring framework mvc 에서는 controller의 리턴값에 redirect: 키워드로 작성
 			// redirect: 키워드를 작성할 경우 그다음의 문자열은 html파일 논리 경로가 아닌 주소를 의미
-			return "redirect:/join";
+			return "redirect:/";
 		}
 		
 		@PostMapping("/idCheck")
@@ -110,9 +110,18 @@ public class UserCommonController {
 			return "user/join";
 		}
 		
+		// 프로젝트 소개 화면
+		@GetMapping("/projectIntro")
+        public String projectIntro(Model model) {
+
+            model.addAttribute("title","구구컵프로젝트를 소개합니다");
+
+            return "user/projectIntro";
+        }
+		
 		
 		// user 메인 화면
-		@GetMapping("/main")
+		@GetMapping("/")
 		public String main(Model model) {
 			
 			model.addAttribute("title","구구컵프로젝트");
@@ -120,21 +129,4 @@ public class UserCommonController {
 			return "user/main";
 		}
 		
-		// 메인 프로젝트 프로필 화면
-		@GetMapping("/projectIntro")
-		public String projectIntro(Model model) {
-			
-			model.addAttribute("title","구구컵프로젝트를 소개합니다");
-			
-			return "user/projectIntro";
-		}
-		
-		// 메인 프로젝트 프로필 화면
-		@GetMapping("/")
-		public String index(Model model) {
-			
-			model.addAttribute("title","구구컵프로젝트를 소개합니다");
-			
-			return "user/index";
-		}
 }
