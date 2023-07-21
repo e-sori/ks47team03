@@ -243,7 +243,7 @@ public class AdminPointService {
 		int currentFirstIndex = (currentPageMax-1) * rowPerPage;		
 		
 		// 전체 행의 개수
-		double rowsCount = adminPointMapper.getPointMaxCountStandardCount();
+		double rowsCount = adminPointMapper.getPointStandardCount("day_maximum_count");
 		
 		// 전체 행의 개수를 한 번에 최대로 보여줄 개수로 나눈 값 (전체 행의 마지막 페이지 번호) 
 		int lastPageNum = (int) Math.ceil(rowsCount/rowPerPage);
@@ -272,6 +272,8 @@ public class AdminPointService {
 		// adminPointMapper에서 return 값 받아오기
 		List<Map<String,Object>> pointMaxCountStandardList = adminPointMapper.getPointMaxCountStandard(paramMap);
 		log.info("pointMaxCountStandardList : {}", pointMaxCountStandardList);
+		List<Map<String,Object>> codeUseList = adminPointMapper.getDistinctData("day_maximum_count", "code_use");
+		log.info("codeUseList : {}", codeUseList);
 		
 		// controller에 전달될 data
 		paramMap.clear(); // map 객체 안의 data 초기화
@@ -279,6 +281,7 @@ public class AdminPointService {
 		paramMap.put("lastPageNumMax", lastPageNum);
 		paramMap.put("startPageNumMax", startPageNum);
 		paramMap.put("endPageNumMax", endPageNum);
+		paramMap.put("codeUseList", codeUseList);
 
 		
 		

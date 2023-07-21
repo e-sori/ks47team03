@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.service.AdminPointService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,7 +70,8 @@ public class AdminPointController {
 										@RequestParam(value="currentPageType", required = false, defaultValue = "1")int currentPageType,
 										@RequestParam(value="currentPageSave", required = false, defaultValue = "1")int currentPageSave,
 										@RequestParam(value="currentPageRefund", required = false, defaultValue = "1")int currentPageRefund,
-													Model model) {
+													Model model,
+													HttpSession session) {
 		
 		/* 5-2 포인트 환급 기준 조회 */
 		Map<String,Object> pointRefundStandardResultMap = adminPointService.getPointRefundStandard(currentPageRefund);
@@ -133,11 +135,15 @@ public class AdminPointController {
 		/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
 		Map<String,Object> pointMaxCountStandardResultMap = adminPointService.getPointMaxCountStandard(currentPageMax);
 		
+		
 		int startPageNumMax = (int)pointMaxCountStandardResultMap.get("startPageNumMax");
 		int endPageNumMax = (int)pointMaxCountStandardResultMap.get("endPageNumMax");
 		int lastPageNumMax = (int)pointMaxCountStandardResultMap.get("lastPageNumMax");		
 		List<Map<String,Object>> pointMaxCountStandardList = (List<Map<String,Object>>)pointMaxCountStandardResultMap.get("pointMaxCountStandardList");
-		int userMaximumCount = (int) pointMaxCountStandardList.get(0).get("userMaximumCount");
+		int useMaximumCount = (int) pointMaxCountStandardList.get(0).get("useMaximumCount");
+		String sessionId = (String) session.getAttribute("SID");
+		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointMaxCountStandardResultMap.get("codeUseList");
+		
 		
 		model.addAttribute("title","포인트 관련 기준 관리");
 		model.addAttribute("startPageNumMax", startPageNumMax);
@@ -145,7 +151,9 @@ public class AdminPointController {
 		model.addAttribute("lastPageNumMax", lastPageNumMax);
 		model.addAttribute("currentPageMax", currentPageMax);
 		model.addAttribute("pointMaxCountStandardList", pointMaxCountStandardList);
-		model.addAttribute("userMaximumCount", userMaximumCount);
+		model.addAttribute("useMaximumCount", useMaximumCount);
+		model.addAttribute("codeUseList", codeUseList);
+		model.addAttribute("SID", sessionId);
 		
 		return "admin/point/pointStandardManage";
 	}
