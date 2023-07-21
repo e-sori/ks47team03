@@ -10,17 +10,21 @@
 	<select id="getPointRefundStandard" parameterType="map" resultType="map">
 		/* 5-2 포인트 환급 기준 조회 */
 		SELECT
-			CAST(SUBSTRING_INDEX(point_refund_standard_code,'code',-1) AS UNSIGNED) AS num,
-			point_refund_standard_code AS pointRefundStandardCode,
-			point_save_use_type AS pointSaveUseType,
-			minimum_refund_standard AS minimumRefundStandard,
-			refund_unit AS refundUnit,
-			refund_fee_rate AS refundFeeRate,
-			set_datetime AS setDateTime,
-			admin_id AS adminId,
-			up_datetime AS upDateTime
+			CAST(SUBSTRING_INDEX(RS.point_refund_standard_code,'code',-1) AS UNSIGNED) AS num,
+			RS.point_refund_standard_code AS pointRefundStandardCode,
+			SUT.point_save_use_type AS pointSaveUseType,
+			RS.minimum_refund_standard AS minimumRefundStandard,
+			RS.refund_unit AS refundUnit,
+			RS.refund_fee_rate AS refundFeeRate,
+			RS.set_datetime AS setDateTime,
+			RS.admin_id AS adminId,
+			RS.up_datetime AS upDateTime
 		FROM 
-			point_refund_standard
+			point_refund_standard AS RS
+			INNER JOIN
+			point_save_use_type AS SUT
+			ON
+			RS.point_save_use_type_code = SUT.point_save_use_type_code
 		ORDER BY num
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
@@ -91,6 +95,20 @@
 
 	<update id="modifyPointMaxCountStandard" parameterType="String">
 		/* 1-4 하루 최대 적립 포인트 횟수 기준 수정 */
+		UPDATE tb_goods
+		<set>
+			<if test="goodsName != null and goodsName != ''">
+				g_name = #{goodsName},
+			</if>
+			<if test="goodsPrice != null and goodsPrice != ''">
+				g_price = #{goodsPrice},
+			</if>
+			<if test="goodsSellerId != null and goodsSellerId != ''">
+				g_seller_id = #{goodsSellerId},
+			</if>
+		</set>
+		WHERE
+			g_code = #{goodsCode}
 	</update>
 	
 	<insert id="addPointMaxCountStandard" parameterType="map">
@@ -103,7 +121,11 @@
 		SELECT
 			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS num,
 			day_maximum_count_code AS dayMaximumCountCode,
-			user_maximum_count AS userMaximumCount,
+			use_maximum_count AS useMaximumCount,
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용가능'
+			   WHEN code_use = 'N' THEN '사용불가능'
+			END AS codeUse,			
 			set_datetime AS setDateTime,
 			admin_id AS adminId,
 			up_datetime AS upDateTime
@@ -118,21 +140,39 @@
 	</select>
 	
 	<select id="getPointStandardCount" parameterType="String" resultType="int">
-		/* 2,3,4,5-1 데이터 개수 조회 */
+		/* 데이터 개수 조회 */
 		SELECT
 			COUNT(*)
 		FROM
-			${tableName};
+			${tableName}
+		<where>
+			<if test="tableName == 'day_maximum_count'">
+				day_maximum_count_code LIKE'%point%';
+			</if>
+		</where>
 	</select>
+
 	
-	<select id="getPointMaxCountStandardCount" resultType="int">
-		/* 1-1 하루 최대 적립 포인트 횟수 기준 개수 조회 */
+	<select id="getDistinctData" parameterType="String" resultType="map">
+		/* 컬럼 내 중복 제거된 데이터 조회 */
 		SELECT
-			COUNT(*)
+			<if test="columnName != 'code_use'">
+			DISTINCT ${columnName} AS distinctData
+			</if>
+			
+			<if test="columnName == 'code_use'">
+				DISTINCT CASE 
+				   WHEN code_use = 'Y' THEN '사용가능'
+				   WHEN code_use = 'N' THEN '사용불가능'
+				END  AS distinctData
+			</if>
 		FROM
-			day_maximum_count
-		WHERE
-			day_maximum_count_code LIKE'%point%';
+			${tableName}
+		<where>
+			<if test="tableName == 'day_maximum_count'">
+				day_maximum_count_code LIKE'%point%';
+			</if>
+		</where>
 	</select>
 
 </mapper>

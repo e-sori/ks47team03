@@ -110,6 +110,15 @@ public class UserCommonController {
 			return "user/join";
 		}
 		
+		// 프로젝트 소개 화면
+		@GetMapping("/projectIntro")
+        public String projectIntro(Model model) {
+
+            model.addAttribute("title","구구컵프로젝트를 소개합니다");
+
+            return "user/projectIntro";
+        }
+		
 		
 		// user 메인 화면
 		@GetMapping("/")

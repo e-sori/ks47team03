@@ -23,10 +23,10 @@ public interface AdminPointMapper {
 	/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
 	public List<Map<String,Object>> getPointMaxCountStandard(Map<String,Object> paramMap);
 	
-	/* 2,3,4,5-1 데이터 개수 조회 */
+	/* 데이터 개수 조회 */
 	public int getPointStandardCount(String tableName);
-
-	/* 1-1 하루 최대 적립 포인트 횟수 기준 개수 조회 */
-	public int getPointMaxCountStandardCount();
+	
+	/* 컬럼 내 중복 제거된 데이터 조회*/
+	public List<Map<String,Object>> getDistinctData(String tableName, String columnName);
 	
 }
