@@ -11,8 +11,11 @@ import ks47team03.user.dto.Static;
 
 @Mapper
 public interface AdminCupMapper {
+
 	//엑셀 업로드
 	public int addDiscardCupByExcelFile(List<Cup> discardCupList);
+	//폐기컵 
+	public List<Cup> getAllDiscardCupQRList();
 	//폐기컵 조회
 	public List<Map<String,Object>> getDiscardCupList (Map<String,Object>paramMap);
 	//폐기컵 전체 행 조회

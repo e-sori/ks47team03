@@ -40,7 +40,7 @@
 					<td th:text="${index.count}"></td>
 					<td th:text="${l.fileOriginalName}"></td>
 					<td class="td-class-file">
-						<a class="btn mb-2 btn-light" th:href="@{/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
+						<a class="btn mb-2 btn-light" th:href="@{/admin/cup/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
 					</td>
 				</tr>
 				<tr th:unless="${not #lists.isEmpty(fileList)}">
@@ -85,6 +85,47 @@
               </tr>
             </tbody>
           </table> 
+          <table class="order_details_table">
+             <thead>
+                 <tr>
+                   <th>NO.</th>
+                  	<th>사업장 코드</th>
+                   <th>컵 QR</th>
+                   <th>업데이트 날짜</th>
+                 </tr>
+               </thead>
+               <tbody>
+               		<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d : ${discardCupList}">
+                   		<tr>
+		                     <td th:text="${d.num}"></td>
+		                     <td th:text="${d.partnerInfo}"></td>
+		                     <td th:text="${d.cupQR}"></td>
+		                     <td th:text="${d.upDateTime}"></td>
+                   		</tr>
+                 	</th:block>
+                      	<tr th:if="${#lists.isEmpty(discardCupList)}">
+				<td colspan="4">폐기컵이 없습니다.</td>
+			</tr>
+                    </tbody>
+                        <tfoot>
+							<tr>
+								<td colspan="6">
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/cup/discardCupManage}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/cup/discardCupManage(currentPage=${currentPage-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+										<div class="btn-group mr-2" role="group" aria-label="First group">
+											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
+												<a class="btn mb-2 btn-secondary " th:if="${currentPage != num}" th:href="@{/admin/cup/discardCupManage(currentPage=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
+											</th:block>
+										</div>				
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/cup/discardCupManage(currentPage=${currentPage+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/cup/discardCupManage(currentPage=${lastPage})}>마지막으로</a>
+								</td>
+							</tr>
+						</tfoot>
+                      </table>
          </form>
         </div>
       </div>

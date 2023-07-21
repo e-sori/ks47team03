@@ -14,7 +14,35 @@
 		<result property="filePath" 		column="file_path"/>
 		<result property="fileSize" 		column="file_size"/>
 	</resultMap>
+	
+	<delete id="deleteFileByIdx" parameterType="String">
+	/*첨부파일 삭제*/
+		DELETE
+		FROM 
+			file_upload
+		WHERE
+			file_idx = #{fileIdx}
+	</delete>
+	
+	<select id="getFileInfoByIdx" parameterType="string" resultMap="fileResultMap">
+	/*파일 idx조회해 다운로드*/
+		SELECT
+			 file_idx
+			,file_new_name
+			,file_original_name
+			,file_path
+			,file_size
+		FROM
+			file_upload
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="fileIdx != null and fileIdx != ''">
+				file_idx = #{fileIdx}
+			</if>
+		</trim>
+	</select>
+	
 	<select id="getFileList" resultMap="fileResultMap">
+	/*파일 리스트 조회*/
 		SELECT
 			 file_idx
 			,file_new_name
@@ -24,7 +52,9 @@
 		FROM
 			file_upload
 	</select>
+	
 	<insert id="addFile" parameterType="list">
+	/*파일 업로드*/
 		INSERT INTO file_upload
 		(
 			 file_idx

@@ -31,8 +31,8 @@
 									<td colspan="2" th:text="${l.fileOriginalName}"></td>
 									
 									<td class="td-class-file">
-										<a class="btn mb-2 btn-light" th:href="@{/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
-										<a class="btn mb-2 btn-light" th:href="@{#}" th:data-file-idx="${l.fileIdx}">삭제</a>
+										<a class="btn mb-2 btn-light" th:href="@{/admin/cup/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
+										<a class="delete-file btn mb-2 btn-light" th:href="@{#}" th:data-file-idx="${l.fileIdx}">삭제</a>
 									</td>
 								</tr>
 								<tr th:unless="${not #lists.isEmpty(fileList)}">
@@ -180,6 +180,19 @@
 			      $('#delCheckBtn').click(function () {
 			        $('.checks:checked').closest('tr').remove();
 			      });
+
+			const $deleteAEles = document.querySelectorAll('.delete-file');
+				
+				$deleteAEles.forEach(item => {
+					item.addEventListener('click', function(e){
+						e.preventDefault();
+						let isDelete = confirm('정말로 삭제하시겠습니까?')
+						if(isDelete){					
+							const fileIdx = this.dataset.fileIdx;
+							location.href = `/admin/cup/file/deleteFile?fileIdx=${fileIdx}`;
+						}
+					});
+				});			
 		</script>
 	</th:block>
 </html>

@@ -12,13 +12,23 @@
 		<result column="set_datetime" 				property="setDateTime"/>
 		<result column="admin_id" 					property="userId"/>
 		<result column="up_datetime" 				property="upDateTime"/>
-	</resultMap>	
+	</resultMap>
+	
+	
+	<select id="getAllDiscardCupQRList" resultMap="cupResultMap">
+		/*전체 폐기컵리스트 조회-*/
+		SELECT 
+			cdm.cup_QR_code 
+		FROM
+			cup_discard_manage AS cdm
+	</select>	
+	
 	<insert id="addDiscardCupByExcelFile" parameterType="Cup">
 		/* 엑셀파일 업로드*/
 		INSERT INTO
 			cup_discard_manage
 		VALUES
-		<foreach collection="list" item="cup" separator=",">	
+		<foreach collection="list" item="cup" separator=",">
 			((SELECT
 				cup_discard_manage_code
 			FROM
@@ -32,6 +42,7 @@
 						    END AS cup_discard_manage_code
 				FROM
 						    cup_discard_manage)sub_sc),
+	
 				#{cup.partnerInfo},
 				#{cup.cupQR},
 				'adminid001',
