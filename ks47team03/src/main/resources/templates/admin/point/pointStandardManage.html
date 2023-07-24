@@ -16,19 +16,19 @@
 									<!-- tab 버튼 -->
 									<ul class="nav nav-pills nav-fill mb-3 bottom-border" id="pills-tab" role="tablist">
 									    <li class="nav-item">
-									      <a class="nav-link active" id="pills-max-tab" data-toggle="pill" href="#pills-max" role="tab" aria-controls="pills-max" aria-selected="true">하루 최대 적립 포인트 횟수 기준</a>
+									      <a class="nav-link nav-tab active" id="pills-max-tab" data-toggle="pill" href="#pills-max" role="tab" aria-controls="pills-max" aria-selected="true">하루 최대 적립 포인트 횟수 기준</a>
 									    </li>
 									    <li class="nav-item">
-									      <a class="nav-link" id="pills-expire-tab" data-toggle="pill" href="#pills-expire" role="tab" aria-controls="pills-expire" aria-selected="false">포인트 유효 기간 기준</a>
+									      <a class="nav-link nav-tab" id="pills-expire-tab" data-toggle="pill" href="#pills-expire" role="tab" aria-controls="pills-expire" aria-selected="false">포인트 유효 기간 기준</a>
 									    </li>
 									    <li class="nav-item">
-									      <a class="nav-link" id="pills-type-tab" data-toggle="pill" href="#pills-type" role="tab" aria-controls="pills-type" aria-selected="false">포인트 타입</a>
+									      <a class="nav-link nav-tab" id="pills-type-tab" data-toggle="pill" href="#pills-type" role="tab" aria-controls="pills-type" aria-selected="false">포인트 타입</a>
 									    </li>
 									    <li class="nav-item">
-									      <a class="nav-link" id="pills-save-tab" data-toggle="pill" href="#pills-save" role="tab" aria-controls="pills-save" aria-selected="false">포인트 적립 기준</a>
+									      <a class="nav-link nav-tab" id="pills-save-tab" data-toggle="pill" href="#pills-save" role="tab" aria-controls="pills-save" aria-selected="false">포인트 적립 기준</a>
 									    </li>
 									    <li class="nav-item">
-									      <a class="nav-link" id="pills-refund-tab" data-toggle="pill" href="#pills-refund" role="tab" aria-controls="pills-refund" aria-selected="false">포인트 환급 기준</a>
+									      <a class="nav-link nav-tab" id="pills-refund-tab" data-toggle="pill" href="#pills-refund" role="tab" aria-controls="pills-refund" aria-selected="false">포인트 환급 기준</a>
 									    </li>
 									</ul>
 									<div class="tab-content mb-1" id="pills-tabContent">	                 
@@ -42,14 +42,14 @@
 														<th>
 															<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
 														</th>
-									                    <th>NO.</th>
+									                    <th class="not-delete">NO.</th>
 									                    <th>횟수 기준 코드</th>
 									                    <th>적립 가능 횟수</th>
 									                    <th>코드 사용 유무</th>
-									                    <th>최초 등록일</th>
-									                    <th>관리자 ID</th>
-									                    <th>최종 수정일</th>
-									                    <th>수정/삭제</th>
+									                    <th class="not-delete beforeTh">최초 등록일</th>
+									                    <th class="not-delete">관리자 ID</th>
+									                    <th class="not-delete">최종 수정일</th>
+									                    <th class="not-delete">수정/삭제</th>
 					                  				</tr>
 					               			 	</thead>
 												<tbody>
@@ -158,23 +158,23 @@
 															</td>
 														</tr>  
 													</th:block>                
-												</tbody>
+												</tbody> 
 												<tfoot>
 													<tr>
 														<td></td>
 														<td colspan="7">
-															<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage})}">처음으로</a>
-															<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage-1})}">이전</a>
+															<a class="pages btn mb-2 btn-secondary foot-pg" th:href="@{/admin/point/pointStandardManage}">처음으로</a>
+															<a class="btn mb-2 btn-secondary foot-pg" th:if="${currentPage>1}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage-1})}">이전</a>
 															<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
 															<div class="btn-group mr-2" role="group" aria-label="First group">
 																<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-																	<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/point/pointStandardManage(currentPage=${num})}" th:text="${num}"></a>
+																	<a class="btn mb-2 btn-secondary foot-pg" th:if="${currentPage != num}" th:href="@{/admin/point/pointStandardManage(currentPage=${num})}" th:text="${num}"></a>
 																	<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
 																</th:block>
 															</div>				
-															<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPageNum}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage+1})}">다음</a>
+															<a class="btn mb-2 btn-secondary foot-pg" th:if="${currentPage<lastPageNum}" th:href="@{/admin/point/pointStandardManage(currentPage=${currentPage+1})}">다음</a>
 															<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPageNum}">다음</label>
-															<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/point/pointStandardManage(currentPage=${lastPageNum})}>마지막으로</a>
+															<a class="pages btn mb-2 btn-secondary foot-pg" th:href=@{/admin/point/pointStandardManage(currentPage=${lastPageNum})}>마지막으로</a>
 														</td>
 														<td>
 															<!-- 등록버튼 -->
@@ -266,16 +266,15 @@
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script>		
-			$(function(){
+		<script>	
+			$(function(){		
 				// 탭 내의 페이지네이션 클릭했을 때 해당 탭 유지하기	
-				$('.tab-pane tfoot a').click(function(e){
-					e.preventDefault();
-					let href = $(this).attr('href');
-					let panelId = $(this).closest('.tab-pane').attr('id');
-					href += `&tabId=${panelId}`;
-					location.href = href;
-				})
+				 $('.foot-pg').click(function(e){
+					
+					 $('#pills-tab').find('.active').addClass('active');
+					 
+				}) 
+ 
 				
 				// 데이터테이블 첫번째, 마지막 컬럼 정렬 삭제
 				$('.dataTable-1').each(function() {
@@ -294,91 +293,81 @@
 				          searchable: false,
 				          orderable: false,
 				          className: 'sorting_disabled',
-				        }]
-				      });
+				       }]
 				    });
-				  $('.dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
-				  });
+				 });
+				 $('.dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+			});
 			
 				
-				// ajax 비동기로 테이블 데이터 수정
-		
-					$('ul').click(e => {
-						$('#pills-tab').find('.active').toggleClass('active');
-						$(e.target).toggleClass('active');
-				
-					 	switch($(e.target).attr('id')){
-							case 'pills-expire-tab':
-								$('.tab-pane').attr('id','pills-expire')
-								.attr('aria-labelledby','pills-expire-tab');
-								$('.page-small-title').text('포인트 유효 기간 기준');
-								$('.card-small-text').text('포인트 유효 기간은 [[${pointExpire}]]년입니다.');
-								
-								// ajax 호출
-								const tableId = $('.tab-pane').attr('id');
-								const request = $.ajax({
-									url: '/admin/point/pointStandardManage',
-									method: 'POST',
-									data: { 'currentPage' : 1 , 'tableId' : tableId},
-									dataType: JSON
-								});
-									
-								/* request.done(function( response ) {
-									if(response == 'true'){
-										alert('이미 등록된 아이디입니다.');
-										$userId.val('');
-										$userId.focus();
-						    			return false;
-									}else{
-										$('#joinUserForm input').prop('disabled', false);
-										$('#joinUserForm select').prop('disabled', false);
-										$('#joinUserForm button').prop('disabled', false);
-									}
-									//console.log(response);
-								});
-									 
-								request.fail(function( jqXHR, textStatus ) {
-									alert( "Request failed: " + textStatus );
-									});
-								 */
-		
-				
-								break;
-							case 'pills-type-tab':
-								$('.tab-pane').attr('id','pills-type')
-								.attr('aria-labelledby','pills-type-tab');
-								$('.page-small-title').text('포인트 타입');
-								$('.card-small-text').text('포인트 타입입니다.');
-								break;
-							case 'pills-save-tab':
-								$('.tab-pane').attr('id','pills-save')
-								.attr('aria-labelledby','pills-save-tab');
-								$('.page-small-title').text('포인트 적립 기준');
-								$('.card-small-text').text('포인트 적립 및 사용 타입 기준입니다.');
-								break;
-							case 'pills-refund-tab':
-								$('.tab-pane').attr('id','pills-refund')
-								.attr('aria-labelledby','pills-refund-tab');
-								$('.page-small-title').text('포인트 환급 기준');
-								$('.card-small-text').text('포인트 환급 기준입니다.');
-								break;
-							default :
-								$('.tab-pane').attr('id','pills-max')
-								.attr('aria-labelledby','pills-max-tab');
-								$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');
-								$('.card-small-text').text('하루에 적립 가능한 포인트 횟수는 최대 [[${useMaximumCount}]]번입니다.');
-								
-						}
+			// ajax와 제이쿼리로 테이블 동적으로 수정
+				$('.nav-tab').click(e => {
+					e.preventDefault();
 					
+					$('#pills-tab').find('.active').toggleClass('active');
+					$(e.target).toggleClass('active');
+																
+					// 동적으로 테이블 속성과 값 변경
+					if($('tr').find('th').length >1 )$('tr').children('th:not(.not-delete)').remove();
+				 	switch($(e.target).attr('id')){
+						case 'pills-expire-tab':
+							$('.tab-pane').attr('id','pills-expire')
+							.attr('aria-labelledby','pills-expire-tab');
+							$('.page-small-title').text('포인트 유효 기간 기준');
+							$('.card-small-text').text('포인트 유효 기간은 [[${pointExpire}]]년입니다.');
+							break;
+						case 'pills-type-tab':
+							$('.tab-pane').attr('id','pills-type')
+							.attr('aria-labelledby','pills-type-tab');
+							$('.page-small-title').text('포인트 타입');
+							$('.card-small-text').text('포인트 타입입니다.');
+							break;
+						case 'pills-save-tab':
+							$('.tab-pane').attr('id','pills-save')
+							.attr('aria-labelledby','pills-save-tab');
+							$('.page-small-title').text('포인트 적립 기준');
+							$('.card-small-text').text('포인트 적립 및 사용 타입 기준입니다.');
+							break;
+						case 'pills-refund-tab':
+							$('.tab-pane').attr('id','pills-refund')
+							.attr('aria-labelledby','pills-refund-tab');
+							$('.page-small-title').text('포인트 환급 기준');
+							$('.card-small-text').text('포인트 환급 기준입니다.');
+							break;
+						default :
+							$('.tab-pane').attr('id','pills-max')
+							.attr('aria-labelledby','pills-max-tab');
+							$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');
+							$('.card-small-text').text('하루에 적립 가능한 포인트 횟수는 최대 [[${useMaximumCount}]]번입니다.');
+					}
+				 	
+				 	
+					let tableId = $('.tab-pane').attr('id');
+					console.log(tableId);
+				 	 const request = $.ajax({
+							url: '/admin/point/pointStandardManage',
+							method: 'POST',
+							data: { 'currentPage' : 1 , 'tableId' : tableId},
+							dataType: 'JSON',
+							success: function(data) {
+							    // 서버에서 반환된 JSON 데이터를 사용하여 변수에 담아준다.
+							      const pointStandardList = data.pointStandardList;
+							        const listLength = pointStandardList.length;
+							        const pointStandardObj = pointStandardList[0];
 							
-		
-					
+							        // 테이블 헤더에 새로운 <th> 태그를 추가하면서 key 값을 텍스트 노드로 넣는다.
+							        for (let key in pointStandardObj) {
+							            $('.beforeTh').before(`<th>${key}</th>`);
+							        }
 
-					});
-			
-			
-			
-			
+							  },
+							  error: function(error) {
+							    console.error('Error:', error);
+							  }
+						});
+				});
+				
+
 			
 			
 			

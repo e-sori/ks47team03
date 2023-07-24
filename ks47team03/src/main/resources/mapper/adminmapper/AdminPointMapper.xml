@@ -16,6 +16,10 @@
 			RS.minimum_refund_standard AS minimumRefundStandard,
 			RS.refund_unit AS refundUnit,
 			RS.refund_fee_rate AS refundFeeRate,
+			CASE 
+			   WHEN RS.code_use = 'Y' THEN '사용가능'
+			   WHEN RS.code_use = 'N' THEN '사용불가능'
+			END AS codeUse,		
 			RS.set_datetime AS setDateTime,
 			RS.admin_id AS adminId,
 			RS.up_datetime AS upDateTime
@@ -39,6 +43,10 @@
 			GS.grade_name AS gradeName,
 			PSS.grade_attain_point AS gradeAttainPoint,
 			PSS.use_save_point AS useSavePoint,
+			CASE 
+			   WHEN PSS.code_use = 'Y' THEN '사용가능'
+			   WHEN PSS.code_use = 'N' THEN '사용불가능'
+			END AS codeUse,		
 			PSS.set_datetime AS setDateTime,
 			PSS.admin_id AS adminId,
 			PSS.up_datetime AS upDateTime
@@ -60,6 +68,10 @@
 			CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED) AS num,
 			point_save_use_type_code AS pointSaveUseTypeCode,
 			point_save_use_type AS pointSaveUseType,
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용가능'
+			   WHEN code_use = 'N' THEN '사용불가능'
+			END AS codeUse,		
 			set_datetime AS setDateTime,
 			admin_id AS adminId,
 			up_datetime AS upDateTime
@@ -77,6 +89,10 @@
 			CAST(SUBSTRING_INDEX(point_expire_standard_code,'code',-1) AS UNSIGNED) AS num,
 			point_expire_standard_code AS pointExpireStandardCode,
 			point_expire AS pointExpire,
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용가능'
+			   WHEN code_use = 'N' THEN '사용불가능'
+			END AS codeUse,		
 			set_datetime AS setDateTime,
 			admin_id AS adminId,
 			up_datetime AS upDateTime

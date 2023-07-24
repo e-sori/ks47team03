@@ -62,19 +62,26 @@ public class AdminPointService {
 		
 		// adminPointMapper에서 return 값 받아오기
 		List<Map<String,Object>> pointStandardList = null;
+		List<Map<String,Object>> codeUseList = null;
 		if(tableId.equals("pills-max"))	{
-			pointStandardList = adminPointMapper.getPointMaxCountStandard(paramMap);
-			List<Map<String,Object>> codeUseList = adminPointMapper.getDistinctData("day_maximum_count", "code_use");
-			paramMap.put("codeUseList", codeUseList);	
+			pointStandardList = adminPointMapper.getPointMaxCountStandard(paramMap); 
+			codeUseList = adminPointMapper.getDistinctData("day_maximum_count", "code_use");
 		}else if(tableId.equals("pills-expire")) {
 			pointStandardList = adminPointMapper.getPointExpireStandard(paramMap);	
+			codeUseList = adminPointMapper.getDistinctData("point_expire_standard", "code_use");
 		}else if(tableId.equals("pills-save")) {
 			pointStandardList = adminPointMapper.getPointSaveStandard(paramMap);	
+			codeUseList = adminPointMapper.getDistinctData("point_save_standard", "code_use");
 		}else if(tableId.equals("pills-refund")) {
 			pointStandardList = adminPointMapper.getPointRefundStandard(paramMap);	
+			codeUseList = adminPointMapper.getDistinctData("point_refund_standard", "code_use");
 		}else {
 			pointStandardList = adminPointMapper.getPointTypeStandard(paramMap);	
+			codeUseList = adminPointMapper.getDistinctData("point_save_use_type", "code_use");
 		}
+		
+		
+		paramMap.put("codeUseList", codeUseList);
 		
 		// controller에 전달될 data
 		paramMap.clear(); // map 객체 안의 data 초기화		

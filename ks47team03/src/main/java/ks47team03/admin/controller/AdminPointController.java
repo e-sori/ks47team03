@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.service.AdminPointService;
@@ -67,8 +68,9 @@ public class AdminPointController {
 	// 포인트 관련 기준 관리 화면	(ajax로 데이터 받기)
 	@PostMapping("/pointStandardManage")
 	@SuppressWarnings("unchecked")
-	public String pointStandardMange(@RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage,
-										@RequestParam(value="tableId", required = false, defaultValue = "1")String tableId,
+	@ResponseBody
+	public Map<String,Object> pointStandardMange(@RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage,
+										@RequestParam(value="tableId", required = false, defaultValue = "pills-max")String tableId,
 										Model model,
 										HttpSession session) {
 		
@@ -91,27 +93,28 @@ public class AdminPointController {
 		model.addAttribute("pointStandardList", pointStandardList);	
 		model.addAttribute("SID", sessionId);
 		
+		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
+		model.addAttribute("codeUseList", codeUseList);
 		if(tableId.equals("pills-max")) {
 			int useMaximumCount = (int) pointStandardList.get(0).get("useMaximumCount");
 			model.addAttribute("useMaximumCount", useMaximumCount);
-		}else if(tableId.equals("pills-use")) {
-			List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
-			model.addAttribute("codeUseList", codeUseList);
-		} // 나중에 모든 테이블 사용 유무 추가해주고 else if 없애기
+		}else if(tableId.equals("pills-expire")) {
+			int pointExpire = Integer.parseInt(String.valueOf(pointStandardList.get(0).get("pointExpire")));
+			model.addAttribute("pointExpire", pointExpire);
+		}
 		
-		return "admin/point/pointStandardManage";
+		return pointStandardResultMap;
 	}
 
 	// 포인트 관련 기준 관리 화면	
 	@GetMapping("/pointStandardManage")
 	@SuppressWarnings("unchecked")
 	public String pointStandardManage(@RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage,
-										@RequestParam(value="tableId", required = false, defaultValue = "pills-max")String tableId,
 													Model model,
 													HttpSession session) {
 		
 		/* 포인트 기준 조회 */
-		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard(currentPage,tableId);
+		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard(currentPage,"pills-max");
 		
 		int startPageNum = (int)pointStandardResultMap.get("startPageNum");
 		int endPageNum = (int)pointStandardResultMap.get("endPageNum");
