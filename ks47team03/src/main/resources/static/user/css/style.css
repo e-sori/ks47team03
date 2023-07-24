@@ -1696,7 +1696,7 @@ object-fit : cover;
 	height:233px;
     background-image: url('/user/img/myPointBanner.jpg');
     background-repeat:repeat-y;
-	background-size: 1903px, 233px;
+	background-size: cover;
 }
 	
 
@@ -3366,6 +3366,79 @@ object-fit : cover;
 
 .order_details_table .table tbody tr:last-child td p {
   color: #222
+}
+
+.order_details_table1 .table-hover{
+  padding: 0px;
+  width: 1350px;
+  margin: auto;
+}
+
+@media (min-width: 767px) {
+  .order_details_table1 {
+    margin-top: 45px;
+  }
+}
+
+.order_details_table1 h2 {
+  color: #222;
+  font-size: 25px;
+  padding-bottom: 15px;
+  text-align: center;
+}
+
+.order_details_table1 .table-hover {
+  margin-bottom: 0px
+}
+
+.order_details_table1 .table-hover thead tr th {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  font-size: 20px;
+  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-weight: bold;
+  color: #222;
+  line-height: 1.7;
+}
+
+@media (max-width: 1000px) {
+  .order_details_table1 .table-hover tbody tr:last-child {
+    height: 50px
+  }
+}
+
+.order_details_table1 .table-hover tbody tr td{
+  border: 0;
+  color: #777777
+}
+
+.order_details_table1 .table-hover tbody tr td p {
+  margin-bottom: 0px;
+  line-height: 3;
+}
+
+.order_details_table1 .table-hover tbody tr td h5 {
+  font-family: "SpoqaHanSansNeo", sans-serif;
+  color: #222;
+  margin-bottom: 0px;
+  font-size: 15px;
+  text-transform: capitalize;
+  font-weight: 500
+}
+
+.order_details_table1 .table-hover tbody tr td h4 {
+  font-family: "SpoqaHanSansNeo", sans-serif;
+  text-transform: uppercase;
+  margin-bottom: 0px;
+  color: #222;
+  font-size: 15px;
+  text-transform: capitalize;
+  font-weight: 500
+}
+
+.order_details_table1 .table-hover tbody tr:last-child td {
+  border-top: none;
+  padding-bottom: 0
 }
 
 .tracking_box_area .tracking_box_inner p {
