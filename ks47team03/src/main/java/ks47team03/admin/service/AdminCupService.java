@@ -203,7 +203,7 @@ public class AdminCupService {
 		
 		//마지막 페이지 계산 
 		//1. 보여질 테이블의 전체 행의 갯수
-		double rowsCount = adminCupMapper.getCupStateListCount();
+		double rowsCount = adminCupMapper.getCupStateListCount(paramMap);
 		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
 		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨
 		//2. 마지막 페이지

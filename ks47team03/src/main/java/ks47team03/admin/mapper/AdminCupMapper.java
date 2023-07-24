@@ -36,6 +36,8 @@ public interface AdminCupMapper {
 	public int getCupStockListCount();
 	//컵 상태 리스트 갯수
 	public int getCupStateListCount();
+	//컵 상태 리스트 갯수
+	public int getCupStateListCount(Map<String,Object>paramMap);
 	//컵 전체 이용 내역 조회
 	public List<Map<String,Object>> getCupManageList (Map<String,Object>paramMap);
 	//컵 이용 내역 리스트 갯수

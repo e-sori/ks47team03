@@ -10,7 +10,7 @@
      <div class="container-fluid">
        <div class="row justify-content-center">
           <div class="col-12">
-            <h2 class="mb-2 page-title">폐기컵 관리</h2>
+          <a class="return-tag" href="/admin/cup/discardCupManage">폐기컵 관리</a>
               <div class="row my-4">
                 <!-- Small table -->
                 <div class="col-md-12">
@@ -103,18 +103,18 @@
                         <tfoot>
 							<tr>
 								<td colspan="6">
-									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/cup/discardCupManage}">처음으로</a>
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/cup/discardCupManage(currentPage=${currentPage-1})}">이전</a>
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/partner/businessAddCup}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/partner/businessAddCup(currentPage=${currentPage-1})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
 										<div class="btn-group mr-2" role="group" aria-label="First group">
 											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-												<a class="btn mb-2 btn-secondary " th:if="${currentPage != num}" th:href="@{/admin/cup/discardCupManage(currentPage=${num})}" th:text="${num}"></a>
+												<a class="btn mb-2 btn-secondary " th:if="${currentPage != num}" th:href="@{/partner/businessAddCup(currentPage=${num})}" th:text="${num}"></a>
 												<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
 											</th:block>
 										</div>				
-									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/cup/discardCupManage(currentPage=${currentPage+1})}">다음</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/partner/businessAddCup(currentPage=${currentPage+1})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
-									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/cup/discardCupManage(currentPage=${lastPage})}>마지막으로</a>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/partner/businessAddCup(currentPage=${lastPage})}>마지막으로</a>
 								</td>
 							</tr>
 						</tfoot>

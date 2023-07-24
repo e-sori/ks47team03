@@ -33,6 +33,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import ks47team03.admin.mapper.AdminCupMapper;
 import ks47team03.admin.service.AdminCommonService;
 import ks47team03.admin.service.AdminCupService;
 import ks47team03.user.dto.Cup;
@@ -50,11 +52,13 @@ public class AdminCupController {
 	private String filePath;
 	// 의존성 주입
 	private final AdminCupService cupService;
+	private final AdminCupMapper cupmapper;
 	private final AdminCommonService commonService;
 
-	public AdminCupController(AdminCupService cupService, AdminCommonService commonService) {
+	public AdminCupController(AdminCupService cupService, AdminCommonService commonService,AdminCupMapper cupmapper) {
 		this.cupService = cupService;
 		this.commonService = commonService;
+		this.cupmapper= cupmapper;
 	}
 	
 	
@@ -170,6 +174,7 @@ public class AdminCupController {
 	//컵 상태 수정 화면
 	@GetMapping("/cupStateModify")
 	public String cupStateModify(@RequestParam(value="cupQR") String cupQR,
+			 					HttpSession session,
 								Model model) {
 		
 		List<Static> cupStaticInfo = cupService.getCupStaticList();
@@ -182,7 +187,7 @@ public class AdminCupController {
 		model.addAttribute("cupStaticInfo", cupStaticInfo);
 		model.addAttribute("cupInfo", cupInfo);	
 		model.addAttribute("adminInfo", adminInfo);	
-		
+		model.addAttribute("adminID", session.getAttribute("SID"));
 		
 		return "admin/cup/cupStateModify";
 	}
@@ -207,6 +212,7 @@ public class AdminCupController {
 		model.addAttribute("title", "컵 상태 관리");
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("cupStateListCount",cupmapper.getCupStateListCount());
 		model.addAttribute("cupStateList", cupStateList);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);

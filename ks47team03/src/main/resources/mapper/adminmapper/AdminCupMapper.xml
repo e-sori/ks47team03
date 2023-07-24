@@ -83,6 +83,7 @@
       		#{item}
     	</foreach>
 	</delete>
+	
 	<update id="modifyCupState" parameterType="Cup">
 		/* 상품수정 */
 		UPDATE cup_manage AS cm
@@ -113,6 +114,7 @@
 			cm.cup_QR_code =#{cupQR};
 		
 	</select>
+	
 	<select id="getCupStaticList" resultType="Static">
 		/*컵 상태코드 조회*/
 		SELECT
@@ -178,12 +180,22 @@
 		FROM
 			cup_stack_manage;
 	</select>
+	
 	<select id="getCupStateListCount" resultType="int">
 		/*컵 상태의 전체 행의 갯수*/
 		SELECT
 			COUNT(*)
 		FROM
-			cup_manage;
+			cup_manage AS cm
+			INNER join
+			static_code AS sc
+			on
+			cm.static_code = sc.static_code
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue};
+        	</if>
+        </where>
 	</select>
 	
 	<select id="getCupManageList"  parameterType="map" resultType="map" >

@@ -1,5 +1,8 @@
 package ks47team03.user.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +32,7 @@ public class UserPartnerController {
 	
 	public UserPartnerController(UserPartnerService partnerService,AdminCupService adminCupService) {
 		this.partnerService = partnerService;
-		this.adminCupService =adminCupService;
+		this.adminCupService = adminCupService;
 	}
 	
 
@@ -47,13 +50,26 @@ public class UserPartnerController {
 		return "redirect:/partner/washDiscardCup";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/washDiscardCup")
 	public String washDiscardCup(Model model,
 								@RequestParam(value="msg", required = false) String msg,
 								@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage) {
+		
+		Map<String,Object> resultMap = adminCupService.getDiscardCupList(currentPage);
+		int lastPage = (int)resultMap.get("lastPage");
+		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
+		
 		if(msg != null) model.addAttribute("msg", msg);
+		
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("discardCupList", discardCupList);
 		model.addAttribute("fileList", adminCupService.getFileList());
-		model.addAttribute("discardCupList",adminCupService.getDiscardCupList(currentPage));
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";
 	}
