@@ -1,25 +1,44 @@
 package ks47team03.admin.controller;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import ks47team03.admin.mapper.AdminCupMapper;
 import ks47team03.admin.service.AdminCommonService;
 import ks47team03.admin.service.AdminCupService;
 import ks47team03.user.dto.Cup;
+import ks47team03.user.dto.FileDto;
 import ks47team03.user.dto.Static;
 import ks47team03.user.dto.User;
 
@@ -33,11 +52,13 @@ public class AdminCupController {
 	private String filePath;
 	// 의존성 주입
 	private final AdminCupService cupService;
+	private final AdminCupMapper cupmapper;
 	private final AdminCommonService commonService;
 
-	public AdminCupController(AdminCupService cupService, AdminCommonService commonService) {
+	public AdminCupController(AdminCupService cupService, AdminCommonService commonService,AdminCupMapper cupmapper) {
 		this.cupService = cupService;
 		this.commonService = commonService;
+		this.cupmapper= cupmapper;
 	}
 	
 	
@@ -55,6 +76,7 @@ public class AdminCupController {
 	@SuppressWarnings("unchecked")
 	public String discardCupManage (@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
 									@RequestParam(value="msg", required = false) String msg,
+									HttpServletRequest request,
 									Model model) {
 		
 		Map<String,Object> resultMap = cupService.getDiscardCupList(currentPage);
@@ -74,6 +96,55 @@ public class AdminCupController {
 		model.addAttribute("endPageNum", endPageNum);
 
 		return "admin/cup/discardCupManage";
+	}
+	
+	//파일 다운로드
+	@RequestMapping(value="/file/download")
+	@ResponseBody
+	public ResponseEntity<Object> archiveDownload(@RequestParam(value="fileIdx", required = false) String fileIdx
+												   ,HttpServletRequest request
+												   ,HttpServletResponse response) throws URISyntaxException{
+
+		if(fileIdx != null) {
+			FileDto fileDto = cupService.getFileInfoByIdx(fileIdx);
+			
+			File file = new File(filePath + fileDto.getFilePath());
+			Path path = Paths.get(file.getAbsolutePath());
+	        Resource resource;
+			try {
+				resource = new UrlResource(path.toUri());
+				String contentType = null;
+				contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+				if(contentType == null) {
+					contentType = "application/octet-stream";
+				}
+				return ResponseEntity.ok()
+						.contentType(MediaType.parseMediaType(contentType))
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + URLEncoder.encode(fileDto.getFileOriginalName(),"UTF-8") + "\";")
+						.body(resource);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		URI redirectUri = new URI("/");
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setLocation(redirectUri);
+		
+        return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+	}
+	//다운로드 파일 삭제
+	@GetMapping("/file/deleteFile")
+	public String fileDelete(@RequestParam(value="fileIdx") String fileIdx) {
+
+		if(fileIdx != null) {
+			FileDto fileDto = cupService.getFileInfoByIdx(fileIdx);
+			cupService.deleteFileByIdx(fileDto);
+		}
+		
+		return "redirect:/admin/cup/discardCupManage";
 	}
 	
 	//컵 수정 화면 
@@ -103,6 +174,7 @@ public class AdminCupController {
 	//컵 상태 수정 화면
 	@GetMapping("/cupStateModify")
 	public String cupStateModify(@RequestParam(value="cupQR") String cupQR,
+			 					HttpSession session,
 								Model model) {
 		
 		List<Static> cupStaticInfo = cupService.getCupStaticList();
@@ -115,7 +187,7 @@ public class AdminCupController {
 		model.addAttribute("cupStaticInfo", cupStaticInfo);
 		model.addAttribute("cupInfo", cupInfo);	
 		model.addAttribute("adminInfo", adminInfo);	
-		
+		model.addAttribute("adminID", session.getAttribute("SID"));
 		
 		return "admin/cup/cupStateModify";
 	}
@@ -140,6 +212,7 @@ public class AdminCupController {
 		model.addAttribute("title", "컵 상태 관리");
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("cupStateListCount",cupmapper.getCupStateListCount());
 		model.addAttribute("cupStateList", cupStateList);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);

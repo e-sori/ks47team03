@@ -1,5 +1,8 @@
 package ks47team03.user.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +32,7 @@ public class UserPartnerController {
 	
 	public UserPartnerController(UserPartnerService partnerService,AdminCupService adminCupService) {
 		this.partnerService = partnerService;
-		this.adminCupService =adminCupService;
+		this.adminCupService = adminCupService;
 	}
 	
 
@@ -37,17 +40,35 @@ public class UserPartnerController {
 	@PostMapping("/excel/fileupload")
 	public String excelFileUpload(@RequestParam("excelFile") MultipartFile files,RedirectAttributes reAttr) {
 		
-		reAttr.addAttribute("msg", "업로드 완료❤");
-		log.info("읽기여부 : {}", files);
+		
 		boolean isRead = adminCupService.addDiscardCupByExcelFile(files);
 		log.info("읽기여부 : {}", isRead);
+		if(isRead == false) {
+			reAttr.addAttribute("msg", "중복된 자료가 있습니다!!확인 후 다시 업로드 부탁드립니다:)");	 
+		}
+		else{reAttr.addAttribute("msg", "업로드 완료❤");}
 		return "redirect:/partner/washDiscardCup";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("/washDiscardCup")
 	public String washDiscardCup(Model model,
-								@RequestParam(value="msg", required = false) String msg) {
+								@RequestParam(value="msg", required = false) String msg,
+								@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage) {
+		
+		Map<String,Object> resultMap = adminCupService.getDiscardCupList(currentPage);
+		int lastPage = (int)resultMap.get("lastPage");
+		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
+		
 		if(msg != null) model.addAttribute("msg", msg);
+		
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("discardCupList", discardCupList);
 		model.addAttribute("fileList", adminCupService.getFileList());
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";

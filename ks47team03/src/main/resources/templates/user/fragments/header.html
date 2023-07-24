@@ -45,7 +45,7 @@
 	                                </ul>
 	                            </li>
 	                            <!--세척 업체-->
-	                            <li th:if="${session.SLEVEL == '세척업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/washDiscardCup">!세척 업체</a></li>
+	                            <li th:if="${session.SLEVEL == '세척업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/washDiscardCup">세척 업체</a></li>
 	                            <!--무인기기 업체-->
 	                            <li th:if="${session.SLEVEL == '무인기기설치업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/businessMyKioskList">!무인기기 업체</a></li>
 	                            <!--일반회원 메뉴 / 비회원이 볼 수는 있지만 들어갈 수 없음 -->
@@ -67,7 +67,7 @@
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/point/myPointRefundSponsorship">!포인트 후원</a></li>
 	                                </ul>
 	                            </li>
-	                            <li class="nav-item"><a class="nav-link mainmenu" href="#">#무인기기 위치</a></li>
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/kiosk/kioskPlace">!무인기기 위치</a></li>
 	                            <li class="nav-item"><a class="nav-link mainmenu" href="/board/communityBoardView">!커뮤니티</a></li>
 	                            <li class="nav-item"><a class="nav-link mainmenu" href="/service/troubleKiosk">!AS 접수</a></li>
 	                            
