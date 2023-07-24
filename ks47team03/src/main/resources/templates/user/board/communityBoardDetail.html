@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+  
+ <!-- ================ start banner area ================= -->
+  <section class="page-banner-area" id="category">
+    <div class="container h-100">
+        <div class="text-center">
+          <h1>게시글 내용</h1>
+          <nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+              <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+              <li class="breadcrumb-item active" aria-current="page">게시글 내용</li>
+            </ol>
+          </nav>
+      </div>
+    </div>
+  </section>
+ 
+	  <!-- ================ end banner area ================= -->
+
+  <!--================Point table Area =================-->
+  <section class="order_details section-margin--small">
+    <div class="container">
+        <h1 th:text="${Detail.community_now_board_title}">제목</h1>
+        <p th:text="${Detail.community_now_board_content}">내용</p>
+    </div>
+  </section>
+  <!--================End Order Details Area =================-->
+
+   </th:block>
+</html>
