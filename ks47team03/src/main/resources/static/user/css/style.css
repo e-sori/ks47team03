@@ -59,7 +59,9 @@ body {
     right: 10px;
     
     }
-    
+.tfoot-cup{
+	text-align: center;
+}   
 .gotop:hover{
 	background-color: #d0ff01;
 	color:#6c757d;
@@ -88,6 +90,10 @@ body {
   }
  .washDiscardCup{
  	text-align: left;
+ }
+ 
+ .washDiscardCupCheck{
+ 	text-align: center;
  }
  #addCupBtn{
 	background-color: #d0ff01;
@@ -193,13 +199,17 @@ h4,
 a {
   display: inline-block
 }
+.download-cupBtn{
+	margin-left: 31%;
+	text-align: right;
+	padding: 2%;
+}
 .btn {
   display: inline-block;
   font-weight: 400;
   color: #6c757d;
   text-align: right;
   vertical-align: middle;
-  margin-left:15%;
   user-select: none;
   background-color: transparent;
   border: 1px solid transparent;
@@ -209,6 +219,28 @@ a {
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
   
+.btn-secondary {
+  color: #ffffff;
+  background-color: #88BFC2;
+  border: none; }
+  .btn-secondary:hover {
+    color: #ffffff;
+    background-color: #5a6268;
+    border: none;}
+
+  .btn-secondary.disabled, .btn-secondary:disabled {
+    color: #ffffff;
+    background-color: #6c757d;
+    border: none; }
+  .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
+  .show > .btn-secondary.dropdown-toggle {
+    color: #ffffff;
+    background-color: #545b62;
+    border: none;}
+    .btn-secondary:not(:disabled):not(.disabled):active:focus, .btn-secondary:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-secondary.dropdown-toggle:focus {
+      box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5); }
+ 
 .btn-outline-success {
   color: #3ad29f;
   border-color: #3ad29f; }

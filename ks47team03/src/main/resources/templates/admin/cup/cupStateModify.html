@@ -9,8 +9,8 @@
      <div class="container-fluid">
        <div class="row justify-content-center">
           <div class="col-12">
-            <h2 class="mb-2 page-title">구구컵 상태 수정</h2>
-             <p class="card-text">현재 구구컵 상태를 수정 합니다! </p>
+            <a class="return-tag" href="/admin/cup/cupStateManage">구구컵 상태 관리</a>
+             <h6 class="card-text"> 현재 구구컵 상태를 수정 합니다! </h6>
               <div class="row my-4">
                 <!-- Small table -->
                 <div class="col-md-12">
@@ -60,20 +60,7 @@
 	                            	<label for="userId" >관리자 ID</label>
 	                            </td>
 	                           <td>
-		                           	<select id="userId" name="userId">
-											<option value="">====관리자 선택====</option>
-											<th:block th:unless="${#lists.isEmpty(adminInfo)}"
-										  			  th:each="a : ${adminInfo}">
-											<option 
-													th:selected="${a.userId} == *{userId}"
-													th:value="${a.userId}"
-													th:text="${a.userId}">
-											</option>
-											<!-- db의 컬럼명을 화면에 노출시키지 않으려고 할 때 value를 변수로 사용한다. -->
-											<!-- 서버단에서 처리하기 위해서는 MemberService 클래스에서 searchKey를 m_id 등 컬럼명으로 바꿔주는 작업을 추가해야 한다. -->
-
-											</th:block>
-									</select>	
+	                           		<input type="text" id="userId" name="userId" th:value="${adminID}" readonly="readonly">
 	                             </td>
 	                          </tr>
 	                          <tr>
