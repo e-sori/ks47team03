@@ -3074,7 +3074,7 @@ input[type="button"].btn-block {
   background-color: #88BFC2; }
   
  .bottom-border{
- 	border-bottom: #88BFC2;
+ 	border-bottom: #88BFC2 dashed 0.5px;
  }
 
 .nav-fill .nav-item {
