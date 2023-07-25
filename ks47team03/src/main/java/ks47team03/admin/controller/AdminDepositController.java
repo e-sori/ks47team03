@@ -24,29 +24,7 @@ public class AdminDepositController {
 
 	public AdminDepositController(AdminDepositService depositService) {
 		this.depositService = depositService;
-	}
-
-	
-	@PostMapping
-	@ApiOperation(value = "결제 요청", notes = "결제 요청에 필요한 값들이 반환합니다.")
-	public SingleResult<PaymentRes> requestPayments(
-			@ApiParam(value = "요청 객체", required = true) @ModelAttribute PaymentReq paymentReq
-			){
-		try {
-			return responseService.getSingleResult(
-					paymentService.requestPayments(paymentReq)
-					);
-		}catch(Exception e) {
-			e.printStackTrace();
-			throw new BussinessException(e.getMessage());
-		}
-	}
-	
-	
-	
-	
-	
-	
+	}	
 	
 	
 	@GetMapping("/depositCheckSuccess")
@@ -159,9 +137,9 @@ public class AdminDepositController {
 	
 	
 		@GetMapping("/modifyDepositStandard")
-		public String modifyDepositStandard(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
+		public String modifyDepositStandardGet(@RequestParam(value="adminId") String adminId,
 											Model model) {
-			DepositStandard depositStandardInfo = depositService.getDepositStandardInfoById(waitingDepositStandardCode);
+			DepositStandard depositStandardInfo = depositService.getDepositStandardInfoById(adminId);
 			
 			model.addAttribute("title", "보증금 기준 수정");			
 			model.addAttribute("depositStandardInfo", depositStandardInfo);
@@ -169,7 +147,7 @@ public class AdminDepositController {
 			return "admin/deposit/modifyDepositStandard";
 		}		
 		 @PostMapping("/modifyDepositStandard")
-		 public String modifyDepositStandard(DepositStandard depositStandard) {		 		
+		 public String modifyDepositStandardPost(DepositStandard depositStandard) {		 		
 			 depositService.modifyDepositStandard(depositStandard);
 
 		 return "redirect:/deposit/depositStandard";

@@ -16,63 +16,55 @@
                   <div class="card shadow">
                     <div class="card-body">
                       <!-- table -->
-			
-                        <th:block layout:fragment="customContents">
-					<form id="modifyDepositStandardForm" th:action="@{/admin/deposit/modifyDepositStandard}" method="post">
-					     <table th:object="${depositStandardInfo}">                                                           
-                        <tbody>                        	
-		                         <tr>
-									<td>
-										<label for="waitingDepositStandardCode">코드</label>
-									</td>
-									<td>					
-									<input type="text" id="waitingDepositStandardCode" name="waitingDepositStandardCode" th:value="*{waitingDepositStandardCode}"
-										   placeholder="코드" readonly="readonly"/>						</td>
-		                            <td>		                       		                              
-								</tr>
-		                      	  <tr>
-											<td>
-												<label for="waitingDepositPeriod">기간</label>
-											</td>
-											<td>
-												<input type="text" id="waitingDepositPeriod" name="waitingDepositPeriod" th:value="*{waitingDepositPeriod}"
-													   placeholder="기간 수정"/>
-											</td>
-							 	  </tr>
-								  <tr>
-											<td>
-												<label for="setDatetime">초기 시간</label>
-											</td>
-											<td>
-												<input type="text" id="setDatetime" name="setDatetime" th:value="*{setDatetime}"
-													   placeholder="초기 시간"/>
-											</td>
-							   </tr>
-							   	 <tr>
-											<td>
-												<label for="adminId">관리자 아이디</label>
-											</td>
-											<td>
-												<input type="text" id="adminId" name="adminId" th:value="*{adminId}"
-													   placeholder="관리자 아이디"/>
-											</td>
-							   </tr>
-							   	     <tr>
-											<td>
-												<label for="upDatetime">업데이트 날짜</label>
-											</td>
-											<td>
-												<input type="text" id="upDatetime" name="upDatetime" th:value="*{upDatetime}"
-													   placeholder="업데이트 날짜"/>
-											</td>
-							   </tr>
-                          	</th:block>                        
-                        </tbody>
-                        </table>
+                      <div class="form-wrapper">
+                        <form id="modifyDepositStandardForm" th:action="@{/admin/deposit/modifyDepositStandard}" method="post">
+                          <table th:object="${depositStandardInfo}">                                                           
+                            <tbody>                        	
+                              <tr>
+                                <td>
+                                  <label for="waitingDepositStandardCode">코드</label>
+                                </td>
+                                <td>					
+                                  <input type="text" id="waitingDepositStandardCode" name="waitingDepositStandardCode" th:value="*{waitingDepositStandardCode}" placeholder="코드" readonly="readonly"/>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <label for="waitingDepositPeriod">기간</label>
+                                </td>
+                                <td>
+                                  <input type="text" id="waitingDepositPeriod" name="waitingDepositPeriod" th:value="*{waitingDepositPeriod}" placeholder="기간 수정"/>
+                                </td>
+                              </tr>
+                              <tr th:remove="${#strings.isEmpty(depositStandardInfo.setDatetime)}">
+                                <td>
+                                  <label for="setDatetime">초기 시간</label>
+                                </td>
+                                <td>
+                                  <input type="text" id="setDatetime" name="setDatetime" th:value="*{setDatetime}" placeholder="초기 시간" readonly="readonly"/>
+                                </td>
+                              </tr>
+                              <tr th:remove="${#strings.isEmpty(depositStandardInfo.adminId)}">
+                                <td>
+                                  <label for="adminId">관리자 아이디</label>
+                                </td>
+                                <td>
+                                  <input type="text" id="adminId" name="adminId" th:value="*{adminId}" placeholder="관리자 아이디" readonly="readonly"/>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <label for="upDatetime">업데이트 날짜</label>
+                                </td>
+                                <td>
+                                  <input type="text" id="upDatetime" name="upDatetime" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}" placeholder="업데이트 날짜"/>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </form>
-                     </th:block>
-                      
-                        
+                        <button type="submit" class="btn btn-primary">수정</button> <!-- 수정 버튼 추가 -->
+                      </div>
                     </div>
                   </div>
                 </div> <!-- simple table -->

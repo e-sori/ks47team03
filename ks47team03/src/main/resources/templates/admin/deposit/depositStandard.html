@@ -8,7 +8,7 @@
      <div class="container-fluid">
        <div class="row justify-content-center">
           <div class="col-12">
-            <h2 class="mb-2 page-title">전체 회원 목록</h2>
+            <h2 class="mb-2 page-title">보증금 기준 조회</h2>
              <p class="card-text"></p>
               <div class="row my-4">
                 <!-- Small table -->
@@ -53,7 +53,7 @@
 		                                <span class="text-muted sr-only">수정/삭제</span>
 		                              </button>	
 		                                <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="@{/admin/deposit/modifyDepositStandard(waitingDepositStandardCode=${d.waitingDepositStandardCode})}">수정</a>	    
+	                                <a class="dropdown-item" th:href="@{/admin/deposit/modifyDepositStandard(adminId=${d.adminId})}">수정</a>	    
 	                                <a class="dropdown-item" href="#">삭제</a>	                   
 	                              </div>	                        
 		                            </td>
