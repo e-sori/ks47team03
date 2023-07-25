@@ -12,10 +12,10 @@
 				<div class="login_join_center">
 					<div class="login_form_inner">
 						<h3>회원가입</h3>
-						<form class="row login_form" th:action="@{/user/join}" method="post" id="joinUserForm" >
-							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디를 입력해 주세요'">
-								<button type="button" id="idCheck">아이디중복체크</button>
+						<form class="login_form" th:action="@{/user/join}" method="post" id="joinUserForm" >
+							<div class="row col-md-12 form-group">
+								<input type="text" class="col-8" id="userId" name="userId" placeholder="아이디를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디를 입력해 주세요'">
+								<div class="col-4"><button type="button" class="btn mb-2 btn-light" id="idCheck">아이디중복체크</button></div>
 							</div>
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="userPw" name="userPw" placeholder="비밀번호를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호를 입력해 주세요'" disabled="disabled">
@@ -41,7 +41,7 @@
 			              	</div>
 			              	<div class="col-md-12 form-group" >
 								<input type="text" id="postcode" placeholder="우편번호" disabled="disabled">
-								<input type="button"  onclick="findPost()" value="우편번호 찾기" disabled="disabled"><br>
+								<button type="button" class="btn mb-2 btn-light" onclick="findPost()">우편번호 찾기</button><br>
 								<input type="text" class="form-control" id="address" placeholder="주소" disabled="disabled"><br>
 								<input type="text" class="form-control" id="detailAddress" placeholder="상세주소" disabled="disabled">
 								<input type="text" class="form-control" id="extraAddress" placeholder="참고항목" disabled="disabled">
@@ -57,14 +57,14 @@
 			              	</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account" >&nbsp;&nbsp;
-									<input type="checkbox" value="checkBoxId" class="f-option2" name="userSmscheck" id="checkBoxId"/>
-									<label for="f-option2">메시지 수신 여부</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="checkbox" value="checkBoxId" class="f-option2" name="userEmailcheck" id="checkBoxId"/>
+									<input type="checkbox" class="f-option2" name="userSmscheck" id="checkbox"/>
+									<label for="checkbox">메시지 수신 여부</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="checkbox" class="f-option2" name="userEmailcheck" id="checkbox"/>
 									<label for="f-option2">이메일 수신 여부</label>
 								</div>
 							</div>
 							<div class="col-md-12 form-group">
-								<button id="joinUserBtn" type="submit" value="submit" class="joinbtn">
+								<button id="joinUserBtn" type="submit" onclick="saveToDB()" value="submit" class="joinbtn">
 									<img src="/user/img/join.png" height="36" width="107" alt="">
 								</button>
 							</div>
@@ -129,17 +129,26 @@
 		    }
 		</script>
     	<script>
-	    	//체크박스
-	        function onClickcheckbox() {
-		        if($('#checkBoxId').is(':checked')){
-		            $('#checkBoxId').val('Y');
-		        }else{
-		            $('#checkBoxId').val('N');
-		        }
-		    }
-
-			
-	    	
+	    	function saveToDB() {
+	    	    const checkbox = document.getElementById("checkbox");
+	    	    const valueToSave = checkbox.checked ? 'Y' : 'N';
+	
+	    	    const formData = new FormData();
+	    	    formData.append("value", valueToSave);
+	
+	    	    fetch('/saveValue', {
+	    	        method: 'POST',
+	    	        body: formData,
+	    	    })
+	    	    .then(response => response.text())
+	    	    .then(data => {
+	    	        console.log(data); // 서버 응답을 확인하기 위해 콘솔에 출력
+	    	    })
+	    	    .catch(error => {
+	    	        console.error('Error:', error);
+	    	    });
+	    	}
+    		
     		// 유효성검사 함수
     		const validCheck = element => {
     			let data = $(element).val();

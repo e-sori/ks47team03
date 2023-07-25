@@ -3,6 +3,8 @@ package ks47team03.user.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import ks47team03.user.dto.User;
 import ks47team03.user.dto.UserLevel;
 import ks47team03.user.mapper.UserCommonMapper;
 import ks47team03.user.service.UserCommonService;
+import ks47team03.user.service.UserCommonService.YourService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -133,6 +136,22 @@ public class UserCommonController {
 			model.addAttribute("title","구구컵 : 회원가입");
 			
 			return "user/join";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+		}
+		
+		@Controller
+		public class CheckboxController {
+		    
+		    @Autowired
+		    private YourService yourService; // YourService는 DB에 접근하여 데이터를 저장하는 서비스 클래스입니다.
+
+		    @PostMapping("/saveValue")
+		    public ResponseEntity<String> saveValue(@RequestParam("value") String value) {
+		        // value는 클라이언트에서 넘어온 Y 또는 N 값입니다.
+		        // 이제 해당 값을 DB에 저장하는 로직을 수행합니다.
+		        yourService.saveValueToDB(value);
+
+		        return ResponseEntity.ok("Value saved successfully"); // 클라이언트에게 응답을 보냅니다.
+		    }
 		}
 		
 		// 프로젝트 소개 화면
