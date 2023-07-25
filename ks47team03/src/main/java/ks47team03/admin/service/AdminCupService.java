@@ -150,11 +150,15 @@ public class AdminCupService {
 		paramMap.put("discardCupList", discardCupList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
-		
+		paramMap.put("rowPerPage", rowPerPage);
 		return paramMap;
 		
 	}
-	//체크된 컵 삭제
+	//체크된 컵 삭제-폐기
+	public void removeDiscardCup(List<String> cupQRArr) {
+		adminCupMapper.removeDiscardCup(cupQRArr);
+	}
+	//체크된 컵 상태 삭제
 	public void removeCupState(List<String> cupQRArr) {
 		adminCupMapper.removeCupState(cupQRArr);
 	}
@@ -172,6 +176,7 @@ public class AdminCupService {
 		List<Static> cupStaticList = adminCupMapper.getCupStaticList();
 		return cupStaticList;
 	};
+	
 	//컵 상태 조회
 	public Map<String,Object> getCupStateList(int currentPage,String searchKey, String searchValue) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -236,6 +241,7 @@ public class AdminCupService {
 		paramMap.put("cupStateList", cupStateList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
+		paramMap.put("rowPerPage", rowPerPage);
 		
 		return paramMap;
 		
@@ -296,6 +302,7 @@ public class AdminCupService {
 		paramMap.put("cupManageList", cupManageList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
+
 		
 		return paramMap;
 	}
@@ -345,6 +352,7 @@ public class AdminCupService {
 		paramMap.put("cupStockList", cupStockList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
+		paramMap.put("rowPerPage", rowPerPage);
 		
 		return paramMap;
 		

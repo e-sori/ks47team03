@@ -21,6 +21,8 @@ public interface AdminCupMapper {
 	//폐기컵 전체 행 조회
 	public int getDiscardCupListCount();
 	//체크 된 컵 삭제
+	public void removeDiscardCup(List<String> cupQRArr);
+	//체크 된 컵 삭제
 	public void removeCupState(List<String> cupQRArr);
 	//한개 컵 상태 수정
 	public int modifyCupState(Cup cup);
