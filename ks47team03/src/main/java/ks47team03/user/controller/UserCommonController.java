@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks47team03.user.dto.User;
+import ks47team03.user.dto.UserLevel;
 import ks47team03.user.mapper.UserCommonMapper;
 import ks47team03.user.service.UserCommonService;
 import lombok.extern.slf4j.Slf4j;
@@ -103,11 +104,35 @@ public class UserCommonController {
 		
 		// join 회원가입 화면
 		@GetMapping("/join")
-		public String joinUser(Model model) {
+		public String joinUser(Model model, HttpSession session) {
+			
+			String userId = (String) session.getAttribute("SID");
+			
+			List<UserLevel> userLevelList = userCommonService.getUserLevelList();
+
+			if(userId	 != null) {
+				int userLevel = (int) session.getAttribute("SLEVEL");
+				if(userLevel > 1) {				
+					userLevelList = userLevelList.stream()
+													 .filter( level -> {
+														int levelNum = level.getLevelNum();
+														return levelNum == 5;
+													 })
+													 .toList();
+				}
+			}else {			
+				userLevelList = userLevelList.stream()
+												 .filter( level -> {
+													int levelNum = level.getLevelNum();
+													return levelNum == 5;
+												 })
+												 .toList();
+			}
+			model.addAttribute("userLevelList", userLevelList);
 			
 			model.addAttribute("title","구구컵 : 회원가입");
 			
-			return "user/join";
+			return "user/join";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		}
 		
 		// 프로젝트 소개 화면

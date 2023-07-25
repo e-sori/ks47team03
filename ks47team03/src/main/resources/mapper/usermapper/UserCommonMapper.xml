@@ -69,4 +69,15 @@
 		WHERE 
 			u.user_id = #{userId};
 	</select>
+	
+	<select id="getUserLevelList" resultType="UserLevel">
+		/* 회원등급 조회 */
+		SELECT
+			ul.level_num 	AS levelNum,
+			ul.level_name 	AS levelName 
+		FROM
+			user_manage_level AS ul
+	</select>
+	
+	
 </mapper>
