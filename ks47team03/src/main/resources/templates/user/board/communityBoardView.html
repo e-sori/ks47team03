@@ -1,43 +1,88 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{user/layout/default}">
-	<th:block layout:fragment="customContents">
-  
- <!-- ================ start banner area ================= -->
-  <section class="page-banner-area" id="category">
-    <div class="container h-100">
-        <div class="text-center">
-          <h1>커뮤니티 게시판</h1>
-          <nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
-              <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">커뮤니티 게시판</li>
-            </ol>
-          </nav>
-      </div>
-    </div>
-  </section>
- 
-	  <!-- ================ end banner area ================= -->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{user/layout/default}">
+<th:block layout:fragment="customContents">
 
-  <!--================Point table Area =================-->
-  <section class="order_details section-margin--small">
-    <div class="container">
-      
-      <p class="font">커뮤니티 게시판</p>
-     
-      <p class="billing-alert">커뮤니티 게시판</p>
-      
-      <a class="font" href="#">커뮤니티 게시판</a>
-      
-         
-        
-      
-    </div>
-  </section>
-  <!--================End Order Details Area =================-->
+    <!-- ================ start banner area ================= -->
+    <section class="page-banner-area" id="category">
+        <div class="container h-100">
+            <div class="text-center">
+                <h1>커뮤니티 게시판</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+                        <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+                        <li class="breadcrumb-item active" aria-current="page">커뮤니티 게시판</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
 
-   </th:block>
+    <!-- ================ end banner area ================= -->
+
+    <!--================Point table Area =================-->
+    <section class="order_details section-margin--small">
+        <div class="container1">
+            <div class="order_details_table1">
+                <h2>커뮤니티 게시판</h2>
+                <div class="table-responsive">
+                    <table class="table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">순번</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">작성자</th>
+                            <th scope="col">조회수</th>
+                            <th scope="col">좋아요</th>
+                            <th scope="col">작성날짜</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="board : ${list}">
+                            <td>
+                                <p th:text="${board.getSimpleCode()}"></p>
+                            </td>
+                            <td>
+                                <p>
+                                    <a th:text="${board.getCommunity_now_board_title()}" th:href="@{/board/communityBoardDetail(boardCode=${board.community_now_board_code})}"></a>
+                                </p>
+                            </td>
+                            <td>
+                                <p th:text="${board.getUser_id()}"></p>
+                            </td>
+                            <td>
+                                <p th:text="${board.getCommunity_now_board_view()}"></p>
+                            </td>
+                            <td>
+                                <p th:text="${board.getCommunity_now_board_like()}"></p>
+                            </td>
+                            <td>
+                                <p th:text="${board.getCommunity_now_board_datetime()}"></p>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="10">
+                                    <a class="btn" th:href="@{/board/communityBoardView}">처음으로</a>
+                                    <a class="btn" th:if="${currentPage > 0}" th:href="@{/board/communityBoardView(page=${currentPage -1})}">이전</a>
+                                    <div class="btn" th:each="pageNumber : ${#numbers.sequence(0, maxPage)}">
+                                        <a th:href="@{/board/communityBoardView(page=${pageNumber})}" th:text="${pageNumber + 1}" th:class="${pageNumber == currentPage ? 'current' : ''}"></a>
+                                    </div>
+                                    <a class="btn" th:if="${currentPage < maxPage}" th:href="@{/board/communityBoardView(page=${currentPage + 1})}">다음</a>
+                                    <a class="btn" th:href=@{/board/communityBoardView(page=${maxPage})}>마지막으로</a>
+                                    <a class="btn" href="/board/communityBoardWrite">임시 작성 폼</a>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Order Details Area =================-->
+
+</th:block>
 </html>
