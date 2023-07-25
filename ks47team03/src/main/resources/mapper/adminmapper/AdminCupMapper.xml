@@ -52,7 +52,6 @@
 	<select id="getDiscardCupList"  parameterType="map" resultType="map" >
 	/*폐기컵  조회*/
 		SELECT 
-			CAST(SUBSTRING_INDEX(cdm.cup_discard_manage_code,'code',-1) AS UNSIGNED) AS num,
 			cdm.approval_partner_plus_info_code AS partnerInfo,
 			cdm.cup_QR_code AS cupQR,
 			cdm.admin_id AS adminId,
@@ -129,7 +128,6 @@
 	<select id="getCupStockList"  parameterType="map" resultType="map" >
 	/*컵 재고 조회*/
 		SELECT
-			CAST(SUBSTRING_INDEX(csm.cup_stack_code,'code',-1) AS UNSIGNED) AS num,
 			IFNULL(csm.approval_partner_plus_info_code, '-') AS partnerInfo,
 			IFNULL(csm.partner_name, '-') AS partnerName,
 			csm.wash_input_amount AS inputAmount,
@@ -150,7 +148,6 @@
 	<select id="getCupStateList"  parameterType="map" resultType="map" >
 	/*컵 상태 조회*/
 		SELECT 
-			CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED) AS num,
 			cm.cup_QR_code as cupQR,
 			sc.static_code_content as staticCode,
 			cm.set_datetime as setDate,
@@ -167,7 +164,7 @@
         		${searchKey} = #{searchValue}
         	</if>
         </where>
-		ORDER BY num 	
+		ORDER BY CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED)	
 		<if test="startIndex != null and startIndex > -1 ">
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>

@@ -81,14 +81,14 @@
                           </tr>
                         </thead>
                         <tbody>
-                        	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d : ${discardCupList}">
+                        	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d,state : ${discardCupList}">
 		                          <tr>
 		                            <td>
 		                              <div class="custom-control custom-checkbox">
 		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 		                              </div>
 		                            </td>
-		                            <td th:text="${d.num}"></td>
+		                            <td th:text="${state.count}"></td>
 		                            <td th:text="${d.partnerInfo}"></td>
 		                            <td th:text="${d.cupQR}"></td>
 		                            <td th:text="${d.upDateTime}"></td>
