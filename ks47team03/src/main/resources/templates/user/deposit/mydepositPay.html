@@ -65,17 +65,19 @@
     
     const clientKey = 'test_ck_JQbgMGZzorzx402jdj73l5E1em4d'
     const tossPayments = TossPayments(clientKey)
-	const button = document.getElementById('payment-button')
-    const button2 = document.getElementById('payment-button2') // 결제하기 버튼
+	var button = document.getElementById('payment-button')
+    var button2 = document.getElementById('payment-button2') // 결제하기 버튼
     
     button.addEventListener('click', function () {
-        tossPayments.requestPayment('가상계좌', {
-          amount: 1000,
+        var depositAmountSelect = document.getElementById('depositAmount')
+        var amount = Number(depositAmountSelect.value)   
+    	tossPayments.requestPayment('가상계좌', {
+          amount: amount,
           orderId: '2BUAd1-rnDgOilzWC3bZO',
           orderName: '보증금',
           customerName: '고객명',
         //나중에 풀하면 그걸로 주소 변경
-          successUrl: 'http://localhost/admin/deposit/depositCheckSuccess',
+          successUrl: 'http://144.24.84.215/admin/deposit/depositCheckSuccess',
           failUrl: 'http://localhost/admin/deposit/depositCheckFail',
         })
       

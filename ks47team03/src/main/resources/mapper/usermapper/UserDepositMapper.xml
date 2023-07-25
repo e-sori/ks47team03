@@ -6,6 +6,31 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserDepositMapper">
-
+ 
+  <select id="getUserDepositManageList" parameterType="map" resultType="map">
+		/* 회원 보증금 관리 조회 */
+		SELECT
+				DPRH.user_id AS userId,
+				DPRH.past_holding_deposit AS pastHoldingDeposit,
+				DPRH.deposit_using_type AS depositUsingType,
+				DPRH.deposit_pay_use_history AS depositPayUseHistory,
+				DPRH.current_holding_deposit AS currentHoldingDeposit,
+				cast(DPRH.up_datetime AS CHAR(20)) AS upDatetime	
+		FROM
+				deposit_pay_refund_history AS DPRH
+				order by length(DPRH.deposit_pay_refund_history_code),DPRH.deposit_pay_refund_history_code
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select>
+	
+	
+	<select id="getUserDepositManageListCount" resultType="int">
+		/* 기준 행 계산*/
+		SELECT
+			COUNT(*)
+		FROM
+			deposit_pay_refund_history
+	</select> 
 	
 </mapper>
