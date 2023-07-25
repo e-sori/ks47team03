@@ -1,5 +1,6 @@
 package ks47team03.user.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import ks47team03.user.dto.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,10 +59,10 @@ public class UserBoardController {
 		return "user/board/communityBoardWrite";
 	}
 	// 커뮤니티 게시글 작성폼
+	// 게시글 작성시 로그인되어있는 작성자 입력
 	@PostMapping("/communityBoardWritePro")
-	public String communityBoardWritePro(Board board) {
-
-		userBoardService.boardWrite(board);
+	public String communityBoardWritePro(Board board, HttpServletRequest request) {
+		userBoardService.boardWrite(board, request);
 		return "";
 	}
 	// 커뮤니티 게시글 상세 조회
