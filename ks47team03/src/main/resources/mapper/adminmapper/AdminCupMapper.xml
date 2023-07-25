@@ -49,6 +49,16 @@
 				CURDATE())
 		</foreach>
 	</insert>
+	<delete id="removeDiscardCup" parameterType="List">
+	/*체크된 폐기컵 삭제*/
+		DELETE FROM cup_discard_manage
+		WHERE
+			cup_QR_code IN
+			
+    	<foreach collection="list" item="item" index="i" open="(" separator="," close=")">
+      		#{item}
+    	</foreach>
+	</delete>
 	<select id="getDiscardCupList"  parameterType="map" resultType="map" >
 	/*폐기컵  조회*/
 		SELECT 
