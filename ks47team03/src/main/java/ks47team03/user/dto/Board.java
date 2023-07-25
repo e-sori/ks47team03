@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDateTime;
+
 @Entity(name = "community_now_board")
 @Data
 public class Board {
@@ -22,7 +24,11 @@ public class Board {
 	private String admin_id;
 	private int community_now_board_view;
 	private int community_now_board_like;
-	private String community_now_board_datetime;
+	private LocalDateTime community_now_board_datetime;
+	// 게시글 추가시 현재 시간 추가
+	public void setBoardDatetime(LocalDateTime boardDatetime) {
+		this.community_now_board_datetime = boardDatetime;
+	}
 
 	public String getSimpleCode() {
 		return this.community_now_board_code.replace("community_now_board_code", "");
