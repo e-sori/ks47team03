@@ -29,7 +29,7 @@
 			point_save_use_type AS SUT
 			ON
 			RS.point_save_use_type_code = SUT.point_save_use_type_code
-		ORDER BY num
+		ORDER BY CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	
@@ -38,7 +38,6 @@
 	<select id="getPointSaveStandard" parameterType="map" resultType="map">
 		/* 4-2 포인트 적립 기준 조회 */
 		SELECT
-			CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED) AS num,
 			PSS.point_save_standard_code AS pointSaveStandardCode,
 			GS.grade_name AS gradeName,
 			PSS.grade_attain_point AS gradeAttainPoint,
@@ -56,7 +55,7 @@
 			grade_standard AS GS
 			ON
 			PSS.grade_standard_code = GS.grade_standard_code
-		ORDER BY num
+		ORDER BY CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	

@@ -89,6 +89,7 @@ public class AdminPointService {
 		paramMap.put("lastPageNum", lastPageNum);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);		
+		paramMap.put("rowPerPage", rowPerPage);
 		
 		return paramMap;
 	};
