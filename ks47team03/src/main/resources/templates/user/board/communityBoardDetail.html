@@ -25,8 +25,9 @@
   <!--================Point table Area =================-->
   <section class="order_details section-margin--small">
     <div class="container">
-        <h1 th:text="${Detail.community_now_board_title}">제목</h1>
-        <p th:text="${Detail.community_now_board_content}">내용</p>
+        <h1 th:text="${detail.community_now_board_title}">제목</h1>
+        <p th:text="${detail.community_now_board_content}">내용</p>
+        <a class="btn" th:href="@{/board/communityBoardDelete(boardCode=${detail.community_now_board_code})}">삭제버튼</a>
     </div>
   </section>
   <!--================End Order Details Area =================-->
