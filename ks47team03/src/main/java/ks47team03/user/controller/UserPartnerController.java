@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
 import ks47team03.admin.service.AdminCupService;
+import ks47team03.user.dto.FileDto;
 import ks47team03.user.service.UserPartnerService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,7 +63,7 @@ public class UserPartnerController {
 		int startPageNum = (int) resultMap.get("startPageNum");
 		int endPageNum = (int) resultMap.get("endPageNum");
 		int rowPerPage = (int) resultMap.get("rowPerPage");
-
+		List<FileDto> fileList = adminCupService.getFileList();
 		if(msg != null) model.addAttribute("msg", msg);
 		
 		model.addAttribute("currentPage", currentPage);
@@ -71,7 +72,7 @@ public class UserPartnerController {
 		model.addAttribute("endPageNum", endPageNum);
 		model.addAttribute("discardCupList", discardCupList);
 		model.addAttribute("rowPerPage", rowPerPage);
-		model.addAttribute("fileList", adminCupService.getFileList());
+		model.addAttribute("fileList",fileList );
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";
 	}
