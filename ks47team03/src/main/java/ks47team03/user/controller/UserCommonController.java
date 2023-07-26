@@ -3,8 +3,6 @@ package ks47team03.user.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +18,6 @@ import ks47team03.user.dto.User;
 import ks47team03.user.dto.UserLevel;
 import ks47team03.user.mapper.UserCommonMapper;
 import ks47team03.user.service.UserCommonService;
-import ks47team03.user.service.UserCommonService.YourService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -29,7 +26,6 @@ public class UserCommonController {
 
 	private final ks47team03.user.service.UserCommonService userCommonService;
 	private final ks47team03.user.mapper.UserCommonMapper userCommonMapper;
-	
 	public UserCommonController(UserCommonService userCommonService, UserCommonMapper userCommonMapper) {
 		this.userCommonService = userCommonService;
 		this.userCommonMapper  = userCommonMapper;
@@ -65,7 +61,7 @@ public class UserCommonController {
 				session.setAttribute("SLEVEL", userLevel);
 				session.setAttribute("SNAME", userName);
 				
-				return "redirect:/";
+				return "redirect:/projectIntro";
 			}
 			
 			reAttr.addAttribute("msg", "일치하는 회원의 정보가 없습니다.");
@@ -93,7 +89,7 @@ public class UserCommonController {
 			// response.sendRedirect("/member/memberList");
 			// spring framework mvc 에서는 controller의 리턴값에 redirect: 키워드로 작성
 			// redirect: 키워드를 작성할 경우 그다음의 문자열은 html파일 논리 경로가 아닌 주소를 의미
-			return "redirect:/";
+			return "redirect:/login";
 		}
 		
 		@PostMapping("/idCheck")
@@ -113,7 +109,7 @@ public class UserCommonController {
 			
 			List<UserLevel> userLevelList = userCommonService.getUserLevelList();
 
-			if(userId	 != null) {
+			if(userId != null) {
 				int userLevel = (int) session.getAttribute("SLEVEL");
 				if(userLevel > 1) {				
 					userLevelList = userLevelList.stream()
@@ -138,22 +134,7 @@ public class UserCommonController {
 			return "user/join";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		}
 		
-		@Controller
-		public class CheckboxController {
-		    
-		    @Autowired
-		    private YourService yourService; // YourService는 DB에 접근하여 데이터를 저장하는 서비스 클래스입니다.
-
-		    @PostMapping("/saveValue")
-		    public ResponseEntity<String> saveValue(@RequestParam("value") String value) {
-		        // value는 클라이언트에서 넘어온 Y 또는 N 값입니다.
-		        // 이제 해당 값을 DB에 저장하는 로직을 수행합니다.
-		        yourService.saveValueToDB(value);
-
-		        return ResponseEntity.ok("Value saved successfully"); // 클라이언트에게 응답을 보냅니다.
-		    }
-		}
-		
+				
 		// 프로젝트 소개 화면
 		@GetMapping("/projectIntro")
         public String projectIntro(Model model) {

@@ -1,7 +1,6 @@
 package ks47team03.user.mapper;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import ks47team03.user.dto.User;

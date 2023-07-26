@@ -12,62 +12,69 @@
 				<div class="login_join_center">
 					<div class="login_form_inner">
 						<h3>회원가입</h3>
-						<form class="login_form" th:action="@{/user/join}" method="post" id="joinUserForm" >
+						<form class="login_form" th:action="@{/join}" method="post" id="joinUserForm" >
 							<div class="row col-md-12 form-group">
-								<input type="text" class="col-8" id="userId" name="userId" placeholder="아이디를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디를 입력해 주세요'">
-								<div class="col-4"><button type="button" class="btn mb-2 btn-light" id="idCheck">아이디중복체크</button></div>
+								<label for="userId" class="col-3">아이디</label>
+								<input type="text" class="col-6" id="userId" name="userId" placeholder="아이디를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디를 입력해 주세요'">
+								<div class="col-3"><button type="button" class="btn mb-2 btn-light" id="idCheck">아이디중복체크</button></div>
 							</div>
-							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userPw" name="userPw" placeholder="비밀번호를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호를 입력해 주세요'" disabled="disabled">
+							<div class="row col-md-12 form-group">
+								<label for="userPw" class="col-4">비밀번호</label>
+								<input type="text" class="col-8" id="userPw" name="userPw" placeholder="비밀번호를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호를 입력해 주세요'" disabled="disabled">
 					        </div>
-					        <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userName" name="userName" placeholder="이름을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '이름을 입력해 주세요'" disabled="disabled">
+					        <div class="row col-md-12 form-group">
+					        	<label for="userName" class="col-4">이름</label>
+								<input type="text" class="col-8" id="userName" name="userName" placeholder="이름을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '이름을 입력해 주세요'" disabled="disabled">
 					        </div>
-					        <div class="col-md-12 form-group">
-								<!--  <input type="hidden" class="form-control" id="userLevel" name="userLevel" placeholder="" onfocus="this.placeholder = ''" onblur="this.placeholder = ''"> -->		
-								<div id="userLevel" class="form-control">
+					        <div class="col-md-12 form-group">		
+								<select id="userLevel" name="userLevel" class="form-control" disabled="disabled">
 									<th:block th:unless="${#lists.isEmpty(userLevelList)}"
 											  th:each="ul : ${userLevelList}">
-										<option th:value="${ul.levelNum}">[[${ul.levelName}]]</option>
+										<option th:selected="true" th:value="${ul.levelName}">[[${ul.levelName}]]</option>
 									</th:block>
 									<th:block th:if="${#lists.isEmpty(userLevelList)}">
 										<option th:value="">등록된 회원의 등급이 없습니다.</option>
 									</th:block>
-								</div>	
+								</select>	
 							</div>
-			              	<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userIdcardnumber" name="userIdcardnumber" placeholder="주민등록번호를 입력해 주세요" 
+			              	<div class="row col-md-12 form-group">
+			              		<label for="userIdcardnumber" class="col-4">이메일</label>
+								<input type="text" class="col-8" id="userIdcardnumber" name="userIdcardnumber" placeholder="주민등록번호를 입력해 주세요" 
 										onfocus="this.placeholder = ''" onblur="this.placeholder = '주민등록번호를 입력해 주세요'" disabled="disabled">
 			              	</div>
-			              	<div class="col-md-12 form-group" >
-								<input type="text" id="postcode" placeholder="우편번호" disabled="disabled">
+			              	<div class="row col-md-12 form-group">
+								<input type="text" class="col-8" id="postcode" placeholder="우편번호" disabled="disabled">
 								<button type="button" class="btn mb-2 btn-light" onclick="findPost()">우편번호 찾기</button><br>
 								<input type="text" class="form-control" id="address" placeholder="주소" disabled="disabled"><br>
 								<input type="text" class="form-control" id="detailAddress" placeholder="상세주소" disabled="disabled">
 								<input type="text" class="form-control" id="extraAddress" placeholder="참고항목" disabled="disabled">
 							</div>
-			             	<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="이메일을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '이메일을 입력해 주세요'" disabled="disabled">
+			             	<div class="row col-md-12 form-group">
+			              		<label for="userEmail" class="col-4">이메일</label>
+								<input type="text" class="col-8" id="userEmail" name="userEmail" placeholder="이메일을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '이메일을 입력해 주세요'" disabled="disabled">
 			              	</div>
-							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userPhone" name="userPhone" placeholder="전화번호를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '전화번호를 입력해 주세요'" disabled="disabled">
+							<div class="row col-md-12 form-group">
+			              		<label for="userPhone" class="col-4">휴대번호</label>
+								<input type="text" class="col-8" id="userPhone" name="userPhone" placeholder="전화번호를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '전화번호를 입력해 주세요'" disabled="disabled">
 			              	</div>
-			              	<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userNick" name="userNick" placeholder="닉네임을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '닉네임을 입력해 주세요'" disabled="disable	d">
+			              	<div class="row col-md-12 form-group">
+			              		<label for="userNick" class="col-4">닉네임</label>
+								<input type="text" class="col-8" id="userNick" name="userNick" placeholder="닉네임을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '닉네임을 입력해 주세요'" disabled="disable	d">
 			              	</div>
-							<div class="col-md-12 form-group">
+							<div class="row col-md-12 form-group">
 								<div class="creat_account" >&nbsp;&nbsp;
-									<input type="checkbox" class="f-option2" name="userSmscheck" id="checkbox"/>
-									<label for="checkbox">메시지 수신 여부</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="checkbox" class="f-option2" name="userEmailcheck" id="checkbox"/>
-									<label for="f-option2">이메일 수신 여부</label>
+									<input type="checkbox" class="f-option2" name="userSmscheck" id="smsCheck"/>
+									<label for="smsCheck">메시지 수신 여부</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="checkbox" class="f-option2" name="userEmailcheck" id="emailCheck"/>
+									<label for="emailCheck">이메일 수신 여부</label>
 								</div>
 							</div>
 							<div class="col-md-12 form-group">
-								<button id="joinUserBtn" type="submit" onclick="saveToDB()" value="submit" class="joinbtn">
+								<button id="joinUserBtn" type="submit" value="submit" class="joinbtn">
 									<img src="/user/img/join.png" height="36" width="107" alt="">
 								</button>
 							</div>
+							
 						</form>
 					</div>
 				</div>
@@ -87,8 +94,8 @@
 		
 		                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
 		                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-		                const addr = ''; // 주소 변수
-		                const extraAddr = ''; // 참고항목 변수
+		                let addr = ''; // 주소 변수
+		                let extraAddr = ''; // 참고항목 변수
 		
 		                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
 		                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
@@ -128,27 +135,7 @@
 		        }).open();
 		    }
 		</script>
-    	<script>
-	    	function saveToDB() {
-	    	    const checkbox = document.getElementById("checkbox");
-	    	    const valueToSave = checkbox.checked ? 'Y' : 'N';
-	
-	    	    const formData = new FormData();
-	    	    formData.append("value", valueToSave);
-	
-	    	    fetch('/saveValue', {
-	    	        method: 'POST',
-	    	        body: formData,
-	    	    })
-	    	    .then(response => response.text())
-	    	    .then(data => {
-	    	        console.log(data); // 서버 응답을 확인하기 위해 콘솔에 출력
-	    	    })
-	    	    .catch(error => {
-	    	        console.error('Error:', error);
-	    	    });
-	    	}
-    		
+    	<script>    		
     		// 유효성검사 함수
     		const validCheck = element => {
     			let data = $(element).val();
@@ -171,15 +158,32 @@
     		});
     		
     		// 회원 가입 버튼 시 이벤트
-    		$('#joinUserBtn').click(function(){
-    			const validateEle = $('#joinUserForm input').not('#userId');
-    			let isSubmit = false;
-    			validateEle.each((idx, item) => {    				
-	    			isSubmit = validCheck(item);
-	    			return isSubmit;
-    			})
-    			if(isSubmit) $('#joinUserForm').submit();
-    		});
+    		 $('#joinUserBtn').click(function(event){
+		        event.preventDefault();
+				
+		     // checkbox 값 설정
+		        let smsCheck = document.getElementById('smsCheck');
+		        let emailCheck = document.getElementById('emailCheck');
+		
+		        smsCheck.value = smsCheck.checked ? 'Y' : 'N';
+		        emailCheck.value = emailCheck.checked ? 'Y' : 'N';
+		        
+		        if(smsCheck.value == 'N'){
+			        $("<input>").attr({type: 'hidden', id: 'userSmscheck', name: 'userSmscheck', value: 'N'}).appendTo("#joinUserForm");
+			    }
+			    if(emailCheck.value == 'N'){
+			        $("<input>").attr({type: 'hidden', id: 'userEmailcheck', name: 'userEmailcheck', value: 'N'}).appendTo("#joinUserForm");
+			    }
+		        
+		        const validateEle = $('#joinUserForm input').not('#userId');
+		        let isSubmit = false;
+		        validateEle.each((idx, item) => {                
+		            isSubmit = validCheck(item);
+		            return isSubmit;
+		        });
+		
+		        if(isSubmit) $('#joinUserForm').submit();
+		    });
     	    		
     		// 아이디중복버튼 이벤트
     		$('#idCheck').click(function(){

@@ -56,8 +56,8 @@
 			(user_id, user_pw, user_name, user_level, user_Idcard_number, user_addr, 
 			user_email, user_phone, user_nick, user_sms_check, user_email_check, static_code, user_join_datetime)
 		VALUES 
-			(#{user_id}, #{user_pw}, #{user_name}, #{user_level}, #{user_Idcard_number}, #{user_addr}, 
-			#{user_email},#{user_phone},#{user_nick},#{user_sms_check},#{user_email_check},#{static_code},CURDATE());
+			(#{userId}, #{userPw}, #{userName}, #{userLevel}, #{userIdcardnumber}, #{userAddr}, 
+			#{userEmail},#{userPhone},#{userNick},#{userSmscheck},#{userEmailcheck},#{staticCode},CURDATE());
 	</insert>
 	
 	<select id="idCheck" resultType="boolean" parameterType="String">
@@ -74,10 +74,18 @@
 		/* 회원등급 조회 */
 		SELECT
 			ul.level_num 	AS levelNum,
-			ul.level_name 	AS levelName 
+			ul.level_name 	AS levelName
 		FROM
 			user_manage_level AS ul
 	</select>
+	
+	<select id="getUserListCount" resultType="int">
+		/*회원 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			user_manage;
+	</select> 
 	
 	
 </mapper>
