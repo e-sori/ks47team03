@@ -28,6 +28,8 @@
             <div class="order_details_table1">
                 <h2>커뮤니티 게시판</h2>
                 <div class="table-responsive">
+                    <a class="button1" href="/board/communityBoardWrite">글쓰기</a>
+                    <p class="card-text1"> 총 게시글: [[${boardCount}]] 개</p>
                     <table class="table-hover">
                         <thead>
                         <tr>
@@ -73,7 +75,6 @@
                                     </div>
                                     <a class="btn" th:if="${currentPage < maxPage}" th:href="@{/board/communityBoardView(page=${currentPage + 1})}">다음</a>
                                     <a class="btn" th:href=@{/board/communityBoardView(page=${maxPage})}>마지막으로</a>
-                                    <a class="btn" href="/board/communityBoardWrite">임시 작성 폼</a>
                                 </td>
                             </tr>
                         </tfoot>

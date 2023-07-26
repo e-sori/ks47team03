@@ -46,4 +46,14 @@ public class UserBoardService {
 
         userBoardMapper.deleteById(boardCode);
     }
+    // 게시글 카운트
+    public long communityBoardCount(){
+
+        return userBoardMapper.count();
+    }
+    // 게시글 조회 수 증가 후 저장
+    public void saveBoard(Board board) {
+
+        userBoardMapper.save(board);
+    }
 }
