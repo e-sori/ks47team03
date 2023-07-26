@@ -168,7 +168,7 @@
 			</if>
 		</trim>
 		WHERE
-			waiting_deposit_standard_code = #{waitingDepositStandardCode}
+			admin_id = #{adminId}
 	</update>
 
 	
