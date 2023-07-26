@@ -2,117 +2,55 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
-	<th:block layout:fragment="customContents">
+	  
+	  <head>
+  <meta charset="utf-8" />
+  <!-- 결제위젯 SDK 추가 -->
+  <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+	</head>
+	<body>
+ 	<section>
+ 	<h1>구매하기</h1>
+ 	<h3><%= orderName %></h3>
+	<span><%= price.toLocaleString() %>원</span>
+	<div id="payment-widget"></div>
+	<button id="payment-button">결제하기</button>
+ </section>
+ <script src="https://js.tosspayments.com/v1/payment-widget"></script>
   
- <!-- ================ start banner area ================= -->
-  <head>
-  	<meta charset="utf-8"/>
- 	 <script src="https://js.tosspayments.com/v1/payment"></script>
-  </head>
-    <section class="page-banner-area" id="category">
-    <div class="container h-100">
-        <div class="text-center">
-          <h1>나의 보증금 결제</h1>
-          <nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-            	<li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
-              <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">나의 보증금 결제</li>
-            </ol>
-          </nav>
-      </div>
-    </div>
-  </section>
-   
-   
-	  <!-- ================ end banner area ================= -->
-
-  <!--================Point table Area =================-->
- <section class="login_box_area section-margin">
-		<div class="container">
-			<div class="rowlogin">
-				<div class="login_join_center">
-					<div class="login_form_inner">
-						<h3>보증금 결제</h3>
-						<form class="row login_form" action="#/" id="contactForm" >
-							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="depositName" name="depositName" placeholder="입금자명" onfocus="this.placeholder = '입금자명'" onblur="this.placeholder = '입금자명'">
-							</div>
-							<div class="col-md-12 form-group">
-								<select id="depositAmount" name="depositAmount">
-									<option value="1000">1000</option>	
-									<option value="2000">2000</option>	
-									<option value="3000">3000</option>	
-									<option value="4000">4000</option>	
-									<option value="5000">5000</option>	
-									<option value="6000">6000</option>	
-									<option value="7000">7000</option>	
-									<option value="8000">8000</option>	
-									<option value="9000">9000</option>	
-									<option value="10000">10000</option>	
-								</select>
-							</div>
-									 <button id="payment-button">무통장결제</button>
-									 <button id="payment-button2">계좌이체</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-    <script>
-      
-    
-    const clientKey = 'test_ck_JQbgMGZzorzx402jdj73l5E1em4d'
-    const tossPayments = TossPayments(clientKey)
-	var button = document.getElementById('payment-button')
-    var button2 = document.getElementById('payment-button2') // 결제하기 버튼
-    
-    button.addEventListener('click', function () {
-        var depositAmountSelect = document.getElementById('depositAmount')
-        var amount = Number(depositAmountSelect.value)   
-    	tossPayments.requestPayment('가상계좌', {
-          amount: amount,
-          orderId: '2BUAd1-rnDgOilzWC3bZO',
-          orderName: '보증금',
-          customerName: '고객명',
-        //나중에 풀하면 그걸로 주소 변경
-          successUrl: 'http://144.24.84.215/admin/deposit/depositCheckSuccess',
-          failUrl: 'http://localhost/admin/deposit/depositCheckFail',
-        })
-      
-        
-        button2.addEventListener('click', function () {
-            tossPayments.requestPayment('계좌이체', {
-              amount: 1000,
-              orderId: '2BUAd1-rnDgOilzWC3bZO',
-              orderName: '보증금',
-              customerName: '고객명',
-              //나중에 풀하면 그걸로 주소 변경
-              successUrl: 'http://localhost/admin/deposit/depositCheckSuccess',
-              failUrl: 'http://localhost/admin/deposit/depositCheckFail',
-       } )
+ <script>
+ const paymentWidget = PaymentWidget(
+	"test_ck_JQbgMGZzorzx402jdj73l5E1em4d", "<%=price %>")
+	const button = document.getElementById("payment-button")
+	//button.addEventListener()// 회원 결제
+ 
+ </script>
+  <!-- 결제위젯, 이용약관 영역 -->
+  <div id="payment-method"></div>
+  <div id="agreement"></div>
+  <!-- 결제하기 버튼 -->
+  <button id="payment-button">결제하기</button>
+  <script>
+   // const clientKey = "test_ck_JQbgMGZzorzx402jdj73l5E1em4d"
+   // const customerKey = "o0oNDZ_5_BYA7vRvtW-vc"// 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
+  // const button = document.getElementById("payment-button")
+    button.addEventListener("click", function () {
+      paymentWidget.requestPayment({
+   		amount:"<%= price %>",
+    	 orderId: "<%= orderId %>",            // 주문 ID(직접 만들어주세요)
+        orderName: "<%= orderName %>",                 // 주문명
+        customerName: "<%= customerName %>",                 // 주문명
+        successUrl: "https://my-store.com/success",  // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
+        failUrl: "https://my-store.com/fail",        // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)     
       })
-      })
-    </script>
-      <section class="order_details section-margin--small">
-    <div class="container">
-      <p class="billing-alert">보증금 결제 내역</p>
-      <div class="order_details_table">
-        <h2>Order Details</h2>
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                
-              </tr>
-            </thead>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!--================End Order Details Area =================-->
-
-   </th:block>
+    })
+  </script>
+</body>
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 </html>
