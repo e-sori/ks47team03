@@ -3368,6 +3368,15 @@ object-fit : cover;
   color: #222
 }
 /* SEOWON CSS START */
+
+.item-box1 {
+  display: inline-block;
+  border: 1px solid #ddd; /* 기본 선 스타일 */
+  border-left: none; /* 왼쪽 선 없앰 */
+  border-right: none; /* 오른쪽 선 없앰 */
+  padding: 5%; /* 내부 여백 설정 (예시) */
+  margin-bottom: 10px; /* 아래쪽 외부 여백 설정 (예시) */
+}
 .card h4 {
   font-size: 25px;
   font-weight: 400;
@@ -3376,6 +3385,27 @@ object-fit : cover;
 }
 .container1 {
   position: relative;
+}
+.blog_info1 {
+  padding-top: 20px;
+  width: 12vw;
+}
+.blog_details1 {
+  padding-top: 20px;
+  margin-left: 15px;
+}
+.card1 {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+.container2 {
+  width: 80%;
+  margin: auto;
+  padding-top: 50px;
 }
 .card-text1 {
   position: relative;
@@ -3392,26 +3422,51 @@ object-fit : cover;
   color: white;
 }
 .btn-primary1 {
+  border-radius: 30px;
   background-color: #d1fd00;
   color: white;
   font-size: 15px;
   font-weight: bold;
-  font-family: "GmarketSansMedium", sans-serif;
+  font-family: "EF_jejudoldam", sans-serif;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   border: 1px solid black;
 }
 .btn-back{
+  border-radius: 30px;
   background-color: #d1fd00;
   color: white;
   font-size: 15px;
   font-weight: bold;
-  font-family: "GmarketSansMedium", sans-serif;
+  font-family: "EF_jejudoldam", sans-serif;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   border: 1px solid black;
 }
 .button-container {
   display: flex;
   justify-content: space-between;
+  margin-top: 0px;
+}
+.bold-label {
+  font-weight: bold;
+}
+.margin-bottom-label {
+  margin-bottom: 15px;
+}
+.margin-bottom-h4 {
+  height: 50px;
+  border: 1px solid rgba(75, 80, 82, 0.24);
+  border-left: none;
+  border-right: none;
+  margin-bottom: 40px;
+  line-height: 2.5;
+}
+.seo-border {
+  height: 250px;
+  border: 1px solid rgba(75, 80, 82, 0.24);
+  border-left: none;
+  border-right: none;
+  line-height: 2;
+  overflow: auto;
 }
 .btn-primary1:hover {
   background-color: #93b400;
@@ -3425,7 +3480,7 @@ object-fit : cover;
   background: #d1fd00;
   color: #3A5265;
   transition: all .4s ease;
-  font-family: "GmarketSansMedium", sans-serif;
+  font-family: "EF_jejudoldam", sans-serif;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   border: 1px solid black;
 }
@@ -3448,6 +3503,7 @@ object-fit : cover;
 .order_details_table1 h2 {
   color: #222;
   font-size: 25px;
+  font-family: "EF_jejudoldam", sans-serif;
   padding-bottom: 5px;
   text-align: center;
 }
