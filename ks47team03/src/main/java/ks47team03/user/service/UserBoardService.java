@@ -17,7 +17,7 @@ public class UserBoardService {
     private UserBoardMapper userBoardMapper;
 
     // 게시글 작성
-    public void boardWrite(Board board, HttpServletRequest request){
+    public void communityBoardWrite(Board board, HttpServletRequest request){
         // 게시글 작성 날짜 추가
         board.setBoardDatetime(LocalDateTime.now());
 
@@ -35,9 +35,15 @@ public class UserBoardService {
 
         return userBoardMapper.findAll();
     }
-    //게시글 상세 조회
+    // 게시글 상세 조회
     public Board communityBoardDetail(String boardCode){
 
         return userBoardMapper.findById(boardCode).get();
+    }
+
+    // 게시글 삭제
+    public void communityBoardDelete(String boardCode){
+
+        userBoardMapper.deleteById(boardCode);
     }
 }

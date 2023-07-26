@@ -62,14 +62,20 @@ public class UserBoardController {
 	// 게시글 작성시 로그인되어있는 작성자 입력
 	@PostMapping("/communityBoardWritePro")
 	public String communityBoardWritePro(Board board, HttpServletRequest request) {
-		userBoardService.boardWrite(board, request);
+		userBoardService.communityBoardWrite(board, request);
 		return "";
 	}
 	// 커뮤니티 게시글 상세 조회
 	@GetMapping("/communityBoardDetail")
 	public String communityBoardDetail(Model model, String boardCode){
-		model.addAttribute("Detail",userBoardService.communityBoardDetail(boardCode));
+		model.addAttribute("detail",userBoardService.communityBoardDetail(boardCode));
 		return "user/board/communityBoardDetail";
+	}
+	// 커뮤니티 게시글 삭제
+	@GetMapping("/communityBoardDelete")
+	public String communityBoardDelete(String boardCode){
+		userBoardService.communityBoardDelete(boardCode);
+		return "redirect:/board/communityBoardView";
 	}
 
 }
