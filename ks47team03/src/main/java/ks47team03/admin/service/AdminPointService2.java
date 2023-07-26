@@ -272,7 +272,7 @@ public class AdminPointService2 {
 		// adminPointMapper에서 return 값 받아오기
 		List<Map<String,Object>> pointMaxCountStandardList = adminPointMapper.getPointMaxCountStandard(paramMap);
 		log.info("pointMaxCountStandardList : {}", pointMaxCountStandardList);
-		List<Map<String,Object>> codeUseList = adminPointMapper.getDistinctData("day_maximum_count", "code_use");
+		List<String> codeUseList = adminPointMapper.getDistinctData("day_maximum_count", "code_use");
 		log.info("codeUseList : {}", codeUseList);
 		
 		// controller에 전달될 data

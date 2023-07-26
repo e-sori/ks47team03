@@ -23,19 +23,44 @@ public class AdminPointService {
 	/* 포인트 관련기준 조회 */
 	public Map<String, Object> getPointStandard(int currentPage, String tableId){
 		
+		// adminPointMapper에서 return 값 받아오기	
+		String tableDbName = null;
+		List<Map<String,Object>> pointStandardList = null;
+		Map<String,Object> paramMap = new HashMap<String,Object>();	
+		List<Map<String,Object>> pointStandardPrint = null;
+		
 		// 한 번에 최대로 보여줄 행의 개수
 		int rowPerPage = 10;
 		
 		// 현재 페이지의 첫 번째 행의 인덱스
 		int currentFirstIndex = (currentPage-1) * rowPerPage;		
 		
+		paramMap.put("currentFirstIndex", currentFirstIndex);
+		paramMap.put("rowPerPage", rowPerPage);		
+		paramMap.put("type", "point");		
+		
+		if(tableId.equals("pills-max"))	{
+			tableDbName = "day_maximum_count";
+			pointStandardList = adminPointMapper.getPointMaxCountStandard(paramMap);
+			paramMap.clear(); 
+			paramMap.put("type", "point");		
+			pointStandardPrint = adminPointMapper.getPointMaxCountStandard(paramMap);
+		}else if(tableId.equals("pills-expire")) {
+			tableDbName = "point_expire_standard";
+			pointStandardList = adminPointMapper.getPointExpireStandard(paramMap);
+		}else if(tableId.equals("pills-save")) {
+			tableDbName = "point_save_standard";
+			pointStandardList = adminPointMapper.getPointSaveStandard(paramMap);
+		}else if(tableId.equals("pills-refund")) {
+			tableDbName = "point_refund_standard";
+			pointStandardList = adminPointMapper.getPointRefundStandard(paramMap);
+		}else {
+			tableDbName = "point_save_use_type";	
+			pointStandardList = adminPointMapper.getPointTypeStandard(paramMap);
+		}
+		
 		// 전체 행의 개수
-		double rowsCount = 0;
-		if(tableId.equals("pills-max")) rowsCount = adminPointMapper.getPointStandardCount("day_maximum_count");
-		else if(tableId.equals("pills-expire")) rowsCount = adminPointMapper.getPointStandardCount("point_expire_standard");
-		else if(tableId.equals("pills-save")) rowsCount = adminPointMapper.getPointStandardCount("point_save_standard");
-		else if(tableId.equals("pills-refund")) rowsCount = adminPointMapper.getPointStandardCount("point_refund_standard");
-		else rowsCount = adminPointMapper.getPointStandardCount("point_save_use_type");
+		double rowsCount = adminPointMapper.getPointStandardCount(tableDbName);
 		
 		// 전체 행의 개수를 한 번에 최대로 보여줄 개수로 나눈 값 (전체 행의 마지막 페이지 번호) 
 		int lastPageNum = (int) Math.ceil(rowsCount/rowPerPage);
@@ -54,38 +79,16 @@ public class AdminPointService {
 				startPageNum = lastPageNum - 9;
 				endPageNum = lastPageNum;				
 			}
-		}
-		// adminPointMapper의 인수로 전달할 paramMap에 currentFirstIndex,rowPerPage 담기
-		Map<String,Object> paramMap = new HashMap<String,Object>();		
-		paramMap.put("currentFirstIndex", currentFirstIndex);
-		paramMap.put("rowPerPage", rowPerPage);
+		}		
 		
-		// adminPointMapper에서 return 값 받아오기
-		List<Map<String,Object>> pointStandardList = null;
-		List<Map<String,Object>> codeUseList = null;
-		if(tableId.equals("pills-max"))	{
-			pointStandardList = adminPointMapper.getPointMaxCountStandard(paramMap); 
-			codeUseList = adminPointMapper.getDistinctData("day_maximum_count", "code_use");
-		}else if(tableId.equals("pills-expire")) {
-			pointStandardList = adminPointMapper.getPointExpireStandard(paramMap);	
-			codeUseList = adminPointMapper.getDistinctData("point_expire_standard", "code_use");
-		}else if(tableId.equals("pills-save")) {
-			pointStandardList = adminPointMapper.getPointSaveStandard(paramMap);	
-			codeUseList = adminPointMapper.getDistinctData("point_save_standard", "code_use");
-		}else if(tableId.equals("pills-refund")) {
-			pointStandardList = adminPointMapper.getPointRefundStandard(paramMap);	
-			codeUseList = adminPointMapper.getDistinctData("point_refund_standard", "code_use");
-		}else {
-			pointStandardList = adminPointMapper.getPointTypeStandard(paramMap);	
-			codeUseList = adminPointMapper.getDistinctData("point_save_use_type", "code_use");
-		}
-		
-		
-		paramMap.put("codeUseList", codeUseList);
+		List<String> codeUseList = adminPointMapper.getDistinctData(tableDbName, "code_use");
 		
 		// controller에 전달될 data
 		paramMap.clear(); // map 객체 안의 data 초기화		
+		paramMap.put("codeUseList", codeUseList);
+		paramMap.put("tableId", tableId);
 		paramMap.put("pointStandardList", pointStandardList);
+		paramMap.put("pointStandardPrint", pointStandardPrint);
 		paramMap.put("lastPageNum", lastPageNum);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);		

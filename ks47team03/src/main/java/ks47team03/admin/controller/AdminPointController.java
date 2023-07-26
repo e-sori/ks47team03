@@ -68,7 +68,7 @@ public class AdminPointController {
 	
 	
 	// 포인트 관련 기준 관리 화면	(ajax로 데이터 받기)
-	@PostMapping("/pointStandardManage")
+	@GetMapping("/pointStandardManageClick")
 	@SuppressWarnings("unchecked")
 	@ResponseBody
 	public Map<String,Object> pointStandardMange(@RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage,
@@ -85,27 +85,17 @@ public class AdminPointController {
 		int rowPerPage = (int)pointStandardResultMap.get("rowPerPage");	
 		List<Map<String,Object>> pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
 		String sessionId = (String) session.getAttribute("SID");
+		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
 		
-		
-		
-		model.addAttribute("title","포인트 관련 기준 관리");
+		model.addAttribute("title", "포인트 관련 기준 관리");
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
 		model.addAttribute("lastPageNum", lastPageNum);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("rowPerPage", rowPerPage);
+		model.addAttribute("codeUseList", codeUseList);
 		model.addAttribute("pointStandardList", pointStandardList);	
 		model.addAttribute("SID", sessionId);
-		
-		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
-		model.addAttribute("codeUseList", codeUseList);
-		if(tableId.equals("pills-max")) {
-			int useMaximumCount = (int) pointStandardList.get(0).get("useMaximumCount");
-			model.addAttribute("useMaximumCount", useMaximumCount);
-		}else if(tableId.equals("pills-expire")) {
-			int pointExpire = Integer.parseInt(String.valueOf(pointStandardList.get(0).get("pointExpire")));
-			model.addAttribute("pointExpire", pointExpire);
-		}
 		
 		return pointStandardResultMap;
 	}
@@ -128,27 +118,29 @@ public class AdminPointController {
 		int rowPerPage = (int)pointStandardResultMap.get("rowPerPage");	
 		List<Map<String,Object>> pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
 		String sessionId = (String) session.getAttribute("SID");
+		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
 		
-		
-		
+		if(tableId.equals("pills-max"))	{
+			List<Map<String,Object>> pointStandardPrint = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardPrint");
+			for(Map<String,Object> MaxCount : pointStandardPrint) {
+				if(MaxCount.get("코드 사용 유무").equals("사용가능")) {
+					int useMaxCount = (int)MaxCount.get("적립 가능 횟수");
+					model.addAttribute("useMaxCount", useMaxCount);				
+					break;
+				}
+			}
+		}
+			
 		model.addAttribute("title","포인트 관련 기준 관리");
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
 		model.addAttribute("lastPageNum", lastPageNum);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("rowPerPage", rowPerPage);
-		model.addAttribute("pointStandardList", pointStandardList);	
+		model.addAttribute("codeUseList", codeUseList);
+		model.addAttribute("pointStandardList", pointStandardList);		
 		model.addAttribute("SID", sessionId);
 		
-		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
-		model.addAttribute("codeUseList", codeUseList);
-		if(tableId.equals("pills-max")) {
-			int useMaximumCount = (int) pointStandardList.get(0).get("useMaximumCount");
-			model.addAttribute("useMaximumCount", useMaximumCount);
-		}else if(tableId.equals("pills-expire")) {
-			int pointExpire = Integer.parseInt(String.valueOf(pointStandardList.get(0).get("pointExpire")));
-			model.addAttribute("pointExpire", pointExpire);
-		}
 		
 		return "admin/point/pointStandardManage";
 	}

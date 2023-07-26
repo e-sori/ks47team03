@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AdminPointMapper {
 	
 	/* 5-2 포인트 환급 기준 조회 */
-	public List<Map<String,Object>> getPointRefundStandard(Map<String,Object> paramMap);
+	public List<Map<String,Object>> getPointRefundStandard(Map<String,Object> paramMap);	
 	
 	/* 4-2 포인트 적립 기준 조회 */
 	public List<Map<String,Object>> getPointSaveStandard(Map<String,Object> paramMap);
@@ -27,6 +27,6 @@ public interface AdminPointMapper {
 	public int getPointStandardCount(String tableName);
 	
 	/* 컬럼 내 중복 제거된 데이터 조회*/
-	public List<Map<String,Object>> getDistinctData(String tableName, String columnName);
+	public List<String> getDistinctData(String tableName, String columnName);
 	
 }
