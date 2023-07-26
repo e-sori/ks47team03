@@ -70,7 +70,22 @@ public class AdminCupController {
 		reAttr.addAttribute("msg", "파일 업로드 완료💗");
 		return "redirect:/admin/cup/discardCupManage";
 	}
-	
+	//폐기컵 삭제
+	@PostMapping("/discardCupRemove")
+	public String discardCupRemove (Model model,
+								  @RequestParam(name="cupQR") List<String> cupQRArr,
+								  RedirectAttributes reAttr) {
+		cupService.removeDiscardCup(cupQRArr);
+		reAttr.addAttribute("msg", "삭제완료");
+		
+		/*
+		 * //cupQRArr 배열을 돌아 값을 cupQR에 담아준다. for(String cupQR : cupQRArr) {
+		 * 
+		 * log.info("cupQR:{}",cupQR); }
+		 */
+		
+		return "redirect:/admin/cup/discardCupManage";
+	}
 	//폐기컵 관리 화면
 	@GetMapping("/discardCupManage")
 	@SuppressWarnings("unchecked")
@@ -85,6 +100,7 @@ public class AdminCupController {
 		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
 		int startPageNum = (int) resultMap.get("startPageNum");
 		int endPageNum = (int) resultMap.get("endPageNum");
+		int rowPerPage = (int) resultMap.get("rowPerPage");
 		
 		model.addAttribute("fileList", cupService.getFileList());
 		model.addAttribute("msg", msg);
@@ -94,6 +110,7 @@ public class AdminCupController {
 		model.addAttribute("discardCupList", discardCupList);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("rowPerPage", rowPerPage);
 
 		return "admin/cup/discardCupManage";
 	}
@@ -208,6 +225,8 @@ public class AdminCupController {
 		List<Map<String,Object>> cupStateList = (List<Map<String,Object>>)resultMap.get("cupStateList");
 		int startPageNum = (int) resultMap.get("startPageNum");
 		int endPageNum = (int) resultMap.get("endPageNum");
+		int rowPerPage = (int) resultMap.get("rowPerPage");
+		
 		if(msg != null) model.addAttribute("msg", msg);
 		model.addAttribute("title", "컵 상태 관리");
 		model.addAttribute("currentPage", currentPage);
@@ -216,6 +235,7 @@ public class AdminCupController {
 		model.addAttribute("cupStateList", cupStateList);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("rowPerPage", rowPerPage);
 		return "admin/cup/cupStateManage";
 	}
 	
@@ -234,6 +254,7 @@ public class AdminCupController {
 		
 		Map<String,Object> resultMap = cupService.getCupStockList(currentPage);
 		int lastPage = (int)resultMap.get("lastPage");
+		int rowPerPage = (int)resultMap.get("rowPerPage");
 		
 		List<Map<String,Object>> cupStockList = (List<Map<String,Object>>) resultMap.get("cupStockList");
 		int startPageNum = (int) resultMap.get("startPageNum");
@@ -244,6 +265,7 @@ public class AdminCupController {
 		model.addAttribute("cupStockList", cupStockList);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("rowPerPage", rowPerPage);
 	
 		return "admin/cup/cupStockManage";
 		}

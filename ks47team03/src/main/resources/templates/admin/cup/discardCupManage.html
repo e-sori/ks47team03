@@ -70,7 +70,7 @@
                           <tr>
                            <th>
                             	<div class="custom-control custom-checkbox">
-	                               <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
+	                               <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck" >
                               	</div>
                             </th>
                             <th>NO.</th>
@@ -81,14 +81,14 @@
                           </tr>
                         </thead>
                         <tbody>
-                        	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d : ${discardCupList}">
+                        	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d,state : ${discardCupList}">
 		                          <tr>
 		                            <td>
 		                              <div class="custom-control custom-checkbox">
-		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks">
+		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks" th:data-cup-qr="${d.cupQR}">
 		                              </div>
 		                            </td>
-		                            <td th:text="${d.num}"></td>
+		                            <td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
 		                            <td th:text="${d.partnerInfo}"></td>
 		                            <td th:text="${d.cupQR}"></td>
 		                            <td th:text="${d.upDateTime}"></td>
@@ -102,7 +102,7 @@
                         </tbody>
                         <tfoot>
 							<tr>
-								<td colspan="6">
+								<td colspan="5">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/partner/businessAddCup}">처음으로</a>
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/partner/businessAddCup(currentPage=${currentPage-1})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
@@ -115,6 +115,9 @@
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/partner/businessAddCup(currentPage=${currentPage+1})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/partner/businessAddCup(currentPage=${lastPage})}>마지막으로</a>
+								</td>
+								<td class="btn-right-align">
+									<button type="button" class="btn mb-2 btn-secondary" id="delCheckBtn" >삭제</button>
 								</td>
 							</tr>
 						</tfoot>
@@ -177,22 +180,42 @@
 			        }
 			      });
 			
-			      $('#delCheckBtn').click(function () {
-			        $('.checks:checked').closest('tr').remove();
-			      });
+			 //삭제처리
+			 $('#delCheckBtn').click(function(e){
+				  //배열 선언
+					const cupQrArr = [];
+				  //check 클래스 중 속성이 checked된 요소만 변수에 담아줌
+					const $checkedEle = $('.checks:checked');
+				  //배열 순회
+					$checkedEle.each((idx, item) => {
+						//input태그에 속성인 th:data-cup-qr (cup-qr은 자동으로 cupQr로 변환)
+						let cupQr = $(item).data('cupQr');
+						//베열에 cupQr 담아줌
+						cupQrArr.push(cupQr);
+					})
+					console.log(cupQrArr);
+				  	//배열의 길이가 0이 아니면
+					if(cupQrArr.length != 0){
+						//새로운 폼 생성 ->jquery
+						const newForm = $('<form></form>');
+						//새로운 폼에 set attribute	
+						newForm.attr("method","post");
+						newForm.attr("action","/admin/cup/discardCupRemove");
+						// create element & set attribute (input)
+						//$ 제이쿼리 배열을 순회하는데 순회하는 배열은 괄호 안쪽에서 부름
+						$.each(cupQrArr, (idx, item) => {
+							newForm.append($('<input/>', {type: 'hidden', name: 'cupQR', value:item}));
+						})
+						// append form (to body) 
+						// newForm은 이미 제이쿼리 문법으로 선언
+						newForm.appendTo('body');
+						newForm.submit();
+					}
+						
+					
 
-			const $deleteAEles = document.querySelectorAll('.delete-file');
-				
-				$deleteAEles.forEach(item => {
-					item.addEventListener('click', function(e){
-						e.preventDefault();
-						let isDelete = confirm('정말로 삭제하시겠습니까?')
-						if(isDelete){					
-							const fileIdx = this.dataset.fileIdx;
-							location.href = `/admin/cup/file/deleteFile?fileIdx=${fileIdx}`;
-						}
-					});
-				});			
+				});		
+
 		</script>
 	</th:block>
 </html>

@@ -107,9 +107,9 @@
               </tr>
             </thead>
             <tbody>
-            	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d : ${discardCupList}">
+            	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d,state : ${discardCupList}">
                  	<tr>
-                    	 <td class="washDiscardCupCheck" th:text="${d.num}"></td>
+                    	 <td class="washDiscardCupCheck" th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
                      	 <td class="washDiscardCupCheck" th:text="${d.partnerInfo}"></td>
                      	 <td class="washDiscardCupCheck" th:text="${d.cupQR}"></td>
                      	<td class="washDiscardCupCheck" th:text="${d.upDateTime}"></td>
