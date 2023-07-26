@@ -61,7 +61,8 @@ public class UserPartnerController {
 		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
 		int startPageNum = (int) resultMap.get("startPageNum");
 		int endPageNum = (int) resultMap.get("endPageNum");
-		
+		int rowPerPage = (int) resultMap.get("rowPerPage");
+
 		if(msg != null) model.addAttribute("msg", msg);
 		
 		model.addAttribute("currentPage", currentPage);
@@ -69,6 +70,7 @@ public class UserPartnerController {
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
 		model.addAttribute("discardCupList", discardCupList);
+		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("fileList", adminCupService.getFileList());
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";
