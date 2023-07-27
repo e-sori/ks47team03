@@ -21,14 +21,15 @@ public class AdminPointService {
 		this.adminPointMapper = adminPointMapper;
 	}
 	
-	/* 포인트 관련기준 조회 */
+	
+	// 포인트 관련기준 조회 
 	public Map<String, Object> getPointStandard(int currentPage, String tableId){
 		
 		// adminPointMapper에서 return 값 받아오기	
 		String tableDbName = null;
 		Map<String,Object> paramMap = new LinkedHashMap<String,Object>();	
 		List<Map<String,Object>> pointStandardList = null;
-		List<Map<String,Object>> pointStandardPrint = null;
+		List<Map<String,Object>> pointStandardListAll = null;
 		
 		// 한 번에 최대로 보여줄 행의 개수
 		int rowPerPage = 10;
@@ -43,9 +44,9 @@ public class AdminPointService {
 		if(tableId.equals("pills-max"))	{
 			tableDbName = "day_maximum_count";
 			pointStandardList = adminPointMapper.getPointMaxCountStandard(paramMap);
-			paramMap.clear(); 
+			paramMap.clear(); 	
 			paramMap.put("type", "point");		
-			pointStandardPrint = adminPointMapper.getPointMaxCountStandard(paramMap);
+			pointStandardListAll = adminPointMapper.getPointMaxCountStandard(paramMap);
 		}else if(tableId.equals("pills-expire")) {
 			tableDbName = "point_expire_standard";
 			pointStandardList = adminPointMapper.getPointExpireStandard(paramMap);
@@ -90,7 +91,7 @@ public class AdminPointService {
 		paramMap.put("codeUseList", codeUseList);
 		paramMap.put("tableId", tableId);
 		paramMap.put("pointStandardList", pointStandardList);
-		paramMap.put("pointStandardPrint", pointStandardPrint);
+		paramMap.put("pointStandardListAll", pointStandardListAll);
 		paramMap.put("lastPageNum", lastPageNum);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);		

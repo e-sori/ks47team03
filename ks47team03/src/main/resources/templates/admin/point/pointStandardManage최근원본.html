@@ -68,12 +68,12 @@
 															<td>
 					                     						<div class="btn-group" role="group" aria-label="Basic example">
 					                     							<!-- 개별/수정 버튼 -->
-																	<button type="submit" class="btn mb-2 btn-light" data-toggle="modal" th:data-target="'#modifyBtn' + ${state.count}">수정</button>
-					               									<div class="modal fade" th:id="'modifyBtn'+${state.count}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModifyMax" aria-hidden="true">
+																	<button type="submit" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target="'#modifyBtn' + ${state.count}">수정</button>
+					               									<div class="modal fade modal-div" th:id="'modifyBtn'+${state.count}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModify" aria-hidden="true">
 						                 								<div class="modal-dialog" role="document">
 																			<div class="modal-content">
 																				<div class="modal-header">
-																				  <h5 class="modal-title" id="varyModalLabelModifyMax">하루 최대 적립 포인트 횟수 기준 수정</h5>
+																				  <h5 class="modal-title" id="varyModalLabelModify">하루 최대 적립 포인트 횟수 기준 수정</h5>
 																				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																				    <span aria-hidden="true">&times;</span>
 																				  </button>
@@ -116,8 +116,8 @@
 						                 								</div>
 					               									</div>
 								                 					<!-- 개별/삭제 버튼 -->
-																	<button type="button" class="btn mb-2 btn-light" th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" th:data-target="'#selectDeleteBtn' + ${state.count}">삭제</button>
-																	<div class="modal fade modal-varyModal" th:id="'selectDeleteBtn'+${state.count}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDelete" aria-hidden="true">
+								                 					<button type="button" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target="'#selectDeleteBtn' + ${state.count}">삭제</button>
+																	<div class="modal fade modal-div" th:id="'selectDeleteBtn'+${state.count}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDelete" aria-hidden="true">
 																		<div class="modal-dialog" role="document">
 																			<div class="modal-content">
 																				<div class="modal-header">
@@ -293,7 +293,7 @@
 			
 			
 			// ajax와 제이쿼리로 테이블 동적으로 수정
-			$('.nav-tab').click(e => {			
+			$('.card-body .nav-link,tfoot .colSpan button').click(e => {			
 				if($(e.target).is('#pills-max-tab')){
 					location.href = `pointStandardManage?currentPage=1&tableId=pills-max`;
 					return;
@@ -315,6 +315,24 @@
 				$('.tab-pane').attr('id',tableId).attr('aria-labelledby',`${tableId}-tab`);
 				$('.checkbox').prop('checked', false);	
 				
+				if($(e.target).is('tfoot button')){
+					e.preventDefault();
+					e.stopPropagation();
+					
+					tableId = $('.tab-pane').attr('id');
+
+					if($(e.target).text() == '처음으로') currentPage = 1;
+					else if($(e.target).text() == '이전') currentPage = Number($('.foot-pg').text()) - 1;
+					else if($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
+					else if($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').attr('lastPageNum'));
+					else currentPage = $(e.target).text();
+					
+				    currentPage = parseInt(currentPage);
+					console.log(tableId);
+					console.log(currentPage);
+				}
+					
+				
 			 	 const request = $.ajax({
 			 		 	url: '/admin/point/pointStandardManageClick',
 						method: 'GET',
@@ -327,86 +345,96 @@
 						console.log(response);
 						
 						let isTrue = true;
+						const rowPerPage = response.rowPerPage;
 						const pointStandardList = response.pointStandardList;
 						console.log(pointStandardList);
+						console.log(rowPerPage);
+						console.log(currentPage);
 						
-						// 테이블 동적 생성 
+						// 테이블 동적 생성 						
 						let addThCheck = '<th><input type="checkbox" class="custom-control custom-checkbox checkbox allCheck"></th>';
 						addThCheck += '<th>No.</th>';
 						$('thead').find('tr').append(addThCheck);
 						
+						let forNum = rowPerPage * currentPage;
+						if(pointStandardList.length < 10) forNum = pointStandardList.length;
+						
+						let startNum = (currentPage-1)*rowPerPage;
 						isTrue = true;
 						let count = 1;
-						for(let list of pointStandardList){
-							const addTr = $('<tr></tr>');
+					 	for(let i = startNum; i < forNum; i += 1){
+					 		let pointStandard = pointStandardList[i];
+					 		let addTdList;
+					 		const addTr = $('<tr></tr>');
 							let addTd = '<td><input type="checkbox" class="custom-control custom-checkbox checkbox checks"></td>';
 							addTd += `<td>${count}</td>`;
 							count += 1;
-							
 							$('tbody').append(addTr);
-							$('tbody').find('tr').append(addTd);	
-							
-							let addTdList;
-							for(let arr in list){
+							$('tbody').find('tr').eq(i).append(addTd);	
+					 		for(let key in pointStandard){
 								if(isTrue){
-									const addTh = $(`<th>${arr}</th>`);
+									const addTh = $(`<th>${key}</th>`);
 									$('thead').find('tr').append(addTh);
 								}	
-								addTdList += `<td>${list[arr]}</td>`;	
+								addTdList += `<td>${pointStandard[key]}</td>`;	
 							}
-							isTrue = false;
-							let addBtn = '<button type="button" class="btn mb-2 btn-light expireBtn">수정</button>';
-							addBtn += '<button type="button" class="btn mb-2 btn-light expireBtn">삭제</button>;'
-							$('tbody').find('tr').append(addTdList);	
-							$('tbody').find('tr').append(addBtn);	
-								
-							const thColspan = $('thead th').length;
-							$('.colSpan').attr('colspan',thColspan-2);
-						}
-						const addThbtn = $('<th>수정/삭제</th>');
-						$('thead').find('tr').append(addThbtn);	
-						isTrue = true;
+							isTrue = false;	
+							let addBtnGroup = '<div class="btn-group" role="group" aria-label="Basic example"></div>';
+							let addBtn = '<button type="button" class="btn mb-2 btn-light">수정</button>';
+							addBtn += '<button type="button" class="btn mb-2 btn-light">삭제</button>';
+							
+							$('tbody').find('tr').eq(i).append(addTdList);	
+							$('tbody').find('tr').eq(i).append(addBtnGroup);	
+							$('tbody').find('.btn-group').eq(i).append(addBtn);	
+					 	}					
+					const addThbtn = $('<th>수정/삭제</th>');
+					$('thead').find('tr').append(addThbtn);	
+					isTrue = true;		
+					
+					const thColspan = $('thead th').length;
+					$('.colSpan').attr('colspan',thColspan-2);	
 					
 														
-						switch(tableId){
-						case 'pills-expire':
-							let pointExpire;
-							for(let list of pointStandardList){
-								if(list['코드 사용 유무'] == '사용가능') {
-									pointExpire = list['유효 기간'];
-								}
+					switch(tableId){
+					case 'pills-expire':
+						let pointExpire;
+						for(let list of pointStandardList){
+							if(list['코드 사용 유무'] == '사용가능') {
+								pointExpire = list['유효 기간'];
 							}
-							$('.page-small-title').text('포인트 유효 기간 기준');
-							$('.card-small-text').text(`포인트 유효 기간은 ${pointExpire}년입니다.`);
-							break;
-						case 'pills-type':
-							$('.page-small-title').text('포인트 타입');
-							$('.card-small-text').text('포인트 타입입니다.');
-							break;
-						case 'pills-save':
-							$('.page-small-title').text('포인트 적립 기준');
-							$('.card-small-text').text('포인트 적립 및 사용 타입 기준입니다.');
-							break;
-						case 'pills-refund':
-							$('.page-small-title').text('포인트 환급 기준');
-							$('.card-small-text').text('포인트 환급 기준입니다.');
-							break;
-						case 'pills-max':
-							if($('.tab-pane').attr('id') == 'pills-max'){
-								location.href = `pointStandardManage?currentPage=${currentPage}&tableId=${tableId}`;
-							}
-							break;
 						}
+						$('.page-small-title').text('포인트 유효 기간 기준');
+						$('.card-small-text').text(`포인트 유효 기간은 ${pointExpire}년입니다.`);
+						break;
+					case 'pills-type':
+						$('.page-small-title').text('포인트 타입');
+						$('.card-small-text').text('포인트 타입입니다.');
+						break;
+					case 'pills-save':
+						$('.page-small-title').text('포인트 적립 기준');
+						$('.card-small-text').text('포인트 적립 및 사용 타입 기준입니다.');
+						break;
+					case 'pills-refund':
+						$('.page-small-title').text('포인트 환급 기준');
+						$('.card-small-text').text('포인트 환급 기준입니다.');
+						break;
+					case 'pills-max':
+						if($('.tab-pane').attr('id') == 'pills-max'){
+							location.href = `pointStandardManage?currentPage=${currentPage}&tableId=${tableId}`;
 						}
-					});
-					request.fail(function( jqXHR, textStatus ) {
-						alert( "Request failed: " + textStatus );
-					});
-				});      
+						break;
+						}
+					}
+				});
+				request.fail(function( jqXHR, textStatus ) {
+					alert( "Request failed: " + textStatus );
+				});
+			});
+			      
 					 
 					 
 				// 탭 내의 페이지네이션 클릭했을 때 해당 탭 유지하기 (get방식으로 ajax 요청 - 리다이렉트)	
-				$('tfoot button').click(e => {								
+				/* $('tfoot button').click(e => {								
 					let tableId = $('.tab-pane').attr('id');
 					
 					let currentPage;
@@ -447,7 +475,7 @@
 						alert( "Request failed: " + textStatus );
 	   				});
 				});      
-					
+					 */
 					
 				
 				// 체크박스 모두 선택 / 개별 선택
