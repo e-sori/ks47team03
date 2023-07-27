@@ -89,13 +89,7 @@ public class UserPartnerController {
 		
 		return "user/partner/businessKioskApply";
 	}
-	@GetMapping("/kioskInstalledList")
-	public String kioskInstalledList(Model model) {
-		
-		model.addAttribute("title","설치된 무인기기 리스트");
-		
-		return "user/partner/kioskInstalledList";
-	}
+	
 	@GetMapping("/businessKioskApplyResult")
 	public String businessKioskApplyResult(Model model) {
 		

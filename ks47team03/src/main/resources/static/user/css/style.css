@@ -1205,7 +1205,6 @@ a {
   border: 0;
   border-radius: 0;
   padding: 7px 12px;
-  background: #8894ff
 }
 
 .card-product__imgOverlay li button i,
@@ -1215,9 +1214,7 @@ a {
   vertical-align: middle
 }
 
-.card-product__imgOverlay li button:hover {
-  background: #384aeb
-}
+
 
 .card-product__imgOverlay li:not(:last-child) {
   margin-right: 5px
