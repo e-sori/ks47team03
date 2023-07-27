@@ -28,10 +28,12 @@
             <div class="order_details_table1">
                 <h2>커뮤니티 게시판</h2>
                 <div class="table-responsive">
+                    <a class="button1" href="/board/communityBoardWrite">글쓰기</a>
+                    <p class="card-text1"> 총 게시글: [[${boardCount}]] 개</p>
                     <table class="table-hover">
                         <thead>
                         <tr>
-                            <th scope="col">순번</th>
+                            <th scope="col">번호</th>
                             <th scope="col">제목</th>
                             <th scope="col">작성자</th>
                             <th scope="col">조회수</th>
@@ -66,14 +68,15 @@
                         <tfoot>
                             <tr>
                                 <td colspan="10">
-                                    <a class="btn" th:href="@{/board/communityBoardView}">처음으로</a>
-                                    <a class="btn" th:if="${currentPage > 0}" th:href="@{/board/communityBoardView(page=${currentPage -1})}">이전</a>
-                                    <div class="btn" th:each="pageNumber : ${#numbers.sequence(0, maxPage)}">
-                                        <a th:href="@{/board/communityBoardView(page=${pageNumber})}" th:text="${pageNumber + 1}" th:class="${pageNumber == currentPage ? 'current' : ''}"></a>
-                                    </div>
-                                    <a class="btn" th:if="${currentPage < maxPage}" th:href="@{/board/communityBoardView(page=${currentPage + 1})}">다음</a>
-                                    <a class="btn" th:href=@{/board/communityBoardView(page=${maxPage})}>마지막으로</a>
-                                    <a class="btn" href="/board/communityBoardWrite">임시 작성 폼</a>
+                                    <a class="btn mb-2 btn-light" th:href="@{/board/communityBoardView}">처음으로</a>
+                                    <a class="btn mb-2 btn-light" th:if="${currentPage > 0}" th:href="@{/board/communityBoardView(page=${currentPage -1})}">이전</a>
+                                    <div class="btn-group mr-2" role="group" aria-label="First group">
+	                                    <div class="btn mb-2 btn-light" th:each="pageNumber : ${#numbers.sequence(0, maxPage)}">
+	                                        <a th:href="@{/board/communityBoardView(page=${pageNumber})}" th:unless="${pageNumber == num}" th:text="${pageNumber + 1}" th:class="${pageNumber == currentPage ? 'current' : ''}"></a>
+	                                    </div>
+	                                </div>
+                                    <a class="btn mb-2 btn-light" th:if="${currentPage < maxPage}" th:href="@{/board/communityBoardView(page=${currentPage + 1})}">다음</a>
+                                    <a class="btn mb-2 btn-light" th:href=@{/board/communityBoardView(page=${maxPage})}>마지막으로</a>
                                 </td>
                             </tr>
                         </tfoot>

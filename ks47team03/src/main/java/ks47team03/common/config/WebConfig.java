@@ -54,10 +54,10 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/")
 		.excludePathPatterns("/projectIntro")
 		.excludePathPatterns("/admin/")
-		.excludePathPatterns("/main")
 		.excludePathPatterns("/login")
 		.excludePathPatterns("/logout")
 		.excludePathPatterns("/join")
+		.excludePathPatterns("/user/join")
 		.excludePathPatterns("/idCheck")
 		.excludePathPatterns(excludePathList);
 

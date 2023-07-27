@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.service.AdminPointService;
 import lombok.extern.slf4j.Slf4j;
@@ -65,10 +68,11 @@ public class AdminPointController {
 	
 	
 	// 포인트 관련 기준 관리 화면	(ajax로 데이터 받기)
-	@PostMapping("/pointStandardManage")
+	@GetMapping("/pointStandardManageClick")
 	@SuppressWarnings("unchecked")
-	public String pointStandardMange(@RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage,
-										@RequestParam(value="tableId", required = false, defaultValue = "1")String tableId,
+	@ResponseBody
+	public Map<String,Object> pointStandardMange(@RequestParam(value="currentPage", required = false, defaultValue = "1")int currentPage,
+										@RequestParam(value="tableId", required = false, defaultValue = "pills-max")String tableId,
 										Model model,
 										HttpSession session) {
 		
@@ -77,29 +81,23 @@ public class AdminPointController {
 		
 		int startPageNum = (int)pointStandardResultMap.get("startPageNum");
 		int endPageNum = (int)pointStandardResultMap.get("endPageNum");
-		int lastPageNum = (int)pointStandardResultMap.get("lastPageNum");		
+		int lastPageNum = (int)pointStandardResultMap.get("lastPageNum");	
+		int rowPerPage = (int)pointStandardResultMap.get("rowPerPage");	
 		List<Map<String,Object>> pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
 		String sessionId = (String) session.getAttribute("SID");
+		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
 		
-		
-		
-		model.addAttribute("title","포인트 관련 기준 관리");
+		model.addAttribute("title", "포인트 관련 기준 관리");
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
 		model.addAttribute("lastPageNum", lastPageNum);
 		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("rowPerPage", rowPerPage);
+		model.addAttribute("codeUseList", codeUseList);
 		model.addAttribute("pointStandardList", pointStandardList);	
 		model.addAttribute("SID", sessionId);
 		
-		if(tableId.equals("pills-max")) {
-			int useMaximumCount = (int) pointStandardList.get(0).get("useMaximumCount");
-			model.addAttribute("useMaximumCount", useMaximumCount);
-		}else if(tableId.equals("pills-use")) {
-			List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
-			model.addAttribute("codeUseList", codeUseList);
-		} // 나중에 모든 테이블 사용 유무 추가해주고 else if 없애기
-		
-		return "admin/point/pointStandardManage";
+		return pointStandardResultMap;
 	}
 
 	// 포인트 관련 기준 관리 화면	
@@ -113,23 +111,36 @@ public class AdminPointController {
 		/* 포인트 기준 조회 */
 		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard(currentPage,tableId);
 		
+		
 		int startPageNum = (int)pointStandardResultMap.get("startPageNum");
 		int endPageNum = (int)pointStandardResultMap.get("endPageNum");
-		int lastPageNum = (int)pointStandardResultMap.get("lastPageNum");		
+		int lastPageNum = (int)pointStandardResultMap.get("lastPageNum");	
+		int rowPerPage = (int)pointStandardResultMap.get("rowPerPage");	
 		List<Map<String,Object>> pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
-		int useMaximumCount = (int) pointStandardList.get(0).get("useMaximumCount");
 		String sessionId = (String) session.getAttribute("SID");
-		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");		
+		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
 		
+		if(tableId.equals("pills-max"))	{
+			List<Map<String,Object>> pointStandardPrint = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardPrint");
+			for(Map<String,Object> MaxCount : pointStandardPrint) {
+				if(MaxCount.get("코드 사용 유무").equals("사용가능")) {
+					int useMaxCount = (int)MaxCount.get("적립 가능 횟수");
+					model.addAttribute("useMaxCount", useMaxCount);				
+					break;
+				}
+			}
+		}
+			
 		model.addAttribute("title","포인트 관련 기준 관리");
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
 		model.addAttribute("lastPageNum", lastPageNum);
 		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("pointStandardList", pointStandardList);
-		model.addAttribute("useMaximumCount", useMaximumCount);
+		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("codeUseList", codeUseList);
+		model.addAttribute("pointStandardList", pointStandardList);		
 		model.addAttribute("SID", sessionId);
+		
 		
 		return "admin/point/pointStandardManage";
 	}
