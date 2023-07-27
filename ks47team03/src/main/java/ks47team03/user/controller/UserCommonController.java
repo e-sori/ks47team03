@@ -61,7 +61,7 @@ public class UserCommonController {
 				session.setAttribute("SLEVEL", userLevel);
 				session.setAttribute("SNAME", userName);
 				
-				return "redirect:/projectIntro";
+				return "redirect:/";
 			}
 			
 			reAttr.addAttribute("msg", "일치하는 회원의 정보가 없습니다.");

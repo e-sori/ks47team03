@@ -6,6 +6,28 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminDepositMapper">
+
+
+
+
+<resultMap type="DepositStandard" id="depositStandardResultMap">
+		<id 	column="waiting_deposit_standard_code" 		property="waitingDepositStandardCode"/>
+		<result column="waiting_deposit_period" 		property="waitingDepositPeriod"/>
+		<result column="set_datetime" 	property="setDatetime"/>
+		<result column="admin_id" 	property="adminId"/>
+		<result column="up_datetime" 	property="upDatetime"/>
+	</resultMap>
+	
+
+
+
+
+
+
+
+
+
+
 	
 	<select id="getDepositRefundList" parameterType="map" resultType="map">
 		/* 보증금 환급 관리 */
@@ -35,11 +57,7 @@
 		FROM
 			deposit_refund_histroy
 	</select> 
-	
-	
-	
-	
-	
+
 	<select id="getDepositStandardList" parameterType="map" resultType="map">
 		/* 보증금 기준 관리 */
 		SELECT
@@ -89,7 +107,8 @@
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
 		</select>
-	
+		
+			
 	<select id="getDepositPayListCount" resultType="int">
 		/*결제 행 조회*/
 		SELECT
@@ -115,8 +134,6 @@
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
 	</select>
-	
-	
 	<select id="getDepositManageListCount" resultType="int">
 		/* 기준 행 계산*/
 		SELECT
@@ -124,6 +141,36 @@
 		FROM
 			deposit_pay_refund_history
 	</select> 
+	
+	<select id="getDepositStandardInfoById" resultMap="depositStandardResultMap">
+    SELECT
+    * 
+    FROM 
+    waiting_deposit_standard
+    WHERE admin_id = #{adminId}
+	</select>
+	
+<update id="modifyDepositStandard" parameterType="depositStandard">
+		/* 보증금 수정 */
+		UPDATE waiting_deposit_standard
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="waitingDepositPeriod != null and waitingDepositPeriod != ''">						
+				waiting_deposit_period 	= #{waitingDepositPeriod},
+			</if>
+			<if test="setDatetime != null and setDatetime != ''">
+				set_datetime = #{setDatetime},
+			</if>
+			<if test="adminId != null and adminId != ''">
+				admin_id 	= #{adminId},
+			</if>
+			<if test="up_datetime != null and upDatetime != ''">
+				up_datetime = #{upDatetime},
+			</if>
+		</trim>
+		WHERE
+			admin_id = #{adminId}
+	</update>
+
 	
 	
 </mapper>

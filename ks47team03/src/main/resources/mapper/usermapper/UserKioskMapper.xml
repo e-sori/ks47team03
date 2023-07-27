@@ -7,5 +7,35 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserKioskMapper">
 
+	<select id="getKioskLocationList" resultType="Partner">
+	/*지도에 뿌려질 위도와 경도 가져오기*/
+		SELECT
+			appi.latitude AS locationLatitude,
+			appi.longitude AS locationLongitude
+		FROM
+			approval_partner_plus_info AS appi
+		WHERE
+		 	appi.partner_type='설치 사업장';
+	</select>
 	
+	<select id="getinstalledKioskList" resultType="Kiosk">
+	/*설치된 키오스크 리스트*/
+		SELECT
+			ikl.kiosk_serial_num AS kioskSerialNum,
+			appi.partner_name AS partnerName,
+			appi.partner_addr AS partnerAddr,
+			sc.static_code_content AS statiCode
+		FROM
+			installed_kiosk_list AS ikl
+			INNER JOIN
+			approval_partner_plus_info AS appi
+			on
+			ikl.approval_partner_plus_info_code = appi.approval_partner_plus_info_code
+			INNER join
+			static_code AS sc
+			ON 
+			ikl.static_code = sc.static_code
+		ORDER BY
+			CAST(SUBSTRING_INDEX(kiosk_serial_num,'num', -1) AS UNSIGNED);
+	</select>
 </mapper>

@@ -8,7 +8,7 @@
      <div class="container-fluid">
        <div class="row justify-content-center">
           <div class="col-12">
-            <h2 class="mb-2 page-title">보증금 전체 내역 조회</h2>
+            <h2 class="mb-2 page-title">회원 보증금 관리</h2>
              <p class="card-text"></p>
               <div class="row my-4">
                 <!-- Small table -->
@@ -51,24 +51,10 @@
 		                            <td th:text="${dm.upDatetime}"></td>
 		                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		                                <span class="text-muted sr-only">Action</span>
-		                              </button>
-		                              <div class="dropdown-menu dropdown-menu-right">
-		                                <a class="dropdown-item" href="">Remove</a>
-		                              </div>
+		                              </button>		         
 		                            </td>
 		                          </tr>
-                          	</th:block>
-                          	<tr th:if="${#lists.isEmpty(depositStandardList)}">
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Action</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="#">Edit</a>
-	                                <a class="dropdown-item" href="#">Remove</a>
-	                                <a class="dropdown-item" href="#">Assign</a>
-	                              </div>
-	                            </td>
-							</tr>
+                          	</th:block>                         
                         </tbody>
                         <tfoot>
                         

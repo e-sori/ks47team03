@@ -116,8 +116,8 @@
 						                 								</div>
 					               									</div>
 								                 					<!-- 개별/삭제 버튼 -->
-																	<button type="button" class="btn mb-2 btn-light" th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" th:data-target="'#selectDeleteBtn' + ${p['num']}">삭제</button>
-																	<div class="modal fade modal-varyModal" th:id="'selectDeleteBtn'+${p['num']}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDelete" aria-hidden="true">
+																	<button type="button" class="btn mb-2 btn-light" th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" th:data-target="'#selectDeleteBtn' + ${state.count}">삭제</button>
+																	<div class="modal fade modal-varyModal" th:id="'selectDeleteBtn'+${state.count}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDelete" aria-hidden="true">
 																		<div class="modal-dialog" role="document">
 																			<div class="modal-content">
 																				<div class="modal-header">
