@@ -1,6 +1,7 @@
 package ks47team03.admin.service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +26,8 @@ public class AdminPointService {
 		
 		// adminPointMapper에서 return 값 받아오기	
 		String tableDbName = null;
+		Map<String,Object> paramMap = new LinkedHashMap<String,Object>();	
 		List<Map<String,Object>> pointStandardList = null;
-		Map<String,Object> paramMap = new HashMap<String,Object>();	
 		List<Map<String,Object>> pointStandardPrint = null;
 		
 		// 한 번에 최대로 보여줄 행의 개수
@@ -48,6 +49,7 @@ public class AdminPointService {
 		}else if(tableId.equals("pills-expire")) {
 			tableDbName = "point_expire_standard";
 			pointStandardList = adminPointMapper.getPointExpireStandard(paramMap);
+			log.info("pointStandardList : {}", pointStandardList);
 		}else if(tableId.equals("pills-save")) {
 			tableDbName = "point_save_standard";
 			pointStandardList = adminPointMapper.getPointSaveStandard(paramMap);

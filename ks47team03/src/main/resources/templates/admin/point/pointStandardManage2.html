@@ -35,10 +35,10 @@
 										<div class="tab-pane fade show active" id="pills-max" role="tabpanel" aria-labelledby="pills-max-tab"> 
 											<h5 class="mb-2 page-small-title">하루 최대 적립 포인트 횟수 기준</h5>
 											<p class="card-small-text"> 하루에 적립 가능한 포인트 횟수는 최대 [[${useMaxCount}]]번입니다.</p>
-											<table class="table datatables table-hover dataTable-1" th:object="${pointStandardList}">
+											<table class="table datatables table-hover dataTable-1">
 												<thead>
 													<tr>
-														<th>
+														<th class="not-delete">
 															<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
 														</th>
 									                    <th>NO.</th>
@@ -82,7 +82,7 @@
 																					<form>
 																						<div class="form-group">
 																						  <label th:for="'modifyCode'+${state.count}" class="col-form-label">코드</label>
-																						  <input type="text" class="form-control" readonly="readonly" th:value="*{'횟수 기준 코드'}" th:id="'modifyCode'+${state.count}">
+																						  <input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}" th:id="'modifyCode'+${state.count}">
 																						</div>
 																						<div class="form-group">
 																						  <label th:for="'modifyCount'+${state.count}" class="col-form-label">적립 가능 횟수</label>
@@ -279,6 +279,7 @@
 				            searchable: false,
 				            orderable: false,
 				            className: 'sorting_disabled'
+				            
 				      },
 				      {
 				          targets: table.find('th').length - 1,
@@ -292,194 +293,185 @@
 				  });
 			
 			
+			
 			// ajax와 제이쿼리로 테이블 동적으로 수정
-			$('.card-body .nav-link,tfoot .colSpan button').click(e => {			
-				if($(e.target).is('#pills-max-tab')){
-					location.href = `pointStandardManage?currentPage=1&tableId=pills-max`;
-					return;
-				}				
-				
-				let tableId = $(e.target).attr('aria-controls');
-				let currentPage = $('.current-page-btn').text();	
-				currentPage = parseInt(currentPage);			
-				
-			    console.log(tableId);
-				console.log(currentPage);
-				
-				$('thead').find('th').remove();
-				$('tbody').children().remove();				
-			    
-				// 동적으로 테이블 속성과 값 변경
-				$('#pills-tab').find('.active').toggleClass('active');
-				$(e.target).toggleClass('active');	
-				$('.tab-pane').attr('id',tableId).attr('aria-labelledby',`${tableId}-tab`);
-				$('.checkbox').prop('checked', false);	
-				
-				if($(e.target).is('tfoot button')){
-					e.preventDefault();
-					e.stopPropagation();
+				 $('.nav-tab').click(e => {			
 					
-					tableId = $('.tab-pane').attr('id');
-
-					if($(e.target).text() == '처음으로') currentPage = 1;
-					else if($(e.target).text() == '이전') currentPage = Number($('.foot-pg').text()) - 1;
-					else if($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
-					else if($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').attr('lastPageNum'));
-					else currentPage = $(e.target).text();
+					if($(e.target).is('#pills-max-tab')){
+						location.href = `pointStandardManage?currentPage=1&tableId=pills-max`;
+						return;
+					}				
 					
-				    currentPage = parseInt(currentPage);
-					console.log(tableId);
-					console.log(currentPage);
-				}
+					let tableId = $(e.target).attr('aria-controls');
+					let currentPage = $('.current-page-btn').text();	
+					currentPage = parseInt(currentPage);			
 					
-				
-			 	 const request = $.ajax({
-			 		 	url: '/admin/point/pointStandardManageClick',
-						method: 'GET',
-						data: { 'currentPage' : currentPage , 'tableId' : tableId},
-						dataType: 'json'
-			 	});
-
-				request.done(function( response ) {
-					if(response){
-						console.log(response);
-						
-						let isTrue = true;
-						const rowPerPage = response.rowPerPage;
-						const pointStandardList = response.pointStandardList;
-						console.log(pointStandardList);
-						console.log(rowPerPage);
-						console.log(currentPage);
-						
-						// 테이블 동적 생성 						
-						let addThCheck = '<th><input type="checkbox" class="custom-control custom-checkbox checkbox allCheck"></th>';
-						addThCheck += '<th>No.</th>';
-						$('thead').find('tr').append(addThCheck);
-						
-						let forNum = rowPerPage * currentPage;
-						if(pointStandardList.length < 10) forNum = pointStandardList.length;
-						
-						let startNum = (currentPage-1)*rowPerPage;
-						isTrue = true;
-						let count = 1;
-					 	for(let i = startNum; i < forNum; i += 1){
-					 		let pointStandard = pointStandardList[i];
-					 		let addTdList;
-					 		const addTr = $('<tr></tr>');
-							let addTd = '<td><input type="checkbox" class="custom-control custom-checkbox checkbox checks"></td>';
-							addTd += `<td>${count}</td>`;
-							count += 1;
-							$('tbody').append(addTr);
-							$('tbody').find('tr').eq(i).append(addTd);	
-					 		for(let key in pointStandard){
-								if(isTrue){
-									const addTh = $(`<th>${key}</th>`);
-									$('thead').find('tr').append(addTh);
-								}	
-								addTdList += `<td>${pointStandard[key]}</td>`;	
-							}
-							isTrue = false;	
-							let addBtnGroup = '<div class="btn-group" role="group" aria-label="Basic example"></div>';
-							let addBtn = '<button type="button" class="btn mb-2 btn-light">수정</button>';
-							addBtn += '<button type="button" class="btn mb-2 btn-light">삭제</button>';
-							
-							$('tbody').find('tr').eq(i).append(addTdList);	
-							$('tbody').find('tr').eq(i).append(addBtnGroup);	
-							$('tbody').find('.btn-group').eq(i).append(addBtn);	
-					 	}					
-					const addThbtn = $('<th>수정/삭제</th>');
-					$('thead').find('tr').append(addThbtn);	
-					isTrue = true;		
-					
-					const thColspan = $('thead th').length;
-					$('.colSpan').attr('colspan',thColspan-2);	
-					
-														
-					switch(tableId){
-					case 'pills-expire':
-						let pointExpire;
-						for(let list of pointStandardList){
-							if(list['코드 사용 유무'] == '사용가능') {
-								pointExpire = list['유효 기간'];
-							}
-						}
-						$('.page-small-title').text('포인트 유효 기간 기준');
-						$('.card-small-text').text(`포인트 유효 기간은 ${pointExpire}년입니다.`);
-						break;
-					case 'pills-type':
-						$('.page-small-title').text('포인트 타입');
-						$('.card-small-text').text('포인트 타입입니다.');
-						break;
-					case 'pills-save':
-						$('.page-small-title').text('포인트 적립 기준');
-						$('.card-small-text').text('포인트 적립 및 사용 타입 기준입니다.');
-						break;
-					case 'pills-refund':
-						$('.page-small-title').text('포인트 환급 기준');
-						$('.card-small-text').text('포인트 환급 기준입니다.');
-						break;
-					case 'pills-max':
-						if($('.tab-pane').attr('id') == 'pills-max'){
-							location.href = `pointStandardManage?currentPage=${currentPage}&tableId=${tableId}`;
-						}
-						break;
-						}
-					}
-				});
-				request.fail(function( jqXHR, textStatus ) {
-					alert( "Request failed: " + textStatus );
-				});
-			});
-			      
-					 
-					 
-				// 탭 내의 페이지네이션 클릭했을 때 해당 탭 유지하기 (get방식으로 ajax 요청 - 리다이렉트)	
-				/* $('tfoot button').click(e => {								
-					let tableId = $('.tab-pane').attr('id');
-					
-					let currentPage;
-					if($(e.target).text() == '처음으로') currentPage = 1;
-					else if($(e.target).text() == '이전') currentPage = Number($('.foot-pg').text()) - 1;
-					else if($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
-					else if($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').attr('lastPageNum'));
-					else currentPage = $(e.target).text();
-					
-				    currentPage = parseInt(currentPage);
-					console.log(tableId);
+				    console.log(tableId);
 					console.log(currentPage);
 					
-					$('#pills-tab').find('.nav-tab').removeClass('active');	
-					$('#pills-tab').find(`#${tableId}-tab`).addClass('active');
+					$('thead').find('th').not(':first, :last').remove();
+					$('tbody').find('tr').remove();				
+				    
+					// 동적으로 테이블 속성과 값 변경
+					$('#pills-tab').find('.active').toggleClass('active');
+					$(e.target).toggleClass('active');	
 					$('.tab-pane').attr('id',tableId).attr('aria-labelledby',`${tableId}-tab`);
-					$('.checkbox').prop('checked', false);
+					$('.checkbox').prop('checked', false);	
 					
-				 
 				 	 const request = $.ajax({
-							url: '/admin/point/pointStandardManage',
+				 		 	url: '/admin/point/pointStandardManageClick',
 							method: 'GET',
 							data: { 'currentPage' : currentPage , 'tableId' : tableId},
-							dataType: 'text'
+							dataType: 'json'
 				 	});
 
 					request.done(function( response ) {
-	   					if(response){
-	   						console.log(tableId);
-	   						location.href = `pointStandardManage?currentPage=${currentPage}&tableId=${tableId}`;				   						
-	   						console.log(response);
-	   	    				return false;
-	   					}else{
-	   					}
-	   				});
-								   				 
-	   				request.fail(function( jqXHR, textStatus ) {
+						if(response){
+							console.log(response);
+							
+							let isTrue = true;
+							const pointStandardList = response.pointStandardList;
+							console.log(pointStandardList);
+							
+							
+							switch(tableId){
+							case 'pills-expire':
+								let pointExpire
+								for(let list of pointStandardList){
+									if(list['코드 사용 유무'] == '사용가능') {
+										pointExpire = list['유효 기간'];
+									}
+								}
+								$('.page-small-title').text('포인트 유효 기간 기준');
+								$('.card-small-text').text(`포인트 유효 기간은 ${pointExpire}년입니다.`);
+								isTrue = true;
+								for(let list of pointStandardList){
+									for(let arr in list){
+										if(isTrue){
+											const addTh = $(`<th>${arr}</th>`);
+											$('.last-th').before(addTh);											
+										}	
+										const thColspan = $('thead th').length;
+										$('.colSpan').attr('colspan',thColspan-2);
+										
+									}																	
+									isTrue = false;
+								}isTrue = true;		
+								break;
+							case 'pills-type':
+								$('.page-small-title').text('포인트 타입');
+								$('.card-small-text').text('포인트 타입입니다.');
+								isTrue = true;
+								for(let list of pointStandardList){
+									for(let arr in list){
+										if(isTrue){
+											const addTh = $(`<th>${arr}</th>`);
+											$('.last-th').before(addTh);											
+										}	
+										const thColspan = $('thead th').length;
+										$('.colSpan').attr('colspan',thColspan-2);
+										
+									}																	
+									isTrue = false;
+								}isTrue = true;		
+								break;
+							case 'pills-save':
+								$('.page-small-title').text('포인트 적립 기준');
+								$('.card-small-text').text('포인트 적립 및 사용 타입 기준입니다.');
+								isTrue = true;
+								for(let list of pointStandardList){
+									for(let arr in list){
+										if(isTrue){
+											const addTh = $(`<th>${arr}</th>`);
+											$('.last-th').before(addTh);											
+										}	
+										const thColspan = $('thead th').length;
+										$('.colSpan').attr('colspan',thColspan-2);
+										
+									}																	
+									isTrue = false;
+								}isTrue = true;		
+								break;
+							case 'pills-refund':
+								$('.page-small-title').text('포인트 환급 기준');
+								$('.card-small-text').text('포인트 환급 기준입니다.');
+								isTrue = true;
+								for(let list of pointStandardList){
+									for(let arr in list){
+										if(isTrue){
+											const addTh = $(`<th>${arr}</th>`);
+											$('.last-th').before(addTh);											
+										}	
+										const thColspan = $('thead th').length;
+										$('.colSpan').attr('colspan',thColspan-2);
+										
+									}																	
+									isTrue = false;
+								}isTrue = true;		
+								break;
+							case 'pills-max':
+								if($('.tab-pane').attr('id') == 'pills-max'){
+									location.href = `pointStandardManage?currentPage=${currentPage}&tableId=${tableId}`;
+								}
+								break;
+								}
+							}
+						});
+			   		request.fail(function( jqXHR, textStatus ) {
 						alert( "Request failed: " + textStatus );
 	   				});
 				});      
-					 */
+					 
+					 
+					// 탭 내의 페이지네이션 클릭했을 때 해당 탭 유지하기 (get방식으로 ajax 요청 - 리다이렉트)	
+					$('tfoot button').click(e => {		
+						e.preventDefault();
+						e.stopPropagation();
+						
+						let tableId = $('.tab-pane').attr('id');
+						
+						let currentPage;
+						if($(e.target).text() == '처음으로') currentPage = 1;
+						else if($(e.target).text() == '이전') currentPage = Number($('.foot-pg').text()) - 1;
+						else if($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
+						else if($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').attr('lastPageNum'));
+						else currentPage = $(e.target).text();
+						
+					    currentPage = parseInt(currentPage);
+						console.log(tableId);
+						console.log(currentPage);
+						
+						$('.tab-pane').attr('id',tableId).attr('aria-labelledby',`${tableId}-tab`);
+						$('.checkbox').prop('checked', false);
+						
+					 
+					 	 const request = $.ajax({
+								url: '/admin/point/pointStandardManage',
+								method: 'GET',
+								data: { 'currentPage' : currentPage , 'tableId' : tableId},
+								dataType: 'text'
+					 	});
+
+								request.done(function( response ) {
+				   					if(response){
+				   						console.log(tableId);
+				   						location.href = `pointStandardManage?currentPage=${currentPage}&tableId=${tableId}`;
+										console.log
+				   	    				return false;
+				   					}else{
+				   						console.log(response);
+				   					}
+				   				});
+				   				 
+				   				request.fail(function( jqXHR, textStatus ) {
+									alert( "Request failed: " + textStatus );
+				   				});
+					});      
+					
 					
 				
 				// 체크박스 모두 선택 / 개별 선택
-				$('.checkbox').click(e => {
+				  $('.checkbox').click(e => {
 			        if ($(e.target).is($('.allCheck'))) {
 			          const isChecked = $(e.target).prop('checked');
 			          $('.checks').prop('checked', isChecked);
@@ -490,7 +482,7 @@
 			            $('.allCheck').prop('checked', true);
 			          } else $('.allCheck').prop('checked', false);
 			        }
-				});	
+			      });	
 				
 				
 				

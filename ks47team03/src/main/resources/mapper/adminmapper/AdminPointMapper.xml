@@ -7,7 +7,7 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
 
-	<select id="getPointRefundStandard" parameterType="map" resultType="map">
+	<select id="getPointRefundStandard" parameterType="map" resultType="java.util.LinkedHashMap">
 		/* 5-2 포인트 환급 기준 조회 */
 		SELECT
 			RS.point_refund_standard_code AS '환급 기준 코드',
@@ -34,7 +34,7 @@
 		</if>	
 	</select>
 
-	<select id="getPointSaveStandard" parameterType="map" resultType="map">
+	<select id="getPointSaveStandard" parameterType="map" resultType="java.util.LinkedHashMap">
 		/* 4-2 포인트 적립 기준 조회 */
 		SELECT
 			PSS.point_save_standard_code AS '적립 기준 코드',
@@ -60,7 +60,7 @@
 		</if>	
 	</select>
 	
-	<select id="getPointTypeStandard" parameterType="map" resultType="map">
+	<select id="getPointTypeStandard" parameterType="map" resultType="java.util.LinkedHashMap">
 		/* 3-2 포인트 타입 기준 조회 */
 		SELECT
 			point_save_use_type_code AS '포인트 타입 코드',
@@ -80,7 +80,7 @@
 		</if>		
 	</select>
 	
-	<select id="getPointExpireStandard" parameterType="map" resultType="map">
+	<select id="getPointExpireStandard" parameterType="map" resultType="java.util.LinkedHashMap">
 		/* 2-2 포인트 만료 기간 기준 조회 */
 		SELECT
 			point_expire_standard_code AS '유효 기간 코드',
