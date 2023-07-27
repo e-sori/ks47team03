@@ -41,7 +41,6 @@ public class LoginInterceptor implements HandlerInterceptor{
 				if(		requestUri.indexOf("/admin/") > -1
 					||	requestUri.indexOf("/partner/businessKioskApply") > -1
 					||	requestUri.indexOf("/partner/businessKioskApplyResult") 	 > -1
-					||	requestUri.indexOf("/partner/kioskInstalledList") 	 > -1 
 					||	requestUri.indexOf("/partner/businessAddCup") 	 > -1 
 					||	requestUri.indexOf("/partner/washDiscardCup") 	 > -1 
 					||	requestUri.indexOf("/deposit") 	 > -1 
@@ -54,7 +53,6 @@ public class LoginInterceptor implements HandlerInterceptor{
 				if(		requestUri.indexOf("/admin/") > -1
 					||	requestUri.indexOf("/partner/businessKioskApply") > -1
 					||	requestUri.indexOf("/partner/businessKioskApplyResult") 	 > -1
-					||	requestUri.indexOf("/partner/kioskInstalledList") 	 > -1 
 					||	requestUri.indexOf("/partner/businessAddCup") 	 > -1 
 					||	requestUri.indexOf("/partner/businessMyKioskList") 	 > -1 
 					||	requestUri.indexOf("/deposit") 	 > -1 
@@ -67,7 +65,6 @@ public class LoginInterceptor implements HandlerInterceptor{
 				if(		requestUri.indexOf("/admin/") > -1
 					||	requestUri.indexOf("/partner") > -1
 					||	requestUri.indexOf("/partner/businessKioskApplyResult") 	 > -1
-					||	requestUri.indexOf("/partner/kioskInstalledList") 	 > -1
 					||	requestUri.indexOf("/partner/businessAddCup") 	 > -1
 					||	requestUri.indexOf("/partner/washDiscardCup") 	 > -1
 					||	requestUri.indexOf("/partner/partnerInfo") 	 > -1 ) {
