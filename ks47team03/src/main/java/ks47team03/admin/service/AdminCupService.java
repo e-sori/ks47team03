@@ -37,6 +37,18 @@ public class AdminCupService {
 		this.spreadsheetFilePasing = spreadsheetFilePasing;
 		this.fileUtil=fileUtil;
 	}
+	//파일 삭제
+	public void deleteFileByIdx(FileDto fileDto) {
+		Boolean isDelete = fileUtil.deleteFileByIdx(fileDto);
+		if(isDelete) adminFileMapper.deleteFileByIdx(fileDto.getFileIdx());
+	}
+	
+	//파일 다운로드
+	public FileDto getFileInfoByIdx(String fileIdx) {
+		FileDto downloadFile = adminFileMapper.getFileInfoByIdx(fileIdx);
+		 return downloadFile;
+	}
+	
 	
 	//폐기컵 업로드된 파일 리스트 
 	public List<FileDto> getFileList(){
@@ -56,22 +68,43 @@ public class AdminCupService {
 	//엑셀파일 업로드
 	public boolean addDiscardCupByExcelFile(MultipartFile file) {
 		boolean isRead = false;
-		
+		List<Cup> discardCupQRList = adminCupMapper.getAllDiscardCupQRList();
 		if(file != null) {
 			String contentType = file.getContentType();
 			if(contentType != null && (contentType.indexOf("spreadsheet") > -1 || contentType.indexOf("xlsx") > -1)) {
 				List<Cup> discardCupList = spreadsheetFilePasing.pasingToDiscardCupList(file);
-				if(discardCupList != null) {		
-					log.info("discardCupList : {}", discardCupList);
-					adminCupMapper.addDiscardCupByExcelFile(discardCupList);
-					isRead = true;
+				//업로드하는 파일에서 담아준 리스트가 비어 있지 않다면 
+				if(discardCupList != null) {
+					if(discardCupQRList == null) {
+						adminCupMapper.addDiscardCupByExcelFile(discardCupList);
+						isRead = true;
+						return isRead;
+					}
+					for(Cup cup : discardCupList) {
+						String insertQR =cup.getCupQR();
+							for(Cup discardCup : discardCupQRList) {
+								String discardCupQR =discardCup.getCupQR();	
+									if(insertQR.equals(discardCupQR)) {
+										isRead = false;
+										return isRead;
+									}
+									
+									
+							}
+							adminCupMapper.addDiscardCupByExcelFile(discardCupList);
+							isRead = true;	
+					}
+
 				}
+				
 				
 			}
 		}
 		
 		return isRead;
 	}
+	
+	
 	//폐기컵 조회
 	public Map<String,Object> getDiscardCupList(int currentPage) {
 		//보여질 행의 갯수
@@ -117,11 +150,15 @@ public class AdminCupService {
 		paramMap.put("discardCupList", discardCupList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
-		
+		paramMap.put("rowPerPage", rowPerPage);
 		return paramMap;
 		
 	}
-	//체크된 컵 삭제
+	//체크된 컵 삭제-폐기
+	public void removeDiscardCup(List<String> cupQRArr) {
+		adminCupMapper.removeDiscardCup(cupQRArr);
+	}
+	//체크된 컵 상태 삭제
 	public void removeCupState(List<String> cupQRArr) {
 		adminCupMapper.removeCupState(cupQRArr);
 	}
@@ -139,6 +176,7 @@ public class AdminCupService {
 		List<Static> cupStaticList = adminCupMapper.getCupStaticList();
 		return cupStaticList;
 	};
+	
 	//컵 상태 조회
 	public Map<String,Object> getCupStateList(int currentPage,String searchKey, String searchValue) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -170,7 +208,7 @@ public class AdminCupService {
 		
 		//마지막 페이지 계산 
 		//1. 보여질 테이블의 전체 행의 갯수
-		double rowsCount = adminCupMapper.getCupStateListCount();
+		double rowsCount = adminCupMapper.getCupStateListCount(paramMap);
 		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
 		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨
 		//2. 마지막 페이지
@@ -203,6 +241,7 @@ public class AdminCupService {
 		paramMap.put("cupStateList", cupStateList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
+		paramMap.put("rowPerPage", rowPerPage);
 		
 		return paramMap;
 		
@@ -263,6 +302,7 @@ public class AdminCupService {
 		paramMap.put("cupManageList", cupManageList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
+
 		
 		return paramMap;
 	}
@@ -312,6 +352,7 @@ public class AdminCupService {
 		paramMap.put("cupStockList", cupStockList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
+		paramMap.put("rowPerPage", rowPerPage);
 		
 		return paramMap;
 		

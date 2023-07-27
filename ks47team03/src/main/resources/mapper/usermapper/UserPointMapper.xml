@@ -8,7 +8,7 @@
 <mapper namespace="ks47team03.user.mapper.UserPointMapper">
 
 	<resultMap type="Point" id="pointResultMap">
-		<id column="point_past_now_history_code" 	property="pointPastNowHistoryCode"/>
+		<id column="user_deposit_point_code" 	property="userDepositPointCode"/>
 		<result column="user_id" 					property="userId"/>
 		<result column="current_holding_point" 		property="currentHoldingPoint"/>		
 		<result column="admin_id" 					property="adminId"/>		
@@ -27,19 +27,36 @@
 			point_past_now_history
 	</select>
 
+	
 	<select id="getAllUserPoint" parameterType="map" resultMap="pointResultMap">
 		/* 전체 회원 현재 보유 포인트 조회*/
 		SELECT
-			point_past_now_history_code,
+			CAST(SUBSTRING_INDEX(user_deposit_point_code,'code',-1) AS UNSIGNED) AS num,
+			user_deposit_point_code AS userDepositPointCode
 			user_id,
 			current_holding_point,
 			admin_id,
 			up_datetime
-		FROM
-			point_past_now_history
+		FROM 
+			user_deposit_point
+		ORDER BY num
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>
 	</select>
+	
+	<select id="getAllUserPointCount" parameterType="String" resultType="int">
+		/* 데이터 개수 조회 */
+		SELECT
+			COUNT(*)
+		FROM
+			${tableName}
+		<where>
+			<if test="tableName == 'day_maximum_count'">
+				day_maximum_count_code LIKE'%point%';
+			</if>
+		</where>
+	</select>
+	
 	
 </mapper>

@@ -12,13 +12,23 @@
 		<result column="set_datetime" 				property="setDateTime"/>
 		<result column="admin_id" 					property="userId"/>
 		<result column="up_datetime" 				property="upDateTime"/>
-	</resultMap>	
+	</resultMap>
+	
+	
+	<select id="getAllDiscardCupQRList" resultMap="cupResultMap">
+		/*전체 폐기컵리스트 조회-*/
+		SELECT 
+			cdm.cup_QR_code 
+		FROM
+			cup_discard_manage AS cdm
+	</select>	
+	
 	<insert id="addDiscardCupByExcelFile" parameterType="Cup">
 		/* 엑셀파일 업로드*/
 		INSERT INTO
 			cup_discard_manage
 		VALUES
-		<foreach collection="list" item="cup" separator=",">	
+		<foreach collection="list" item="cup" separator=",">
 			((SELECT
 				cup_discard_manage_code
 			FROM
@@ -32,16 +42,26 @@
 						    END AS cup_discard_manage_code
 				FROM
 						    cup_discard_manage)sub_sc),
+	
 				#{cup.partnerInfo},
 				#{cup.cupQR},
 				'adminid001',
 				CURDATE())
 		</foreach>
 	</insert>
+	<delete id="removeDiscardCup" parameterType="List">
+	/*체크된 폐기컵 삭제*/
+		DELETE FROM cup_discard_manage
+		WHERE
+			cup_QR_code IN
+			
+    	<foreach collection="list" item="item" index="i" open="(" separator="," close=")">
+      		#{item}
+    	</foreach>
+	</delete>
 	<select id="getDiscardCupList"  parameterType="map" resultType="map" >
 	/*폐기컵  조회*/
 		SELECT 
-			CAST(SUBSTRING_INDEX(cdm.cup_discard_manage_code,'code',-1) AS UNSIGNED) AS num,
 			cdm.approval_partner_plus_info_code AS partnerInfo,
 			cdm.cup_QR_code AS cupQR,
 			cdm.admin_id AS adminId,
@@ -72,6 +92,7 @@
       		#{item}
     	</foreach>
 	</delete>
+	
 	<update id="modifyCupState" parameterType="Cup">
 		/* 상품수정 */
 		UPDATE cup_manage AS cm
@@ -102,6 +123,7 @@
 			cm.cup_QR_code =#{cupQR};
 		
 	</select>
+	
 	<select id="getCupStaticList" resultType="Static">
 		/*컵 상태코드 조회*/
 		SELECT
@@ -116,7 +138,6 @@
 	<select id="getCupStockList"  parameterType="map" resultType="map" >
 	/*컵 재고 조회*/
 		SELECT
-			CAST(SUBSTRING_INDEX(csm.cup_stack_code,'code',-1) AS UNSIGNED) AS num,
 			IFNULL(csm.approval_partner_plus_info_code, '-') AS partnerInfo,
 			IFNULL(csm.partner_name, '-') AS partnerName,
 			csm.wash_input_amount AS inputAmount,
@@ -137,7 +158,6 @@
 	<select id="getCupStateList"  parameterType="map" resultType="map" >
 	/*컵 상태 조회*/
 		SELECT 
-			CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED) AS num,
 			cm.cup_QR_code as cupQR,
 			sc.static_code_content as staticCode,
 			cm.set_datetime as setDate,
@@ -154,7 +174,7 @@
         		${searchKey} = #{searchValue}
         	</if>
         </where>
-		ORDER BY num 	
+		ORDER BY CAST(SUBSTRING(cm.cup_QR_code,6) AS UNSIGNED)	
 		<if test="startIndex != null and startIndex > -1 ">
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
@@ -167,12 +187,22 @@
 		FROM
 			cup_stack_manage;
 	</select>
+	
 	<select id="getCupStateListCount" resultType="int">
 		/*컵 상태의 전체 행의 갯수*/
 		SELECT
 			COUNT(*)
 		FROM
-			cup_manage;
+			cup_manage AS cm
+			INNER join
+			static_code AS sc
+			on
+			cm.static_code = sc.static_code
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue};
+        	</if>
+        </where>
 	</select>
 	
 	<select id="getCupManageList"  parameterType="map" resultType="map" >

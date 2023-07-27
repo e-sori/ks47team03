@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks47team03.admin.service.AdminCommonService;
-import ks47team03.user.dto.User;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -88,7 +87,6 @@ public class AdminCommonController {
 		model.addAttribute("endPageNum", endPageNum);
 		return "admin/user/userAll";
 	}
-	
 	
 	//회원 등급 관리
 	@GetMapping("/user/gradeManage")

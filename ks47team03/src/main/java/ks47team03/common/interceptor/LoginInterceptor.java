@@ -19,7 +19,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		String sessionId = (String) session.getAttribute("SID");
 		log.info("sessionId:{}" , sessionId);
 		if(sessionId == null) {
-			response.sendRedirect("/login");
+			response.sendRedirect("/projectIntro");
 			return false;
 		}
 		else {
@@ -27,51 +27,48 @@ public class LoginInterceptor implements HandlerInterceptor{
 			String sessionLevel = (String) session.getAttribute("SLEVEL");
 			
 			if(sessionLevel.equals("설치사업장")) {
-				if(		requestUri.indexOf("/admin") > -1
+				if(		requestUri.indexOf("/admin/") > -1
 					||	requestUri.indexOf("/partner/washDiscardCup") > -1
 					||	requestUri.indexOf("/partner/businessMyKioskList") > -1
 					||	requestUri.indexOf("/partner/washDiscardCup") > -1
 					||	requestUri.indexOf("/deposit") > -1
 					||	requestUri.indexOf("/myPoint") 	 > -1 ) {
-					response.sendRedirect("/main");
+					response.sendRedirect("/projectIntro");
 					return false;
 				}
 			}
 			if(sessionLevel.equals("무인기기설치업체")) {
-				if(		requestUri.indexOf("/admin") > -1
+				if(		requestUri.indexOf("/admin/") > -1
 					||	requestUri.indexOf("/partner/businessKioskApply") > -1
 					||	requestUri.indexOf("/partner/businessKioskApplyResult") 	 > -1
-					||	requestUri.indexOf("/partner/kioskInstalledList") 	 > -1 
 					||	requestUri.indexOf("/partner/businessAddCup") 	 > -1 
 					||	requestUri.indexOf("/partner/washDiscardCup") 	 > -1 
 					||	requestUri.indexOf("/deposit") 	 > -1 
 					||	requestUri.indexOf("/myPoint") 	 > -1 ) {
-					response.sendRedirect("/main");
+					response.sendRedirect("/projectIntro");
 					return false;
 				}
 			}
 			if(sessionLevel.equals("세척업체")) {
-				if(		requestUri.indexOf("/admin") > -1
+				if(		requestUri.indexOf("/admin/") > -1
 					||	requestUri.indexOf("/partner/businessKioskApply") > -1
 					||	requestUri.indexOf("/partner/businessKioskApplyResult") 	 > -1
-					||	requestUri.indexOf("/partner/kioskInstalledList") 	 > -1 
 					||	requestUri.indexOf("/partner/businessAddCup") 	 > -1 
 					||	requestUri.indexOf("/partner/businessMyKioskList") 	 > -1 
 					||	requestUri.indexOf("/deposit") 	 > -1 
 					||	requestUri.indexOf("/myPoint") 	 > -1 ) {
-					response.sendRedirect("/main");
+					response.sendRedirect("/projectIntro");
 					return false;
 				}
 			}
 			if(sessionLevel.equals("일반사용자")) {
-				if(		requestUri.indexOf("/admin") > -1
+				if(		requestUri.indexOf("/admin/") > -1
 					||	requestUri.indexOf("/partner") > -1
 					||	requestUri.indexOf("/partner/businessKioskApplyResult") 	 > -1
-					||	requestUri.indexOf("/partner/kioskInstalledList") 	 > -1
 					||	requestUri.indexOf("/partner/businessAddCup") 	 > -1
 					||	requestUri.indexOf("/partner/washDiscardCup") 	 > -1
 					||	requestUri.indexOf("/partner/partnerInfo") 	 > -1 ) {
-					response.sendRedirect("/main");
+					response.sendRedirect("/projectIntro");
 					return false;
 				}
 			}

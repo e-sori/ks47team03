@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 import ks47team03.admin.mapper.AdminDepositMapper;
+import ks47team03.user.dto.DepositStandard;
 
 @Service
 public class AdminDepositService {
@@ -68,10 +69,6 @@ private static final Logger log = LoggerFactory.getLogger(AdminCommonService.cla
 		return paramMap;
 	}
 	
-	
-	
-	
-	
 	//회원 보증금 관리 부분
 	
 	public Map<String,Object> getDepositManageList(int currentPage) {
@@ -118,7 +115,7 @@ private static final Logger log = LoggerFactory.getLogger(AdminCommonService.cla
 		return paramMap;
 	}
 	
-	
+
 	//보증금 결제 관리
 	public Map<String,Object> getDepositPayList(int currentPage) {
 		int rowPerPage = 16;
@@ -214,5 +211,21 @@ private static final Logger log = LoggerFactory.getLogger(AdminCommonService.cla
 		paramMap.put("endPageNum", endPageNum);
 		
 		return paramMap;
+	}
+
+	/*
+	 * public int modifyDeopositStandard(DepositStandard depositStandard) {
+	 * DepositStandard depositStandardInfo =
+	 * adminDepositMapper.getDepositStandardInfoById(); return result; }
+	 */
+	 public DepositStandard getDepositStandardInfoById(String waitingDepositStandardCode) {
+	 	DepositStandard depositStandardInfo = adminDepositMapper.getDepositStandardInfoById(waitingDepositStandardCode);
+	 	return depositStandardInfo;
+}
+
+	public int modifyDepositStandard(DepositStandard depositStandard) {
+		int result = adminDepositMapper.modifyDepositStandard(depositStandard);
+		return result;
+		
 	}
 }

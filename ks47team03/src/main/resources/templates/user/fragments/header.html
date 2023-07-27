@@ -26,32 +26,30 @@
 	                                <a href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">!마이페이지</a>
 	                                <ul class="dropdown-zmenu">
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myInfo">!나의 정보</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myCup">!나의 구구컵</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/partnerApply">!제휴업체 신청</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myInfo">!나의 정보:같이</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/myCup">!나의 구구컵:서원</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/mypage/partnerApply">!제휴업체 신청:주열</a></li>
 	                                </ul>
 	                            </li>
-	                            <!--업체 메뉴 (공통)  -->
-	                            <li class="nav-item"><a class="nav-link mainmenu" href="/partner/partnerInfo">!업체 정보</a></li>
-	                            <!--사업장 메뉴 -->
+	                            <!--설치 사업장 메뉴 -->
 	                            <li class="nav-item submenu dropdown">
 	                                <a th:if="${session.SLEVEL == '설치사업장' or session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
 	                                    aria-haspopup="true" aria-expanded="false">!설치 사업장</a>
 	                                <ul class="dropdown-zmenu">
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApply">!무인기기 신청</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApplyResult">!무인기기 신청 확인</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/kioskInstalledList">!무인기기 리스트</a></li>
-	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessAddCup">!추가컵 배송 신청</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApply">!우리 가게 정보:같이</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApply">!무인기기 신청:우석</a></li>
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessKioskApplyResult">!무인기기 신청 확인:우석</a></li> 
+	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/partner/businessAddCup">!추가컵 배송 신청:현정</a></li>
 	                                </ul>
 	                            </li>
-	                            <!--세척 업체-->
-	                            <li th:if="${session.SLEVEL == '세척업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/washDiscardCup">!세척 업체</a></li>
-	                            <!--무인기기 업체-->
-	                            <li th:if="${session.SLEVEL == '무인기기설치업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/businessMyKioskList">!무인기기 업체</a></li>
+	                            <!--세척 업체 메뉴-->
+	                            <li th:if="${session.SLEVEL == '세척업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/washDiscardCup">폐기컵 등록:현정</a></li>
+	                            <!--무인기기 업체 메뉴-->
+	                            <li th:if="${session.SLEVEL == '무인기기설치업체' or session.SLEVEL == '관리자'}" class="nav-item"><a class="nav-link mainmenu" href="/partner/businessMyKioskList">!무인기기 확인:우석</a></li>
 	                            <!--일반회원 메뉴 / 비회원이 볼 수는 있지만 들어갈 수 없음 -->
 	                            <li class="nav-item submenu dropdown">
 	                                <a th:if="${session.SLEVEL == '일반사용자' or session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
-	                                    aria-haspopup="true" aria-expanded="false">!보증금</a>
+	                                    aria-haspopup="true" aria-expanded="false">!보증금:수봉</a>
 	                                <ul class="dropdown-zmenu">
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydeposit">!나의 보증금</a></li>
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/deposit/mydepositPay">!보증금 결제</a></li>
@@ -60,21 +58,21 @@
 	                            </li>
 	                            <li class="nav-item submenu dropdown">
 	                                <a th:if="${session.SLEVEL == '일반사용자' or session.SLEVEL == '관리자'}" href="#" class="nav-link dropdown-toggle mainmenu" data-toggle="dropdown" role="button"
-	                                    aria-haspopup="true" aria-expanded="false">!포인트</a>
+	                                    aria-haspopup="true" aria-expanded="false">!포인트:소리</a>
 	                                <ul class="dropdown-zmenu">
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/point/myPoint">!나의 포인트</a></li>
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/point/myPointRefund">!포인트 환급</a></li>
 	                                    <li class="nav-item"><a class="nav-link dropmenu" href="/point/myPointRefundSponsorship">!포인트 후원</a></li>
 	                                </ul>
 	                            </li>
-	                            <li class="nav-item"><a class="nav-link mainmenu" href="#">#무인기기 위치</a></li>
-	                            <li class="nav-item"><a class="nav-link mainmenu" href="/board/communityBoardView">!커뮤니티</a></li>
-	                            <li class="nav-item"><a class="nav-link mainmenu" href="/service/troubleKiosk">!AS 접수</a></li>
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/kiosk/kioskPlace">!무인기기 위치:현정</a></li>
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/board/communityBoardView">!커뮤니티:서원</a></li>
+	                            <li class="nav-item"><a class="nav-link mainmenu" href="/service/troubleKiosk">!AS 접수:우석</a></li>
 	                            
 								<!--로그인한 모든 회원-->
 	                            <li th:if="${session.SID != null}" class="nav-item">
 	                             	<a class="userHello-username" href="/mypage/myInfo" th:text="${session.SNAME}"></a>
-	                             	<span>님 안녕하세요!</span>
+	                             	<span>님 안녕하세요! 알림:서원</span>
 	                            	<a class="fe fe-16 fe-bell userHello" href="#"><span class="notice-dot"></span></a>                         	                            	
 	                            </li>
 	                        </ul>
@@ -82,15 +80,15 @@
 	                            <li class="nav-item">
 	                            	<!--로그인 전-->
 	                            	<a th:if="${session.SID == null}" class="navbar-login logo_h" href="/login">
-				                    	<img src="../user/img/login.png" height="36" width="87" alt="">
+				                    	<img src="../user/img/login.png" height="36" width="87" alt="">주열
 				                    </a>
 				                    <!--로그인 후-->
 	                            	<a th:unless="${session.SID == null}" class="navbar-login logo_h" href="/logout">
-				                    	<img src="../user/img/logout.png" height="36" width="97" alt="">
+				                    	<img src="../user/img/logout.png" height="36" width="97" alt="">주열
 				                    </a>
 				                    <!--로그인 전-->
 	                            	<a th:if="${session.SID == null}" class="navbar-join logo_h" href="/join">
-				                    	<img src="../user/img/join.png" height="36" width="107" alt="">
+				                    	<img src="../user/img/join.png" height="36" width="107" alt="">주열
 				                    </a>
 
 	                            </li>

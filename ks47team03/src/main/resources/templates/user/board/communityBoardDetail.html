@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+
+ <!-- ================ start banner area ================= -->
+  <section class="page-banner-area" id="category">
+    <div class="container h-100">
+        <div class="text-center">
+          <h1>게시글 내용</h1>
+          <nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+              <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+              <li class="breadcrumb-item active" aria-current="page">게시글 내용</li>
+            </ol>
+          </nav>
+      </div>
+    </div>
+  </section>
+
+	  <!-- ================ end banner area ================= -->
+        <section class="section-margin--small">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="blog_left_sidebar">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
+  <!--================Point table Area =================-->
+        <section class="section-margin--small">
+            <div class="container2">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card1 p-5">
+                            <h4 class="text-center">게시글</h4>
+                            <article class="row blog_item">
+                                <div class="col-md-3">
+                                    <div class="blog_info1 text-left">
+                                        <ul class="blog_meta list">
+                                            <li>
+                                                <i class="lnr lnr-enter"> 게시글 번호 </i>
+                                                <p th:text="${detail.getSimpleCode}">작성자</p>
+                                            </li>
+                                            <li>
+                                                <i class="lnr lnr-user"> 작성자 </i>
+                                                <p th:text="${detail.user_id}">작성자</p>
+                                            </li>
+                                            <li>
+                                                <i class="lnr lnr-calendar-full"> 작성날짜 </i>
+                                                <p th:text="${detail.community_now_board_datetime}">작성날짜</p>
+                                            </li>
+                                            <li>
+                                                <i class="lnr lnr-eye"> 조회수 </i>
+                                                <p th:text="${detail.community_now_board_view}">조회수</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="blog_post">
+                                        <div class="blog_details1">
+                                            <label for="title" class="bold-label margin-bottom-label">제목</label>
+                                            <h4 class="margin-bottom-h4" id="title" th:text="${detail.community_now_board_title}">제목</h4>
+                                            <label for="content" class="bold-label margin-bottom-label">내용</label>
+                                            <p class="seo-border" id="content" th:text="${detail.community_now_board_content}">내용</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="button-container">
+                                <a class="btn btn-primary1 btn-back" href="/board/communityBoardView">목록으로</a>
+                                <a class="btn btn-primary1 btn-back" th:href="@{/board/communityBoardDelete(boardCode=${detail.community_now_board_code})}">삭제버튼</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+  <!--================End Order Details Area =================-->
+
+   </th:block>
+</html>

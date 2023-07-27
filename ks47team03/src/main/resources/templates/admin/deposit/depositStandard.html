@@ -8,7 +8,7 @@
      <div class="container-fluid">
        <div class="row justify-content-center">
           <div class="col-12">
-            <h2 class="mb-2 page-title">전체 회원 목록</h2>
+            <h2 class="mb-2 page-title">보증금 기준 조회</h2>
              <p class="card-text"></p>
               <div class="row my-4">
                 <!-- Small table -->
@@ -30,7 +30,7 @@
                             <th>최초 등록일</th>
                             <th>관리자 아이디</th>
                             <th>업데이트 날짜</th>
-                            <th>Action</th>
+                            <th>수정/삭제</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -42,6 +42,7 @@
 		                                <label class="custom-control-label" for="check1"></label>
 		                              </div>
 		                            </td>
+		                            
 		                            <td th:text="${d.waitingDepositStandardCode}"></td>
 		                            <td th:text="${d.waitingDepositPeriod}"></td>
 		                            <td th:text="${d.setDatetime}"></td>
@@ -49,26 +50,15 @@
 		                            <td th:text="${d.upDatetime}"></td>
 		  
 		                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                <span class="text-muted sr-only">Action</span>
-		                              </button>
-		                              <div class="dropdown-menu dropdown-menu-right">
-		                                
-		                                <a class="dropdown-item" href="">Remove</a>
-		                              </div>
+		                                <span class="text-muted sr-only">수정/삭제</span>
+		                              </button>	
+		                                <div class="dropdown-menu dropdown-menu-right">
+	                                <a class="dropdown-item" th:href="@{/admin/deposit/modifyDepositStandard(adminId=${d.adminId})}">수정</a>	    
+	                                <a class="dropdown-item" href="#">삭제</a>	                   
+	                              </div>	                        
 		                            </td>
 		                          </tr>
-                          	</th:block>
-                          	<tr th:if="${#lists.isEmpty(depositStandardList)}">
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Action</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="#">Edit</a>
-	                                <a class="dropdown-item" href="#">Remove</a>
-	                                <a class="dropdown-item" href="#">Assign</a>
-	                              </div>
-	                            </td>
-							</tr>
+                          	</th:block>                        
                         </tbody>
                         <tfoot>
                         
@@ -90,10 +80,7 @@
 							</tr> 
 						</tfoot>
                       </table>
-                    </div>
-							<div>
-							<a class="dropdown-item" href="#">Remove</a>
-							</div>
+                    </div>			
                   </div>
                 </div> <!-- simple table -->
               </div> <!-- end section -->

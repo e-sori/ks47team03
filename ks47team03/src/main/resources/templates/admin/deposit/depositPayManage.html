@@ -8,7 +8,7 @@
      <div class="container-fluid">
        <div class="row justify-content-center">
           <div class="col-12">
-            <h2 class="mb-2 page-title">전체 회원 보증금 결제 관리</h2>
+            <h2 class="mb-2 page-title">보증금 결제 관리</h2>
              <p class="card-text"></p>
               <div class="row my-4">
                 <!-- Small table -->
@@ -33,7 +33,7 @@
                             <th>입금 대기 만료 날짜</th>
                             <th>입금 완료 날짜</th>
                             <th>상태</th>
-                            <th>Action</th>
+                            <th>수정/삭제</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -54,7 +54,7 @@
 		                            <td th:text="${dp.depositCompletionDatetime}"></td>
 		                            <td th:text="${dp.codeMiddleType}"></td>
 		                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                <span class="text-muted sr-only">Action</span>
+		                                <span class="text-muted sr-only">수정/삭제</span>
 		                              </button>
 		                              <div class="dropdown-menu dropdown-menu-right">
 		                                
@@ -62,23 +62,11 @@
 		                              </div>
 		                            </td>
 		                          </tr>
-                          	</th:block>
-                          	<tr th:if="${#lists.isEmpty(depositStandardList)}">
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Action</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="#">Edit</a>
-	                                <a class="dropdown-item" href="#">Remove</a>
-	                                <a class="dropdown-item" href="#">Assign</a>
-	                              </div>
-	                            </td>
-							</tr>
+                          	</th:block>                          
                         </tbody>
-                        <tfoot>
-                        
+                        <tfoot>                        
 							 <tr>
-								<td colspan="7">
+								<td colspan="10">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/deposit/depositPayManage}">처음으로</a>
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/deposit/depositPayManage(currentPage=${currentPage-1})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>

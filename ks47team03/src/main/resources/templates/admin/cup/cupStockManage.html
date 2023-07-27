@@ -34,9 +34,9 @@
                           </tr>
                         </thead>
                         <tbody>
-                        	<th:block th:unless="${#lists.isEmpty(cupStockList)}"  th:each="c : ${cupStockList}">
+                        	<th:block th:unless="${#lists.isEmpty(cupStockList)}"  th:each="c,state : ${cupStockList}">
 		                          <tr>
-		                            <td th:text="${c.num}"></td>
+		                            <td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
 		                            <td th:text="${c.partnerInfo}"></td>
 		                            <td th:text="${c.partnerName}"></td>
 		                            <td th:text="${c.inputAmount}"></td>

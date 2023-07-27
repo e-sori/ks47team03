@@ -10,8 +10,8 @@
      <div class="container-fluid">
        <div class="row justify-content-center">
           <div class="col-12">
-            <h2 class="mb-2 page-title">구구컵 상태 관리</h2>
-             <p class="card-text">현재 구구컵 상태를 관리합니다! </p>
+            <a class="return-tag" href="/admin/cup/cupStateManage">구구컵 상태 관리</a>
+             <p class="card-text"> 현재 보유한 구구컵:<mark>[[${cupStateListCount}]]</mark>개</p>
               <div class="row my-4">
                 <!-- Small table -->
                 <div class="col-md-12">
@@ -35,27 +35,23 @@
                           </tr>
                         </thead>
                         <tbody>
-                        	<th:block th:unless="${#lists.isEmpty(cupStateList)}"  th:each="c : ${cupStateList}">
+                        	<th:block th:unless="${#lists.isEmpty(cupStateList)}"  th:each="c,state : ${cupStateList}">
 		                          <tr>
 		                            <td>
 		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks" th:data-cup-qr="${c.cupQR}">
 		                            </td>
-		                            <td th:text="${c.num}"></td>
+		                            <td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
 		                            <td th:text="${c.cupQR}"></td>
 		                            <td th:text="${c.staticCode}"></td>
 		                            <td th:text="${c.setDate}"></td>
 		                            <td th:text="${c.adminId}"></td>
 		                            <td th:text="${c.upDateTime}"></td>
-		                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                                <span class="text-muted sr-only">Action</span>
-		                              </button>
-		                              <div class="dropdown-menu dropdown-menu-right">
+		                            <td>
 		                                <a class="dropdown-item" th:href="@{/admin/cup/cupStateModify(cupQR=${c.cupQR})}">Edit</a>
-		                                <a class="dropdown-item" href="#">Remove</a>
-		                              </div>
 		                            </td>
 		                          </tr>
                           	</th:block>
+
                           	<tr th:if="${#lists.isEmpty(cupStateList)}">
 								<td colspan="7">보유한 컵이 없습니다.</td>
 	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

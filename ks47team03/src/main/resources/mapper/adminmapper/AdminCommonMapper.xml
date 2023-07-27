@@ -33,7 +33,7 @@
 			user_sms_check		AS userSmscheck,
 			user_email_check	AS userEmailcheck,
 			static_code			AS staticCode,
-			cast(user_join_datetime AS CHAR(20))	AS userJoindatetime
+			user_join_datetime	AS userJoindatetime
 		FROM 
 			user_manage
 		<if test="startIndex != null and startIndex > -1 ">

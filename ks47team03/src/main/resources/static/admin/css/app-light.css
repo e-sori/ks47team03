@@ -68,6 +68,13 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 input, progress {
   accent-color: #6c757d;
 }
+.tab-content{
+margin-top: 30px;
+}
+.return-tag{
+    font-size: 1.75rem;
+    font-weight: 700;
+}
 .upload-file-discard-p{
 	margin-bottom: 0.2rem;
 	margin-right: 3%;
@@ -3067,7 +3074,7 @@ input[type="button"].btn-block {
   background-color: #88BFC2; }
   
  .bottom-border{
- 	border-bottom: #88BFC2;
+ 	border-bottom: #88BFC2 dashed 0.5px;
  }
 
 .nav-fill .nav-item {

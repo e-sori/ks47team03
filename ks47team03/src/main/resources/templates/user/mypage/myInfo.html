@@ -13,7 +13,8 @@
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
               <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">나의 정보</li>
+              <li class="breadcrumb-item"><a href="/mypage/myInfo"><span>마이페이지</span></a></li>
+              <li class="breadcrumb-item active" aria-current="page"><span class="fe fe-16 fe-chevron-right"></span>나의 정보</li>
             </ol>
           </nav>
       </div>
@@ -23,32 +24,32 @@
 	  <!-- ================ end banner area ================= -->
 
   <!--================Point table Area =================-->
-  <section class="order_details section-margin--small">
+  <section class="	">
     <div class="container">
       
       <div class="row">
 			<div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
 				<div class="sidebar">
 					<!-- User Widget -->
-					<div class="widget user-dashboard-profile">
+					<div class="">
 						<!-- User Image -->
-						<div class="profile-thumb">
-							<img src="/user/img/instagram/Image-01.jpg" alt="" class="rounded-circle">
+						<div class="">
+							<img src="/user/img/member5.jpg" alt="" class="span" width="300" heigh="150">
 						</div>
 						<!-- User Name -->
-						<h5 class="text-center">Samanta Doe</h5>
-						<p>Joined February 06, 2017</p>
+						<h5 class="text-center">서원</h5>
+						<p>Joined 2018</p>
 					</div>
 					<!-- Dashboard Links -->
-					<div class="widget user-dashboard-menu">
+					<div class="">
 						<ul>
 							<li>
-								<a href="dashboard-my-ads.html"><i class="fa fa-user"></i>마이 페이지</a></li>
+								<a href=""><span class="fe fe-user"></span>마이 페이지</a></li>
 							<li>
-								<a href=""><i class="fa fa-hourglass-end"></i> 배송 신청 </a>
+								<a href=""><span class="fe fe-hourglass-end"></span> 배송 신청 </a>
 							</li>
 							<li>
-								<a href=""><i class="fa fa-truck"></i>배송 조회 </a>
+								<a href=""><span class="fe fe-truck"></span>배송 조회 </a>
 							</li>
 						</ul>
 					</div>
@@ -60,15 +61,17 @@
 					<h1 class="widget-header user">배송 주문 정보</h1>
 					<form action="#">
 						<!-- First Name -->
-						<div class="form-group">
+						<div class="container p-3 my-3 border" >
+							<h1>주문자 이름</h1>
 						    <label for="first-name">주문자 이름</label>
-						    <input type="text" class="form-control" id="first-name" placeholder="이름을 입력해 주세요">
+						    
 						</div>
 						<!-- Last Name -->
 						<div class="form-group">
 						    <label for="last-name">주문자 연락처</label>
-						    <input type="text" class="form-control" id="last-name" placeholder="전화번호를 입력해 주세요">
+						    
 						</div>
+					</form>
 				</div>
 				<div class="widget personal-info">
 						<!-- Comunity Name -->
@@ -87,20 +90,15 @@
 						    일반결제
 						  </label>
 						</div>		
-							<div class="select">
-								<input type="radio" id="select" name="temp1"><label for="select">신용/체크카드</label>
-								<input type="radio" id="select2" name="temp1"><label for="select2">무통장 입금</label>
-						   </div>
+						<div class="select">
+							<input type="radio" id="select" name="temp1"><label for="select">신용/체크카드</label>
+							<input type="radio" id="select2" name="temp1"><label for="select2">무통장 입금</label>
+					    </div>
 							<button type="button" class="btn btn-transparent btn-danger btn-block">결제하기</button>
-						</div>
-					</form>
-				</div>	
-			</div>
+				</div>
+			</div>	
 		</div>
-         
-        
-      
-    </div>
+	</div>
   </section>
   <!--================End Order Details Area =================-->
 

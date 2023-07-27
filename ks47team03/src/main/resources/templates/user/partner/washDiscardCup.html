@@ -26,12 +26,14 @@
   
    <section class="order_details section-margin--small">
     <div class="container">
-    <div class="download-file-discardForm">
+      <div class="order_details_table">
+        <h2>Discard Cup Download</h2>
+        <div class="table-responsive">
 		<table class="table">
 			<thead>
 				<tr>
 					<th  colspan="3">
-					<p>다운 받아 <mark>서식에 맞게</mark> 작성 후 업로드 부탁드립니다💙</p>
+					다운 받아 서식에 맞게 작성 후 업로드 부탁드립니다💙
 					</th>
 				</tr>
 			</thead>
@@ -40,14 +42,18 @@
 					<td th:text="${index.count}"></td>
 					<td th:text="${l.fileOriginalName}"></td>
 					<td class="td-class-file">
-						<a class="btn mb-2 btn-light" th:href="@{/file/download(fileIdx=${l.fileIdx})}">다운로드</a>
+						<a class="btn mb-2 btn-secondary download-cupBtn" th:href="@{/admin/cup/file/download(fileIdx=${l.fileIdx})}">
+							<span class="fe fe-download fe-16"></span>
+						</a>
 					</td>
 				</tr>
 				<tr th:unless="${not #lists.isEmpty(fileList)}">
 					<td colspan="4">목록이 없습니다.</td>
 				</tr>
+				
 			</tbody>
 		</table>
+	</div>
 	</div>
       <div class="order_details_table">
         <h2>Discard Cup Upload</h2>
@@ -85,7 +91,58 @@
               </tr>
             </tbody>
           </table> 
-         </form>
+          </form>
+         </div>
+         
+      <div class="order_details_table">
+        <h2>Discard Cup List</h2>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">NO.</th>
+                <th scope="col">사업장 코드</th>
+                <th scope="col">컵 QR</th>
+                <th scope="col">업데이트 날짜</th>
+              </tr>
+            </thead>
+            <tbody>
+            	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d,state : ${discardCupList}">
+                 	<tr>
+                    	 <td class="washDiscardCupCheck" th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
+                     	 <td class="washDiscardCupCheck" th:text="${d.partnerInfo}"></td>
+                     	 <td class="washDiscardCupCheck" th:text="${d.cupQR}"></td>
+                     	<td class="washDiscardCupCheck" th:text="${d.upDateTime}"></td>
+                 	</tr>
+                </th:block>
+                <tr>
+                	<h5></h5>
+                </tr>
+              	<tr th:if="${#lists.isEmpty(discardCupList)}">
+					<td class="washDiscardCupCheck" colspan="4">폐기컵이 없습니다.</td>
+				</tr>
+            </tbody>
+			 <tfoot class="tfoot-cup">
+				<tr>
+					<td colspan="4">
+						<a class="pages btn mb-2 btn-secondary" th:href="@{/partner/washDiscardCup}">처음으로</a>
+						<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/partner/washDiscardCup(currentPage=${currentPage-1})}">이전</a>
+						<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+							<div class="btn-group mr-2" role="group" aria-label="First group">
+								<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
+									<a class="btn mb-2 btn-secondary " th:if="${currentPage != num}" th:href="@{/partner/washDiscardCup(currentPage=${num})}" th:text="${num}"></a>
+									<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
+								</th:block>
+							</div>				
+						<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/partner/washDiscardCup(currentPage=${currentPage+1})}">다음</a>
+						<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
+						<a class="pages btn mb-2 btn-secondary" th:href=@{/partner/washDiscardCup(currentPage=${lastPage})}>마지막으로</a>
+					</td>
+				</tr>
+			</tfoot>
+                      </table>
+                	</div>
+        
         </div>
       </div>
     </div>

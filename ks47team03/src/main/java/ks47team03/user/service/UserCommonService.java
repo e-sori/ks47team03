@@ -7,14 +7,13 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import ks47team03.user.dto.User;
+import ks47team03.user.dto.UserLevel;
 import ks47team03.user.mapper.UserCommonMapper;
 
 @Service
 public class UserCommonService {
 	
-	
-	private final UserCommonMapper userCommonMapper ;
-	
+	private final UserCommonMapper userCommonMapper;
 	public UserCommonService(UserCommonMapper userCommonMapper) {
 		this.userCommonMapper = userCommonMapper;
 	}
@@ -49,13 +48,14 @@ public class UserCommonService {
 		//회원 가입
 		public void joinUser(User user) {
 			userCommonMapper.joinUser(user);
-		}
-		
+		}		
+
 		//회원 등급 조회
-		public List<User> getUserLevelList(){
+		public List<UserLevel> getUserLevelList(){
 				
-			List<User> userLevelList = userCommonMapper.getUserLevelList();
+			List<UserLevel> userLevelList = userCommonMapper.getUserLevelList();
 				
 			return userLevelList;
 		}
+		
 }
