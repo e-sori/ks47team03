@@ -68,13 +68,15 @@
                         <tfoot>
                             <tr>
                                 <td colspan="10">
-                                    <a class="btn" th:href="@{/board/communityBoardView}">처음으로</a>
-                                    <a class="btn" th:if="${currentPage > 0}" th:href="@{/board/communityBoardView(page=${currentPage -1})}">이전</a>
-                                    <div class="btn" th:each="pageNumber : ${#numbers.sequence(0, maxPage)}">
-                                        <a th:href="@{/board/communityBoardView(page=${pageNumber})}" th:text="${pageNumber + 1}" th:class="${pageNumber == currentPage ? 'current' : ''}"></a>
-                                    </div>
-                                    <a class="btn" th:if="${currentPage < maxPage}" th:href="@{/board/communityBoardView(page=${currentPage + 1})}">다음</a>
-                                    <a class="btn" th:href=@{/board/communityBoardView(page=${maxPage})}>마지막으로</a>
+                                    <a class="btn mb-2 btn-light" th:href="@{/board/communityBoardView}">처음으로</a>
+                                    <a class="btn mb-2 btn-light" th:if="${currentPage > 0}" th:href="@{/board/communityBoardView(page=${currentPage -1})}">이전</a>
+                                    <div class="btn-group mr-2" role="group" aria-label="First group">
+	                                    <div class="btn mb-2 btn-light" th:each="pageNumber : ${#numbers.sequence(0, maxPage)}">
+	                                        <a th:href="@{/board/communityBoardView(page=${pageNumber})}" th:unless="${pageNumber == num}" th:text="${pageNumber + 1}" th:class="${pageNumber == currentPage ? 'current' : ''}"></a>
+	                                    </div>
+	                                </div>
+                                    <a class="btn mb-2 btn-light" th:if="${currentPage < maxPage}" th:href="@{/board/communityBoardView(page=${currentPage + 1})}">다음</a>
+                                    <a class="btn mb-2 btn-light" th:href=@{/board/communityBoardView(page=${maxPage})}>마지막으로</a>
                                 </td>
                             </tr>
                         </tfoot>
