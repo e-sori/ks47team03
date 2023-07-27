@@ -10,22 +10,25 @@
 	<select id="getPointRefundStandard" parameterType="map" resultType="map">
 		/* 5-2 포인트 환급 기준 조회 */
 		SELECT
-			CAST(SUBSTRING_INDEX(RS.point_refund_standard_code,'code',-1) AS UNSIGNED) AS num,
-			RS.point_refund_standard_code AS pointRefundStandardCode,
-			SUT.point_save_use_type AS pointSaveUseType,
-			RS.minimum_refund_standard AS minimumRefundStandard,
-			RS.refund_unit AS refundUnit,
-			RS.refund_fee_rate AS refundFeeRate,
-			RS.set_datetime AS setDateTime,
-			RS.admin_id AS adminId,
-			RS.up_datetime AS upDateTime
+			RS.point_refund_standard_code AS '환급 기준 코드',
+			SUT.point_save_use_type AS '포인트 타입',
+			RS.minimum_refund_standard AS '최소 환급 포인트',
+			RS.refund_unit AS '환급 단위',
+			RS.refund_fee_rate AS '환급 수수료',
+			CASE 
+			   WHEN RS.code_use = 'Y' THEN '사용가능'
+			   WHEN RS.code_use = 'N' THEN '사용불가능'
+			END AS '코드 사용 유무',	
+			RS.set_datetime AS '최초 등록일',
+			RS.admin_id AS '관리자 ID',
+			RS.up_datetime AS '최종 수정일'	
 		FROM 
 			point_refund_standard AS RS
 			INNER JOIN
 			point_save_use_type AS SUT
 			ON
 			RS.point_save_use_type_code = SUT.point_save_use_type_code
-		ORDER BY num
+		ORDER BY CAST(SUBSTRING_INDEX(RS.point_refund_standard_code,'code',-1) AS UNSIGNED)
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	
@@ -34,21 +37,24 @@
 	<select id="getPointSaveStandard" parameterType="map" resultType="map">
 		/* 4-2 포인트 적립 기준 조회 */
 		SELECT
-			CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED) AS num,
-			PSS.point_save_standard_code AS pointSaveStandardCode,
-			GS.grade_name AS gradeName,
-			PSS.grade_attain_point AS gradeAttainPoint,
-			PSS.use_save_point AS useSavePoint,
-			PSS.set_datetime AS setDateTime,
-			PSS.admin_id AS adminId,
-			PSS.up_datetime AS upDateTime
+			PSS.point_save_standard_code AS '적립 기준 코드',
+			GS.grade_name AS '등급',
+			PSS.grade_attain_point AS '등급 달성 포인트',
+			PSS.use_save_point AS '이용 포인트',
+			CASE 
+			   WHEN PSS.code_use = 'Y' THEN '사용가능'
+			   WHEN PSS.code_use = 'N' THEN '사용불가능'
+			END AS '코드 사용 유무',		
+			PSS.set_datetime AS '최초 등록일',
+			PSS.admin_id AS '관리자 ID',
+			PSS.up_datetime AS '최종 수정일'	
 		FROM
 			point_save_standard AS PSS
 			INNER JOIN
 			grade_standard AS GS
 			ON
 			PSS.grade_standard_code = GS.grade_standard_code
-		ORDER BY num
+		ORDER BY CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	
@@ -57,15 +63,18 @@
 	<select id="getPointTypeStandard" parameterType="map" resultType="map">
 		/* 3-2 포인트 타입 기준 조회 */
 		SELECT
-			CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED) AS num,
-			point_save_use_type_code AS pointSaveUseTypeCode,
-			point_save_use_type AS pointSaveUseType,
-			set_datetime AS setDateTime,
-			admin_id AS adminId,
-			up_datetime AS upDateTime
+			point_save_use_type_code AS '포인트 타입 코드',
+			point_save_use_type AS '포인트 타입',
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용가능'
+			   WHEN code_use = 'N' THEN '사용불가능'
+			END AS '코드 사용 유무',		
+			set_datetime AS '최초 등록일',
+			admin_id AS '관리자 ID',
+			up_datetime AS '최종 수정일'	
 		FROM
 			point_save_use_type
-		ORDER BY num
+		ORDER BY CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED)
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>		
@@ -74,15 +83,18 @@
 	<select id="getPointExpireStandard" parameterType="map" resultType="map">
 		/* 2-2 포인트 만료 기간 기준 조회 */
 		SELECT
-			CAST(SUBSTRING_INDEX(point_expire_standard_code,'code',-1) AS UNSIGNED) AS num,
-			point_expire_standard_code AS pointExpireStandardCode,
-			point_expire AS pointExpire,
-			set_datetime AS setDateTime,
-			admin_id AS adminId,
-			up_datetime AS upDateTime
+			point_expire_standard_code AS '유효 기간 코드',
+			point_expire AS '유효 기간',
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용가능'
+			   WHEN code_use = 'N' THEN '사용불가능'
+			END AS '코드 사용 유무',	
+			set_datetime AS '최초 등록일',
+			admin_id AS '관리자 ID',
+			up_datetime AS '최종 수정일'			
 		FROM
 			point_expire_standard
-		ORDER BY num
+		ORDER BY CAST(SUBSTRING_INDEX(point_expire_standard_code,'code',-1) AS UNSIGNED)
 		<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			LIMIT #{currentFirstIndex},#{rowPerPage};
 		</if>	
@@ -118,25 +130,30 @@
 	
 	<select id="getPointMaxCountStandard" parameterType="map" resultType="map">
 		/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
-		SELECT
-			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS num,
-			day_maximum_count_code AS dayMaximumCountCode,
-			use_maximum_count AS useMaximumCount,
-			CASE 
-			   WHEN code_use = 'Y' THEN '사용가능'
-			   WHEN code_use = 'N' THEN '사용불가능'
-			END AS codeUse,			
-			set_datetime AS setDateTime,
-			admin_id AS adminId,
-			up_datetime AS upDateTime
-		FROM
-			day_maximum_count
-		WHERE
-			day_maximum_count_code LIKE'%point%'
-		ORDER BY num
-		<if test="currentFirstIndex != null and currentFirstIndex > -1">
-			LIMIT #{currentFirstIndex},#{rowPerPage};
-		</if>	
+		<trim prefix="SELECT" suffixOverrides=",">
+			<if test="currentFirstIndex != null and currentFirstIndex > -1">
+				day_maximum_count_code AS '횟수 기준 코드',
+			</if>
+				use_maximum_count AS '적립 가능 횟수',
+				CASE 
+				   WHEN code_use = 'Y' THEN '사용가능'
+				   WHEN code_use = 'N' THEN '사용불가능'		
+				END AS '코드 사용 유무',	
+			<if test="currentFirstIndex != null and currentFirstIndex > -1">
+				set_datetime AS '최초 등록일',
+				admin_id AS '관리자 ID',
+				up_datetime AS '최종 수정일'	
+			</if>		
+		</trim>	
+			FROM
+				day_maximum_count
+			WHERE
+				day_maximum_count_code LIKE CONCAT('%', #{type}, '%')
+			ORDER BY ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED))
+			<if test="currentFirstIndex != null and currentFirstIndex > -1">
+				LIMIT #{currentFirstIndex},#{rowPerPage};
+			</if>	
+		
 	</select>
 	
 	<select id="getPointStandardCount" parameterType="String" resultType="int">
@@ -153,7 +170,7 @@
 	</select>
 
 	
-	<select id="getDistinctData" parameterType="String" resultType="map">
+	<select id="getDistinctData" parameterType="String" resultType="String">
 		/* 컬럼 내 중복 제거된 데이터 조회 */
 		SELECT
 			<if test="columnName != 'code_use'">
