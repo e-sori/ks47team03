@@ -1,5 +1,6 @@
 package ks47team03.admin.controller;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -116,12 +117,12 @@ public class AdminPointController {
 		int endPageNum = (int)pointStandardResultMap.get("endPageNum");
 		int lastPageNum = (int)pointStandardResultMap.get("lastPageNum");	
 		int rowPerPage = (int)pointStandardResultMap.get("rowPerPage");	
-		List<Map<String,Object>> pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
+		List<LinkedHashMap<String,Object>> pointStandardList = (List<LinkedHashMap<String,Object>>)pointStandardResultMap.get("pointStandardList");
 		String sessionId = (String) session.getAttribute("SID");
-		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
+		List<LinkedHashMap<String,Object>> codeUseList = (List<LinkedHashMap<String,Object>>) pointStandardResultMap.get("codeUseList");
 		
 		if(tableId.equals("pills-max"))	{
-			List<Map<String,Object>> pointStandardPrint = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardPrint");
+			List<LinkedHashMap<String,Object>> pointStandardPrint = (List<LinkedHashMap<String,Object>>)pointStandardResultMap.get("pointStandardPrint");
 			for(Map<String,Object> MaxCount : pointStandardPrint) {
 				if(MaxCount.get("코드 사용 유무").equals("사용가능")) {
 					int useMaxCount = (int)MaxCount.get("적립 가능 횟수");
