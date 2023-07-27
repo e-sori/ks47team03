@@ -8,33 +8,64 @@
   <section class="page-banner-area" id="category">
     <div class="container h-100">
         <div class="text-center">
-          <h1>나의 보증금 현황 조회</h1>
+          <h1>나의 보증금 조회</h1>
           <nav aria-label="breadcrumb" class="banner-breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
               <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">나의 보증금 현황 조회</li>
+              <li class="breadcrumb-item active" aria-current="page">나의 보증금 조회</li>
             </ol>
           </nav>
       </div>
     </div>
-  </section>
- 
-	  <!-- ================ end banner area ================= -->
-
-  <!--================Point table Area =================-->
-  <section class="order_details section-margin--small">
-    <div class="container">
-
-      <p class="font">텍스트 쓸 때는 p태그든 다른 태그든 어떤 태그를 쓰든 class에 font 꼭 넣어주셈</p>
-
-      <p class="billing-alert">텍스트를 들여쓰고 싶을때는 billing-alert 클래스를 사용하삼</p>
-
-      <a class="font" href="#">css는 내가 많이 수정했기 때문에 문제 생길 수 있으니 바꾸고싶으면 말하고 바꿔야함</a>
-
-
-
-
+  </section> 
+   <section class="order_details section-margin--small">
+    <div class="container">   
+      <div class="order_details_table">
+        <h2>보증금 조회</h2>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">이름</th>
+                <th scope="col">과거보증금</th>
+                <th scope="col">보증금 사용 유형</th>
+                <th scope="col">현 보증금</th>
+                <th scope="col">최종변동날짜</th>
+              </tr>
+            </thead>
+           <tbody>
+                <th:block th:unless="${#lists.isEmpty(userDepositManageList)}"  th:each="udm : ${userDepositManageList}">
+		                  <tr>		                         		             
+		                            <td th:text="${udm.userId}"></td>
+		                            <td th:text="${udm.pastHoldingDeposit}"></td>
+		                            <td th:text="${udm.depositUsingType}"></td>
+		                            <td th:text="${udm.currentHoldingDeposit}"></td>		 
+		                            <td th:text="${udm.upDatetime}"></td>		                               		                            		                           
+		                  </tr>
+                          	</th:block>                         
+                        </tbody>
+                         <tfoot>                  
+						 <tr>
+							<td colspan="5">
+								<a class="pages btn mb-2 btn-secondary" th:href="@{/deposit/mydeposit}">처음으로</a>
+								<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/deposit/mydeposit(currentPage=${currentPage-1})}">이전</a>
+								<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+									<div class="btn-group mr-2" role="group" aria-label="First group">
+										<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
+											<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/deposit/mydeposit(currentPage=${num})}" th:text="${num}"></a>
+											<label class="btn mb-2 btn-secondary" th:if="${currentPage == num}" th:text="${num}"></label>
+									</th:block>
+								</div>				
+								<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/deposit/mydeposit(currentPage=${currentPage+1})}">다음</a>
+								<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
+								<a class="pages btn mb-2 btn-secondary" th:href=@{/deposit/mydeposit(currentPage=${lastPage})}>마지막으로</a>
+							</td>
+						</tr> 							
+				</tfoot>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
   <!--================End Order Details Area =================-->

@@ -6,10 +6,12 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ks47team03.admin.service.AdminDepositService;
+import ks47team03.user.dto.DepositStandard;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,12 +21,12 @@ public class AdminDepositController {
 	
 	// 의존성 주입
 	private final AdminDepositService depositService;
-	
 
 	public AdminDepositController(AdminDepositService depositService) {
 		this.depositService = depositService;
-	}
-
+	}	
+	
+	
 	@GetMapping("/depositCheckSuccess")
 	public String depositCheckSuccess(Model model) {
 		model.addAttribute("title","결제 성공");
@@ -133,6 +135,26 @@ public class AdminDepositController {
 			return "admin/deposit/depositStandard";
 		}
 	
+	
+		@GetMapping("/modifyDepositStandard")
+		public String modifyDepositStandardGet(@RequestParam(value="adminId") String adminId,
+											Model model) {
+			DepositStandard depositStandardInfo = depositService.getDepositStandardInfoById(adminId);
+			
+			model.addAttribute("title", "보증금 기준 수정");			
+			model.addAttribute("depositStandardInfo", depositStandardInfo);
+			
+			return "admin/deposit/modifyDepositStandard";
+		}		
+		 @PostMapping("/modifyDepositStandard")
+		 public String modifyDepositStandardPost(DepositStandard depositStandard) {		 		
+			 depositService.modifyDepositStandard(depositStandard);
+
+		 return "redirect:/deposit/depositStandard";
+				 }
+		
+		
+		
 		
 
 
