@@ -14,6 +14,36 @@ public class User {
 	private String userEmailcheck;
 	private String staticCode;
 	private String userJoindatetime;
+	private String codeLargetype;
+	private String codeMiddletype;
+	private String latitude;
+	private String longitude;	
+	
+	
+	public String getCodeLargetype() {
+		return codeLargetype;
+	}
+	public void setCodeLargetype(String codeLargetype) {
+		this.codeLargetype = codeLargetype;
+	}
+	public String getCodeMiddeltype() {
+		return codeMiddletype;
+	}
+	public void setCodeMiddeltype(String codeMiddeltype) {
+		this.codeMiddletype = codeMiddeltype;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
 	public String getUserId() {
 		return userId;
 	}
@@ -121,6 +151,14 @@ public class User {
 		builder.append(staticCode);
 		builder.append(", userJoindatetime=");
 		builder.append(userJoindatetime);
+		builder.append(", codeLargetype=");
+		builder.append(codeLargetype);
+		builder.append(", codeMiddeltype=");
+		builder.append(codeMiddletype);
+		builder.append(", latitude=");
+		builder.append(latitude);
+		builder.append(", longitude=");
+		builder.append(longitude);
 		builder.append("]");
 		return builder.toString();
 	}
