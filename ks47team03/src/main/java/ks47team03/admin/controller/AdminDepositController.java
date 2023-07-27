@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks47team03.admin.service.AdminDepositService;
 import ks47team03.user.dto.DepositStandard;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -153,8 +155,43 @@ public class AdminDepositController {
 		 return "redirect:/deposit/depositStandard";
 				 }
 		
+		 
 		
-		
+		@PostMapping("/deleteDepositStandard")
+		public String deleteDepositStandard(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
+											@RequestParam(value="adminId") String adminId,
+											RedirectAttributes reAttr) {
+				
+				// 회원 여부 검증
+				Map<String, Object> isValidMap = depositService.isValidMember(waitingDepositStandardCode, adminId);
+				boolean isValid = (boolean) isValidMap.get("isValid");
+				
+				// 비밀번호 일치 회원탈퇴
+				if(isValid) {
+					DepositStandard deleteDepositStandardInfo = (DepositStandard) isValidMap.get("deleteDepositStandardInfo");
+
+					// 회원탈퇴 서비스 메소드 호출(숙제: 2023년 06월 26일 확인)
+					depositService.deleteDepositStandard(deleteDepositStandardInfo);
+					return "redirect:/admin/deposit/depositStandard";
+				}
+				
+				reAttr.addAttribute("adminId", adminId);
+				reAttr.addAttribute("msg", "비번 확인해주세요");
+				
+				return "redirect:/admin/deposit/deleteDepositStandard";
+			}
+			
+			@GetMapping("/deleteDepositStandard")
+			public String deleteDepositStandard(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
+																@RequestParam(value="msg", required = false) String msg,
+																Model model) {
+				
+				model.addAttribute("title", "회원탈퇴");
+				model.addAttribute("waitingDepositStandardCode", waitingDepositStandardCode);
+				if(msg != null) model.addAttribute("msg", msg);
+				
+				return "admin/deposit/deleteDepositStandard";
+			}
 		
 
 

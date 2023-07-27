@@ -17,9 +17,21 @@
 		<result column="admin_id" 	property="adminId"/>
 		<result column="up_datetime" 	property="upDatetime"/>
 	</resultMap>
+
+
+
 	
-
-
+	
+	
+	
+	<delete id="deleteDepositStanardById" parameterType="String">
+		/* 기준삭제 삭제 */
+		DELETE
+		FROM
+			waiting_deposit_standard
+		WHERE
+			admin_id = #{adminId};
+	</delete>
 
 
 

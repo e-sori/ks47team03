@@ -30,4 +30,7 @@ public interface AdminDepositMapper {
 	
 	public DepositStandard getDepositStandardInfoById(String waitingDepositStandardCode);
 	public int modifyDepositStandard(DepositStandard depositStandard);
+	
+
+	public int deleteDepositStandardById(DepositStandard depositStandard);
 }

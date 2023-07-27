@@ -47,12 +47,27 @@ public class UserDepositController {
 		return "user/deposit/mydeposit";
 	}
 	@GetMapping("/mydepositPay")
-	public String mydepositPay(Model model) {
-		
+	public String mydepositPay(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+			Model model) {
+		Map<String,Object> resultMap = userDepositService.getUserDepositManageList(currentPage);
 		model.addAttribute("title","보증금 결제 신청");
+		int lastPage = (int)resultMap.get("lastPage");
+		List<Map<String,Object>> userDepositPayList = (List<Map<String,Object>>)resultMap.get("userDepositPayList");
+		log.info("userDepositPayList:{}",userDepositPayList);
+		model.addAttribute("title","회원 보증금 관리");
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
+		model.addAttribute("title","회원 보증금 관리");
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("userDepositPayList", userDepositPayList);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
 		
+		model.addAttribute("title","보증금 조회");
 		return "user/deposit/mydepositPay";
 	}
+	
 	@GetMapping("/mydepositRefund")
 	public String pointRefundSponsorship(Model model) {
 		
