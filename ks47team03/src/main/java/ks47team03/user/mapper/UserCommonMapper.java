@@ -1,10 +1,10 @@
 package ks47team03.user.mapper;
 
 import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import ks47team03.user.dto.User;
+import ks47team03.user.dto.UserLevel;
 
 @Mapper
 public interface UserCommonMapper {
@@ -16,7 +16,7 @@ public interface UserCommonMapper {
 	public User getUserInfoById(String userId);
 	
 	// 회원등급 조회
-	public List<User> getUserLevelList();
+	public List<UserLevel> getUserLevelList();
 	
 	// 회원 중복 체크
 	public boolean idCheck(String userId);

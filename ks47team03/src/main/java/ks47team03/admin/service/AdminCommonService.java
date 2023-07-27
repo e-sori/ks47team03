@@ -26,6 +26,8 @@ public class AdminCommonService {
 		List<User> adminIdList = adminCommonMapper.getadminIdList(); 
 		return adminIdList;
 	}
+	
+	//회원 목록 조회
 	public Map<String,Object> getUserList(int currentPage) {
 		//보여질 행의 갯수
 		int rowPerPage = 16;
@@ -86,7 +88,6 @@ public class AdminCommonService {
 		return paramMap;
 		
 	}
-	
-	
+
 	
 }
