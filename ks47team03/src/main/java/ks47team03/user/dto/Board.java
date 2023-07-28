@@ -25,6 +25,8 @@ public class Board {
 	private int community_now_board_view;
 	private int community_now_board_like;
 	private LocalDateTime community_now_board_datetime;
+	// softDelete 0--존재 1--삭제
+	private boolean isDeleted = false;
 	// 게시글 추가시 현재 시간 추가
 	public void setBoardDatetime(LocalDateTime boardDatetime) {
 		this.community_now_board_datetime = boardDatetime;

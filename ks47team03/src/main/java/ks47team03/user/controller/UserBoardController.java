@@ -35,8 +35,8 @@ public class UserBoardController {
 	// 커뮤니티 게시판
 	@GetMapping("/communityBoardView")
 	public String communityBoardView(Model model, @RequestParam(defaultValue = "0") int page) {
-		long communityBoardCount = userBoardService.communityBoardCount();
-		List<Board> boards = userBoardService.communityBoardView();
+		// List<Board> boards = userBoardService.communityBoardView();
+		List<Board> boards = userBoardService.getBoards(); // 수정된 부분: 삭제되지 않은 게시글만 가져옵니다.
 		boards.sort(Comparator.comparingInt(board -> Integer.parseInt(board.getSimpleCode())));
 		Collections.reverse(boards);
 
@@ -49,7 +49,8 @@ public class UserBoardController {
 
 		int maxPage = (boards.size() - 1) / pageSize;  // Calculate the maximum page number
 
-		model.addAttribute("boardCount", communityBoardCount);
+		// model.addAttribute("boardCount", communityBoardCount);
+		model.addAttribute("boardCount", boards.size()); // 수정된 부분: 삭제되지 않은 게시글의 수를 세어 boardCount로 설정합니다.
 		model.addAttribute("list", pageOfBoards);
 		model.addAttribute("currentPage", page);  // Current page number
 		model.addAttribute("maxPage", maxPage);  // Maximum page number
