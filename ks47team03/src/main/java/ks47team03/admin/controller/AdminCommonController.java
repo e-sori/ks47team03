@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ks47team03.admin.mapper.AdminCommonMapper;
+import ks47team03.admin.mapper.AdminCupMapper;
 import ks47team03.admin.service.AdminCommonService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +36,7 @@ public class AdminCommonController {
 	
 	// 의존성 주입
 	private final AdminCommonService adminService;
-	
+	private final AdminCommonMapper adminMapper;
 	/**
 	 * @Qualifier("adminCommonService") CommonService commonService 는 무슨 뜻?
 	 * 원래는 private final과 메서드 생성으로 의존성 주입
@@ -43,8 +45,9 @@ public class AdminCommonController {
 	 * 원래 의존성 주입할 때는 한정자 없이 데이터타입과 매개변수이름만 들어가지만
 	 * 한정자를 데이터 타입 앞에 넣어주면 된다.
 	 */
-	public AdminCommonController(AdminCommonService adminService) {
+	public AdminCommonController(AdminCommonService adminService, AdminCommonMapper adminMapper) {
 		this.adminService = adminService;
+		this.adminMapper = adminMapper;
 	}
 	//회원 관리 기준
 	@GetMapping("/user/userMangeStandard")
@@ -66,27 +69,40 @@ public class AdminCommonController {
 	 * searchValue); model.addAttribute("title", "회원목록");
 	 * model.addAttribute("userList", userList); return "admin/user/userAll"; }
 	 */
-	@SuppressWarnings("unchecked")
-	@GetMapping("/user/userAll")
-	public String userAll(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
-									Model model) {
-		//required= false 입력값 필수로 안받겠다. defaultValue = "1" 기본값 설정,문자열만 입력 가능 Modle=보내질 데이터
-		Map<String,Object> resultMap = adminService.getUserList(currentPage);
-		int lastPage = (int)resultMap.get("lastPage");
-		
-		List<Map<String,Object>> userList = (List<Map<String,Object>>)resultMap.get("userList");
-		log.info("userlist:{}",userList);
-		
-		int startPageNum = (int) resultMap.get("startPageNum");
-		int endPageNum = (int) resultMap.get("endPageNum");
-		model.addAttribute("title", "전체 회원 관리");
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("userList", userList);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		return "admin/user/userAll";
-	}
+	//회원 상태 관리
+		@SuppressWarnings("unchecked")
+		@GetMapping("/user/userAll")
+		public String userAll(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+									 @RequestParam (value="searchKey", required= false) String searchKey,
+								     @RequestParam (value="searchValue", required= false) String searchValue,
+									 @RequestParam(value="msg", required = false) String msg,
+									 Model model) {
+			//search 
+			
+			//required= false 입력값 필수로 안받겠다. defaultValue = "1" 기본값 설정,문자열만 입력 가능 Modle=보내질 데이터
+			Map<String,Object> resultMap = adminService.getUserList(currentPage,searchKey,searchValue);
+			int lastPage = (int)resultMap.get("lastPage");
+			
+			List<Map<String,Object>> userList = (List<Map<String,Object>>)resultMap.get("userList");
+			log.info("userlist:{}",userList);
+			int startPageNum = (int) resultMap.get("startPageNum");
+			int endPageNum = (int) resultMap.get("endPageNum");
+			int rowPerPage = (int) resultMap.get("rowPerPage");
+			
+			if(msg != null) model.addAttribute("msg", msg);
+			model.addAttribute("title", "전체 회원 관리");
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("lastPage", lastPage);
+			model.addAttribute("userListCount",adminMapper.getUserListCount());
+			model.addAttribute("userList", userList);
+			model.addAttribute("startPageNum", startPageNum);
+			model.addAttribute("endPageNum", endPageNum);
+			model.addAttribute("rowPerPage", rowPerPage);
+			return "admin/user/userAll";
+		}
+	
+	
+	
 	
 	//회원 등급 관리
 	@GetMapping("/user/gradeManage")

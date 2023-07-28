@@ -188,7 +188,7 @@
 			cup_stack_manage;
 	</select>
 	
-	<select id="getCupStateListCount" resultType="int">
+	<select id="getCupStateListCount" parameterType="map" resultType="int">
 		/*컵 상태의 전체 행의 갯수*/
 		SELECT
 			COUNT(*)
