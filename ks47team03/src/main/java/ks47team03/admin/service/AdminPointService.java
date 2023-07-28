@@ -39,10 +39,10 @@ public class AdminPointService {
 		
 		paramMap.put("currentFirstIndex", currentFirstIndex);
 		paramMap.put("rowPerPage", rowPerPage);		
-		paramMap.put("type", "point");		
 		
 		if(tableId.equals("pills-max"))	{
 			tableDbName = "day_maximum_count";
+			paramMap.put("type", "point");		
 			pointStandardList = adminPointMapper.getPointMaxCountStandard(paramMap);
 			paramMap.clear(); 	
 			paramMap.put("type", "point");		
@@ -50,7 +50,9 @@ public class AdminPointService {
 		}else if(tableId.equals("pills-expire")) {
 			tableDbName = "point_expire_standard";
 			pointStandardList = adminPointMapper.getPointExpireStandard(paramMap);
-			log.info("pointStandardList : {}", pointStandardList);
+			paramMap.clear(); 			
+			pointStandardListAll = adminPointMapper.getPointExpireStandard(paramMap);
+			log.info("sfsdfsfsfdsf:{}",pointStandardListAll);
 		}else if(tableId.equals("pills-save")) {
 			tableDbName = "point_save_standard";
 			pointStandardList = adminPointMapper.getPointSaveStandard(paramMap);

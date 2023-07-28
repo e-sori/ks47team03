@@ -162,20 +162,20 @@
 													<tr>
 														<td></td>
 														<td class="colSpan" colspan="7">
-															<button type="button" class="pages btn mb-2 btn-secondary firstPg" th:unless="${currentPage==1}">처음으로</button>
-															<label class="btn mb-2 btn-secondary firstPg" th:if="${currentPage==1}">처음으로</label>
-															<button type="button" class="btn mb-2 btn-secondary prePg" th:if="${currentPage>1}">이전</button>
-															<label class="btn mb-2 btn-secondary prePg" th:unless="${currentPage>1}">이전</label>
+															<button type="button" class="pages btn mb-2 btn-secondary" th:unless="${currentPage==1}">처음으로</button>
+															<label class="btn mb-2 btn-secondary" th:if="${currentPage==1}">처음으로</label>
+															<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage>1}">이전</button>
+															<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
 															<div class="btn-group mr-2" role="group" aria-label="First group">
 																<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-																	<button type="button" class="btn mb-2 btn-secondary currentPg" th:if="${currentPage != num}" th:text="${num}"></button>
-																	<label class="btn mb-2 btn-secondary foot-pg currentPg" th:if="${currentPage == num}" th:text="${num}"></label>
+																	<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:text="${num}"></button>
+																	<label class="btn mb-2 btn-secondary current-page-btn foot-pg" th:if="${currentPage == num}" th:text="${num}"></label>
 																</th:block>
 															</div>				
-															<button type="button" class="btn mb-2 btn-secondary nexPg" th:if="${currentPage<lastPageNum}">다음</button>
-															<label class="btn mb-2 btn-secondary nexPg" th:unless="${currentPage<lastPageNum}">다음</label>
+															<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage<lastPageNum}">다음</button>
+															<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPageNum}">다음</label>
 															<button type="button" class="pages btn mb-2 btn-secondary lastPg" th:unless="${currentPage==lastPageNum}" th:attr="lastPageNum=${lastPageNum}">마지막으로</button>
-															<label class="btn mb-2 btn-secondary lastPg" th:if="${currentPage==lastPageNum}">마지막으로</label>
+															<label class="btn mb-2 btn-secondary" th:if="${currentPage==lastPageNum}">마지막으로</label>
 														</td>
 														<td>
 															<!-- 등록버튼 -->
@@ -293,16 +293,18 @@
 			
 			
 			// ajax와 제이쿼리로 테이블 동적으로 수정
-			$('.nav-tab,.colSpan button').on('click',e => {	
+			$('.nav-tab,.colSpan button').click(e => {	
 				if($(e.target).is('#pills-max-tab')){
 					location.href = `pointStandardManage?currentPage=1&tableId=pills-max`;
 					return;
-				}	
+				}					
 				
-				let tableId = $(e.target).attr('aria-controls');
-				
+				let tableId;
 				let currentPage;				
 				if($(e.target).is('.nav-tab')) {
+					tableId = $(e.target).attr('aria-controls');
+					$('.tab-pane').attr('id',tableId).attr('aria-labelledby',`${tableId}-tab`);
+					console.log(tableId);
 					currentPage = $('.current-page-btn').text();
 					$('#pills-tab').find('.active').toggleClass('active');
 					$(e.target).toggleClass('active');	
@@ -312,10 +314,8 @@
 					else if($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
 					else if($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').attr('lastPageNum'));
 					else currentPage = $(e.target).text();
-					$('#pills-tab').find('.nav-tab').removeClass('active');	
-					$('#pills-tab').find(`#${tableId}-tab`).addClass('active');
-				}
-				$('.tab-pane').attr('id',tableId).attr('aria-labelledby',`${tableId}-tab`);
+					tableId = $('.tab-pane').attr('id');
+				}				
 				currentPage = parseInt(currentPage);	
 				
 				const copyAllCheck = $('thead').find('th').first().clone(true);
@@ -333,7 +333,7 @@
 				const requestData = $.ajax({
 		 		 	url: '/admin/point/pointStandardManageClick',
 					method: 'GET',
-					data: { 'tableId' : tableId},
+					data: { 'tableId' : tableId, 'currentPage' : currentPage},
 					dataType: 'json'
 		 		});
 

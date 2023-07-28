@@ -69,7 +69,6 @@ public class AdminPointController {
 		return "admin/point/modifyPointMaxCountStandard";
 	}		
 	
-	
 	// 포인트 관련 기준 관리 화면	(ajax로 데이터 받기)
 	@GetMapping("/pointStandardManageClick")
 	@SuppressWarnings({ "unchecked" })
@@ -85,9 +84,11 @@ public class AdminPointController {
 		int lastPageNum = (int)pointStandardResultMap.get("lastPageNum");	
 		int rowPerPage = (int)pointStandardResultMap.get("rowPerPage");	
 		List<Map<String,Object>> pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
+		List<Map<String,Object>> pointStandardListAll = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardListAll");
 		
 		model.addAttribute("title", "포인트 관련 기준 관리");
 		model.addAttribute("pointStandardList", pointStandardList);			
+		model.addAttribute("pointStandardListAll", pointStandardListAll);			
 		model.addAttribute("lastPageNum", lastPageNum);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);

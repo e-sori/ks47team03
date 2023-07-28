@@ -11,8 +11,8 @@
 	<!-- LOG_DIR : 로그 디렉토리 위치 / LOG_PAHT_NAME : 로그 패스 설정 -->
     <property name="LOG_DIR" value="/home/springboot/logs" />
     <property name="LOG_PATH_NAME" value="${LOG_DIR}/application.log" />
-    
-   <!-- Rolling File Appender -->
+	
+	<!-- Rolling File Appender -->
    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         	<!-- 파일 경로 -->
         <file>${LOG_PATH_NAME}</file>

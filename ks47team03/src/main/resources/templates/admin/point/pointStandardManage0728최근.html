@@ -68,29 +68,30 @@
 															<td>
 					                     						<div class="btn-group" role="group" aria-label="Basic example">
 					                     							<!-- 개별/수정 버튼 -->
-																	<button type="submit" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target="'#modifyBtn' + ${state.count}">수정</button>
-					               									<div class="modal fade modal-div" th:id="'modifyBtn'+${state.count}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModify" aria-hidden="true">
+																	<button type="submit" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target=".modifyBtn">수정</button>
+					               									<div class="modal fade modal-div modifyBtn"tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModify" aria-hidden="true">
 						                 								<div class="modal-dialog" role="document">
+						                 									<form>
 																			<div class="modal-content">
 																				<div class="modal-header">
-																				  <h5 class="modal-title" id="varyModalLabelModifyMax">하루 최대 적립 포인트 횟수 기준 수정</h5>
+																				  <h5 class="modal-title" >하루 최대 적립 포인트 횟수 기준 수정</h5>
 																				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																				    <span aria-hidden="true">&times;</span>
 																				  </button>
 					                     										</div>
 					                     										<div class="modal-body">
-																					<form>
+																					<form action="" method="Post">
 																						<div class="form-group">
 																						  <label th:for="'modifyCode'+${state.count}" class="col-form-label">코드</label>
-																						  <input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}" th:id="'modifyCode'+${state.count}">
+																						  <input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}">
 																						</div>
 																						<div class="form-group">
 																						  <label th:for="'modifyCount'+${state.count}" class="col-form-label">적립 가능 횟수</label>
-																						  <input type="text" class="form-control" th:value="${p['적립 가능 횟수']}" th:id="'modifyCount'+${state.count}">
+																						  <input type="text" class="form-control" th:value="${p['적립 가능 횟수']}">
 																						</div>
 																						<div class="form-group">
 																							<label th:for="'modifyUse'+${state.count}" class="col-form-label">코드 사용 유무</label>
-																							<select th:id="'modifyUse'+${state.count}" class="form-control">
+																							<select class="form-control">
 																							 	<th:block 	th:unless="${#lists.isEmpty(codeUseList)}"
 																											th:each="u : ${codeUseList}">
 																								  	<option th:selected="${u} == ${p['코드 사용 유무']}"
@@ -102,54 +103,66 @@
 																						</div>
 																						<div class="form-group">
 																							<label th:for="'modifyAdmin'+${state.count}" class="col-form-label">관리자 ID</label>
-																							<input type="text" class="form-control" readonly="readonly" th:value="${SID}" th:id="'modifyAdmin'+${state.count}">
+																							<input type="text" class="form-control" readonly="readonly" th:value="${SID}" >
 																						</div>
 																						<div class="form-group">
 																							<label th:for="'modifyPw'+${state.count}" class="col-form-label">비밀번호</label>
-																							<input type="password" class="form-control" th:id="'modifyPw'+${state.count}">
+																							<input type="password" class="form-control" >
 																						</div>
 																						<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
-																						<button type="button" class="btn mb-2 btn-secondary" th:id="'modifyBtn'+${state.count}">수정 확인</button>
+																						<button type="button" class="btn mb-2 btn-secondary" >수정 확인</button>
 																					</form>
 																				</div>
 																			</div>
 						                 								</div>
 					               									</div>
 								                 					<!-- 개별/삭제 버튼 -->
-																	<button type="button" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target="'#selectDeleteBtn' + ${state.count}">삭제</button>
-																	<div class="modal fade modal-div" th:id="'selectDeleteBtn'+${state.count}" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDelete" aria-hidden="true">
+																	<button type="button" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target=".selectDeleteBtn">삭제</button>
+																	<div class="modal fade modal-div selectDeleteBtn" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDelete" aria-hidden="true">
 																		<div class="modal-dialog" role="document">
 																			<div class="modal-content">
 																				<div class="modal-header">
-																					<h5 class="modal-title" id="varyModalLabelSelectDelete">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+																					<h5 class="modal-title" >하루 최대 적립 포인트 횟수 기준 삭제</h5>
 																					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																						<span aria-hidden="true">&times;</span>
 																					</button>
 																				</div>
-																				<div class="modal-body">
-																					<form>
-																						<div class="form-group">
-																							<label for="sssss" class="col-form-label">코드:</label>
-																							<input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}">
-																						</div>
-																						<div class="form-group">
-																							<label for="message-text" class="col-form-label">적립 가능 횟수:</label>
-																							<input type="text" class="form-control" th:value="${p['적립 가능 횟수']}">
-																						</div>
-																						<div class="form-group">
-																							<label for="message-text" class="col-form-label">관리자 ID:</label>
-																							<input type="text" class="form-control" readonly="readonly" th:value="${SID}">
-																						</div>
-																						<div class="form-group">
-																							<label for="message-text" class="col-form-label">비밀번호 : </label>
-																							<input type="password" class="form-control" >
-																						</div>
-																					</form>
-																				</div>
-																				<div class="modal-footer">
-																					<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
-																					<button type="submit" class="btn mb-2 btn-secondary">삭제 확인</button>
-																				</div>
+																				<form>
+																					<div class="modal-body">
+																						<form action="" method="Post">
+																							<div class="form-group">
+																							  <label th:for="'modifyCode'+${state.count}" class="col-form-label">코드</label>
+																							  <input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}">
+																							</div>
+																							<div class="form-group">
+																							  <label th:for="'modifyCount'+${state.count}" class="col-form-label">적립 가능 횟수</label>
+																							  <input type="text" class="form-control" th:value="${p['적립 가능 횟수']}">
+																							</div>
+																							<div class="form-group">
+																								<label th:for="'modifyUse'+${state.count}" class="col-form-label">코드 사용 유무</label>
+																								<select class="form-control">
+																								 	<th:block 	th:unless="${#lists.isEmpty(codeUseList)}"
+																												th:each="u : ${codeUseList}">
+																									  	<option th:selected="${u} == ${p['코드 사용 유무']}"
+																									  			th:value="${u}" 
+																									  			th:text="${u}">
+																									  	</option>
+																									</th:block> 
+																								</select>
+																							</div>
+																							<div class="form-group">
+																								<label th:for="'modifyAdmin'+${state.count}" class="col-form-label">관리자 ID</label>
+																								<input type="text" class="form-control" readonly="readonly" th:value="${SID}" >
+																							</div>
+																							<div class="form-group">
+																								<label th:for="'modifyPw'+${state.count}" class="col-form-label">비밀번호</label>
+																								<input type="password" class="form-control" >
+																							</div>
+																							<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+																							<button type="button" class="btn mb-2 btn-secondary" >수정 확인</button>
+																						</form>
+																					</div>
+																				</form>
 																			</div>
 																		</div>
 																	</div>
@@ -174,13 +187,13 @@
 															</div>				
 															<button type="button" class="btn mb-2 btn-secondary nexPg" th:if="${currentPage<lastPageNum}">다음</button>
 															<label class="btn mb-2 btn-secondary nexPg" th:unless="${currentPage<lastPageNum}">다음</label>
-															<button type="button" class="pages btn mb-2 btn-secondary lastPg" th:unless="${currentPage==lastPageNum}" th:attr="lastPageNum=${lastPageNum}">마지막으로</button>
+															<button type="button" class="pages btn mb-2 btn-secondary lastPg" th:unless="${currentPage==lastPageNum}" th:data-lastpagenum="${lastPageNum}">마지막으로</button>
 															<label class="btn mb-2 btn-secondary lastPg" th:if="${currentPage==lastPageNum}">마지막으로</label>
 														</td>
 														<td>
 															<!-- 등록버튼 -->
-															<button type="button" class="btn mb-2 btn-secondary"th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" data-target="#varyModalInsert" data-whatever="@mdo">등록</button>
-															<div class="modal fade" id="varyModalInsert" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelInsert" aria-hidden="true">
+															<button type="button" class="btn mb-2 btn-secondary"th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" data-target=".varyModalInsert" data-whatever="@mdo">등록</button>
+															<div class="modal fade varyModalInsert"  tabindex="-1" role="dialog" aria-labelledby="varyModalLabelInsert" aria-hidden="true">
 																<div class="modal-dialog" role="document">
 																	<div class="modal-content">
 																		<div class="modal-header">
@@ -213,8 +226,8 @@
 																</div>
 															</div>
 															<!-- 선택/삭제 버튼 -->
-															<button type="button" class="btn mb-2 btn-secondary select-delete" data-toggle="modal" data-target="#varyModalDelete" data-whatever="@mdo">삭제</button>
-															<div class="modal fade" id="varyModalDelete" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelDelete" aria-hidden="true">
+															<button type="button" class="btn mb-2 btn-secondary select-delete" data-toggle="modal" data-target=".varyModalDelete" data-whatever="@mdo">삭제</button>
+															<div class="modal fade varyModalDelete" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelDelete" aria-hidden="true">
 																<div class="modal-dialog" role="document">
 																	<div class="modal-content">
 																		<div class="modal-header">
@@ -268,83 +281,89 @@
 	</th:block>
 	<th:block layout:fragment="customJs">
 		<script>	
-			$(function(){		
-				// 데이터테이블 첫번째, 마지막 컬럼 정렬 삭제
-				$('.dataTable-1').each(function() {
-				    const table = $(this);
-				    table.DataTable({
-				      autoWidth: true,
-				      columnDefs: [{
-				            targets: 0,
-				            searchable: false,
-				            orderable: false,
-				            className: 'sorting_disabled'
-				      },
-				      {
-				          targets: table.find('th').length - 1,
-				          searchable: false,
-				          orderable: false,
-				          className: 'sorting_disabled',
-				        }]
-				      });
-				    });
-				  $('.dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
-				  });
 			
+		// 데이터테이블 첫번째, 마지막 컬럼 정렬 삭제
+		$('.dataTable-1').each(function() {
+		    const table = $(this);
+		    table.DataTable({
+		      autoWidth: true,
+		      columnDefs: [{
+		            targets: 0,
+		            searchable: false,
+		            orderable: false,
+		            className: 'sorting_disabled'
+		      },
+		      {
+		          targets: table.find('th').length - 1,
+		          searchable: false,
+		          orderable: false,
+		          className: 'sorting_disabled',
+		        }]
+		      });
+		  $('.dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+		});
+		
 			
+	
+	
+		
+	
+
+		
 			// ajax와 제이쿼리로 테이블 동적으로 수정
-			$('.nav-tab,.colSpan button').on('click',e => {	
-				if($(e.target).is('#pills-max-tab')){
-					location.href = `pointStandardManage?currentPage=1&tableId=pills-max`;
-					return;
-				}	
+			$(document).on('click', '.nav-tab, .colSpan button', function(e) { 
 				
-				let tableId = $(e.target).attr('aria-controls');
 				
-				let currentPage;				
-				if($(e.target).is('.nav-tab')) {
-					currentPage = $('.current-page-btn').text();
-					$('#pills-tab').find('.active').toggleClass('active');
-					$(e.target).toggleClass('active');	
-				}else if($(e.target).is('tfoot button')){
-					if($(e.target).text() == '처음으로') currentPage = 1;
-					else if($(e.target).text() == '이전') currentPage = Number($('.foot-pg').text()) - 1;
-					else if($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
-					else if($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').attr('lastPageNum'));
-					else currentPage = $(e.target).text();
-					$('#pills-tab').find('.nav-tab').removeClass('active');	
-					$('#pills-tab').find(`#${tableId}-tab`).addClass('active');
-				}
-				$('.tab-pane').attr('id',tableId).attr('aria-labelledby',`${tableId}-tab`);
-				currentPage = parseInt(currentPage);	
-				
+				 $('.checkbox').prop('checked', false);        
+			    let tableId;
+			    let currentPage;
+			
+			    if ($(e.target).is('.nav-tab')) {
+			        tableId = $(e.target).attr('aria-controls');
+			        $('.tab-pane').attr('id', tableId).attr('aria-labelledby', `${tableId}-tab`);
+			        currentPage = 1;
+			        $('#pills-tab').find('.active').toggleClass('active');
+			        $(e.target).toggleClass('active');
+			    } else if ($(e.target).is('tfoot button')) {
+			        if ($(e.target).text() == '처음으로') currentPage = 1;
+			        else if ($(e.target).text() == '이전') currentPage = Number($('.foot-pg').text()) - 1;
+			        else if ($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
+			        else if ($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').data('lastpagenum'));
+			        else currentPage = $(e.target).text();
+			        tableId = $('.tab-pane.active').attr('id');
+			    }
+			
+			    currentPage = parseInt(currentPage);
+
 				const copyAllCheck = $('thead').find('th').first().clone(true);
 				const copyCheck = $('tbody').find('td').first().clone(true);
 				const copyBtn = $('tbody .btn-group').first().clone(true);
 				$("tbody tr").remove();
 				$("thead th").remove();
-			    
-				// 동적으로 테이블 속성과 값 변경
-				$('.checkbox').prop('checked', false);				
-				
+			    		
 			    console.log(tableId);
 				console.log(currentPage);
 				
 				const requestData = $.ajax({
 		 		 	url: '/admin/point/pointStandardManageClick',
 					method: 'GET',
-					data: { 'tableId' : tableId},
+					data: { 'tableId' : tableId, 'currentPage' : currentPage},
 					dataType: 'json'
 		 		});
 
 				requestData.done(function( response ) {
 					const pointStandardList = response.pointStandardList;
+					const pointStandardListAll = response.pointStandardListAll;
+					const rowPerPage = response.rowPerPage;
+					const startPageNum = response.startPageNum;
+					const endPageNum = response.endPageNum;
+					//const lastPageNum = response.lastPageNum;
 					if(response){
 						console.log(response);
 						switch(tableId){
 						case 'pills-expire':
 							let pointExpire;
-							for(let list of pointStandardList){
+							for(let list of pointStandardListAll){
 								if(list['코드 사용 유무'] == '사용가능') {
 									pointExpire = list['유효 기간'];
 								}
@@ -365,30 +384,19 @@
 							$('.card-small-text').text('포인트 환급 기준입니다.');
 							break;
 						case 'pills-max':
-							if($('.tab-pane').attr('id') == 'pills-max'){
-								$('.page-small-title').text('포인트 환급 ddd기준');
-								$('.card-small-text').text('포인트 환급 기준입니다.');	
+							let useMaxCount;
+							for(let list of pointStandardListAll){
+								if(list['코드 사용 유무'] == '사용가능') {
+									useMaxCount = list['적립 가능 횟수'];
+								}
 							}
+							$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');
+							$('.card-small-text').text(`하루에 적립 가능한 포인트 횟수는 최대 ${useMaxCount}번입니다.`);								
 							break;
 						}
 											
-						// 테이블 동적 생성 	
-						/*const columnName= Object.keys(pointStandardList[0]);	
-						let addTh = null;
-						let addTd = null;
-						for(let item of columnName){
-							addTh += `<th>${item}</th>`;
-							addTd += `<td th:text="\${p['${item}']}"></td>`;	
-						}
-						$('thead th').last().before(addTh);
-						$('tbody td').last().before(addTd);
-						
-						const thColspan = $('thead th').length;
-						$('.colSpan').attr('colspan',thColspan-2);	
-						}	*/
-
 						let isTrue = true;
-						let count = 1;
+						let count = (currentPage-1) * rowPerPage + 1;						
 						for(let list of pointStandardList){
 							if(isTrue) {
 						        let addTh = '';
@@ -402,97 +410,79 @@
 
 						    let addTd = '';
 						    let plusNum = `<td>${count}</td>`;
-						    
-						    let modifyBtnCopy = copyBtn.clone(true);
-						    let modifyBtn = modifyBtnCopy.find('.modalBtn');
-						    modifyBtn.first().attr('data-target',`#modifyBtn${count}`);
-						    modifyBtn.eq(1).attr('data-target',`#selectDeleteBtn${count}`);
-
-						    let modifyDiv = modifyBtnCopy.find('.modal-div');
-						    modifyDiv.first().attr('id',`modifyBtn${count}`);
-						    modifyDiv.eq(1).attr('id',`selectDeleteBtn${count}`);
-						    
+						    						    
 						    for(let item in list){
 						        addTd += `<td>${list[item]}</td>`;
 						    }
 
 						    let addTr = $('<tr>');
-						    addTr.append(copyCheck.clone(), 
+						    addTr.append(copyCheck.clone(true), 
 						                plusNum, 
 						                $(addTd), 
-						                $('<td>').append(modifyBtnCopy));
+						                $('<td>').append(copyBtn.clone(true)));
 						    $('tbody').append(addTr);
 						    count += 1;
 						}
 						const thColspan = $('thead th').length;
 						$('.colSpan').attr('colspan',thColspan-2);	
-					
-						/* 이부분 어떻게 처리할지?
-						const requestRedirect = $.ajax({
-				 		 	url: '/admin/point/pointStandardManage',
-							method: 'GET',
-							data: { 'currentPage' : currentPage , 'tableId' : tableId},
-							dataType: 'html'
-					 	});
-		
-					 	requestRedirect.done(function( response ) {
-							if(response){
-								console.log(response);
+						
+						$('.colSpan').empty();
+						
+						let pageNation;						
+						
+						if(currentPage == 1) {
+							pageNation = `<label class="btn mb-2 btn-secondary firstPg">처음으로</label>`;
+							pageNation += `<label class="btn mb-2 btn-secondary prePg">이전</label>`;	
+							if(endPageNum == startPageNum) {
+								pageNation += `<div class="btn-group mr-2" role="group" aria-label="First group">
+												<label class="btn mb-2 btn-secondary foot-pg currentPg">${endPageNum}</label>
+												</div>`;
+								pageNation += `<label class="btn mb-2 btn-secondary nexPg">다음</label>`;
+								pageNation += `<label class="btn mb-2 btn-secondary lasgPg">마지막으로</label>`;
+							}else if(endPageNum != startPageNum){
+								pageNation += `<div class="btn-group mr-2" role="group" aria-label="First group">`;
+								pageNation += `<label class="btn mb-2 btn-secondary foot-pg currentPg">1</label>`;
+								for(let i = startPageNum + 1; i <= endPageNum; i += 1){
+									pageNation +=`<button type="button" class="pages btn mb-2 btn-secondary currentPg">${i}</button>`;
+								}
+								pageNation += `</div>`;
+								pageNation +=`<button type="button" class="pages btn mb-2 btn-secondary nexPg">다음</button>`;
+								pageNation +=`<button type="button" class="pages btn mb-2 btn-secondary lastPg" data-lastpagenum="${endPageNum}">마지막으로</button>`;
 							}
-						});
-					 	requestRedirect.fail(function( jqXHR, textStatus ) {
-							alert( "Request failed: " + textStatus );
-						});
-					 	*/
-				}
-				});
-				requestData.fail(function( jqXHR, textStatus ) {
-					alert( "Request failed: " + textStatus );
-				});
-
-			});
-			      
-					 
-					 
-				// 탭 내의 페이지네이션 클릭했을 때 해당 탭 유지하기 (get방식으로 ajax 요청 - 리다이렉트)	
-				/* $('tfoot button').click(e => {								
-					let tableId = $('.tab-pane').attr('id');
+						}else if(currentPage != 1) {
+							pageNation = `<button type="button" class="btn mb-2 btn-secondary firstPg">처음으로</button>`;
+							pageNation += `<button type="button" class="btn mb-2 btn-secondary prePg">이전</button>`;	
+							pageNation += `<div class="btn-group mr-2" role="group" aria-label="First group">`;
+							for(let i = startPageNum; i <= endPageNum; i += 1){
+								if(currentPage == i) pageNation +=`<label class="pages btn foot-pg mb-2 btn-secondary currentPg">${i}</label>`;
+								else pageNation +=`<button type="button" class="pages btn mb-2 btn-secondary currentPg">${i}</button>`;
+							}
+							pageNation += `</div>`;
+							if(currentPage == endPageNum){
+								pageNation +=`<lable class="pages btn mb-2 btn-secondary nexPg">다음</lable>`;
+								pageNation +=`<lable class="pages btn mb-2 btn-secondary lastPg">마지막으로</lable>`;
+							}else if(currentPage < endPageNum){
+								pageNation +=`<button type="button" class="pages btn mb-2 btn-secondary nexPg">다음</button>`;
+								pageNation +=`<button type="button" class="pages btn mb-2 btn-secondary lastPg" data-lastpagenum="${endPageNum}">마지막으로</button>`;
+							}
+						}				
+						$('.colSpan').append(pageNation);
 					
-
-					
-				 
-				 	 const request = $.ajax({
-							url: '/admin/point/pointStandardManage',
-							method: 'GET',
-							data: { 'currentPage' : currentPage , 'tableId' : tableId},
-							dataType: 'text'
-				 	});
-
-					request.done(function( response ) {
-	   					if(response){
-	   						console.log(tableId);
-	   						location.href = `pointStandardManage?currentPage=${currentPage}&tableId=${tableId}`;				   						
-	   						console.log(response);
-	   	    				return false;
-	   					}else{
-	   					}
-	   				});
-								   				 
-	   				request.fail(function( jqXHR, textStatus ) {
+						}
+					});
+					requestData.fail(function( jqXHR, textStatus ) {
 						alert( "Request failed: " + textStatus );
-	   				});
-				});      
-					 */
-					
+					});
+
+				});
+
 				
 				// 체크박스 모두 선택 / 개별 선택
-				$('.checkbox').click(e => {
+				$('.checkbox').on('click',e => {
 			        if ($(e.target).is($('.allCheck'))) {
 			          const isChecked = $(e.target).prop('checked');
 			          $('.checks').prop('checked', isChecked);
-			        }
-			
-			        if ($(e.target).is($('.checks'))) {
+			        }else if ($(e.target).is($('.checks'))) {
 			          if ($('.checks').length == $('.checks:checked').length) {
 			            $('.allCheck').prop('checked', true);
 			          } else $('.allCheck').prop('checked', false);
