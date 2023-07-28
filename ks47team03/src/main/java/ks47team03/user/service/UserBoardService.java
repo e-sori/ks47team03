@@ -44,7 +44,8 @@ public class UserBoardService {
     // 게시글 삭제
     public void communityBoardDelete(String boardCode){
 
-        userBoardMapper.deleteById(boardCode);
+        //userBoardMapper.deleteById(boardCode); 일단 주석 처리
+        deleteBoard(boardCode);
     }
     // 게시글 카운트
     public long communityBoardCount(){
@@ -54,6 +55,16 @@ public class UserBoardService {
     // 게시글 조회 수 증가 후 저장
     public void saveBoard(Board board) {
 
+        userBoardMapper.save(board);
+    }
+    // isDelete 컬럼 0,1
+    public List<Board> getBoards() {
+        return userBoardMapper.findByIsDeletedFalse();
+    }
+    // isDelete 컬럼 0,1
+    public void deleteBoard(String boardId) {
+        Board board = userBoardMapper.findById(boardId).orElseThrow(() -> new RuntimeException("Board not found"));
+        board.setDeleted(true);
         userBoardMapper.save(board);
     }
 }
