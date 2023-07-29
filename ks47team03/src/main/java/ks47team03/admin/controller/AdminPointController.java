@@ -73,19 +73,17 @@ public class AdminPointController {
 	@GetMapping("/pointStandardManageClick")
 	@SuppressWarnings({ "unchecked" })
 	@ResponseBody
-	public Map<String,Object> pointStandardMange(@RequestParam(value="tableId", required = false)String tableId,
+	public List<Map<String,Object>> pointStandardMange(@RequestParam(value="tableId")String tableId,
 													Model model) {
 		
 		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard(tableId);	
 		
 		List<Map<String,Object>> pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
-		List<Map<String,Object>> pointStandardListAll = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardListAll");
 		
 		model.addAttribute("title", "포인트 관련 기준 관리");
-		model.addAttribute("pointStandardList", pointStandardList);			
-		model.addAttribute("pointStandardListAll", pointStandardListAll);			
+		model.addAttribute("pointStandardList", pointStandardList);						
 
-		return pointStandardResultMap;
+		return pointStandardList;
 	}
 
 	// 포인트 관련 기준 관리 화면	
@@ -107,7 +105,6 @@ public class AdminPointController {
 				if(MaxCount.get("코드 사용 유무").equals("사용가능")) {
 					int useMaxCount = (int)MaxCount.get("적립 가능 횟수");
 					model.addAttribute("useMaxCount", useMaxCount);	
-					log.info("sfsdfdsfsdfsfd:{}",useMaxCount);
 					break;
 				}
 			}
