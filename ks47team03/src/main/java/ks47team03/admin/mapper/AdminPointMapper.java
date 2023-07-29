@@ -21,7 +21,7 @@ public interface AdminPointMapper {
 	public List<Map<String,Object>> getPointExpireStandard(Map<String,Object> paramMap);
 	
 	/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
-	public List<Map<String,Object>> getPointMaxCountStandard(Map<String,Object> paramMap);
+	public List<Map<String,Object>> getPointMaxCountStandard(String type);
 	
 	/* 데이터 개수 조회 */
 	public int getPointStandardCount(String tableName);
