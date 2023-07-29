@@ -117,6 +117,15 @@ margin-top: 30px;
 	background-color:#6c757d;
 }
 
+.colSpan-left {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.colSpan-left button {
+  margin-right: 4px; 
+}
+
 body {
   margin: 0;
   font-family: "Overpass", sans-serif;
@@ -1256,6 +1265,9 @@ pre {
     }
   .table tbody + tbody {
     border-top: 2px solid #e9ecef; }
+  .table {
+  border-bottom: 1px solid #e9ecef;
+  }
     
 .table-margin-bottom{
 	margin-bottom:20px;
@@ -1872,20 +1884,17 @@ textarea.form-control {
   line-height: 1.5;
   border-radius: 0.25rem;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
-  
   @media (prefers-reduced-motion: reduce) {
     .btn {
       transition: none; } }
-  button.btn:hover {
+  .btn:hover {
     color: #6c757d;
     text-decoration: none; }
 
   .btn.disabled, .btn:disabled {
     opacity: 0.65; }
-    
-
-
-
+  .btn:not(:disabled):not(.disabled) {
+    cursor: pointer; }
 
 a.btn.disabled,
 fieldset:disabled a.btn {
@@ -1919,19 +1928,17 @@ fieldset:disabled a.btn {
 .btn-secondary {
   color: #ffffff;
   background-color: #88BFC2;
-  border: none; 
-     margin-left: 2px;
-    margin-right: 2px;}
- button.btn-secondary:hover {
-   color: #ffffff;
-   background-color: #5a6268;
-   border: none;}
+  border: none; }
+  .btn-secondary:hover {
+    color: #ffffff;
+    background-color: #5a6268;
+    border: none;}
 
   .btn-secondary.disabled, .btn-secondary:disabled {
     color: #ffffff;
     background-color: #6c757d;
     border: none; }
-  button.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
+  .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active,
   .show > .btn-secondary.dropdown-toggle {
     color: #ffffff;
     background-color: #545b62;
@@ -1940,7 +1947,7 @@ fieldset:disabled a.btn {
     .show > .btn-secondary.dropdown-toggle:focus {
       box-shadow: 0 0 0 0.2rem rgba(130, 138, 145, 0.5); }
 
-.foot-pg{
+.current-page-btn{
 	color: #ffffff;
     background-color: #5a6268;
     border: none;
@@ -2511,7 +2518,7 @@ input[type="button"].btn-block {
 
 .btn-group > .btn:not(:first-child),
 .btn-group > .btn-group:not(:first-child) {
-  margin-left: -2px; }
+  margin-left: -1px; }
 
 .btn-group > .btn:not(:last-child):not(.dropdown-toggle),
 .btn-group > .btn-group:not(:last-child) > .btn {

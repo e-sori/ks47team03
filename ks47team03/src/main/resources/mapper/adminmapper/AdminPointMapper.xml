@@ -133,46 +133,25 @@
 		
 	</insert>
 	
-	<select id="getPointMaxCountStandard" parameterType="map" resultType="java.util.LinkedHashMap">
+	<select id="getPointMaxCountStandard" parameterType="String" resultType="java.util.LinkedHashMap">
 		/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
-		<trim prefix="SELECT" suffixOverrides=",">
-			<if test="currentFirstIndex != null and currentFirstIndex > -1">
-				day_maximum_count_code AS '횟수 기준 코드',
-			</if>
-				use_maximum_count AS '적립 가능 횟수',
-				CASE 
-				   WHEN code_use = 'Y' THEN '사용가능'
-				   WHEN code_use = 'N' THEN '사용불가능'		
-				END AS '코드 사용 유무',	
-			<if test="currentFirstIndex != null and currentFirstIndex > -1">
-				set_datetime AS '최초 등록일',
-				admin_id AS '관리자 ID',
-				up_datetime AS '최종 수정일'	
-			</if>		
-		</trim>	
-			FROM
-				day_maximum_count
-			WHERE
-				day_maximum_count_code LIKE CONCAT('%', #{type}, '%')
-			ORDER BY ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED))
-			<if test="currentFirstIndex != null and currentFirstIndex > -1">
-				LIMIT #{currentFirstIndex},#{rowPerPage};
-			</if>			
-	</select>
-	
-	<select id="getPointStandardCount" parameterType="String" resultType="int">
-		/* 데이터 개수 조회 */
 		SELECT
-			COUNT(*)
+			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS 'No',
+			day_maximum_count_code AS '횟수 기준 코드',
+			use_maximum_count AS '적립 가능 횟수',
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용가능'
+			   WHEN code_use = 'N' THEN '사용불가능'		
+			END AS '코드 사용 유무',	
+			set_datetime AS '최초 등록일',
+			admin_id AS '관리자 ID',
+			up_datetime AS '최종 수정일'		
 		FROM
-			${tableName}
-		<where>
-			<if test="tableName == 'day_maximum_count'">
-				day_maximum_count_code LIKE'%point%';
-			</if>
-		</where>
+			day_maximum_count
+		WHERE
+			day_maximum_count_code LIKE CONCAT('%', #{type}, '%')
+		ORDER BY 'No'
 	</select>
-
 	
 	<select id="getDistinctData" parameterType="String" resultType="String">
 		/* 컬럼 내 중복 제거된 데이터 조회 */

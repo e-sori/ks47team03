@@ -35,20 +35,19 @@
 										<div class="tab-pane fade show active" id="pills-max" role="tabpanel" aria-labelledby="pills-max-tab"> 
 											<h5 class="mb-2 page-small-title">하루 최대 적립 포인트 횟수 기준</h5>
 											<p class="card-small-text"> 하루에 적립 가능한 포인트 횟수는 최대 [[${useMaxCount}]]번입니다.</p>
-											<table class="table table-hover" id="myTable" th:object="${pointStandardList}">
+											<table class="table datatables dataTable no-footer table-hover" id="dataTable-1">
 												<thead>
 													<tr>
 														<th>
 															<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
 														</th>
-									                    <th>NO.</th>
+									                    <th>No.</th>
 									                    <th>횟수 기준 코드</th>
 									                    <th>적립 가능 횟수</th>
 									                    <th>코드 사용 유무</th>
 									                    <th>최초 등록일</th>
 									                    <th>관리자 ID</th>
 									                    <th>최종 수정일</th>
-									                    <th class="last-th">수정/삭제</th>
 					                  				</tr>
 					               			 	</thead>
 												<tbody>
@@ -58,219 +57,142 @@
 															<td>
 																<input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 															</td>
-                                   			 				<td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
+															<td th:text="${p['No']}"></td>
 															<td th:text="${p['횟수 기준 코드']}"></td>
 															<td th:text="${p['적립 가능 횟수']}"></td>
 															<td th:text="${p['코드 사용 유무']}"></td>
 															<td th:text="${p['최초 등록일']}"></td>
 															<td th:text="${p['관리자 ID']}"></td>
 															<td th:text="${p['최종 수정일']}"></td>
-															<td>
-					                     						<div class="btn-group" role="group" aria-label="Basic example">
-					                     							<!-- 개별/수정 버튼 -->
-																	<button type="submit" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target=".modifyBtn">수정</button>
-					               									<div class="modal fade modal-div modifyBtn"tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModify" aria-hidden="true">
-						                 								<div class="modal-dialog" role="document">
-						                 									<form>
-																			<div class="modal-content">
-																				<div class="modal-header">
-																				  <h5 class="modal-title" >하루 최대 적립 포인트 횟수 기준 수정</h5>
-																				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																				    <span aria-hidden="true">&times;</span>
-																				  </button>
-					                     										</div>
-					                     										<div class="modal-body">
-																					<form action="" method="Post">
-																						<div class="form-group">
-																						  <label th:for="'modifyCode'+${state.count}" class="col-form-label">코드</label>
-																						  <input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}">
-																						</div>
-																						<div class="form-group">
-																						  <label th:for="'modifyCount'+${state.count}" class="col-form-label">적립 가능 횟수</label>
-																						  <input type="text" class="form-control" th:value="${p['적립 가능 횟수']}">
-																						</div>
-																						<div class="form-group">
-																							<label th:for="'modifyUse'+${state.count}" class="col-form-label">코드 사용 유무</label>
-																							<select class="form-control">
-																							 	<th:block 	th:unless="${#lists.isEmpty(codeUseList)}"
-																											th:each="u : ${codeUseList}">
-																								  	<option th:selected="${u} == ${p['코드 사용 유무']}"
-																								  			th:value="${u}" 
-																								  			th:text="${u}">
-																								  	</option>
-																								</th:block> 
-																							</select>
-																						</div>
-																						<div class="form-group">
-																							<label th:for="'modifyAdmin'+${state.count}" class="col-form-label">관리자 ID</label>
-																							<input type="text" class="form-control" readonly="readonly" th:value="${SID}" >
-																						</div>
-																						<div class="form-group">
-																							<label th:for="'modifyPw'+${state.count}" class="col-form-label">비밀번호</label>
-																							<input type="password" class="form-control" >
-																						</div>
-																						<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
-																						<button type="button" class="btn mb-2 btn-secondary" >수정 확인</button>
-																					</form>
-																				</div>
-																			</div>
-						                 								</div>
-					               									</div>
-								                 					<!-- 개별/삭제 버튼 -->
-																	<button type="button" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target=".selectDeleteBtn">삭제</button>
-																	<div class="modal fade modal-div selectDeleteBtn" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelSelectDelete" aria-hidden="true">
-																		<div class="modal-dialog" role="document">
-																			<div class="modal-content">
-																				<div class="modal-header">
-																					<h5 class="modal-title" >하루 최대 적립 포인트 횟수 기준 삭제</h5>
-																					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																						<span aria-hidden="true">&times;</span>
-																					</button>
-																				</div>
-																				<form>
-																					<div class="modal-body">
-																						<form action="" method="Post">
-																							<div class="form-group">
-																							  <label th:for="'modifyCode'+${state.count}" class="col-form-label">코드</label>
-																							  <input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}">
-																							</div>
-																							<div class="form-group">
-																							  <label th:for="'modifyCount'+${state.count}" class="col-form-label">적립 가능 횟수</label>
-																							  <input type="text" class="form-control" th:value="${p['적립 가능 횟수']}">
-																							</div>
-																							<div class="form-group">
-																								<label th:for="'modifyUse'+${state.count}" class="col-form-label">코드 사용 유무</label>
-																								<select class="form-control">
-																								 	<th:block 	th:unless="${#lists.isEmpty(codeUseList)}"
-																												th:each="u : ${codeUseList}">
-																									  	<option th:selected="${u} == ${p['코드 사용 유무']}"
-																									  			th:value="${u}" 
-																									  			th:text="${u}">
-																									  	</option>
-																									</th:block> 
-																								</select>
-																							</div>
-																							<div class="form-group">
-																								<label th:for="'modifyAdmin'+${state.count}" class="col-form-label">관리자 ID</label>
-																								<input type="text" class="form-control" readonly="readonly" th:value="${SID}" >
-																							</div>
-																							<div class="form-group">
-																								<label th:for="'modifyPw'+${state.count}" class="col-form-label">비밀번호</label>
-																								<input type="password" class="form-control" >
-																							</div>
-																							<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
-																							<button type="button" class="btn mb-2 btn-secondary" >수정 확인</button>
-																						</form>
-																					</div>
-																				</form>
-																			</div>
-																		</div>
-																	</div>
-					                     						</div>
-															</td>
 														</tr>  
 													</th:block>                
 												</tbody> 
-												<tfoot>
-													<tr>
-														<td></td>
-														<td class="colSpan" colspan="7">
-															<button type="button" class="pages btn mb-2 btn-secondary firstPg" th:unless="${currentPage==1}">처음으로</button>
-															<label class="btn mb-2 btn-secondary firstPg" th:if="${currentPage==1}">처음으로</label>
-															<button type="button" class="btn mb-2 btn-secondary prePg" th:if="${currentPage>1}">이전</button>
-															<label class="btn mb-2 btn-secondary prePg" th:unless="${currentPage>1}">이전</label>
-															<div class="btn-group mr-2" role="group" aria-label="First group">
-																<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-																	<button type="button" class="btn mb-2 btn-secondary currentPg" th:if="${currentPage != num}" th:text="${num}"></button>
-																	<label class="btn mb-2 btn-secondary foot-pg currentPg" th:if="${currentPage == num}" th:text="${num}"></label>
-																</th:block>
-															</div>				
-															<button type="button" class="btn mb-2 btn-secondary nexPg" th:if="${currentPage<lastPageNum}">다음</button>
-															<label class="btn mb-2 btn-secondary nexPg" th:unless="${currentPage<lastPageNum}">다음</label>
-															<button type="button" class="pages btn mb-2 btn-secondary lastPg" th:unless="${currentPage==lastPageNum}" th:data-lastpagenum="${lastPageNum}">마지막으로</button>
-															<label class="btn mb-2 btn-secondary lastPg" th:if="${currentPage==lastPageNum}">마지막으로</label>
-														</td>
-														<td>
-															<!-- 등록버튼 -->
-															<button type="button" class="btn mb-2 btn-secondary"th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" data-target=".varyModalInsert" data-whatever="@mdo">등록</button>
-															<div class="modal fade varyModalInsert"  tabindex="-1" role="dialog" aria-labelledby="varyModalLabelInsert" aria-hidden="true">
-																<div class="modal-dialog" role="document">
-																	<div class="modal-content">
-																		<div class="modal-header">
-																			<h5 class="modal-title" id="varyModalLabelInsert">하루 최대 적립 포인트 횟수 기준 등록</h5>
-																			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																				<span aria-hidden="true">&times;</span>
-																			</button>
-																		</div>
-																		<div class="modal-body">
-																			<form>
-																				<div class="form-group">
-																					<label for="message-text" class="col-form-label">적립 가능 횟수:</label>
-																					<input type="text" class="form-control" value="횟수">
-																				</div>
-																				<div class="form-group">
-																					<label for="message-text" class="col-form-label">관리자 ID:</label>
-																					<input type="text" class="form-control" readonly="readonly">
-																				</div>
-																				<div class="form-group">
-																					<label for="message-text" class="col-form-label">비밀번호 : </label>
-																					<input type="password" class="form-control">
-																				</div>
-																			</form>
-																		</div>
-																		<div class="modal-footer">
-																			<button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">입력 취소</button>
-																			<button type="button" class="btn mb-2 btn-secondary">등록 확인</button>
-																		</div>
-																	</div>
+											</table> 
+											<!-- 등록버튼 -->
+											<div class="colSpan-left">
+											<button type="button" class="btn mb-2 btn-secondary"th:href="@{/admin/point/PointStandardManage}" data-toggle="modal" data-target=".varyModalInsert" data-whatever="@mdo">등록</button>
+											<div class="modal fade varyModalInsert"  tabindex="-1" role="dialog" aria-labelledby="varyModalLabelInsert" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="varyModalLabelInsert">하루 최대 적립 포인트 횟수 기준 등록</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															<form>
+																<div class="form-group">
+																	<label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+																	<input type="text" class="form-control" value="횟수">
 																</div>
-															</div>
-															<!-- 선택/삭제 버튼 -->
-															<button type="button" class="btn mb-2 btn-secondary select-delete" data-toggle="modal" data-target=".varyModalDelete" data-whatever="@mdo">삭제</button>
-															<div class="modal fade varyModalDelete" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelDelete" aria-hidden="true">
-																<div class="modal-dialog" role="document">
-																	<div class="modal-content">
-																		<div class="modal-header">
-																			<h5 class="modal-title" id="varyModalLabelDelete">하루 최대 적립 포인트 횟수 기준 삭제</h5>
-																			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																				<span aria-hidden="true">&times;</span>
-																			</button>
-																		</div>
-																		<div class="modal-body">
-																			<form>
-																				<div class="form-group">
-																					<label for="recipient-name" class="col-form-label">코드:</label>
-																					<input type="text" class="form-control" readonly="readonly">
-																				</div>
-																				<div class="form-group">
-																					<label for="message-text" class="col-form-label">적립 가능 횟수:</label>
-																					<input type="text" class="form-control" value="횟수">
-																				</div>
-																				<div class="form-group">
-																					<label for="message-text" class="col-form-label">관리자 ID:</label>
-																					<input type="text" class="form-control" readonly="readonly">
-																				</div>
-																				<div class="form-group">
-																					<label for="message-text" class="col-form-label">비밀번호 : </label>
-																					<input type="password" class="form-control">
-																				</div>
-																			</form>
-																		</div>
-																		<div class="modal-footer">
-																			<button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">입력 취소</button>
-																			<button type="button" class="btn mb-2 btn-secondary" id="varyModalDeleteBtn">삭제 확인</button>
-																		</div>
-																	</div>
+																<div class="form-group">
+																	<label for="message-text" class="col-form-label">관리자 ID:</label>
+																	<input type="text" class="form-control" readonly="readonly">
 																</div>
-															</div>
-														</td>
-													</tr>
-												</tfoot>
-											</table>   
+																<div class="form-group">
+																	<label for="message-text" class="col-form-label">비밀번호 : </label>
+																	<input type="password" class="form-control">
+																</div>
+															</form>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">입력 취소</button>
+															<button type="button" class="btn mb-2 btn-secondary">등록 확인</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- 수정 버튼 -->
+											<button type="button" class="btn mb-2 btn-secondary modalBtn" data-toggle="modal" th:data-target=".modifyBtn">수정</button>
+			           									<div class="modal fade modal-div modifyBtn"tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModify" aria-hidden="true">
+			              								<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+														  <h5 class="modal-title" >하루 최대 적립 포인트 횟수 기준 수정</h5>
+														  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														    <span aria-hidden="true">&times;</span>
+														  </button>
+			                 										</div>
+			                 										<div class="modal-body">
+															<form action="" method="Post">
+																<div class="form-group">
+																  <label th:for="modifyCode" class="col-form-label">코드</label>
+																  <input type="text" class="form-control" readonly="readonly" th:value="ㅇㅇ">
+																</div>
+																<div class="form-group">
+																  <label th:for="modifyCount" class="col-form-label">적립 가능 횟수</label>
+																  <input type="text" class="form-control" th:value="ㄱㄱ">
+																</div>
+																<div class="form-group">
+																	<label th:for="modifyUse" class="col-form-label">코드 사용 유무</label>
+																	<select class="form-control">
+																	 	<th:block 	th:unless="${#lists.isEmpty(codeUseList)}"
+																					th:each="u : ${codeUseList}">
+																		  	<option th:selected="${u} == 1"
+																		  			th:value="${u}" 
+																		  			th:text="${u}">
+																		  	</option>
+																		</th:block> 
+																	</select>
+																</div>
+																<div class="form-group">
+																	<label th:for="modifyAdmin" class="col-form-label">관리자 ID</label>
+																	<input type="text" class="form-control" readonly="readonly" th:value="${SID}" >
+																</div>
+																<div class="form-group">
+																	<label th:for="modifyPw" class="col-form-label">비밀번호</label>
+																	<input type="password" class="form-control" >
+																</div>
+																<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+																<button type="button" class="btn mb-2 btn-secondary" >수정 확인</button>
+															</form>
+														</div>
+													</div>
+			              						</div>
+			           						</div>
+											<!-- 삭제 버튼 -->
+											<button type="button" class="btn mb-2 btn-secondary select-delete" data-toggle="modal" data-target=".varyModalDelete" data-whatever="@mdo">삭제</button>
+											<div class="modal fade varyModalDelete" tabindex="-1" role="dialog" aria-labelledby="varyModalLabelDelete" aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="varyModalLabelDelete">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															<form>
+																<div class="form-group">
+																	<label for="recipient-name" class="col-form-label">코드:</label>
+																	<input type="text" class="form-control" readonly="readonly">
+																</div>
+																<div class="form-group">
+																	<label for="message-text" class="col-form-label">적립 가능 횟수:</label>
+																	<input type="text" class="form-control" value="횟수">
+																</div>
+																<div class="form-group">
+																	<label for="message-text" class="col-form-label">관리자 ID:</label>
+																	<input type="text" class="form-control" readonly="readonly">
+																</div>
+																<div class="form-group">
+																	<label for="message-text" class="col-form-label">비밀번호 : </label>
+																	<input type="password" class="form-control">
+																</div>
+																<button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">입력 취소</button>
+																<button type="button" class="btn mb-2 btn-secondary" id="varyModalDeleteBtn">삭제 확인</button>
+															</form>
+														</div>
+													</div>
+												</div>  
 										</div>      
 										<!-- 포인트 기준 동적 테이블 끝 -->   
 									</div>                 
-									<!-- tab 끝 -->                
+									<!-- tab 끝 -->   
+									
+										</div>
+									</div>		             
 								</div>
 							</div>
 						</div>
@@ -281,6 +203,39 @@
 	</th:block>
 	<th:block layout:fragment="customJs">
 		<script>	
+		$(function(){
+			  $('#dataTable-1').each(function() {
+			    const table = $(this);
+			    table.DataTable({
+			      autoWidth: true,
+			      "lengthChange": false, 
+			      "pageLength" : 10,
+			      "searching" : false,
+			      "info": false,
+			      "pagingType": "full_numbers",
+			        "columnDefs": [
+			            {
+			                "targets": 1
+			            }
+			        ],
+			      "columnDefs": [{
+			            targets: 0,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled'
+			            
+			      },
+			      {
+			          targets: table.find('th').length - 1,
+			          searchable: false,
+			          orderable: false,
+			          className: 'sorting_disabled',
+			        }]
+			      });
+			    });
+			  
+			  $('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+			  });
 		
 
 
@@ -348,7 +303,7 @@
 				        });
 
 	
-						/*console.log(response);
+						console.log(response);
 						switch(tableId){
 						case 'pills-expire':
 							let pointExpire;
@@ -383,7 +338,8 @@
 							$('.card-small-text').text(`하루에 적립 가능한 포인트 횟수는 최대 ${useMaxCount}번입니다.`);								
 							break;
 						}
-											
+									
+						/*
 						let isTrue = true;
 						let count = (currentPage-1) * rowPerPage + 1;						
 						for(let list of pointStandardList){
@@ -457,40 +413,13 @@
 							}
 						}				
 						$('.colSpan').append(pageNation);	*/
-						
-						$(document).ready(function(){
-						    $('#myTable').DataTable({ columns: colArr });
-						});
-					
-						$('#myTable').each(function() {
-						    const table = $(this);
-						    table.DataTable({
-						      autoWidth: true,
-						      destroy: true,
-						      columnDefs: [{
-						            targets: 0,
-						            searchable: false,
-						            orderable: false,
-						            className: 'sorting_disabled'
-						      },
-						      {
-						          targets: table.find('th').length - 1,
-						          searchable: false,
-						          orderable: false,
-						          className: 'sorting_disabled',
-						        }]
-						      });
-						  $('#myTable').find('.sorting_asc').toggleClass('sorting_asc');
-						  });
-						
-						
-						
 					}
 					requestData.fail(function( jqXHR, textStatus ) {
 						alert( "Request failed: " + textStatus );
 					});
 
-					});
+				});
+			});
 			
 
 				

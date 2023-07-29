@@ -71,7 +71,6 @@
 																	<button type="submit" class="btn mb-2 btn-light modalBtn" data-toggle="modal" th:data-target=".modifyBtn">수정</button>
 					               									<div class="modal fade modal-div modifyBtn"tabindex="-1" role="dialog" aria-labelledby="varyModalLabelModify" aria-hidden="true">
 						                 								<div class="modal-dialog" role="document">
-						                 									<form>
 																			<div class="modal-content">
 																				<div class="modal-header">
 																				  <h5 class="modal-title" >하루 최대 적립 포인트 횟수 기준 수정</h5>
@@ -80,7 +79,7 @@
 																				  </button>
 					                     										</div>
 					                     										<div class="modal-body">
-																					<form action="" method="Post">
+																					<form>
 																						<div class="form-group">
 																						  <label th:for="'modifyCode'+${state.count}" class="col-form-label">코드</label>
 																						  <input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}">
@@ -127,9 +126,8 @@
 																						<span aria-hidden="true">&times;</span>
 																					</button>
 																				</div>
-																				<form>
 																					<div class="modal-body">
-																						<form action="" method="Post">
+																						<form>
 																							<div class="form-group">
 																							  <label th:for="'modifyCode'+${state.count}" class="col-form-label">코드</label>
 																							  <input type="text" class="form-control" readonly="readonly" th:value="${p['횟수 기준 코드']}">
