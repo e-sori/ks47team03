@@ -4,14 +4,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import ks47team03.user.dto.Board;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import ks47team03.user.service.UserBoardService;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,7 +36,7 @@ public class UserBoardController {
 	@GetMapping("/communityBoardView")
 	public String communityBoardView(Model model, @RequestParam(defaultValue = "0") int page) {
 		// List<Board> boards = userBoardService.communityBoardView();
-		List<Board> boards = userBoardService.getBoards(); // 수정된 부분: 삭제되지 않은 게시글만 가져옵니다.
+		List<Board> boards = userBoardService.getBoards(); // 삭제되지 않은 게시글만 표기
 		boards.sort(Comparator.comparingInt(board -> Integer.parseInt(board.getSimpleCode())));
 		Collections.reverse(boards);
 
@@ -50,12 +50,12 @@ public class UserBoardController {
 		int maxPage = (boards.size() - 1) / pageSize;  // Calculate the maximum page number
 
 		// model.addAttribute("boardCount", communityBoardCount);
-		model.addAttribute("boardCount", boards.size()); // 수정된 부분: 삭제되지 않은 게시글의 수를 세어 boardCount로 설정합니다.
+		model.addAttribute("boardCount", boards.size()); // 삭제되지 않은 게시글의 수를 세어 boardCount로 설정
 		model.addAttribute("list", pageOfBoards);
 		model.addAttribute("currentPage", page);  // Current page number
 		model.addAttribute("maxPage", maxPage);  // Maximum page number
 
-		return "user/board/communityBoardView";
+		return "/user/board/communityBoardView";
 	}
 	// 커뮤니티 게시글 작성
 	@GetMapping("/communityBoardWrite")
@@ -100,13 +100,25 @@ public class UserBoardController {
 			// 게시글 정보를 모델에 추가후 페이지를 로드
 			model.addAttribute("detail", board);
 		}
-		return "user/board/communityBoardDetail";
+		return "/user/board/communityBoardDetail";
 	}
 	// 커뮤니티 게시글 삭제
 	@GetMapping("/communityBoardDelete")
-	public String communityBoardDelete(String boardCode){
-		userBoardService.communityBoardDelete(boardCode);
-		return "redirect:/board/communityBoardView";
+	public ResponseEntity<String> communityBoardDelete(HttpServletRequest request, String boardCode){
+		// 현재 로그인된 사용자 ID 가져오기
+		HttpSession session = request.getSession();
+		String currentUserId = (String) session.getAttribute("SID");
+		try {
+			// 게시글 삭제 요청을 서비스에 전달
+			userBoardService.communityBoardDelete(boardCode, currentUserId);
+			// 삭제가 성공하면, 성공 메시지를 담은 ResponseEntity를 반환
+			return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
+		} catch (IllegalArgumentException e) {
+			// 삭제를 실패했다면, 에러 메시지를 담은 ResponseEntity를 반환
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("작성자만 삭제할 수 있습니다.");
+		} catch (RuntimeException e) {
+			// 게시글을 찾을 수 없는 경우, 에러 메시지를 담은 ResponseEntity를 반환
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글을 찾을 수 없습니다.");
+		}
 	}
-
 }
