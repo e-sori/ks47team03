@@ -36,16 +36,16 @@ public class AdminPointService {
 			pointStandardList = adminPointMapper.getPointMaxCountStandard("point");
 		}else if(tableId.equals("pills-expire")) {
 			tableDbName = "point_expire_standard";	
-			pointStandardList = adminPointMapper.getPointExpireStandard(paramMap);			
+			pointStandardList = adminPointMapper.getPointExpireStandard();			
 		}else if(tableId.equals("pills-save")) {
 			tableDbName = "point_save_standard";
-			pointStandardList = adminPointMapper.getPointSaveStandard(paramMap);
+			pointStandardList = adminPointMapper.getPointSaveStandard();
 		}else if(tableId.equals("pills-refund")) {
 			tableDbName = "point_refund_standard";
-			pointStandardList = adminPointMapper.getPointRefundStandard(paramMap);
+			pointStandardList = adminPointMapper.getPointRefundStandard();
 		}else {
 			tableDbName = "point_save_use_type";	
-			pointStandardList = adminPointMapper.getPointTypeStandard(paramMap);
+			pointStandardList = adminPointMapper.getPointTypeStandard();
 		}
 			
 		

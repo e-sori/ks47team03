@@ -1,3 +1,9 @@
+#pointStandardManage_wrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
 .paginate_button {
     display: inline-block;
     font-weight: 400;
@@ -29,8 +35,7 @@
   color: #6c757d;
   text-decoration: none; 
   cursor: pointer;
-  }
-  
+  }  
   
   
 .paginate_button{
@@ -53,6 +58,7 @@ table.dataTable {
   max-width: none !important;
   border-collapse: separate !important;
   border-spacing: 0;
+  width: 100% !important;
 }
 table.dataTable td,
 table.dataTable th {
@@ -97,8 +103,10 @@ div.dataTables_wrapper div.dataTables_info {
 div.dataTables_wrapper div.dataTables_paginate {
   margin: 0;
   white-space: nowrap;
-  text-align: center;
-  margin-top: 10px;
+  padding-left: 38%;
+  margin-top: 30px;
+  width: 80%;
+  justify-content: center;
 }
 div.dataTables_wrapper div.dataTables_paginate ul.pagination {
   margin: 2px 0;

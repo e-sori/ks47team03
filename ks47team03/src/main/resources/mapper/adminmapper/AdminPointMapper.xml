@@ -7,9 +7,10 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
 
-	<select id="getPointRefundStandard" parameterType="map" resultType="java.util.LinkedHashMap">
+	<select id="getPointRefundStandard" resultType="java.util.LinkedHashMap">
 		/* 5-2 포인트 환급 기준 조회 */
 		SELECT
+			CAST(SUBSTRING_INDEX(RS.point_refund_standard_code,'code',-1) AS UNSIGNED) AS 'No',
 			RS.point_refund_standard_code AS '환급 기준 코드',
 			SUT.point_save_use_type AS '포인트 타입',
 			RS.minimum_refund_standard AS '최소 환급 포인트',
@@ -28,15 +29,13 @@
 			point_save_use_type AS SUT
 			ON
 			RS.point_save_use_type_code = SUT.point_save_use_type_code
-		ORDER BY CAST(SUBSTRING_INDEX(RS.point_refund_standard_code,'code',-1) AS UNSIGNED)
-		<if test="currentFirstIndex != null and currentFirstIndex > -1">
-			LIMIT #{currentFirstIndex},#{rowPerPage};
-		</if>	
+		ORDER BY No
 	</select>
 
-	<select id="getPointSaveStandard" parameterType="map" resultType="java.util.LinkedHashMap">
+	<select id="getPointSaveStandard" resultType="java.util.LinkedHashMap">
 		/* 4-2 포인트 적립 기준 조회 */
 		SELECT
+			CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)	AS 'No',
 			PSS.point_save_standard_code AS '적립 기준 코드',
 			GS.grade_name AS '등급',
 			PSS.grade_attain_point AS '등급 달성 포인트',
@@ -54,15 +53,13 @@
 			grade_standard AS GS
 			ON
 			PSS.grade_standard_code = GS.grade_standard_code
-		ORDER BY CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)
-		<if test="currentFirstIndex != null and currentFirstIndex > -1">
-			LIMIT #{currentFirstIndex},#{rowPerPage};
-		</if>	
+		ORDER BY No
 	</select>
 	
-	<select id="getPointTypeStandard" parameterType="map" resultType="java.util.LinkedHashMap">
+	<select id="getPointTypeStandard" resultType="java.util.LinkedHashMap">
 		/* 3-2 포인트 타입 기준 조회 */
 		SELECT
+			CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED) AS 'No',
 			point_save_use_type_code AS '포인트 타입 코드',
 			point_save_use_type AS '포인트 타입',
 			CASE 
@@ -74,35 +71,25 @@
 			up_datetime AS '최종 수정일'	
 		FROM
 			point_save_use_type
-		ORDER BY CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED)
-		<if test="currentFirstIndex != null and currentFirstIndex > -1">
-			LIMIT #{currentFirstIndex},#{rowPerPage};
-		</if>		
+		ORDER BY No
 	</select>
 	
-	<select id="getPointExpireStandard" parameterType="map" resultType="java.util.LinkedHashMap">
+	<select id="getPointExpireStandard" resultType="java.util.LinkedHashMap">
 		/* 2-2 포인트 만료 기간 기준 조회 */
-		<trim prefix="SELECT" suffixOverrides=",">
-			<if test="currentFirstIndex != null and currentFirstIndex > -1">
-			point_expire_standard_code AS '유효 기간 코드',
-			</if>
+		SELECT
+			CAST(SUBSTRING_INDEX(point_expire_standard_code,'code',-1) AS UNSIGNED) AS 'No',
+			point_expire_standard_code AS '유효 기간 코드',		
 			point_expire AS '유효 기간',
 			CASE 
 			   WHEN code_use = 'Y' THEN '사용가능'
 			   WHEN code_use = 'N' THEN '사용불가능'
 			END AS '코드 사용 유무',	
-			<if test="currentFirstIndex != null and currentFirstIndex > -1">
 			set_datetime AS '최초 등록일',
 			admin_id AS '관리자 ID',
-			up_datetime AS '최종 수정일'	
-			</if>
-		</trim>		
+			up_datetime AS '최종 수정일'						
 		FROM
 			point_expire_standard
-		ORDER BY CAST(SUBSTRING_INDEX(point_expire_standard_code,'code',-1) AS UNSIGNED)
-		<if test="currentFirstIndex != null and currentFirstIndex > -1">
-			LIMIT #{currentFirstIndex},#{rowPerPage};
-		</if>	
+		ORDER BY No
 	</select>
 	
 
@@ -150,7 +137,7 @@
 			day_maximum_count
 		WHERE
 			day_maximum_count_code LIKE CONCAT('%', #{type}, '%')
-		ORDER BY 'No'
+		ORDER BY No
 	</select>
 	
 	<select id="getDistinctData" parameterType="String" resultType="String">

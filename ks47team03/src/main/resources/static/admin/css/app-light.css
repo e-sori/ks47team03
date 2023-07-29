@@ -120,6 +120,8 @@ margin-top: 30px;
 .colSpan-left {
   display: flex;
   justify-content: flex-end;
+  width: 20%;
+  margin-top: 30px
 }
 
 .colSpan-left button {
