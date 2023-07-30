@@ -75,12 +75,25 @@
                             </article>
                             <div class="button-container">
                                 <a class="btn" href="/board/communityBoardView"><img src="../user/img/button/list.png" height="40" width="70" alt=""></a>
-                                <a class="btn btn-move-right" onclick="updatePost()"><img src="../user/img/button/modify.png" height="40" width="70" alt=""></a>
+                                <a class="btn btn-move-right" onclick="checkAuthorAndRedirect('${detail.community_now_board_code}')"><img src="../user/img/button/modify.png" height="40" width="70" alt=""></a>
                                 <a id="deleteButton" class="btn" onclick="deletePost()"><img src="../user/img/button/delete.png" height="40" width="70" alt=""></a>
                                 <script th:inline="javascript">
                                     /*<![CDATA[*/
                                     let boardCode = [[${detail.community_now_board_code}]];
 
+                                    function checkAuthorAndRedirect() {
+                                        $.ajax({
+                                            url: '/board/checkAuthor/' + boardCode,
+                                            type: 'GET',
+                                            success: function(response) {
+                                                if (response.canEdit) {
+                                                    window.location.href = '/board/communityBoardModify/' + boardCode;
+                                                } else {
+                                                    alert('작성자만 수정할 수 있습니다.');
+                                                }
+                                            }
+                                        });
+                                    }
                                     function deletePost() {
                                         if (!confirm('정말로 삭제하시겠습니까?')) {
                                             return;
