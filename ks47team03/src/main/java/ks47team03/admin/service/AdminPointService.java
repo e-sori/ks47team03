@@ -1,39 +1,46 @@
 package ks47team03.admin.service;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import ks47team03.admin.dto.AdminPoint;
+import ks47team03.admin.mapper.AdminCommonMapper;
 import ks47team03.admin.mapper.AdminPointMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class AdminPointService {
-	
 	private final AdminPointMapper adminPointMapper;
+	private final AdminCommonMapper adminCommonMapper;
 	
-	public AdminPointService(AdminPointMapper adminPointMapper) {
+	public AdminPointService(AdminPointMapper adminPointMapper, AdminCommonMapper adminCommonMapper) {
 		this.adminPointMapper = adminPointMapper;
+		this.adminCommonMapper = adminCommonMapper;
 	}
 	
+	// 새로운 코드 가져오기
+	public String getIncreaseCode(String tableDbName) {		
+		String getNewCode = adminCommonMapper.getIncreaseCode(tableDbName);
+		
+		return getNewCode;
+	};	
 	
 	// 포인트 관련기준 조회 
-	public Map<String, Object> getPointStandard(String tableId){
-		
+	public Map<String, Object> getPointStandard(String tableId){		
 		// adminPointMapper에서 return 값 받아오기	
 		String tableDbName = null;
 		Map<String,Object> paramMap = new LinkedHashMap<String,Object>();	
-		List<Map<String,Object>> pointStandardList = null;
-		
+		List<Map<String,Object>> pointStandardList = null;	
+		List<AdminPoint> pointMaxStandardList = null;
 		
 		if(tableId.equals("pills-max"))	{
 			tableDbName = "day_maximum_count";	
-			pointStandardList = adminPointMapper.getPointMaxCountStandard("point");
+			pointMaxStandardList = adminPointMapper.getPointMaxCountStandard("point");	
+			paramMap.put("pointMaxStandardList", pointMaxStandardList);
 		}else if(tableId.equals("pills-expire")) {
 			tableDbName = "point_expire_standard";	
 			pointStandardList = adminPointMapper.getPointExpireStandard();			
@@ -47,16 +54,12 @@ public class AdminPointService {
 			tableDbName = "point_save_use_type";	
 			pointStandardList = adminPointMapper.getPointTypeStandard();
 		}
-			
 		
+		if(!tableId.equals("pills-max")) paramMap.put("pointStandardList", pointStandardList);
+			
 		List<String> codeUseList = adminPointMapper.getDistinctData(tableDbName, "code_use");
 		
-		// controller에 전달될 data
-		paramMap.clear(); // map 객체 안의 data 초기화		
 		paramMap.put("codeUseList", codeUseList);
-		paramMap.put("tableId", tableId);
-		paramMap.put("pointStandardList", pointStandardList);
-		log.info("sfsdfsfsfdsf:{}",pointStandardList);
 		
 		return paramMap;
 	};

@@ -6,6 +6,16 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
+	
+	<resultMap type="AdminPoint" id="pointMaxCountResultMap">
+		<id column="횟수 기준 코드" property="dayMaximumCountCode" />
+		<result column="No" property="dayNum" />
+		<result column="적립 가능 횟수" property="useMaximumCount" />
+		<result column="코드 사용 유무" property="codeUse" />
+		<result column="최초 등록일" property="setDatetime" />
+		<result column="관리자 ID" property="adminId" />
+		<result column="최종 수정일" property="upDatetime" />
+	</resultMap>
 
 	<select id="getPointRefundStandard" resultType="java.util.LinkedHashMap">
 		/* 5-2 포인트 환급 기준 조회 */
@@ -116,11 +126,30 @@
 	</update>
 	
 	<insert id="addPointMaxCountStandard" parameterType="map">
+		<!-- order ="BEFORE" - insert 태그 내에 같이 묶여있는 쿼리를 실행하기 전에 실행해라 -->
+		<selectKey resultType="String" keyColumn="newPointMaxCode" keyProperty="PointMaxCode" order="BEFORE">
+			/* 자동 숫자 증가 코드 가져오기 */
+			<![CDATA[
+			SELECT
+				CASE
+					WHEN COUNT(*) = 0
+					THEN 'day_maximum_count_code1'
+				ELSE	
+					CONCAT('day_maximum_count_code',
+					MAX(CAST(SUBSTRING_INDEX(day_maximum_count_code,'code',-1) AS UNSIGNED))+1)
+				END AS increaseCode
+			FROM
+				day_maximum_count
+			]]>
+		</selectKey>
 		/* 1-3 하루 최대 적립 포인트 횟수 기준 등록 */
-		
+		INSERT INTO day_maximum_count
+			(day_maximum_count_code, count_benefit_type, use_maximum_count, code_use, set_datetime, admin_id, up_datetime)
+		VALUES
+			(#{goodsCode}, #{goodsName}, #{goodsPrice}, #{goodsSellerId}, CURDATE())		
 	</insert>
 	
-	<select id="getPointMaxCountStandard" parameterType="String" resultType="java.util.LinkedHashMap">
+	<select id="getPointMaxCountStandard" parameterType="String" resultMap="pointMaxCountResultMap">
 		/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
 		SELECT
 			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS 'No',
