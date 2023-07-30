@@ -1,5 +1,10 @@
 package ks47team03.user.mapper;
 
-public interface UserPartnerMapper {
+import java.util.List;
+
+
+
+public interface UserPartnerMapper  {
 
 }
+  

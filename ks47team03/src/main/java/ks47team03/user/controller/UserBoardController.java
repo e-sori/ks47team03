@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import ks47team03.user.service.UserBoardService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.security.Principal;
+import java.util.*;
 
 
 @Controller
@@ -73,14 +72,14 @@ public class UserBoardController {
 			board.getCommunity_now_board_content() == null || board.getCommunity_now_board_content().isEmpty()) {
 			model.addAttribute("message", "제목과 내용은 필수 입력 사항입니다.");
 			model.addAttribute("searchUrl", "/board/communityBoardWrite");
-			return "user/board/message";
+			return "/user/board/message";
 		}
 		// admin_id 설정
 		board.setAdmin_id("adminid001");
 		userBoardService.communityBoardWrite(board, request);
 		model.addAttribute("message","글 작성이 완료되었습니다.");
 		model.addAttribute("searchUrl","/board/communityBoardView");
-		return "user/board/message";
+		return "/user/board/message";
 	}
 	// 커뮤니티 게시글 상세 조회
 	@GetMapping("/communityBoardDetail")
@@ -120,5 +119,32 @@ public class UserBoardController {
 			// 게시글을 찾을 수 없는 경우, 에러 메시지를 담은 ResponseEntity를 반환
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글을 찾을 수 없습니다.");
 		}
+	}
+	// 커뮤니티 게시글 수정
+	@GetMapping("/communityBoardModify/{boardCode}")
+	public String communityBoardModify(@PathVariable("boardCode") String boardCode,
+									   Model model, RedirectAttributes redirectAttributes) {
+		Board board = userBoardService.communityBoardDetail(boardCode);
+		model.addAttribute("detail", board);
+		return "/user/board/communityBoardModify";
+	}
+	// 커뮤니티 게시글 (ID확인)
+	@GetMapping("/checkAuthor/{boardCode}")
+	public ResponseEntity<Map<String, Boolean>> checkAuthor(@PathVariable("boardCode") String boardCode, HttpServletRequest request) {
+		Board board = userBoardService.communityBoardDetail(boardCode);
+		HttpSession session = request.getSession();
+		String currentUserId = (String) session.getAttribute("SID"); // 현재 로그인한 사용자의 아이디
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("canEdit", board.getUser_id().equals(currentUserId));
+		return ResponseEntity.ok(response);
+	}
+	@PostMapping("/communityBoardUpdate/{boardCode}")
+	// 커뮤니티 게시글 수정 처리
+	public String communityBoardUpdate(@PathVariable("boardCode") String boardCode, Board board){
+		Board boardTemp = userBoardService.communityBoardDetail(boardCode);
+		boardTemp.setCommunity_now_board_title(board.getCommunity_now_board_title());
+		boardTemp.setCommunity_now_board_content(board.getCommunity_now_board_content());
+		userBoardService.saveBoard(boardTemp);
+		return "redirect:/board/communityBoardView";
 	}
 }

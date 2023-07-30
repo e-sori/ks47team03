@@ -3,7 +3,11 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
 	<th:block layout:fragment="customContents">
-  
+		
+    		
+   
+
+    		
  <!-- ================ start banner area ================= -->
   <section class="page-banner-area" id="category">
     <div class="container h-100">
@@ -19,24 +23,36 @@
       </div>
     </div>
   </section>
+  
  
 	  <!-- ================ end banner area ================= -->
 
   <!--================Point table Area =================-->
-  <section class="order_details section-margin--small">
+  <section class="login_box_area section-margin">
     <div class="container">
+      <div class="rowlogin">
+				<div class="login_join_center">
+					<div class="login_form_inner">
+						<h3>무인기기 설치 신청</h3>
+						<form class="row login_form" action="#/" id="contactForm" >
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디" onfocus="this.placeholder = '아이디'" onblur="this.placeholder = '아이디'">
+								<input type="text" class="form-control" id="partnerName" name="partnerName" placeholder="사업장명" onfocus="this.placeholder = '사업장명'" onblur="this.placeholder = '사업장명'">								
+							</div>
+					</form>
+						 <button type="button" id="businessKioskApplyBtn">신청</button>
+						 <button type="reset" id="resetBtn">입력취소</button>
+						
+				</div>	
+			</div>
+		</div>
       
-      <p class="font"></p>
-     
-      <p class="billing-alert"></p>
-      
-      <a class="font" href="#"></a>
-      
-         
-        
       
     </div>
-  </section>
+   </section>
+ 
+        
+      
   <!--================End Order Details Area =================-->
 
    </th:block>
