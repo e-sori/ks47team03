@@ -23,20 +23,34 @@
 	  <!-- ================ end banner area ================= -->
 
   <!--================Point table Area =================-->
-  <section class="order_details section-margin--small">
+   <section class="login_box_area section-margin">
     <div class="container">
-      
-      <p class="font"></p>
-     
-      <p class="billing-alert"></p>
-      
-      <a class="font" href="#"></a>
-      
-         
-        
-      
-    </div>
-  </section>
+      <div class="rowlogin">
+				<div class="login_join_center">
+					<div class="login_form_inner">
+						<h3>무인기기 고장 접수</h3>
+                            <form action="/board/communityBoardWritePro" method="post">
+                                <div class="form-group">
+                                    <label for="title">제목</label>
+                                    <input name="community_now_board_title" type="text" class="form-control" id="title">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="content">내용</label>
+                                    <textarea name="community_now_board_content" class="form-control" id="content"
+                                              rows="10"></textarea>
+                                </div>
+                                <div class="button-container">
+                                    <button type="button" id="businessKioskApplyBtn">신청</button>
+                                     <button type="button" id="businessKioskApplyBtn">입력취소</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
   <!--================End Order Details Area =================-->
 
    </th:block>
