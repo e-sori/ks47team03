@@ -5373,4 +5373,22 @@ object-fit : cover;
 .btn-move-right {
   margin-left: auto;
 }
+.modify-button:hover .modify-img{
+  content: url("../../user/img/button/modify-hover.png");
+}
+.list-button:hover .list-img{
+  content: url("../../user/img/button/list-hover.png");
+}
+.delete-button:hover .delete-img{
+  content: url("../../user/img/button/delete-hover.png");
+}
+.like-button:hover .like-img{
+  content: url("../../user/img/button/like-hover.png");
+}
+.writing-button:hover .writing-img{
+  content: url("../../user/img/button/writing-hover.png");
+}
+.write-button:hover .write-img{
+  content: url("../../user/img/button/write-hover.png");
+}
 /* SEOWON CSS END */

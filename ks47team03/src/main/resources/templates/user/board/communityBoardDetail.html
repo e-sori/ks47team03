@@ -59,6 +59,10 @@
                                                 <i class="lnr lnr-eye"> 조회수 </i>
                                                 <p th:text="${detail.community_now_board_view}">조회수</p>
                                             </li>
+                                            <li>
+                                                <i class="lnr lnr-heart"> 좋아요 </i>
+                                                <p th:text="${detail.community_now_board_like}">좋아요</p>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -74,13 +78,34 @@
                                 </div>
                             </article>
                             <div class="button-container">
-                                <a class="btn" href="/board/communityBoardView"><img src="../user/img/button/list.png" height="40" width="70" alt=""></a>
-                                <a class="btn btn-move-right" onclick="checkAuthorAndRedirect('${detail.community_now_board_code}')"><img src="../user/img/button/modify.png" height="40" width="70" alt=""></a>
-                                <a id="deleteButton" class="btn" onclick="deletePost()"><img src="../user/img/button/delete.png" height="40" width="70" alt=""></a>
+                                <a class="btn list-button" href="/board/communityBoardView"><img class="list-img" src="../user/img/button/list.png" height="40" width="70" alt=""></a>
+                                <a class="btn like-button like-button" onclick="likePost()"><img class="like-img" src="../user/img/button/like.png" height="40" width="80" alt=""></a>
+                                <a class="btn btn-move-right modify-button" onclick="checkAuthorAndRedirect('${detail.community_now_board_code}')"><img class="modify-img" src="../user/img/button/modify.png" height="40" width="70" alt=""></a>
+                                <a id="deleteButton" class="btn delete-button" onclick="deletePost()"><img class="delete-img" src="../user/img/button/delete.png" height="40" width="70" alt=""></a>
                                 <script th:inline="javascript">
                                     /*<![CDATA[*/
                                     let boardCode = [[${detail.community_now_board_code}]];
 
+                                    function likePost() {
+                                        $.ajax({
+                                            url: '/board/likePost/' + boardCode,
+                                            type: 'POST',
+                                            success: function(response) {
+                                                if (response.success) {
+                                                    if (response.liked) {
+                                                        alert('게시글을 좋아합니다.');
+                                                    } else {
+                                                        alert('게시글 좋아요를 취소합니다.');
+                                                    }
+                                                } else {
+                                                    alert('오류가 발생했습니다. 다시 시도해 주세요.');
+                                                }
+                                            },
+                                            error: function(xhr, status, error) {
+                                                alert("오류가 발생했습니다." + error);
+                                            }
+                                        });
+                                    }
                                     function checkAuthorAndRedirect() {
                                         $.ajax({
                                             url: '/board/checkAuthor/' + boardCode,
