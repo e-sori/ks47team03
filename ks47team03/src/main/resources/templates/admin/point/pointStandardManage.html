@@ -58,7 +58,7 @@
 															<td>
 																<input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 															</td>
-															<td th:text="${p.dayNum}"></td>
+															<td th:text="${p.No}"></td>
 															<td th:text="${p.dayMaximumCountCode}"></td>
 															<td th:text="${p.useMaximumCount}"></td>
 															<td th:text="${p.codeUse}"></td>
@@ -83,33 +83,34 @@
 																</button>
 															</div>
 															<div class="modal-body">
-																<form action="" method="Post" th:object="${pointStandardList}">
+																<form id="insertForm" th:action="@{/admin/point/addPointStandard}" method="Post">
+																	<input type="hidden" name="formName" value="pointMaxCount">
 																	<div class="form-group">
-																		<label for="message-text" class="col-form-label">횟수 기준 코드:</label>
-																		<input type="text" class="form-control" readonly="readonly">
+																		<label for="insertCode" class="col-form-label">횟수 기준 코드:</label>
+																		<input type="text" id="insertCode" name="newCode" class="form-control" readonly="readonly">
 																	</div>
 																	<div class="form-group">
-																		<label for="message-text" class="col-form-label">적립 가능 횟수:</label>
-																		<input type="text" class="form-control">
+																		<label for="insertMaxCount" class="col-form-label">적립 가능 횟수:</label>
+																		<input type="text" id="insertMaxCount" name="useMaxCount" class="form-control">
 																	</div>
 																	<div class="form-group">
-																		<label for="message-text" class="col-form-label">코드 사용 유무:</label>
-																			<select class="form-control">
+																		<label for="insertCodeUse" class="col-form-label">코드 사용 유무:</label>
+																			<select id="insertCodeUse" name="codeUse" class="form-control">
 																				  	<option value="Y">사용 가능</option>
 																				  	<option value="N">사용 불가능</option>
 																			</select>
 																	</div>
 																	<div class="form-group">
-																		<label for="message-text" class="col-form-label">관리자 ID:</label>
-																		<input type="text" class="form-control" readonly="readonly">
+																		<label for="insertAdminId" class="col-form-label">관리자 ID:</label>
+																		<input type="text" id="insertAdminId" name="adminId" class="form-control" readonly="readonly">
 																	</div>
 																	<div class="form-group">
-																		<label for="message-text" class="col-form-label">비밀번호 : </label>
-																		<input type="password" class="form-control">
+																		<label for="insertAdminPw" class="col-form-label">비밀번호 : </label>
+																		<input type="password" id="insertAdminPw" name="adminPw" class="form-control">
 																	</div>
 																	<div class="modal-footer">
-																		<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
-																		<button type="button" class="btn mb-2 btn-secondary">등록 확인</button>																								
+																		<button type="reset" class="btn mb-2 btn-secondary" id="insertResetBtn">입력 취소</button>
+																		<button type="submit" class="btn mb-2 btn-secondary" id="insertBtn">등록 확인</button>																								
 																	</div>
 																</form>
 															</div>
@@ -129,30 +130,24 @@
 															  	</button>
 					                 						</div>
 					                 						<div class="modal-body">
-																<form action="" method="Post" th:object="${pointStandardList}">
+																<form action="" method="Post">
 																	<div class="form-group">
 																		<label th:for="modifyCode" class="col-form-label">횟수 기준 코드</label>
 																		<input type="text" class="form-control" readonly="readonly">
 																	</div>
 																	<div class="form-group">
 																		<label th:for="modifyCount" class="col-form-label">적립 가능 횟수</label>
-																		<input type="text" class="form-control" th:value="ㄱㄱ">
+																		<input type="text" class="form-control">
 																	</div>
 																	<div class="form-group">
 																		<label th:for="modifyUse" class="col-form-label">코드 사용 유무</label>
 																		<select class="form-control">
-																		 	<th:block 	th:unless="${#lists.isEmpty(codeUseList)}"
-																						th:each="u : ${codeUseList}">
-																			  	<option th:selected="${u} == 1"
-																			  			th:value="${u}" 
-																			  			th:text="${u}">
-																			  	</option>
-																			</th:block> 
+																		 	<option></option>																			
 																		</select>
 																	</div>
 																	<div class="form-group">
 																		<label th:for="modifyAdmin" class="col-form-label">관리자 ID</label>
-																		<input type="text" class="form-control" readonly="readonly" th:value="${SID}" >
+																		<input type="text" class="form-control" readonly="readonly">
 																	</div>
 																	<div class="form-group">
 																		<label th:for="modifyPw" class="col-form-label">비밀번호</label>
@@ -217,7 +212,10 @@
 		</div>
 	</th:block>
 	<th:block layout:fragment="customJs">
-		<script>	
+		<script type="text/javascript" th:inline="javascript">
+			let message = [[${message}]];
+			if(message) alert(message);
+			
 			// 데이터 테이블 설정
 			$(function(){
 				$('#pointStandardManage').each(function() {
@@ -253,7 +251,7 @@
 		        $(e.target).toggleClass('active');
 		        
 				const requestData = $.ajax({
-		 		 	url: '/admin/point/pointStandardManageClick',
+		 		 	url: '/admin/point/pointStandardManageAjax',
 					method: 'GET',
 					data: { 'tableId' : tableId },
 					dataType: 'json'
@@ -274,7 +272,7 @@
 				        ];				        
 				        
 				        const labels = {
-				        	    dayNum : "No",
+				        	    No : "No",
 				        	    dayMaximumCountCode : "횟수 기준 코드",
 				        	    useMaximumCount : "적립 가능 횟수",
 				        	    codeUse : "코드 사용 유무",
@@ -301,7 +299,7 @@
 				        	break; // 어차피 컬럼은 객체 하나만 돌아도 되기 때문에 한 번만 돌고 반복문을 끝내준다.
 				        }
 				        
-				        console.log(newData);
+				        console.log(newData.length);
 				       
 						// 데이터 테이블 파괴
 						$('#pointStandardManage').DataTable().destroy();
@@ -337,9 +335,25 @@
 						});
 						$('#pointStandardManage').find('.sorting_asc').toggleClass('sorting_asc');
 						
-						// 테이블 헤더 변경
+						// 컬럼 개수 - 7 만큼 form-group 추가
+						const formGroupDivNum = newData.length - 7;
+						const $addDiv = `<div class="form-group"></div>`
+						
+						const $formGroups = $('#insertForm').find('.form-group');
+						$formGroups.each(function(index) {
+						  if (index >= 1 && index < $formGroups.length - 3) {
+						    $(this).remove();
+						  }
+						});
+						
+						for(let num = 0; num < formGroupDivNum; num += 1){
+							$('.form-group').eq(0).after($addDiv);
+						}
+						
+						// 테이블 헤더 변경, 모달 변경
 						switch(tableId){
 						case 'pills-expire':
+						console.log("sfsdfsdfsdfsd",pointStandardList);
 							let pointExpire;
 							for(let list of pointStandardList){
 								if(list['코드 사용 유무'] == '사용가능') {
@@ -348,18 +362,87 @@
 							}
 							$('.page-small-title').text('포인트 유효 기간 기준');
 							$('.card-small-text').text(`포인트 유효 기간은 ${pointExpire}년입니다.`);
+							
+							$('input[name="formName"]').val('pointExpire');
+							$('label[for="insertCode"]').text('유효 기간 코드');
+							$('.modal-header').find('#modalInsertLabel').text('포인트 유효 기간 기준 등록');
+							
+							let $addExpireFirst = `<label for="InsertExpirePeriod" class="col-form-label">유효 기간</label>`
+							$addExpireFirst += `<input type="text" id="InsertExpirePeriod" name="expirePeriod" class="form-control">`
+					
+							$('.form-group').eq(1).append($addExpireFirst);
+							
+							
 							break;
 						case 'pills-type':
 							$('.page-small-title').text('포인트 타입');
 							$('.card-small-text').text('포인트 타입입니다.');
+							
+							$('input[name="formName"]').val('pointType');
+							$('label[for="insertCode"]').text('포인트 타입 코드');
+							$('.modal-header').find('#modalInsertLabel').text('포인트 타입 등록');
+							
+							let $addTypeFirst = `<label for="insertPointType" class="col-form-label">포인트 타입</label>`
+							$addTypeFirst += `<input type="text" id="insertPointType" name="pointType" class="form-control">`
+							
+							$('.form-group').eq(1).append($addTypeFirst);
+							
 							break;
 						case 'pills-save':
 							$('.page-small-title').text('포인트 적립 기준');
-							$('.card-small-text').text('포인트 적립 및 사용 타입 기준입니다.');
+							$('.card-small-text').text('포인트 적립 기준입니다.');
+							
+							$('input[name="formName"]').val('pointSave');
+							$('label[for="insertCode"]').text('포인트 적립 기준 코드');							
+							$('.modal-header').find('#modalInsertLabel').text('포인트 적립 기준 등록');
+							
+							let $addSaveFirst = `<label for="insertGradeName" class="col-form-label">등급 이름</label>`
+							$addSaveFirst += `<input type="text" id="insertGradeName" name="gradeName" class="form-control">`
+							let $addSaveSecond = `<label for="insertGradePoint" class="col-form-label">등급 달성 포인트</label>`
+							$addSaveSecond += `<input type="text" id="insertGradePoint" name="gradePoint" class="form-control">`
+							let $addSaveThird = `<label for="insertUsePoint" class="col-form-label">이용 포인트</label>`
+							$addSaveThird += `<input type="text" id="insertUsePoint" name="usePoint" class="form-control">`							
+							
+							$('.form-group').eq(1).append($addSaveFirst);
+							$('.form-group').eq(2).append($addSaveSecond);
+							$('.form-group').eq(3).append($addSaveThird);
+
+							
 							break;
 						case 'pills-refund':
+							console.log("포인트 타입:", pointStandardList[0]["포인트 타입"]);
+							console.log("sfsdfsdfsdfsd",pointStandardList);
 							$('.page-small-title').text('포인트 환급 기준');
 							$('.card-small-text').text('포인트 환급 기준입니다.');
+							
+							$('input[name="formName"]').val('pointRefund');
+							$('label[for="insertCode"]').text('포인트 환급 기준 코드');
+							$('.modal-header').find('#modalInsertLabel').text('포인트 타입 등록');
+							
+							
+							let $addRefundFirst = `<label for="insertPointType" class="col-form-label">포인트 타입</label>`
+							$addRefundFirst += `<select id="insertPointType" name="pointType" class="form-control">`
+							for(list of pointStandardList){
+								  for(obj in list){
+								    if (obj === "포인트 타입") {
+								    	$addRefundFirst += `<option value="${list[obj]}"">${list[obj]}</option>` 
+								    }
+								  }
+								}	
+							$addRefundFirst += `</select>` 	
+							  	
+							let $addRefundSecond = `<label for="insertMinRefundPoint" class="col-form-label">최소 환급 포인트</label>`
+							$addRefundSecond += `<input type="text" id="insertMinRefundPoint" name="minRefundPoint" class="form-control">`	
+							let $addRefundThird = `<label for="insertRefundUnit" class="col-form-label">환급 단위</label>`
+							$addRefundThird += `<input type="text" id="insertRefundUnit" name="refundUnit" class="form-control">`	
+							let $addRefundFourth = `<label for="insertRefundFeeRate" class="col-form-label">환급 수수료</label>`
+							$addRefundFourth += `<input type="text" id="insertRefundFeeRate" name="refundFeeRate" class="form-control">`
+							
+							$('.form-group').eq(1).append($addRefundFirst);
+							$('.form-group').eq(2).append($addRefundSecond);
+							$('.form-group').eq(3).append($addRefundThird);
+							$('.form-group').eq(4).append($addRefundFourth);
+							
 							break;
 						case 'pills-max':
 							let useMaxCount;
@@ -369,7 +452,17 @@
 								}
 							}
 							$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');
-							$('.card-small-text').text(`하루에 적립 가능한 포인트 횟수는 최대 ${useMaxCount}번입니다.`);								
+							$('.card-small-text').text(`하루에 적립 가능한 포인트 횟수는 최대 ${useMaxCount}번입니다.`);	
+							
+							$('input[name="formName"]').val('pointMaxCount');
+							$('label[for="insertCode"]').text('횟수 기준 코드');
+							$('.modal-header').find('#modalInsertLabel').text('하루 최대 적립 포인트 횟수 기준 등록');
+							
+							let $addMaxFirst = `<label for="insertMaxCount" class="col-form-label">적립 가능 횟수</label>`
+							$addMaxFirst += `<input type="text" id="insertMaxCount" name="useMaxCount" class="form-control">`
+					
+							$('.form-group').eq(1).append($addMaxFirst);
+							   
 							break;
 						}
 					}
@@ -391,14 +484,34 @@
 		            $('.allCheck').prop('checked', true);
 		          } else $('.allCheck').prop('checked', false);
 		        }
-			});		
+			});	
 			
-			
-		
-			
-		
+			// 등록 버튼 이벤트 핸들러 (등록 모달에 값 넣기 / 등록 확인 버튼 x)
+			$('.modalInsert').click(e => {
+				let tableId = $('.tab-pane').attr('id');
 				
-			
+				const requestData = $.ajax({
+		 		 	url: '/admin/point/addPointStandardAjax',
+					method: 'GET',
+					data: { 'tableId' : tableId },
+					dataType: 'json'
+		 		});
+				requestData.done(function( response ) {
+					if(response){
+						console.log("sfsdfsdfsdfsd",response);
+						const newCode = response.newPointStandardCode;
+						const SID = response.SID;
+						$('#insertCode').val(newCode);
+						$('#insertAdminId').val(SID);
+						
+						}
+						
+					})
+					requestData.fail(function( jqXHR, textStatus ) {
+						alert( "Request failed: " + textStatus );
+					});
+
+				});
 			</script>
 	</th:block>
 </html>
