@@ -34,6 +34,87 @@
 	                          </td>
 	                          </tr>
 	                          <tr>
+	                          <td>
+	                          	<label for="userPw" >유저 비밀번호</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userPw" name="userPw" th:value="*{userPw}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userName" >유저 이름</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userName" name="userName" th:value="*{userName}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userLevel" >유저 권한</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userLevel" name="userLevel" th:value="*{userLevel}" readonly="readonly">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userIdcardnumber" >유저 주민등록번호</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userIdcardnumber" name="userIdcardnumber" th:value="*{userIdcardnumber}" readonly="readonly">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userAddr" >유저 주소</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userAddr" name="userAddr" th:value="*{userAddr}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userEmail" >유저 이메일</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userEmail" name="userEmail" th:value="*{userEmail}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userPhone" >유저 전화번호</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userPhone" name="userPhone" th:value="*{userPhone}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userNick" >유저 닉네임</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userNick" name="userNick" th:value="*{userNick}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userSmscheck" >sms수신동의</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userSmscheck" name="userSmscheck" th:value="*{userSmscheck}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userEmailcheck" >email수신동의</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userEmailcheck" name="userEmailcheck" th:value="*{userEmailcheck}">
+	                          </td>
+	                          </tr>
+	                          <tr>
 	                          	<td>
 	                          		<label for="staticCode" >회원 현재 상태</label>
 	                          	</td>
@@ -53,14 +134,6 @@
 
 											</th:block>
 									</select>	
-	                             </td>
-	                          </tr>
-	                          <tr> 
-	                            <td>
-	                            	<label for="userId" >관리자 ID</label>
-	                            </td>
-	                           <td>
-	                           		<input type="text" id="userId" name="userId" th:value="${adminID}" readonly="readonly">
 	                             </td>
 	                          </tr>
 	                          <tr>

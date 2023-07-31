@@ -27,6 +27,16 @@ public class AdminCommonService {
 		List<User> adminIdList = adminCommonMapper.getadminIdList(); 
 		return adminIdList;
 	}
+	
+	
+	//체크된 회원 상태 삭제
+	public void removeUser(List<String> userIdArr) {
+		adminCommonMapper.removeUser(userIdArr);
+	}
+	//한명 회원 상태 상태 수정 
+	public void modifyUser(User user) {
+		adminCommonMapper.modifyUser(user);
+	}
 	//한명 회원 현재 상태 조회
 	public User getUserInfoByID(String userId) {
 		User userInfo= adminCommonMapper.getUserInfoByID(userId);
@@ -37,14 +47,6 @@ public class AdminCommonService {
 		List<Static> userStaticList = adminCommonMapper.getUserStaticList();
 		return userStaticList;
 	};
-	//체크된 회원 상태 삭제
-	public void removeUser(List<String> userIdArr) {
-		adminCommonMapper.removeUser(userIdArr);
-	}
-	//한개 회원 상태 상태 수정 
-	public void modifyUser(User user) {
-		adminCommonMapper.modifyUser(user);
-	}
 	//회원 목록 조회
 	public Map<String,Object> getUserList(int currentPage,String searchKey, String searchValue) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

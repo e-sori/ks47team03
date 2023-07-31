@@ -117,50 +117,49 @@
 		let msg = '[[${msg}]]';
 		console.log(msg);
 		if(msg != 'null') alert(msg);
-	
-			$(function(){
-		      $('#dataTable-1').DataTable({
-			        autoWidth: true,
-			        "lengthMenu": [
-			          [16, 32, 64, -1],
-			          [16, 32, 64, "All"]
-			        ],
-			        columnDefs: [{
-			            targets: 0,
-			            searchable: false,
-			            orderable: false,
-			            className: 'sorting_disabled'
-			            
-			         }
-			         ,{
-			            targets: $('#dataTable-1').find('th').length-1,
-			            searchable: false,
-			            orderable: false,
-			            className: 'sorting_disabled',	           
-			         	}
-			         ]
-						      	
-				});
+		$(function(){
+	      $('#dataTable-1').DataTable({
+		        autoWidth: true,
+		        "lengthMenu": [
+		          [16, 32, 64, -1],
+		          [16, 32, 64, "All"]
+		        ],
+		        columnDefs: [{
+		            targets: 0,
+		            searchable: false,
+		            orderable: false,
+		            className: 'sorting_disabled'
+		            
+		         }
+		         ,{
+		            targets: $('#dataTable-1').find('th').length-1,
+		            searchable: false,
+		            orderable: false,
+		            className: 'sorting_disabled',	           
+		         	}
+		         ]
+					      	
+			});
 			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
 			});
 			
-			 $('table').click((e) => {
-			        if ($(e.target).is($('.allCheck'))) {
-			          const isChecked = $(e.currentTarget)
-			            .find('.allCheck')
-			            .prop('checked');
-			          $(e.currentTarget).find('.checks').prop('checked', isChecked);
-			        }
-			
-			        if ($(e.target).is($('.checks'))) {
-			          if (
-			            $(e.currentTarget).find('.checks').length ==
-			            $(e.currentTarget).find('.checks:checked').length
-			          ) {
-			            $(e.currentTarget).find('.allCheck').prop('checked', true);
-			          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
-			        }
-			      });
+		 $('table').click((e) => {
+		        if ($(e.target).is($('.allCheck'))) {
+		          const isChecked = $(e.currentTarget)
+		            .find('.allCheck')
+		            .prop('checked');
+		          $(e.currentTarget).find('.checks').prop('checked', isChecked);
+		        }
+		
+		        if ($(e.target).is($('.checks'))) {
+		          if (
+		            $(e.currentTarget).find('.checks').length ==
+		            $(e.currentTarget).find('.checks:checked').length
+		          ) {
+		            $(e.currentTarget).find('.allCheck').prop('checked', true);
+		          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
+		        }
+		      });
 	
 			  $('#delCheckBtn').click(function(e){
 				  //배열 선언
@@ -170,7 +169,7 @@
 				  //배열 순회
 					$checkedEle.each((idx, item) => {
 						//input태그에 속성인 th:data-user-all
-						let userId = $(item).data('userId');
+						let userId = $(item).data('userAll');
 						//베열에 cuserId 담아줌
 						userIdArr.push(userId);
 					})

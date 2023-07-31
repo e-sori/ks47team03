@@ -24,8 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 //	public AdminCommonController (@Qualifier("adminCommonService") AdminCommonService adminService) {
 //		this.adminService = adminService;
 //	}
-
-/**
+ /*
  *  admin과 user 패키지에 같은 클래스가 존재할 때 오류 발생
  *  동일한 클래스 이름을 사용하고 싶으면 Bean에 저장될 이름을 지정해주면 된다.
  *  @Controller("Bean에 저장될 이름") / @Service("Bean에 저장될 이름")
@@ -73,27 +72,27 @@ public class AdminCommonController {
 	 * searchValue); model.addAttribute("title", "회원목록");
 	 * model.addAttribute("userList", userList); return "admin/user/userAll"; }
 	 */
-	//컵 수정 화면 
-	@PostMapping("/userModify")
+	//회원 수정 화면 
+	@PostMapping("/user/userModify")
 	public String userModify (User user) {
 		log.info("userModify user:{}", user);
 		adminService.modifyUser(user);
 		
 		return "redirect:/admin/user/userAll";
 	}
-	//컵 상태 삭제
-	@PostMapping("/userRemove")
+	//회원 삭제
+	@PostMapping("/user/userRemove")
 	public String userRemove (Model model,
 								  @RequestParam(name="userId") List<String> userIdArr,
 								  RedirectAttributes reAttr) {
 		adminService.removeUser(userIdArr);
 		reAttr.addAttribute("msg", "삭제완료");
-		
+		log.info("userId:{}", "userId");
 		
 		return "redirect:/admin/user/userAll";
 	}
-	//컵 상태 수정 화면
-	@GetMapping("/userModify")
+	//회원 상태 수정 화면
+	@GetMapping("/user/userModify")
 	public String userModify(@RequestParam(value="userId") String userId,
 			 					HttpSession session,
 								Model model) {
