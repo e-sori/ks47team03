@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import ks47team03.admin.dto.AdminPoint;
 import ks47team03.admin.service.AdminPointService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -71,50 +72,41 @@ public class AdminPointController {
 	
 	// 포인트 관련 기준 관리 화면	(ajax로 데이터 받기)
 	@GetMapping("/pointStandardManageClick")
-	@SuppressWarnings({ "unchecked" })
 	@ResponseBody
-	public List<Map<String,Object>> pointStandardMange(@RequestParam(value="tableId")String tableId,
+	public Map<String,Object> pointStandardMange(@RequestParam(value="tableId")String tableId,
 													Model model) {
 		
-		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard(tableId);	
+		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard(tableId);		
+	
+		model.addAttribute("title", "포인트 관련 기준 관리");		
 		
-		List<Map<String,Object>> pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
-		
-		model.addAttribute("title", "포인트 관련 기준 관리");
-		model.addAttribute("pointStandardList", pointStandardList);						
-
-		return pointStandardList;
+		return pointStandardResultMap;
 	}
 
 	// 포인트 관련 기준 관리 화면	
 	@GetMapping("/pointStandardManage")
 	@SuppressWarnings("unchecked")
-	public String pointStandardManage(@RequestParam(value="tableId", required = false, defaultValue = "pills-max")String tableId,
-													Model model,
-													HttpSession session) {
+	public String pointStandardManage(Model model,HttpSession session) {
 		
 		/* 포인트 기준 조회 */
-		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard(tableId);
+		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard("pills-max");
 		
-		List<LinkedHashMap<String,Object>> pointStandardList = (List<LinkedHashMap<String,Object>>)pointStandardResultMap.get("pointStandardList");
+		List<AdminPoint> pointMaxStandardList = (List<AdminPoint>)pointStandardResultMap.get("pointMaxStandardList");
 		String sessionId = (String) session.getAttribute("SID");
-		List<LinkedHashMap<String,Object>> codeUseList = (List<LinkedHashMap<String,Object>>) pointStandardResultMap.get("codeUseList");
-		
-		if(tableId.equals("pills-max"))	{
-			for(Map<String,Object> MaxCount : pointStandardList) {
-				if(MaxCount.get("코드 사용 유무").equals("사용가능")) {
-					int useMaxCount = (int)MaxCount.get("적립 가능 횟수");
-					model.addAttribute("useMaxCount", useMaxCount);	
-					break;
-				}
-			}
-		}
+		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
+
+		for (AdminPoint MaxCount : pointMaxStandardList) { 
+			if(MaxCount.getCodeUse().equals("사용가능")) { 
+				int useMaxCount = MaxCount.getUseMaximumCount(); 
+				model.addAttribute("useMaxCount", useMaxCount); 
+				break; 
+			} 
+		}		  
 			
 		model.addAttribute("title","포인트 관련 기준 관리");
 		model.addAttribute("codeUseList", codeUseList);
-		model.addAttribute("pointStandardList", pointStandardList);		
-		model.addAttribute("SID", sessionId);
-		
+		model.addAttribute("pointMaxStandardList", pointMaxStandardList);		
+		model.addAttribute("SID", sessionId);		
 		
 		return "admin/point/pointStandardManage";
 	}
