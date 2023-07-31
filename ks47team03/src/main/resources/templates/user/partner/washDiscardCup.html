@@ -125,27 +125,28 @@
 			 <tfoot class="tfoot-cup">
 				<tr>
 					<td colspan="4">
-						<a class="pages btn mb-2 btn-secondary" th:href="@{/partner/washDiscardCup}">처음으로</a>
-						<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/partner/washDiscardCup(currentPage=${currentPage-1})}">이전</a>
+						<button type="button" class="pages btn mb-2 btn-secondary" th:unless="${currentPage==1}">처음으로</button>
+						<label class="btn mb-2 btn-secondary" th:if="${currentPage==1}">처음으로</label>
+						<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage>1}">이전</button>
 						<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
-							<div class="btn-group mr-2" role="group" aria-label="First group">
-								<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-									<a class="btn mb-2 btn-secondary " th:if="${currentPage != num}" th:href="@{/partner/washDiscardCup(currentPage=${num})}" th:text="${num}"></a>
-									<label class="btn mb-2 btn-secondary current-page-btn" th:if="${currentPage == num}" th:text="${num}"></label>
-								</th:block>
-							</div>				
-						<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/partner/washDiscardCup(currentPage=${currentPage+1})}">다음</a>
+						<div class="btn-group mr-2" role="group" aria-label="First group">
+							<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
+								<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:text="${num}"></button>
+								<label class="btn mb-2 btn-secondary current-page-btn foot-pg" th:if="${currentPage == num}" th:text="${num}"></label>
+							</th:block>
+						</div>				
+						<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}">다음</button>
 						<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
-						<a class="pages btn mb-2 btn-secondary" th:href=@{/partner/washDiscardCup(currentPage=${lastPage})}>마지막으로</a>
+						<button type="button" class="pages btn mb-2 btn-secondary lastPg" th:unless="${currentPage==lastPage}" th:attr="lastPage=${lastPage}">마지막으로</button>
+						<label class="btn mb-2 btn-secondary" th:if="${currentPage==lastPage}">마지막으로</label>
 					</td>
 				</tr>
 			</tfoot>
-                      </table>
-                	</div>
-        
-        </div>
+         </table>
+       </div>
       </div>
-    </div>
+     </div>
+   </div>
   </section>
   <!--================End Order Details Area =================-->
 
@@ -155,6 +156,52 @@
 		let msg = '[[${msg}]]';
 		console.log(msg);
 		if(msg != 'null') alert(msg);
+		
+		
+		// 탭 내의 페이지네이션 클릭했을 때 해당 탭 유지하기 (get방식으로 ajax 요청 - 리다이렉트)	
+		$('tfoot button').click(e => {		
+			e.preventDefault();
+			e.stopPropagation();
+			
+			//let tableId = $('.tab-pane').attr('id');
+			
+			let currentPage;
+			
+			if($(e.target).text() == '처음으로') currentPage = 1;
+			else if($(e.target).text() == '이전') currentPage = Number($('.foot-pg').text()) - 1;
+			else if($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
+			else if($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').attr('lastPage'));
+			else currentPage = $(e.target).text();
+			
+		    currentPage = parseInt(currentPage);
+			
+			console.log(currentPage);
+			
+			
+		 
+		 	 const request = $.ajax({
+					url: '/partner/washDiscardCupList',
+					method: 'GET',
+					data: { 'currentPage' : currentPage},
+					dataType: 'text'
+		 	});
+
+					request.done(function( response ) {
+	   					if(response){
+	   						const data = JSON.parse(response);
+	   						data.
+							console.log(response)
+	   	    				return false;
+	   					}else{
+	   						console.log(response);
+	   					}
+	   				});
+	   				 
+	   				request.fail(function( jqXHR, textStatus ) {
+						alert( "Request failed: " + textStatus );
+	   				});
+		});      
+		
 		</script>
 	</th:block>
 </html>

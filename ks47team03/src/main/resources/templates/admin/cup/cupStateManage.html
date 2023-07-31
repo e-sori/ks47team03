@@ -53,7 +53,7 @@
                           	</th:block>
 
                           	<tr th:if="${#lists.isEmpty(cupStateList)}">
-								<td colspan="7">보유한 컵이 없습니다.</td>
+								<td colspan="8">보유한 컵이 없습니다.</td>
 	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                                <span class="text-muted sr-only">Action</span>
 	                              </button>
@@ -69,7 +69,7 @@
                         <tfoot>
                         
 							<tr>
-								<td colspan="7">
+								<td colspan="8">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/cup/cupStateManage}">처음으로</a>
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/cup/cupStateManage(currentPage=${currentPage-1})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>

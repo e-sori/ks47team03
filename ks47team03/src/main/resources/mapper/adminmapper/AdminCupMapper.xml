@@ -74,14 +74,7 @@
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
 	</select>
-	
-	<select id="getDiscardCupListCount" resultType="int">
-		/*컵 상태의 전체 행의 갯수*/
-		SELECT
-			COUNT(*)
-		FROM
-			cup_discard_manage;
-	</select>
+
 	<delete id="removeCupState" parameterType="List">
 	/*체크된 컵 삭제*/
 		DELETE FROM cup_manage
@@ -134,22 +127,43 @@
 		WHERE
 			SUBSTRING_INDEX(sc.static_code,'_',1)='cup';
 	</select>
+
+	<select id="getCupDayOutList" resultType="map" parameterType="map">
+	/*하루 총 출고 리스트*/
+	SELECT
+		cast(dota.outTime AS CHAR(20)) AS upDatetime, 
+		dota.outAmount AS outAmount ,
+		dota.adminId AS adminId
+	FROM
+		day_out_total_amount AS dota
+	ORDER BY
+		dota.outTime;
+	</select>
+	
+	<select id="getFinalStock" resultType="int">
+	/*현재 최종 재고*/
+	SELECT 
+		csm.final_stock
+	FROM 
+		cup_stock_manage AS csm
+	WHERE 
+		csm.cup_stock_manage_code = 
+		(SELECT concat('cup_stock_manage_code', MAX(CAST(SUBSTRING_INDEX(cup_stock_manage_code, 'code', -1) AS UNSIGNED))) FROM cup_stock_manage);
+	</select>
 	
 	<select id="getCupStockList"  parameterType="map" resultType="map" >
 	/*컵 재고 조회*/
 		SELECT
-			IFNULL(csm.approval_partner_plus_info_code, '-') AS partnerInfo,
-			IFNULL(csm.partner_name, '-') AS partnerName,
-			csm.wash_input_amount AS inputAmount,
-			csm.last_stock_amount AS stockAmount,
-			csm.business_out_amount AS outAmount,
-			csm.discard_stock_amount AS abnormalAmount,
-			csm.do_stock_research AS abnormalCheck,
+			csm.stock_type AS stockType,
+			csm.past_stock AS pastStock,
+			csm.insert_stock AS insertStock,
+			csm.final_stock AS finalStock,
 			csm.admin_id AS adminId,
-			csm.up_datetime AS upDateTime
+			cast(csm.up_datetime AS CHAR(20))  AS updateTime
 		FROM
-			cup_stack_manage AS csm
-		ORDER BY CAST(SUBSTRING_INDEX(csm.cup_stack_code,'code',-1) AS UNSIGNED)	
+			cup_stock_manage AS csm
+		ORDER BY
+			CAST(SUBSTRING_INDEX(csm.cup_stock_manage_code,'code',-1) AS UNSIGNED)
 		<if test="startIndex != null and startIndex > -1 ">
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
@@ -180,30 +194,14 @@
 		</if>
 	</select>
 	
-	<select id="getCupStockListCount" resultType="int">
-		/*재고 전체 행의 갯수*/
+	<select id="getListCount"  parameterType="String" resultType="int">
+		/*전체 행의 갯수*/
 		SELECT
 			COUNT(*)
 		FROM
-			cup_stack_manage;
+			${tableName};
 	</select>
-	
-	<select id="getCupStateListCount" resultType="int">
-		/*컵 상태의 전체 행의 갯수*/
-		SELECT
-			COUNT(*)
-		FROM
-			cup_manage AS cm
-			INNER join
-			static_code AS sc
-			on
-			cm.static_code = sc.static_code
-		<where>
-        	<if test="searchValue != null and searchValue !=''">
-        		${searchKey} = #{searchValue};
-        	</if>
-        </where>
-	</select>
+
 	
 	<select id="getCupManageList"  parameterType="map" resultType="map" >
 	/*컵 전체 이용 내역*/
