@@ -63,7 +63,7 @@
 		                            <td th:text="${u.staticCode}"></td>
 		                            <td th:text="${u.userJoindatetime}"></td>
 		                            <td>
-		                                <a class="dropdown-item" th:href="@{/admin/user/userListModify(userId=${u.userId})}">Edit</a>
+		                                <a class="dropdown-item" th:href="@{/admin/user/userModify(userId=${u.userId})}">Edit</a>
 		                            </td>
 		                          </tr>
                           	</th:block>
@@ -170,7 +170,7 @@
 				  //배열 순회
 					$checkedEle.each((idx, item) => {
 						//input태그에 속성인 th:data-user-all
-						let cupQr = $(item).data('userId');
+						let userId = $(item).data('userId');
 						//베열에 cuserId 담아줌
 						userIdArr.push(userId);
 					})
@@ -181,10 +181,10 @@
 						const newForm = $('<form></form>');
 						//새로운 폼에 set attribute	
 						newForm.attr("method","post");
-						newForm.attr("action","/admin/user/userListRemove");
+						newForm.attr("action","/admin/user/userRemove");
 						// create element & set attribute (input)
 						//$ 제이쿼리 배열을 순회하는데 순회하는 배열은 괄호 안쪽에서 부름
-						$.each(cupQrArr, (idx, item) => {
+						$.each(userIdArr, (idx, item) => {
 							newForm.append($('<input/>', {type: 'hidden', name: 'userId', value:item}));
 						})
 						// append form (to body) 

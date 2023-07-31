@@ -6,12 +6,16 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.mapper.AdminCommonMapper;
-import ks47team03.admin.mapper.AdminCupMapper;
 import ks47team03.admin.service.AdminCommonService;
+import ks47team03.user.dto.Static;
+import ks47team03.user.dto.User;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -69,6 +73,45 @@ public class AdminCommonController {
 	 * searchValue); model.addAttribute("title", "회원목록");
 	 * model.addAttribute("userList", userList); return "admin/user/userAll"; }
 	 */
+	//컵 수정 화면 
+	@PostMapping("/userModify")
+	public String userModify (User user) {
+		log.info("userModify user:{}", user);
+		adminService.modifyUser(user);
+		
+		return "redirect:/admin/user/userAll";
+	}
+	//컵 상태 삭제
+	@PostMapping("/userRemove")
+	public String userRemove (Model model,
+								  @RequestParam(name="userId") List<String> userIdArr,
+								  RedirectAttributes reAttr) {
+		adminService.removeUser(userIdArr);
+		reAttr.addAttribute("msg", "삭제완료");
+		
+		
+		return "redirect:/admin/user/userAll";
+	}
+	//컵 상태 수정 화면
+	@GetMapping("/userModify")
+	public String userModify(@RequestParam(value="userId") String userId,
+			 					HttpSession session,
+								Model model) {
+		
+		List<Static> userStaticInfo = adminService.getUserStaticList();
+		User userInfo = adminService.getUserInfoByID(userId);
+		List<User> adminInfo = adminService.getadminIdList();
+		log.info("userInfo : {}" , userInfo);
+		log.info("userStaticInfo : {}" , userStaticInfo);
+		
+		model.addAttribute("title", "회원 정보 수정");
+		model.addAttribute("userStaticInfo", userStaticInfo);
+		model.addAttribute("userInfo", userInfo);	
+		model.addAttribute("adminInfo", adminInfo);	
+		model.addAttribute("adminID", session.getAttribute("SID"));
+		
+		return "admin/user/userModify";
+	}
 	//회원 상태 관리
 		@SuppressWarnings("unchecked")
 		@GetMapping("/user/userAll")
@@ -140,7 +183,7 @@ public class AdminCommonController {
 		model.addAttribute("title","탈퇴 회원 관리");
 		return "admin/user/userWithdrawal";
 	}
-	//탈퇴 회원 관리
+	//로그인 기록 관리
 	@GetMapping("/user/loginHistory")
 	public String loginHistory(Model model) {
 		model.addAttribute("title","로그인 이력 조회");

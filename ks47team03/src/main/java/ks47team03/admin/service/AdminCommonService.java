@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import ks47team03.user.dto.Static;
 import ks47team03.user.dto.User;
 import ks47team03.admin.mapper.AdminCommonMapper;
 
@@ -26,7 +27,24 @@ public class AdminCommonService {
 		List<User> adminIdList = adminCommonMapper.getadminIdList(); 
 		return adminIdList;
 	}
-	
+	//한명 회원 현재 상태 조회
+	public User getUserInfoByID(String userId) {
+		User userInfo= adminCommonMapper.getUserInfoByID(userId);
+		return userInfo;
+	}
+	//회원 상태 코드 리스트 조회
+	public List<Static> getUserStaticList(){
+		List<Static> userStaticList = adminCommonMapper.getUserStaticList();
+		return userStaticList;
+	};
+	//체크된 회원 상태 삭제
+	public void removeUser(List<String> userIdArr) {
+		adminCommonMapper.removeUser(userIdArr);
+	}
+	//한개 회원 상태 상태 수정 
+	public void modifyUser(User user) {
+		adminCommonMapper.modifyUser(user);
+	}
 	//회원 목록 조회
 	public Map<String,Object> getUserList(int currentPage,String searchKey, String searchValue) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();

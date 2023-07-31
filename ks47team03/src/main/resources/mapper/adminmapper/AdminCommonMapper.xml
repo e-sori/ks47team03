@@ -6,6 +6,29 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminCommonMapper">
+	<resultMap type="User" id="userResultMap">
+		<!-- id태그는 조회시 테이블의 PK(기본키) -->
+		<id 	column="user_id" 		property="userId"/>
+		<!-- result태그는 조회시 테이블의 일반컬럼 혹은 외래키 -->
+		<result column="user_pw" 		property="userPw"/>
+		<result column="user_name" 	property="userName"/>
+		<result column="user_level" 	property="userLevel"/>
+		<result column="user_Idcard_number" 	property="userIdcardnumber"/>
+		<result column="user_addr" 	property="userAddr"/>
+		<result column="user_email" property="userEmail"/>
+		<result column="user_phone" property="userPhone"/>
+		<result column="user_nick" property="userNick"/>
+		<result column="user_sms_check" property="userSmscheck"/>
+		<result column="user_email_check" property="userEmailcheck"/>
+		<result column="static_code" property="staticCode"/>
+		<result column="user_join_datetime" property="userJoindatetime"/>
+		<result column="code_large_type" property="codeLargetype"/>
+		<result column="code_middle_type" property="codeMiddletype"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+	</resultMap>
+
+
 
 	<select id="getadminIdList" resultType="User">
 	/*관리자 아이디 조회*/
@@ -17,6 +40,66 @@
 			left(um.user_id,5) ='admin';
 	
 	</select>
+	
+	<select id="getUserInfoByID" parameterType="String">
+	/*하나의 회원 조회*/
+		SELECT
+			u.user_id				AS userId,
+			u.user_pw				AS userPw,
+			u.user_name			AS userName,
+			u.user_level			AS userLevel,
+			u.user_Idcard_number	AS userIdcardnumber,
+			u.user_addr			AS userAddr,
+			u.user_email			AS userEmail,
+			u.user_phone			AS userPhone,
+			u.user_nick			AS userNick,
+			u.user_sms_check		AS userSmscheck,
+			u.user_email_check	AS userEmailcheck,
+			u.static_code			AS staticCode,
+			cast(u.user_join_datetime AS CHAR(20))	AS userJoindatetime
+		FROM 
+			user_manage as u
+		WHERE
+			u.user_id =#{userId};
+		
+	</select>
+	<select id="getUserStaticList" resultType="Static">
+		/*컵 상태코드 조회*/
+		SELECT
+			sc.static_code as staticCode,
+			sc.static_code_content as staticCodeContent
+		FROM
+			static_code AS sc
+		WHERE
+			SUBSTRING_INDEX(sc.static_code,'_',1)='user';
+	</select>
+	
+	<delete id="removeUser" parameterType="List">
+	/*체크된 컵 삭제*/
+		DELETE FROM user_manage
+		WHERE
+			user_Id IN
+			
+    	<foreach collection="list" item="item" index="i" open="(" separator="," close=")">
+      		#{item}
+    	</foreach>
+	</delete>
+	
+	<update id="modifyCupState" parameterType="Cup">
+		/* 상품수정 */
+		UPDATE user_manage AS u
+		<set>
+			<if test="staticCode != null and staticCode != ''">
+				u.static_code = #{staticCode},
+			</if>
+			<if test="userId != null and userId != ''">
+				u.admin_id = #{userId},
+			</if>
+				u.user_join_datetime =NOW()
+		</set>
+		WHERE
+			u.user_id =#{userId};
+	</update>
 	
  	 <select id="getUserList" parameterType="map" resultType="map">
 		/* 회원목록 조회 */
@@ -37,8 +120,7 @@
 		FROM 
 			user_manage as u
 		<where>
-        	<if test="searchValue != null and s
-rchValue !=''">
+        	<if test="searchValue != null and searchValue !=''">
         		${searchKey} = #{searchValue}
         	</if>
         </where>
