@@ -29,18 +29,6 @@ public class AdminDepositController {
 	}	
 	
 	
-	@GetMapping("/depositCheckSuccess")
-	public String depositCheckSuccess(Model model) {
-		model.addAttribute("title","결제 성공");
-		return "admin/deposit/depositCheckSuccess";
-	}
-	@GetMapping("/depositCheckfail")
-	public String depositCheckfail(Model model) {
-		model.addAttribute("title","결제 실패");
-		return "admin/deposit/depositCheckfail";
-	}
-	
-	
 	
 	//보증금 내역 관리
 	@SuppressWarnings("unchecked")

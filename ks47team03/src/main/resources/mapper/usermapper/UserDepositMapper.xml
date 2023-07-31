@@ -6,6 +6,23 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserDepositMapper">
+	<resultMap type="Deposit" id="userDepositPayResultMap">
+		<!-- id태그는 조회시 테이블의 PK(기본키) -->
+		<id 	column="deposit_pay_histroy" 		property="depositPayHistroy"/>
+		<!-- result태그는 조회시 테이블의 일반컬럼 혹은 외래키 -->
+		<result column="user_id" 		property="userId"/>
+		<result column="charging_amount" 	property="chargingAmount"/>
+		<result column="payment_method" 	property="paymentMethod"/>
+		<result column="virtual_account" 	property="virtualAccount"/>
+		<result column="pay_application_datetime" 	property="payApplicationDatetime"/>
+		<result column="waiting_deposit_standard_code" property="waitingDepositStandardCode"/>
+		<result column="waiting_deposit_period" property="waitingDepositPeriod"/>
+		<result column="waiting_deposit_datetime" property="waitingDepositDatetime"/>
+		<result column="static_code" property="staticCode"/>
+		<result column="admin_id" property="adminId"/>
+		<result column="deposit_completion_datetime" property="depositCompletionDatetime"/>
+	</resultMap>
+
  
   <select id="getUserDepositManageList" parameterType="map" resultType="map">
 		/* 회원 보증금 관리 조회 */
@@ -23,8 +40,9 @@
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
 	</select>
-	
-	
+
+
+
 	<select id="getUserDepositManageListCount" resultType="int">
 		/* 기준 행 계산*/
 		SELECT
@@ -32,5 +50,67 @@
 		FROM
 			deposit_pay_refund_history
 	</select> 
+	
+ 
+ 
+ <select id="getUserDepositPayList" parameterType="String" resultMap="userDepositPayResultMap">
+		/* 결제 보증금 */
+		SELECT	
+			DPH.user_id AS userId,
+			UM.user_name AS userName,
+			DPH.payment_method AS paymenteMethod,
+			IFNULL(DPH.virtual_account,'') AS virtualAccount, 
+			DPH.charging_amount AS charginAmount,
+			cast(DPH.pay_application_datetime as char(20))  AS applicationDatetime,
+			cast(IFNULL(DPH.deposit_completion_datetime,'') as char(20)) AS depositCompletionDatetime
+			
+		FROM	
+			deposit_pay_histroy AS DPH
+			INNER JOIN	
+			user_manage AS UM
+			ON
+			DPH.user_id=UM.user_id
+		WHERE
+		    DPH.user_id= #{userId}
+		order by length(DPH.deposit_pay_histroy),DPH.deposit_pay_histroy
+		LIMIT 1;
+
+	</select>
+
+<select id="getUserDepositPayListCount" resultType="int">
+		/* 기준 행 계산*/
+		SELECT
+			COUNT(*)
+		FROM
+			deposit_pay_histroy
+	</select> 
+	
+	<!-- <select id="getUserDepositPayInfoById" parameterType="String" resultMap="userDepositPayResultMap">
+		/*회원별 보증금 결제 문의*/
+		SELECT	
+			DPH.user_id AS userId,
+			UM.user_name AS userName,
+			DPH.payment_method AS paymenteMethod,
+			IFNULL(DPH.virtual_account,'') AS virtualAccount, 
+			DPH.charging_amount AS charginAmount,
+			cast(DPH.pay_application_datetime as char(20))  AS applicationDatetime,
+			cast(IFNULL(DPH.deposit_completion_datetime,'') as char(20)) AS depositCompletionDatetime
+			
+		FROM	
+			deposit_pay_histroy AS DPH
+			INNER JOIN	
+			user_manage AS UM
+			ON
+			DPH.user_id=UM.user_id
+		WHERE
+		    DPH.user_id=#{userId}
+		order by length(DPH.deposit_pay_histroy),DPH.deposit_pay_histroy
+		LIMIT 1;
+
+	</select>
+ -->
+
+
+
 	
 </mapper>

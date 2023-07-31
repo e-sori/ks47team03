@@ -22,12 +22,7 @@
           </nav>
       </div>
     </div>
-  </section>
-   
-   
-	  <!-- ================ end banner area ================= -->
-
-  <!--================Point table Area =================-->
+  </section> 
  <section class="login_box_area section-margin">
 		<div class="container">
 			<div class="rowlogin">
@@ -36,7 +31,8 @@
 						<h3>보증금 결제</h3>
 						<form class="row login_form" action="#/" id="contactForm" >
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="depositName" name="depositName" placeholder="입금자명" onfocus="this.placeholder = '입금자명'" onblur="this.placeholder = '입금자명'">
+								<input type="text" class="form-control" id="depositName" name="depositName" placeholder="입금자명" 
+								onfocus="this.placeholder = '입금자명'" onblur="this.placeholder = '입금자명' ">
 							</div>
 							<div class="col-md-12 form-group">
 								<select id="depositAmount" name="depositAmount">
@@ -53,84 +49,80 @@
 								</select>
 								</div>					
 						</form>
-									 <button id="payment-button">무통장결제</button>
-									 <button id="payment-button2">계좌이체</button>
+							 <button id="payment-button">무통장결제</button>
+							 <button id="payment-button2">계좌이체</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
     <script>
-      
-    
     const clientKey = 'test_ck_JQbgMGZzorzx402jdj73l5E1em4d'
     const tossPayments = TossPayments(clientKey)
-	const button = document.getElementById('payment-button')
-    const button2 = document.getElementById('payment-button2') // 결제하기 버튼
+	let button = document.getElementById('payment-button')
+    let button2 = document.getElementById('payment-button2') // 결제하기 버튼
     
     button.addEventListener('click', function () {
+    const selectedAmount = document.getElementById('depositAmount').value;
+       
         tossPayments.requestPayment('가상계좌', {
-          amount: 1000,
+          amount: parseInt(selectedAmount),
           orderId: '2BUAd1-rnDgOilzWC3bZO',
           orderName: '보증금',
-          customerName: '고객명',
-        //나중에 풀하면 그걸로 주소 변경
-          successUrl: 'http://localhost/admin/deposit/depositCheckSuccess',
-          failUrl: 'http://localhost/admin/deposit/depositCheckFail',
+          customerName: '고객명',     
+          successUrl: 'http://localhost/deposit/depositCheckSuccess',
+          failUrl: 'http://localhost/deposit/depositCheckFail',
+        })    
         })
-      
+        
         
         button2.addEventListener('click', function () {
+		const selectedAmount2 = document.getElementById('depositAmount').value;
             tossPayments.requestPayment('계좌이체', {
-              amount: 1000,
+              amount: parseInt(selectedAmount),
               orderId: '2BUAd1-rnDgOilzWC3bZO',
               orderName: '보증금',
-              customerName: '고객명',
-              //나중에 풀하면 그걸로 주소 변경
-              successUrl: 'http://localhost/admin/deposit/depositCheckSuccess',
-              failUrl: 'http://localhost/admin/deposit/depositCheckFail',
+              customerName: '고객명',           
+              successUrl: 'http://localhost/deposit/depositCheckSuccess',
+              failUrl: 'http://localhost/deposit/depositCheckFail',
        } )
-      })
-      })
+      })  
     </script>
+    
    <section class="order_details section-margin--small">
-    <div class="container">
-      <p class="billing-alert">보증금 결제 내역</p>
+    <div class="container">    
       <div class="order_details_table">
         <h2>보증금 결제 내역</h2>
         <div class="table-responsive">
           <table class="table">
        		<thead>
               <tr>
+                <th scope="col">아이디</th>
                 <th scope="col">이름</th>
-                <th scope="col">과거보증금</th>
-                <th scope="col">보증금 사용 유형</th>
-                <th scope="col">현 보증금</th>
-                <th scope="col">최종변동날짜</th>
-                <th scope="col">최종변동날짜</th>
-                <th scope="col">최종변동날짜</th>
+                <th scope="col">결제 방법</th>
+                <th scope="col">가상계좌</th>
+                <th scope="col">결제 금액</th>
+                <th scope="col">신청날짜</th>
+                <th scope="col">만료날짜</th>              
               </tr>
             </thead>
            <tbody>
-                <th:block th:unless="${#lists.isEmpty(userDepositPayList)}"  th:each="udp : ${userDepositPayList}">
+                <th:block th:unless="${#lists.isEmpty(userDepositPayList)}"  th:each="udp : ${userDepositPayList}" >
 		                  <tr>		                         		             
-		                       <td th:text="${udp.depositPayHistroy}"></td>
 		                       <td th:text="${udp.userId}"></td>
-		                       <td th:text="${udp.chargingAmount}"></td>
-		                       <td th:text="${udp.paymentMethod}"></td>
-		                       <td th:text="${udp.payApplicationDatetime}"></td>
-		                       <td th:text="${udp.waitingDepositDatetime}"></td>
-		                       <td th:text="${udp.depositCompletionDatetime}"></td>
-		                       <td th:text="${udp.codeMiddleType}"></td>                          		                            		                           
-		                  </tr>
-                          	</th:block>                         
-                        </tbody>
+		                       <td th:text="${udp.userName}"></td>
+		                       <td th:text="${udp.paymenteMethod}"></td>
+		                       <td th:text="${udp.virtualAccount}"></td>
+		                       <td th:text="${udp.charginAmount}"></td>
+		                       <td th:text="${udp.applicationDatetime}"></td>
+		                       <td th:text="${udp.depositCompletionDatetime}"></td>		                                      		                            		                          
+		                 </tr>
+                 </th:block>                          
+             </tbody>
           </table>
         </div>
       </div>
     </div>
   </section>
-  <!--================End Order Details Area =================-->
-
    </th:block>
 </html>
