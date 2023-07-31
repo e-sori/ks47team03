@@ -26,7 +26,16 @@
 	</resultMap>
 
 
-
+	<select id="getUserLevelById" parameterType="String" resultType="String">
+	/*아이디를 이용해 사용자 권한 검색*/
+		SELECT
+			um.user_level
+		FROM
+			user_manage AS um
+		WHERE 
+			um.user_id = #{loginId};
+	</select>
+	
 	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">
 		/* 회원별 상세조회 */
 		SELECT

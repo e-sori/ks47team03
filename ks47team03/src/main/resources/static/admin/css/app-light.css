@@ -1286,6 +1286,13 @@ pre {
 .table-hover tbody tr:hover {
   color: #6c757d;
   background-color: #dee2e6; }
+  
+ .table-hover tbody tr:hover td.finalStock {
+  background-color: #dfddcf;  /* 원하는 색으로 변경 */
+}
+td.finalStock {
+  background-color: #fffde7;  /* 원하는 색으로 변경 */
+}
 
 .table-primary,
 .table-primary > th,
