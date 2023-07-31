@@ -11,24 +11,22 @@
        <div class="row justify-content-center">
           <div class="col-12">
             <h2 class="mb-2 page-title">구구컵 재고 관리</h2>
-             <p class="card-text">출고 가능 구구컵:</p>
+             <p class="card-text">출고 가능 구구컵:<mark>[[${finalStock}]]</mark></p>
               <div class="row my-4">
                 <!-- Small table -->
                 <div class="col-md-12">
                   <div class="card shadow">
                     <div class="card-body">
+                      <a class="btn mb-2 btn-secondary" href="/admin/cup/cupOutManage">출고 관리</a>
                       <!-- table -->
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
                           <tr>
                           	<th>No.</th>
-                            <th>제휴업체 코드</th>
-                            <th>사업장 명</th>
-                            <th>매입/입고 수량</th>
-                            <th>출고 가능 수량</th>
-                            <th>출고 수량</th>
-                            <th>비정상 재고 수량</th>
-                            <th>비정상 재고 확인 유무</th>
+                            <th>Type</th>
+                            <th>과거 재고</th>
+                            <th>입력 수량</th>
+                            <th>최종 재고</th>
                             <th>관리자 아이디</th>
                             <th>업데이트 날짜</th>
                           </tr>
@@ -37,25 +35,22 @@
                         	<th:block th:unless="${#lists.isEmpty(cupStockList)}"  th:each="c,state : ${cupStockList}">
 		                          <tr>
 		                            <td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
-		                            <td th:text="${c.partnerInfo}"></td>
-		                            <td th:text="${c.partnerName}"></td>
-		                            <td th:text="${c.inputAmount}"></td>
-		                            <td th:text="${c.stockAmount}"></td>
-		                            <td th:text="${c.outAmount}"></td>
-		                            <td th:text="${c.abnormalAmount}"></td>
-		                            <td th:text="${c.abnormalCheck}"></td>
+		                            <td th:text="${c.stockType}"></td>
+		                            <td th:text="${c.pastStock}"></td>
+		                            <td th:text="${c.insertStock}"></td>
+		                            <td class="finalStock" th:text="${c.finalStock}"></td>
 		                            <td th:text="${c.adminId}"></td>
-		                            <td th:text="${c.upDateTime}"></td>
+		                            <td th:text="${c.updateTime}"></td>
 		                          </tr>
                           	</th:block>
                           	<tr th:if="${#lists.isEmpty(cupStockList)}">
-								<td colspan="9">보유한 컵이 없습니다.</td>
+								<td colspan="7">보유한 컵이 없습니다.</td>
 							</tr>
                         </tbody>
                         <tfoot>
                         
 							<tr>
-								<td colspan="9">
+								<td colspan="7">
 									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/cup/cupStockManage}">처음으로</a>
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/cup/cupStockManage(currentPage=${currentPage-1})}">이전</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
