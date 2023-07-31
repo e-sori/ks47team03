@@ -26,9 +26,9 @@ public class AdminCupService {
 	private static final Logger log = LoggerFactory.getLogger(AdminCupService.class);
 	//의존성 주입
 	private final FileUtil fileUtil;
-	private AdminCupMapper adminCupMapper;
-	private AdminFileMapper adminFileMapper;
-	private SpreadsheetFilePasing spreadsheetFilePasing;
+	private final AdminCupMapper adminCupMapper;
+	private final AdminFileMapper adminFileMapper;
+	private final SpreadsheetFilePasing spreadsheetFilePasing;
 	
 	// 의존성 주입 끝 (생성자 메소드 방식)
 	public AdminCupService(AdminCupMapper adminCupMapper,SpreadsheetFilePasing spreadsheetFilePasing,AdminFileMapper adminFileMapper,FileUtil fileUtil) {
@@ -65,6 +65,7 @@ public class AdminCupService {
 		if(fileList != null) adminFileMapper.addFile(fileList);
 		
 	}
+	
 	//엑셀파일 업로드
 	public boolean addDiscardCupByExcelFile(MultipartFile file) {
 		boolean isRead = false;
@@ -115,7 +116,8 @@ public class AdminCupService {
 		
 		//마지막 페이지 계산 
 		//1. 보여질 테이블의 전체 행의 갯수
-		double rowsCount = adminCupMapper.getDiscardCupListCount();
+		String tableName = "cup_discard_manage";
+		double rowsCount = adminCupMapper.getListCount(tableName);
 		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
 		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨
 		//2. 마지막 페이지
@@ -208,7 +210,9 @@ public class AdminCupService {
 		
 		//마지막 페이지 계산 
 		//1. 보여질 테이블의 전체 행의 갯수
-		double rowsCount = adminCupMapper.getCupStateListCount(paramMap);
+		String tableName = "cup_manage";
+		double rowsCount = adminCupMapper.getListCount(tableName);
+		int cupStateListCount = adminCupMapper.getListCount(tableName);
 		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
 		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨
 		//2. 마지막 페이지
@@ -242,6 +246,8 @@ public class AdminCupService {
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
 		paramMap.put("rowPerPage", rowPerPage);
+		paramMap.put("rowsCount", rowsCount);
+		paramMap.put("cupStateListCount", cupStateListCount);
 		
 		return paramMap;
 		
@@ -306,18 +312,18 @@ public class AdminCupService {
 		
 		return paramMap;
 	}
-
-	//컵 재고 조회
-	public Map<String,Object> getCupStockList(int currentPage) {
+	
+	//컵 하루 출고 내역
+	public Map<String,Object> getDayOutList (int currentPage){
 		//보여질 행의 갯수
-		int rowPerPage = 16;
-		
+		int rowPerPage = 7;
 		//페이지 계산(시작될 행의 인덱스)
 		int startIndex = (currentPage-1)*rowPerPage;
 		
 		//마지막 페이지 계산 
 		//1. 보여질 테이블의 전체 행의 갯수
-		double rowsCount = adminCupMapper.getCupStockListCount();
+		String tableName = "day_out_total_amount";
+		double rowsCount = adminCupMapper.getListCount(tableName);
 		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
 		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨
 		//2. 마지막 페이지
@@ -342,9 +348,62 @@ public class AdminCupService {
 		paramMap.put("startIndex", startIndex);
 		paramMap.put("rowPerPage", rowPerPage);
 		
-		//화면에 보여질 로그인이력 데이터
+		//화면에 보여질 하루 출고 리스트
+		List<Map<String,Object>> cupDayOutList = adminCupMapper.getCupDayOutList(paramMap);
+		log.info("하루 출고 리스트:{}",cupDayOutList);
+		
+		//controller에 전달
+		paramMap.clear(); // map 객체 안의 data초기화
+		paramMap.put("lastPage", lastPage);
+		paramMap.put("cupDayOutList", cupDayOutList);
+		paramMap.put("startPageNum", startPageNum);
+		paramMap.put("endPageNum", endPageNum);
+		paramMap.put("rowPerPage", rowPerPage);
+		
+		return paramMap;
+		
+	}
+	
+	//컵 재고 조회
+	public Map<String,Object> getCupStockList(int currentPage) {
+		//보여질 행의 갯수
+		int rowPerPage = 16;
+		
+		//페이지 계산(시작될 행의 인덱스)
+		int startIndex = (currentPage-1)*rowPerPage;
+		
+		//마지막 페이지 계산 
+		//1. 보여질 테이블의 전체 행의 갯수
+		String tableName = "cup_stock_manage";
+		double rowsCount = adminCupMapper.getListCount(tableName);
+		
+		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
+		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨
+		//2. 마지막 페이지
+		int lastPage = (int) Math.ceil(rowsCount/rowPerPage);
+		//Math.ceil 올림 처리
+		// 처음 번호
+		int startPageNum = 1;
+		
+		// 마지막 번호
+		int endPageNum = (lastPage < 10)? lastPage : 10;
+		
+		if(currentPage >= 7 && lastPage > 10) {
+			startPageNum = currentPage - 5;
+			endPageNum = currentPage + 4;
+			if(endPageNum >= lastPage) {
+				startPageNum = lastPage - 9;
+				endPageNum = lastPage;
+			}
+		}
+		
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("startIndex", startIndex);
+		paramMap.put("rowPerPage", rowPerPage);
+		
+		//화면에 보여질 컵 재고 데이터
 		List<Map<String,Object>> cupStockList = adminCupMapper.getCupStockList(paramMap);
-		log.info("컵 상태 리스트:{}",cupStockList);
+		log.info("컵 재고 리스트:{}",cupStockList);
 		
 		//controller에 전달
 		paramMap.clear(); // map 객체 안의 data초기화
@@ -353,6 +412,7 @@ public class AdminCupService {
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
 		paramMap.put("rowPerPage", rowPerPage);
+		
 		
 		return paramMap;
 		
