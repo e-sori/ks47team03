@@ -20,6 +20,7 @@ import ks47team03.user.dto.FileDto;
 import ks47team03.user.dto.Kiosk;
 import ks47team03.user.dto.Partner;
 import ks47team03.user.mapper.UserCommonMapper;
+import ks47team03.user.mapper.UserKioskMapper;
 import ks47team03.user.service.UserPartnerService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,12 +35,14 @@ public class UserPartnerController {
 	private final UserPartnerService partnerService;
 	private final AdminCupService adminCupService;
 	private final UserCommonMapper commonMapper;
+	private final UserKioskMapper kioskMapper;
 	
 	
-	public UserPartnerController(UserPartnerService partnerService,AdminCupService adminCupService,UserCommonMapper commonMapper) {
+	public UserPartnerController(UserPartnerService partnerService,AdminCupService adminCupService,UserCommonMapper commonMapper,UserKioskMapper kioskMapper) {
 		this.partnerService = partnerService;
 		this.adminCupService = adminCupService;
 		this.commonMapper = commonMapper;
+		this.kioskMapper =  kioskMapper;
 	}
 	
 
@@ -93,29 +96,26 @@ public class UserPartnerController {
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";
 	}
-	@PostMapping("/businessAddCup")
-	public String businessAddCup(Partner partner) {
-		
-		log.info("추가컵 정보: {}", partner);
-		
-		partnerService.addBusinessCup(partner);
-		
-		// response.sendRedirect("/member/memberList");
-		// spring framework mvc 에서는 controller의 리턴값에 redirect: 키워드로 작성
-		// redirect: 키워드를 작성할 경우 그다음의 문자열은 html파일 논리 경로가 아닌 주소를 의미
-		return "redirect:user/partner/businessAddCup";
+
+	@GetMapping("/addCupKioskNum")
+	@ResponseBody
+	public List<Kiosk> addCupKioskNum(String partnerCode) {
+		List<Kiosk> kioskNumList = kioskMapper.getinstalledKioskListByCode(partnerCode);
+		log.info("kioskNumListdjhfiqewauyhfi8eahf:{}",kioskNumList.size());
+		return kioskNumList;
 	}
 	//추가컵 배송 신청
 	@GetMapping("/businessAddCup")
 	public String businessAddCup(Model model,
 								 HttpSession session){
 		String loginId = (String) session.getAttribute("SID");
-		List<Kiosk> partnerInfoByLevel = partnerService.getPartnerInfoByLevel(loginId);
-		log.info("partnerInfoByLeveladfafdafadfdfafadfad:{}",partnerInfoByLevel);
-		List<Kiosk> kioskList = partnerService.getInstalledKioskById(loginId);
+		String userLevel = commonMapper.getUserLevelById(loginId);
+		List<Partner> partnerCodeList = partnerService.getPartnerCodeById(loginId,userLevel);
+		//List<Kiosk> partnerInfoByLevel = partnerService.getPartnerInfoByLevel(loginId);
+		//List<Kiosk> kioskList = partnerService.getInstalledKioskById(loginId);
 		
-		model.addAttribute("kioskList", kioskList);
-		model.addAttribute("partnerInfoByLevel", partnerInfoByLevel);
+		model.addAttribute("partnerCodeList", partnerCodeList);
+		//model.addAttribute("partnerInfoByLevel", partnerInfoByLevel);
 		model.addAttribute("title", "추가 컵 배송");
 		return "user/partner/businessAddCup";
 	}
@@ -148,7 +148,6 @@ public class UserPartnerController {
 		
 		return "user/partner/businessMyKioskList";
 	}
-	
 	
 	
 	
