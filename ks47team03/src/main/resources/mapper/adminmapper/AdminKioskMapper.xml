@@ -6,6 +6,21 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminKioskMapper">
-
+	<select id="getInstalledKioskPartnerList" resultType="Kiosk">
+	/*설치 사업장 + 키오스크 조회*/
+		SELECT
+		 	ikl.kiosk_serial_num AS kioskSerialNum,
+		 	ikl.approval_partner_plus_info_code AS partnerCode,
+		 	appi.partner_name AS partnerName
+		FROM
+			installed_kiosk_list AS ikl
+			INNER join
+			approval_partner_plus_info AS appi
+			ON
+			ikl.approval_partner_plus_info_code = appi.approval_partner_plus_info_code
+		ORDER BY 
+			CAST(SUBSTRING_INDEX(ikl.kiosk_serial_num,'num', -1) AS UNSIGNED);
+	
+	</select>
 	
 </mapper>

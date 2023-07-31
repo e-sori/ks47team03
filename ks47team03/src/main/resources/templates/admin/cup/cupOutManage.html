@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{admin/layout/default}">
+	  
+
+	  
+<th:block layout:fragment="customContents">
+
+     <div class="container-fluid">
+       <div class="row justify-content-center">
+          <div class="col-12">
+            <h2 class="mb-2 page-title">구구컵 출고 관리</h2>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+	                      <table class="table datatables table-hover" id="dataTable-1">
+		                      <thead>
+			                          <tr>
+			                            <th>
+				                           <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
+			                            </th>
+			                            <th>NO.</th>
+			                            <th>키오스크 넘버</th>
+			                           	<th>사업장 코드</th>
+			                            <th>사업장 명</th>
+			                            <th>출고 수량</th>
+			                 
+			                          </tr>
+		                        </thead>
+		                        <tbody>
+		                        	<th:block th:unless="${#lists.isEmpty(installedKiosk)}"  th:each="i,state : ${installedKiosk}">
+				                          <tr>
+					                            <td>
+					                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks"th:data-kiosk-num="${i.kioskSerialNum}">
+					                            </td>
+					                            <td th:text="${state.count}"></td>
+					                            <td th:text="${i.kioskSerialNum}"></td>
+					                            <td th:text="${i.partnerCode}"></td>
+					                            <td th:text="${i.partnerName}"></td>
+					                            <td>
+					                            	<input type="text" class="outAmount" value="200">
+					                            </td>
+				                          </tr>
+		                          	</th:block>
+		                          	<tr th:if="${#lists.isEmpty(installedKiosk)}">
+										<td colspan="6">보유한 컵이 없습니다.</td>
+									</tr>
+		                        </tbody>
+		                        <tfoot>
+		                        	<tr>
+		                        		<td colspan="6" style="text-align: right">
+		                        			<button type="button" id="outAmountBtn">commit</button>
+		                        		</td>
+		                        	</tr>
+		                        </tfoot>
+	                      </table>
+	                      <table class="table datatables table-hover" id="dataTable-">
+		                      <thead>
+			                          <tr>
+			                            <th>NO.</th>
+			                            <th>출고 날짜</th>
+			                           	<th>총 출고 수량</th>
+			                            <th>관리자 아이디</th>
+			                          </tr>
+		                        </thead>
+		                        <tbody>
+		                        	<th:block th:unless="${#lists.isEmpty(cupDayOutList)}"  th:each="c,state : ${cupDayOutList}">
+				                          <tr>
+					                            <td th:text="${state.count}"></td>
+					                            <td th:text="${c.upDatetime}"></td>
+					                            <td th:text="${c.outAmount}"></td>
+					                            <td th:text="${c.adminId}"></td>
+				                          </tr>
+		                          	</th:block>
+		                          	<tr th:if="${#lists.isEmpty(cupDayOutList)}">
+										<td colspan="4">보유한 컵이 없습니다.</td>
+									</tr>
+		                        </tbody>
+
+	                      </table>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+           </div>
+         </div>
+       
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script th:inline="javascript">		
+		$(function(){
+			 const installedKioskList = [[${installedKiosk}]];
+		      $('#dataTable-1').DataTable({
+			        autoWidth: true,
+			        displayLength : installedKioskList.length,
+			        columnDefs: [{
+			            targets: 0,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled'
+			            
+			         }
+			         ,{
+			            targets: $('#dataTable-1').find('th').length-1,
+			            searchable: false,
+			            orderable: false,
+			            className: 'sorting_disabled',	           
+			         	}
+			         ]
+						      	
+				});
+			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+			});
+		//체크박스
+		 $('table').click((e) => {
+		        if ($(e.target).is($('.allCheck'))) {
+		          const isChecked = $(e.currentTarget)
+		            .find('.allCheck')
+		            .prop('checked');
+		          $(e.currentTarget).find('.checks').prop('checked', isChecked);
+		        }
+		
+		        if ($(e.target).is($('.checks'))) {
+		          if (
+		            $(e.currentTarget).find('.checks').length ==
+		            $(e.currentTarget).find('.checks:checked').length
+		          ) {
+		            $(e.currentTarget).find('.allCheck').prop('checked', true);
+		          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
+		        }
+		      });
+				//commit 버튼
+				$('#outAmountBtn').click(function(e){
+				  //배열 선언
+					const kioskNumArr = [];
+					const amountValueArr = [];
+				  //check 클래스 중 속성이 checked된 요소만 변수에 담아줌
+					const $checkedEle = $('.checks:checked').closest('tr');
+				  //배열 순회
+					$checkedEle.each((idx, item) => {
+						
+						let kioskNum = $(item).find('.checks').data('kioskNum');
+						let amountValue = $(item).find('.outAmount').val();
+						//베열에 cupQr 담아줌
+						kioskNumArr.push(kioskNum);
+						amountValueArr.push(amountValue);
+					})
+						console.log(amountValueArr);
+						console.log(kioskNumArr);
+				  	//배열의 길이가 0이 아니면
+					/* if(cupQrArr.length != 0){
+						//새로운 폼 생성 ->jquery
+						const newForm = $('<form></form>');
+						//새로운 폼에 set attribute	
+						newForm.attr("method","post");
+						newForm.attr("action","/admin/cup/cupStateRemove");
+						// create element & set attribute (input)
+						//$ 제이쿼리 배열을 순회하는데 순회하는 배열은 괄호 안쪽에서 부름
+						$.each(cupQrArr, (idx, item) => {
+							newForm.append($('<input/>', {type: 'hidden', name: 'cupQR', value:item}));
+						})
+						// append form (to body) 
+						// newForm은 이미 제이쿼리 문법으로 선언
+						newForm.appendTo('body');
+						newForm.submit(); 
+					}*/
+						
+					
+
+				});
+		</script>
+	</th:block>
+</html>

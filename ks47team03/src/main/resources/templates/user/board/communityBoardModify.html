@@ -8,12 +8,12 @@
   <section class="page-banner-area" id="category">
     <div class="container h-100">
         <div class="text-center">
-          <h1>게시글 작성</h1>
+          <h1>게시글 수정</h1>
           <nav aria-label="breadcrumb" class="banner-breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
               <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">게시글 작성</li>
+              <li class="breadcrumb-item active" aria-current="page">게시글 수정</li>
             </ol>
           </nav>
       </div>
@@ -28,20 +28,20 @@
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
                         <div class="card p-5">
-                            <h4>게시글 작성</h4>
-                            <form action="/board/communityBoardWritePro" method="post">
+                            <h4>게시글 수정</h4>
+                            <form th:action="@{/board/communityBoardUpdate/{boardCode}(boardCode=${detail.community_now_board_code})}" method="post">
                                 <div class="form-group">
                                     <label for="title">제목</label>
-                                    <input name="community_now_board_title" type="text" class="form-control" id="title">
+                                    <input name="community_now_board_title" type="text" class="form-control" id="title" th:value="${detail.community_now_board_title}">
                                 </div>
                                 <div class="form-group">
                                     <label for="content">내용</label>
                                     <textarea name="community_now_board_content" class="form-control" id="content"
-                                              rows="10"></textarea>
+                                              rows="10" th:text="${detail.community_now_board_content}"></textarea>
                                 </div>
                                 <div class="button-container">
-                                    <a class="btn" href="/board/communityBoardView"><img src="../user/img/button/list.png" height="40" width="70"></a>
-                                    <button type="submit" class="btn"><img src="../user/img/button/write.png" height="40" width="70"></button>
+                                    <a class="btn" href="/board/communityBoardView"><img src="../../user/img/button/list.png" height="40" width="70" alt=""></a>
+                                    <button type="submit" class="btn"><img src="../../user/img/button/modify.png" height="40" width="70" alt=""></button>
                                 </div>
                             </form>
                         </div>

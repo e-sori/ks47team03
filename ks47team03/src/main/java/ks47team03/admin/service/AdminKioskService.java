@@ -8,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-
 import ks47team03.admin.mapper.AdminKioskMapper;
+import ks47team03.user.dto.Kiosk;
 
 
 @Service
@@ -64,4 +64,6 @@ public class AdminKioskService {
 		
 		return paramMap;
 	}
+	
+
 }

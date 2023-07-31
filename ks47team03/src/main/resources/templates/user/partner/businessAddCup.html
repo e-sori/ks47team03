@@ -28,47 +28,76 @@
       <div class="order_details_table">
         <h2>99CUP Order </h2>
         <div class="table-responsive">
-        <form>
-          <table class="table">
+          <table class="table"  th:object="${partnerInfoByLevel}">
             <thead>
               <tr>
-                <th scope="col">사업장 명</th>
-                <th scope="col">추가 배송 수량</th>
-                <th scope="col">배송 희망 날짜</th>
+                <th scope="col"><label for="addCupPartnerCode">사업장 코드</label></th>
+                <th scope="col"><label for="addCupPartnerName">사업장 명</label></th>
+                <th scope="col"><label for="addCupKioskNum">무인기기 번호</label></th>
+                <th scope="col"><label for="addCupAmount">추가 배송 수량</label></th>
+                <th scope="col"><label for="addCupDate">배송 희망 날짜</label></th>
               </tr>
             </thead>
-            <tbody>
+           	<tbody>
               <tr>
+                <td th:text="*{partnerCode}"></td>
+                <td th:text="*{partnerName}"></td>
                 <td>
-                  <input type="text" id="addCupBusinessName" name="addCupBusinessName"/>
+				<select id="KioskSerialNum" name="KioskSerialNum" th:unless="${#lists.isEmpty(kioskList)}" th:each="k=${kioskList}">
+								<th:block  th:unless="${#lists.isEmpty(kioskList)}" th:each="k=${kioskList}">
+									<option th:value="${k.kioskSerialNum}">
+										[[${k.kioskSerialNum}]]
+									</option>
+								</th:block>
+				</select>
                 </td>
                 <td>
-                  <input type="text" id="addCupAmount" name="addCupAmount"/>
+                  <input type="text" id="addCupAmount" name="outAmount"/>
                 </td>
                 <td>
-                  <input type="datetime" id="addCupDeliveryDate" name="addCupDeliveryDate"/>
+                  <div class="input-group">
+                    <input type="text" class="form-control drgpicker" id="addCupDate" name="deliveryDesiredDate">
+                    <div class="input-group-append">
+                      <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
+                    </div>
+                  </div>
                 </td>
-
               </tr>
-              <tr>
-                <td>
-           			<h5></h5>
-                </td>
-                <td>
-                  <h5></h5>
-                </td>
-                <td class="addCupBtnTd">
-                  <button type="button" id="addCupBtn">commit</button>
-                </td>
-              </tr>
-            </tbody>
+			</tbody>
           </table>
-         </form> 
+          <button type="button" id="addCupBtn">commit</button>
         </div>
       </div>
     </div>
   </section>
   <!--================End Order Details Area =================-->
-
    </th:block>
+   <th:block layout:fragment="customJs">
+	<script type="text/javascript" th:inline="javascript">
+	// 유효성검사 함수
+	const validCheck = element => {
+	    let data = $(element).val();
+	    let eleId = $(element).attr('id');
+	    if (typeof data == 'undefined' || data == null || data == '' ) {
+	        let cate = $(`label[for="${eleId}"]`).text();
+	        alert(`${cate} 필수 입력항목입니다.`);
+	        $(element).focus();
+	        return false;
+	    }
+	    return true;
+		}
+	
+		//데이트 피커
+		$('.drgpicker').daterangepicker(
+			      {
+			        singleDatePicker: true,
+			        timePicker: false,
+			        showDropdowns: true,
+			        locale:
+			        {
+			          format: 'MM/DD/YYYY'
+			        }
+		});			
+					
+	</script>
 </html>

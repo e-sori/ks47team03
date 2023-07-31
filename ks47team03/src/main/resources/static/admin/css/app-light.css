@@ -117,6 +117,17 @@ margin-top: 30px;
 	background-color:#6c757d;
 }
 
+.colSpan-left {
+  display: flex;
+  justify-content: flex-end;
+  width: 20%;
+  margin-top: 30px
+}
+
+.colSpan-left button {
+  margin-right: 4px; 
+}
+
 body {
   margin: 0;
   font-family: "Overpass", sans-serif;
@@ -1256,6 +1267,9 @@ pre {
     }
   .table tbody + tbody {
     border-top: 2px solid #e9ecef; }
+  .table {
+  border-bottom: 1px solid #e9ecef;
+  }
     
 .table-margin-bottom{
 	margin-bottom:20px;
@@ -1286,6 +1300,13 @@ pre {
 .table-hover tbody tr:hover {
   color: #6c757d;
   background-color: #dee2e6; }
+  
+ .table-hover tbody tr:hover td.finalStock {
+  background-color: #dfddcf;  /* 원하는 색으로 변경 */
+}
+td.finalStock {
+  background-color: #fffde7;  /* 원하는 색으로 변경 */
+}
 
 .table-primary,
 .table-primary > th,

@@ -23,10 +23,23 @@
 		<result column="user_email_check" property="userEmailcheck"/>
 		<result column="static_code" property="staticCode"/>
 		<result column="user_join_datetime" property="userJoindatetime"/>
+		<result column="code_large_type" property="codeLargetype"/>
+		<result column="code_middle_type" property="codeMiddletype"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
 	</resultMap>
 
 
-
+	<select id="getUserLevelById" parameterType="String" resultType="String">
+	/*아이디를 이용해 사용자 권한 검색*/
+		SELECT
+			um.user_level
+		FROM
+			user_manage AS um
+		WHERE 
+			um.user_id = #{loginId};
+	</select>
+	
 	<select id="getUserInfoById" parameterType="String" resultMap="userResultMap">
 		/* 회원별 상세조회 */
 		SELECT
@@ -53,11 +66,11 @@
 	<insert id="joinUser" parameterType="User">
 		/* 회원가입 */
 		INSERT INTO user_manage
-			(user_id, user_pw, user_name, user_level, user_Idcard_number, user_addr, 
-			user_email, user_phone, user_nick, user_sms_check, user_email_check, static_code, user_join_datetime)
+			(user_id, user_pw, user_name, user_level, user_Idcard_number, user_addr, user_email, user_phone, user_nick,
+			 user_sms_check, user_email_check, static_code, user_join_datetime, code_large_type, code_middle_type, latitude, longitude)
 		VALUES 
-			(#{userId}, #{userPw}, #{userName}, #{userLevel}, #{userIdcardnumber}, #{userAddr}, 
-			#{userEmail},#{userPhone},#{userNick},#{userSmscheck},#{userEmailcheck},#{staticCode},CURDATE());
+			(#{userId}, #{userPw}, #{userName}, #{userLevel}, #{userIdcardnumber}, #{userAddr},	#{userEmail}, #{userPhone},
+			 #{userNick}, #{userSmscheck}, #{userEmailcheck}, 'user_status_sc7_1', NOW(), '회원 상태', '정상', #{latitude}, #{longitude});
 	</insert>
 	
 	<select id="idCheck" resultType="boolean" parameterType="String">
