@@ -52,8 +52,8 @@
 					                  				</tr>
 					               			 	</thead>
 												<tbody>
-										        	<th:block 	th:unless="${#lists.isEmpty(pointMaxStandardList)}"
-										                		th:each ="p , state: ${pointMaxStandardList}">
+										        	<th:block 	th:unless="${#lists.isEmpty(pointStandardList)}"
+										                		th:each ="p , state: ${pointStandardList}">
 														<tr> 
 															<td>
 																<input type="checkbox" class="custom-control custom-checkbox checkbox checks">
@@ -83,14 +83,21 @@
 																</button>
 															</div>
 															<div class="modal-body">
-																<form>
+																<form action="" method="Post" th:object="${pointStandardList}">
 																	<div class="form-group">
 																		<label for="message-text" class="col-form-label">횟수 기준 코드:</label>
-																		<input type="text" class="form-control" disabled="disabled">
+																		<input type="text" class="form-control" readonly="readonly">
 																	</div>
 																	<div class="form-group">
 																		<label for="message-text" class="col-form-label">적립 가능 횟수:</label>
 																		<input type="text" class="form-control">
+																	</div>
+																	<div class="form-group">
+																		<label for="message-text" class="col-form-label">코드 사용 유무:</label>
+																			<select class="form-control">
+																				  	<option value="Y">사용 가능</option>
+																				  	<option value="N">사용 불가능</option>
+																			</select>
 																	</div>
 																	<div class="form-group">
 																		<label for="message-text" class="col-form-label">관리자 ID:</label>
@@ -122,10 +129,10 @@
 															  	</button>
 					                 						</div>
 					                 						<div class="modal-body">
-																<form action="" method="Post">
+																<form action="" method="Post" th:object="${pointStandardList}">
 																	<div class="form-group">
-																		<label th:for="modifyCode" class="col-form-label">코드</label>
-																		<input type="text" class="form-control" readonly="readonly" th:value="ㅇㅇ">
+																		<label th:for="modifyCode" class="col-form-label">횟수 기준 코드</label>
+																		<input type="text" class="form-control" readonly="readonly">
 																	</div>
 																	<div class="form-group">
 																		<label th:for="modifyCount" class="col-form-label">적립 가능 횟수</label>
@@ -253,12 +260,7 @@
 		 		});
 				requestData.done(function( response ) {
 					if(response){
-						console.log(response);
-						let pointStandardList;
-						if(tableId == 'pills-max') pointStandardList = response.pointMaxStandardList;
-						else pointStandardList = response.pointStandardList;
-						
-						console.log("ssss",pointStandardList);
+						let pointStandardList = response.pointStandardList;						
 						
 				        // key(title) : <th> , value(data) : <td>에 담아주기 위해 배열 선언 
 				        const newData = [
@@ -269,8 +271,7 @@
 				        	        searchable: false,
 				        	        targets: 0 
 				        	    }
-				        ];
-				        
+				        ];				        
 				        
 				        const labels = {
 				        	    dayNum : "No",
@@ -279,10 +280,8 @@
 				        	    codeUse : "코드 사용 유무",
 				        	    setDateTime : "최초 등록일",
 				        	    adminId : "관리자 ID",
-				        	    upDatetime : "최종 수정일",
-				        	    
-				        };				        
-
+				        	    upDatetime : "최종 수정일",				      	    
+				        };        
 
 				        // response : 배열 , list : 객체 (배열 안에 객체 여러 개가 존재하는 형태)
 				        for (let obj of pointStandardList){
@@ -301,6 +300,8 @@
 				        	}
 				        	break; // 어차피 컬럼은 객체 하나만 돌아도 되기 때문에 한 번만 돌고 반복문을 끝내준다.
 				        }
+				        
+				        console.log(newData);
 				       
 						// 데이터 테이블 파괴
 						$('#pointStandardManage').DataTable().destroy();
@@ -371,10 +372,6 @@
 							$('.card-small-text').text(`하루에 적립 가능한 포인트 횟수는 최대 ${useMaxCount}번입니다.`);								
 							break;
 						}
-						
-						
-					
-
 					}
 					requestData.fail(function( jqXHR, textStatus ) {
 						alert( "Request failed: " + textStatus );

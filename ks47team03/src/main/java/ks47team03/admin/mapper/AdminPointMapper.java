@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ks47team03.admin.dto.AdminPoint;
 
 @Mapper
 public interface AdminPointMapper {
@@ -23,7 +22,7 @@ public interface AdminPointMapper {
 	public List<Map<String,Object>> getPointExpireStandard();
 	
 	/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
-	public List<AdminPoint> getPointMaxCountStandard(String type);
+	public List<Map<String,Object>> getPointMaxCountStandard(String type);
 	
 	/* 데이터 개수 조회 */
 	public int getPointStandardCount(String tableName);

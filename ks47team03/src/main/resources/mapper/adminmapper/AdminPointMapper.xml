@@ -7,16 +7,6 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
 	
-	<resultMap type="AdminPoint" id="pointMaxCountResultMap">
-		<id column="횟수 기준 코드" property="dayMaximumCountCode" />
-		<result column="No" property="dayNum" />
-		<result column="적립 가능 횟수" property="useMaximumCount" />
-		<result column="코드 사용 유무" property="codeUse" />
-		<result column="최초 등록일" property="setDatetime" />
-		<result column="관리자 ID" property="adminId" />
-		<result column="최종 수정일" property="upDatetime" />
-	</resultMap>
-
 	<select id="getPointRefundStandard" resultType="java.util.LinkedHashMap">
 		/* 5-2 포인트 환급 기준 조회 */
 		SELECT
@@ -149,24 +139,24 @@
 			(#{goodsCode}, #{goodsName}, #{goodsPrice}, #{goodsSellerId}, CURDATE())		
 	</insert>
 	
-	<select id="getPointMaxCountStandard" parameterType="String" resultMap="pointMaxCountResultMap">
+	<select id="getPointMaxCountStandard" parameterType="String" resultType="java.util.LinkedHashMap">
 		/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
 		SELECT
-			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS 'No',
-			day_maximum_count_code AS '횟수 기준 코드',
-			use_maximum_count AS '적립 가능 횟수',
+			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS dayNum,
+			day_maximum_count_code AS dayMaximumCountCode,
+			use_maximum_count AS useMaximumCount,
 			CASE 
 			   WHEN code_use = 'Y' THEN '사용가능'
 			   WHEN code_use = 'N' THEN '사용불가능'		
-			END AS '코드 사용 유무',	
-			set_datetime AS '최초 등록일',
-			admin_id AS '관리자 ID',
-			up_datetime AS '최종 수정일'		
+			END AS codeUse,	
+			set_datetime AS setDatetime,
+			admin_id AS adminId,
+			up_datetime AS upDatetime		
 		FROM
 			day_maximum_count
 		WHERE
 			day_maximum_count_code LIKE CONCAT('%', #{type}, '%')
-		ORDER BY No
+		ORDER BY dayNum
 	</select>
 	
 	<select id="getDistinctData" parameterType="String" resultType="String">

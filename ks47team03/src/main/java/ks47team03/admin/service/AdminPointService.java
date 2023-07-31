@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import ks47team03.admin.dto.AdminPoint;
 import ks47team03.admin.mapper.AdminCommonMapper;
 import ks47team03.admin.mapper.AdminPointMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -35,12 +34,10 @@ public class AdminPointService {
 		String tableDbName = null;
 		Map<String,Object> paramMap = new LinkedHashMap<String,Object>();	
 		List<Map<String,Object>> pointStandardList = null;	
-		List<AdminPoint> pointMaxStandardList = null;
 		
 		if(tableId.equals("pills-max"))	{
 			tableDbName = "day_maximum_count";	
-			pointMaxStandardList = adminPointMapper.getPointMaxCountStandard("point");	
-			paramMap.put("pointMaxStandardList", pointMaxStandardList);
+			pointStandardList = adminPointMapper.getPointMaxCountStandard("point");	
 		}else if(tableId.equals("pills-expire")) {
 			tableDbName = "point_expire_standard";	
 			pointStandardList = adminPointMapper.getPointExpireStandard();			
@@ -55,11 +52,10 @@ public class AdminPointService {
 			pointStandardList = adminPointMapper.getPointTypeStandard();
 		}
 		
-		if(!tableId.equals("pills-max")) paramMap.put("pointStandardList", pointStandardList);
-			
 		List<String> codeUseList = adminPointMapper.getDistinctData(tableDbName, "code_use");
 		
 		paramMap.put("codeUseList", codeUseList);
+		paramMap.put("pointStandardList", pointStandardList);
 		
 		return paramMap;
 	};

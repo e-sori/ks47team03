@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ks47team03.admin.dto.AdminPoint;
 import ks47team03.admin.service.AdminPointService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -91,13 +89,13 @@ public class AdminPointController {
 		/* 포인트 기준 조회 */
 		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard("pills-max");
 		
-		List<AdminPoint> pointMaxStandardList = (List<AdminPoint>)pointStandardResultMap.get("pointMaxStandardList");
+		List<Map<String,Object>>  pointStandardList = (List<Map<String,Object>> )pointStandardResultMap.get("pointStandardList");
 		String sessionId = (String) session.getAttribute("SID");
 		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
 
-		for (AdminPoint MaxCount : pointMaxStandardList) { 
-			if(MaxCount.getCodeUse().equals("사용가능")) { 
-				int useMaxCount = MaxCount.getUseMaximumCount(); 
+		for (Map<String,Object> MaxCount : pointStandardList) { 
+			if(MaxCount.get("codeUse").equals("사용가능")) { 
+				int useMaxCount = (int)MaxCount.get("useMaximumCount"); 
 				model.addAttribute("useMaxCount", useMaxCount); 
 				break; 
 			} 
@@ -105,7 +103,7 @@ public class AdminPointController {
 			
 		model.addAttribute("title","포인트 관련 기준 관리");
 		model.addAttribute("codeUseList", codeUseList);
-		model.addAttribute("pointMaxStandardList", pointMaxStandardList);		
+		model.addAttribute("pointStandardList", pointStandardList);		
 		model.addAttribute("SID", sessionId);		
 		
 		return "admin/point/pointStandardManage";
