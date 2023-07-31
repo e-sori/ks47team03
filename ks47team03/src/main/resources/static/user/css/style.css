@@ -95,22 +95,8 @@ body {
  .washDiscardCupCheck{
  	text-align: center;
  }
- #addCupBtn{
-	background-color: #d0ff01;
-	border: none;
-    margin: 3px auto;
-    border-radius: 20px;
-    padding: 5px;
-    min-height: 5px;
-    min-width: 10px;
-    color: darkgreen;
-    font-weight: 600;
-	box-shadow: 0px 0px 2px 2px #28a745;
-}
- #addCupBtn:hover{
-     background-color:darkgreen;
-     color:  #d0ff01;
-}
+
+
  .userHello{
 	position: relative;
   	display: inline-block;
