@@ -10,12 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.service.AdminCupService;
 import ks47team03.user.dto.FileDto;
+import ks47team03.user.dto.Kiosk;
+import ks47team03.user.dto.Partner;
+import ks47team03.user.mapper.UserCommonMapper;
+import ks47team03.user.mapper.UserKioskMapper;
 import ks47team03.user.service.UserPartnerService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,15 +34,19 @@ public class UserPartnerController {
 	// 의존성 주입
 	private final UserPartnerService partnerService;
 	private final AdminCupService adminCupService;
+	private final UserCommonMapper commonMapper;
+	private final UserKioskMapper kioskMapper;
 	
 	
-	public UserPartnerController(UserPartnerService partnerService,AdminCupService adminCupService) {
+	public UserPartnerController(UserPartnerService partnerService,AdminCupService adminCupService,UserCommonMapper commonMapper,UserKioskMapper kioskMapper) {
 		this.partnerService = partnerService;
 		this.adminCupService = adminCupService;
+		this.commonMapper = commonMapper;
+		this.kioskMapper =  kioskMapper;
 	}
 	
 
-	
+	//폐기컵 엑셀파일 업로드
 	@PostMapping("/excel/fileupload")
 	public String excelFileUpload(@RequestParam("excelFile") MultipartFile files,RedirectAttributes reAttr) {
 		
@@ -51,6 +60,17 @@ public class UserPartnerController {
 		return "redirect:/partner/washDiscardCup";
 	}
 	
+	//폐기컵 리스트 조회
+	@SuppressWarnings("unchecked")
+	@GetMapping("/washDiscardCupList")
+	@ResponseBody
+	public List<Map<String,Object>> discardCupList(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage){
+		Map<String,Object> resultMap = adminCupService.getDiscardCupList(currentPage);
+		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
+		
+		return discardCupList; 
+	}
+	//폐기컵 리스트 조회
 	@SuppressWarnings("unchecked")
 	@GetMapping("/washDiscardCup")
 	public String washDiscardCup(Model model,
@@ -76,9 +96,26 @@ public class UserPartnerController {
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";
 	}
-	
+
+	@GetMapping("/addCupKioskNum")
+	@ResponseBody
+	public List<Kiosk> addCupKioskNum(String partnerCode) {
+		List<Kiosk> kioskNumList = kioskMapper.getinstalledKioskListByCode(partnerCode);
+		log.info("kioskNumListdjhfiqewauyhfi8eahf:{}",kioskNumList.size());
+		return kioskNumList;
+	}
+	//추가컵 배송 신청
 	@GetMapping("/businessAddCup")
-	public String businessAddCup(Model model) {
+	public String businessAddCup(Model model,
+								 HttpSession session){
+		String loginId = (String) session.getAttribute("SID");
+		String userLevel = commonMapper.getUserLevelById(loginId);
+		List<Partner> partnerCodeList = partnerService.getPartnerCodeById(loginId,userLevel);
+		//List<Kiosk> partnerInfoByLevel = partnerService.getPartnerInfoByLevel(loginId);
+		//List<Kiosk> kioskList = partnerService.getInstalledKioskById(loginId);
+		
+		model.addAttribute("partnerCodeList", partnerCodeList);
+		//model.addAttribute("partnerInfoByLevel", partnerInfoByLevel);
 		model.addAttribute("title", "추가 컵 배송");
 		return "user/partner/businessAddCup";
 	}
@@ -111,7 +148,6 @@ public class UserPartnerController {
 		
 		return "user/partner/businessMyKioskList";
 	}
-	
 	
 	
 	

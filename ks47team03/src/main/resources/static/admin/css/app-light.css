@@ -57,7 +57,7 @@ html {
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
-
+  
 .simplebar-content-wrapper{
     margin-top: 0px;
     background-image: url('/admin/assets/images/background.jpg');
@@ -115,6 +115,15 @@ margin-top: 30px;
 
 .gotop:hover{
 	background-color:#6c757d;
+}
+
+.colSpan-left {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.colSpan-left button {
+  margin-right: 4px; 
 }
 
 body {
@@ -1256,6 +1265,9 @@ pre {
     }
   .table tbody + tbody {
     border-top: 2px solid #e9ecef; }
+  .table {
+  border-bottom: 1px solid #e9ecef;
+  }
     
 .table-margin-bottom{
 	margin-bottom:20px;
@@ -1286,6 +1298,13 @@ pre {
 .table-hover tbody tr:hover {
   color: #6c757d;
   background-color: #dee2e6; }
+  
+ .table-hover tbody tr:hover td.finalStock {
+  background-color: #dfddcf;  /* 원하는 색으로 변경 */
+}
+td.finalStock {
+  background-color: #fffde7;  /* 원하는 색으로 변경 */
+}
 
 .table-primary,
 .table-primary > th,
@@ -4284,11 +4303,8 @@ a.close.disabled {
   padding: 1rem; }
 
 .modal-footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0.75rem;
+  text-align:center;
+  padding-top: 0.75rem;
   border-top: 1px solid #e9ecef;
   border-bottom-right-radius: calc(0.3rem - 1px);
   border-bottom-left-radius: calc(0.3rem - 1px); }

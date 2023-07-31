@@ -42,9 +42,9 @@ public class UserBoardService {
     }
 
     // 게시글 삭제
-    public void communityBoardDelete(String boardCode){
+    public void communityBoardDelete(String boardCode, String currentUserId){
 
-        userBoardMapper.deleteById(boardCode);
+        deleteBoard(boardCode, currentUserId);
     }
     // 게시글 카운트
     public long communityBoardCount(){
@@ -54,6 +54,25 @@ public class UserBoardService {
     // 게시글 조회 수 증가 후 저장
     public void saveBoard(Board board) {
 
+        userBoardMapper.save(board);
+    }
+    // isDelete 컬럼 0,1
+    public List<Board> getBoards() {
+        return userBoardMapper.findByIsDeletedFalse();
+    }
+    // 게시글 삭제 (소프트 삭제)
+    public void deleteBoard(String boardId, String currentUserId) {
+        Board board = userBoardMapper.findById(boardId).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+        //작성자, 현재 로그인 사용자 비교
+        if (!board.getUser_id().equals(currentUserId)) {
+            throw new IllegalArgumentException("작성자만 삭제할 수 있습니다.");
+        }
+        //예외 처리
+        if (board.isDeleted()) {
+            throw new IllegalStateException("이미 삭제된 게시글입니다.");
+        }
+
+        board.setDeleted(true);
         userBoardMapper.save(board);
     }
 }

@@ -2,115 +2,84 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{user/layout/default}">
-	<th:block layout:fragment="customContents">
-  
- <!-- ================ start banner area ================= -->
-  <section class="page-banner-area" id="category">
-    <div class="container h-100">
-        <div class="text-center">
-          <h1>포인트 환급</h1>
-          <nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
-              <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">포인트 환급</li>
-            </ol>
-          </nav>
-      </div>
-    </div>
-  </section>
- 
-	  <!-- ================ end banner area ================= -->
+	  
+	<th:block layout:fragment="customContents">  
+		<!-- ================ start banner area ================= -->
+		<section class="page-banner-area" id="category">
+			<div class="container h-100">
+				<div class="text-center">
+					<h1>포인트 환급</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+		 				<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+							<li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+							<li class="breadcrumb-item active" aria-current="page">포인트 환급</li>
+		 				</ol>
+					</nav>
+				</div>
+			</div>
+		</section>
+		<!-- ================ end banner area ================= -->
+		<!--================Point table Area =================-->
+		<section class="order_details section-margin--small">
+	    	<div class="container">
+	    		<h2 class="page-title">포인트 환급 신청</h2>
+              	<p>포인트 포이느</p>
+	    		<div class="card my-4">
+	                <div class="card-body-wizard">
+						<div id="example-basic">
+							<h3 class="col-lg-4 col-md-4 col-sm-12 col-xs-12">환급 계좌 등록</h3>
+							<section>
+								<div class="form-group">
+	                          		<label for="accountUserName">예금주 *</label>
+	                          		<input class="form-control" id="accountUserName" name="accountUserName" type="text" readonly="readonly">
+	                        	</div>
+		                        <div class="form-group">
+		                          	<label for="bankName">은행 *</label>
+		                          	<select class="form-control" id="bankName" name="bankName" >
+		                          		<option> == 은행을 선택해주세요. ==</option>
+		                          		<option> == 은행을 선택해주세요. ==</option>
+		                          		<option> == 은행을 선택해주세요. ==</option>
+		                          	</select>
+		                        </div>
+								<div class="form-group">
+									<label for="accountNum">계좌번호 *</label>
+									<input class="form-control" id="accountNum" name="confaccountNumirm" type="text">
+								</div>
+							</section>
+							<h3 class="col-lg-4 col-md-4 col-sm-12 col-xs-12">포인트 환급 신청</h3>
+							<section>
+								<p>Wonderful transition effects.</p>
+							</section>
+							<h3 class="col-lg-4 col-md-4 col-sm-12 col-xs-12">환급 신청 완료</h3>
+							<section>
+								<p>The next and previous buttons help you to navigate through your content.</p>
+							</section>
+						</div>
+	                </div> <!-- .card-body -->
+				</div> <!-- .card -->
+			</div>
+		</section>
+	  <!--================End Order Details Area =================-->
+	</th:block>
 
-  <!--================Point table Area =================-->
-  <section class="order_details section-margin--small">
-    <div class="container">
-      <p class="billing-alert">포인트 조회는 .....소리</p>
-      <div class="order_details_table">
-        <h2>Order Details</h2>
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">포인트</th>
-                <th scope="col">날짜</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <p>Pixelstore fresh Blackberry</p>
-                </td>
-                <td>
-                  <h5>x 02</h5>
-                </td>
-                <td>
-                  <p>$720.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>Pixelstore fresh Blackberry</p>
-                </td>
-                <td>
-                  <h5>x 02</h5>
-                </td>
-                <td>
-                  <p>$720.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>Pixelstore fresh Blackberry</p>
-                </td>
-                <td>
-                  <h5>x 02</h5>
-                </td>
-                <td>
-                  <p>$720.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h4>Subtotal</h4>
-                </td>
-                <td>
-                  <h5></h5>
-                </td>
-                <td>
-                  <p>$2160.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h4>Shipping</h4>
-                </td>
-                <td>
-                  <h5></h5>
-                </td>
-                <td>
-                  <p>Flat rate: $50.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h4>Total</h4>
-                </td>
-                <td>
-                  <h5></h5>
-                </td>
-                <td>
-                  <h4>$2210.00</h4>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!--================End Order Details Area =================-->
-
-   </th:block>
+	<th:block layout:fragment="customJs">
+		<script th:src="@{/admin/js/apps.js}"></script>
+		<script th:src="@{/admin/js/jquery.steps.min.js}"></script>
+		<script>
+			$(function(){
+				var basic_wizard = $('#example-basic');
+				basic_wizard.length && basic_wizard.steps({
+				    headerTag: 'h3',
+				    bodyTag: 'section',
+				    transitionEffect: 'slideLeft',
+				    autoFocus: true, // '0' 대신에 'true'를 사용해보세요.
+				});				
+			});		
+		</script>
+			
+	</th:block>
+	
+	
+		    
 </html>
