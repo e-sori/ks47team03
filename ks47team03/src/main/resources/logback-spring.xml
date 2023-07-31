@@ -12,22 +12,8 @@
     <property name="LOG_DIR" value="/home/springboot/logs" />
     <property name="LOG_PATH_NAME" value="${LOG_DIR}/application.log" />
 	
-	<!-- ConsoleAppender -->
-	<!-- 콘솔에 출력하는 형식 / -5level : 로그의 레벨  -->
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
-		</encoder>
-	</appender>
-	<!--Query ConsoleAppender -->
-	<appender name="QSTDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} %n    %msg%n</pattern>
-		</encoder>
-	</appender>
-	
 	<!-- Rolling File Appender -->
-    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+   <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         	<!-- 파일 경로 -->
         <file>${LOG_PATH_NAME}</file>
         	<!-- 출력패턴 -->
@@ -44,20 +30,36 @@
            	<!-- 일자별 로그파일 최대 보관주기(일단위)만약 해당 설정일 이상된 파일은 자동으로 제거 -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>
-    </appender> -->
+    </appender>
+	
+	
+	<!-- ConsoleAppender -->
+	<!-- 콘솔에 출력하는 형식 / -5level : 로그의 레벨  -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<!--Query ConsoleAppender -->
+	<appender name="QSTDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} %n    %msg%n</pattern>
+		</encoder>
+	</appender>
+	
 	
 	<!-- 프로젝트 패키지 안 클래스에 설정된 로그 출력 -->
 	<!-- ksmart.mybatis : 패키지 이름 -->
 	<!-- level="INFO" : INFO 레벨일 것은 모두 로그에 찍는다. -->
 	<!-- additivity="false" 로그를 한 번 만 찍겠다. true : 두 번 찍힘 -->
 	<!-- level="OFF" : 로그 OFF -->
-	<logger name="ks47team03" level="debug" additivity="false">
+	<logger name="ks47team03" level="info" additivity="false">
 		<!-- 위에서 작성해뒀던 STDOUT를 찍겠다. appender-ref 태그 없으면 안 찍힘 -->
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ROLLING_FILE" />
 	</logger>
 	<!-- 아직 싱글톤 안나가서 하지 않는 것이 맞음 -->
-	<logger name="org.springframework" level="info" additivity="false">
+	<logger name="org.springframework" level="off" additivity="false">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ROLLING_FILE" />
 	</logger>

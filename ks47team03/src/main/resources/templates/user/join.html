@@ -43,11 +43,11 @@
 										onfocus="this.placeholder = ''" onblur="this.placeholder = '주민등록번호를 입력해 주세요'" disabled="disabled">
 			              	</div>
 			              	<div class="row col-md-12 form-group">
-								<input type="text" class="col-8" id="postcode" placeholder="우편번호" disabled="disabled">
+								<input type="hidden" name="latitude" id="latitude"/>
+								<input type="hidden" name="longitude" id="longitude"/>
+								<input type="text" name="userAddr" class="col-8" id="address" placeholder="주소" disabled="disabled"><br>
 								<button type="button" class="btn mb-2 btn-light" onclick="findPost()">우편번호 찾기</button><br>
-								<input type="text" class="form-control" id="address" placeholder="주소" disabled="disabled"><br>
-								<input type="text" class="form-control" id="detailAddress" placeholder="상세주소" disabled="disabled">
-								<input type="text" class="form-control" id="extraAddress" placeholder="참고항목" disabled="disabled">
+								<input type="text" name="userAddr" class="form-control" id="extraAddress" placeholder="참고항목" disabled="disabled">
 							</div>
 			             	<div class="row col-md-12 form-group">
 			              		<label for="userEmail" class="col-4">이메일</label>
@@ -71,7 +71,7 @@
 							</div>
 							<div class="col-md-12 form-group">
 								<button id="joinUserBtn" type="submit" value="submit" class="joinbtn">
-									<img src="/user/img/join.png" height="36" width="107" alt="">
+									<img src="/user/img/button/join.png" height="36" width="107" alt="">
 								</button>
 							</div>
 							
@@ -86,6 +86,7 @@
    <th:block layout:fragment="customJs">
     	<script th:src="@{user/js/jquery-3.7.0.js}"></script>
     	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=893d4427eec7b7b03f01b891aa37a38f&libraries=services"></script>
 		<script>
 		    function findPost() {
 		        new daum.Postcode({
@@ -124,13 +125,26 @@
 		                
 		                } else {
 		                    document.getElementById("extraAddress").value = '';
-		                }
-		
+		                }             
+		                
 		                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-		                document.getElementById('postcode').value = data.zonecode;
 		                document.getElementById("address").value = addr;
-		                // 커서를 상세주소 필드로 이동한다.
-		                document.getElementById("detailAddress").focus();
+		                console.log(addr);
+		                
+		             	// 주소-좌표 변환 객체를 생성합니다
+		                const geocoder = new kakao.maps.services.Geocoder();
+
+		                // 주소로 좌표를 검색합니다
+		                geocoder.addressSearch(data.roadAddress, function(result, status) {
+		                
+			                if (status === kakao.maps.services.Status.OK) {
+			                	console.log(result[0].y, result[0].x);
+			                	$('#latitude').val(result[0].y);
+			                	$('#longitude').val(result[0].x);
+			                	//$resultDiv.textContent = `위도: ${result[0].y}, 경도 : ${result[0].x}`;
+			                	
+		                	}
+		                });
 		            }
 		        }).open();
 		    }

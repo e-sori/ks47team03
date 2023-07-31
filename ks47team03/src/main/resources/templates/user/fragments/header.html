@@ -7,7 +7,7 @@
 	                <div class="container">
 	                	<div class="logo_main">
 	                		<a class="navbar-brand logo_h" href="/">
-	                    		<img src="../user/img/logo.png" height="36" width="158" alt="">                	
+	                    		<img src="../../user/img/logo.png" height="36" width="158" alt="">
 	                    	</a>
 	                	</div>
 	                    
@@ -108,15 +108,15 @@
 	                            <li class="nav-item">
 	                            	<!--로그인 전-->
 	                            	<a th:if="${session.SID == null}" class="navbar-login logo_h" href="/login">
-				                    	<img src="../user/img/login.png" height="36" width="87" alt="">주열
+				                    	<img src="../../user/img/button/login.png" height="36" width="87" alt="">주열
 				                    </a>
 				                    <!--로그인 후-->
 	                            	<a th:unless="${session.SID == null}" class="navbar-login logo_h" href="/logout">
-				                    	<img src="../user/img/logout.png" height="36" width="97" alt="">주열
+				                    	<img src="../../user/img/button/logout.png" height="36" width="97" alt="">주열
 				                    </a>
 				                    <!--로그인 전-->
 	                            	<a th:if="${session.SID == null}" class="navbar-join logo_h" href="/join">
-				                    	<img src="../user/img/join.png" height="36" width="107" alt="">주열
+				                    	<img src="../../user/img/button/join.png" height="36" width="107" alt="">주열
 				                    </a>
 
 	                            </li>
