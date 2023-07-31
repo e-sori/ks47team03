@@ -21,6 +21,8 @@
     <!-- 기본 스타일 css -->
     <link rel="stylesheet" th:href="@{/user/css/style.css}">
     <link rel="stylesheet" th:href="@{/user/css/index.css}">
+    <!-- Date Picker  -->
+    <link rel="stylesheet" th:href="@{/user/css/daterangepicker.css}">
 </head>
 <body>
 	<div id="wrapper">
@@ -53,6 +55,9 @@
 	    <script th:src="@{/user/vendors/jquery.ajaxchimp.min.js}"></script>
 	    <script th:src="@{/user/vendors/mail-script.js}"></script>
 	    <script th:src="@{/user/js/main.js}"></script>
+	    <script th:src="@{/user/js/bootstrap-datepicker.min.js}"></script>
+	    <script th:src="@{/admin/js/moment.min.js}"></script>
+	    <script th:src="@{/admin/js/daterangepicker.js}"></script>
 		<script type="text/javascript">
 		$(document).ready(function() {
 			  $('.gotop').bind('click', function() {

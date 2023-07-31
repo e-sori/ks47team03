@@ -8,7 +8,8 @@ import ks47team03.user.dto.UserLevel;
 
 @Mapper
 public interface UserCommonMapper {
-	
+	//아이디로 권한 조회
+	public String getUserLevelById(String loginId);
 	// 회원가입
 	public int joinUser(User user);
 
