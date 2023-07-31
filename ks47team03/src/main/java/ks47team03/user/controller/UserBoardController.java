@@ -24,13 +24,6 @@ public class UserBoardController {
 	@Autowired
 	private UserBoardService userBoardService;
 
-	// 의존성 주입
-	private final UserBoardService boardService;
-
-	public UserBoardController(UserBoardService boardService) {
-		this.boardService = boardService;
-	}
-
 	// 커뮤니티 게시판
 	@GetMapping("/communityBoardView")
 	public String communityBoardView(Model model, @RequestParam(defaultValue = "0") int page) {
@@ -147,4 +140,16 @@ public class UserBoardController {
 		userBoardService.saveBoard(boardTemp);
 		return "redirect:/board/communityBoardView";
 	}
+	// 커뮤니티 게시글 좋아요 처리
+	@PostMapping("/likePost/{boardCode}")
+	public ResponseEntity<Map<String, Object>> likePost(@PathVariable String boardCode, HttpSession session) {
+		String currentUserId = (String) session.getAttribute("SID");
+		boolean liked = userBoardService.toggleLike(currentUserId, boardCode);
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("success", true);
+		response.put("liked", liked);
+		return ResponseEntity.ok(response);
+	}
+
 }
