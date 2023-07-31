@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-public interface UserPartnerMapper  {
-
 import ks47team03.user.dto.Kiosk;
 import ks47team03.user.dto.Partner;
 
