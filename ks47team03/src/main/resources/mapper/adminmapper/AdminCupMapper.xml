@@ -203,6 +203,24 @@
 	</select>
 
 	
+	<select id="getCupStateListCount" parameterType="map" resultType="int">
+		/*컵 상태의 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			cup_manage AS cm
+			INNER join
+			static_code AS sc
+			on
+			cm.static_code = sc.static_code
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue};
+        	</if>
+        </where>
+	</select>
+
+	
 	<select id="getCupManageList"  parameterType="map" resultType="map" >
 	/*컵 전체 이용 내역*/
 		SELECT

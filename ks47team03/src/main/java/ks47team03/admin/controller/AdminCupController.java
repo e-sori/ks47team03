@@ -35,12 +35,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.mapper.AdminCupMapper;
-import ks47team03.admin.mapper.AdminKioskMapper;
 import ks47team03.admin.service.AdminCommonService;
 import ks47team03.admin.service.AdminCupService;
 import ks47team03.user.dto.Cup;
 import ks47team03.user.dto.FileDto;
-import ks47team03.user.dto.Kiosk;
 import ks47team03.user.dto.Static;
 import ks47team03.user.dto.User;
 
@@ -54,15 +52,13 @@ public class AdminCupController {
 	private String filePath;
 	// 의존성 주입
 	private final AdminCupService cupService;
-	private final AdminCupMapper cupMapper;
-	private final AdminKioskMapper kioskMapper;
+	private final AdminCupMapper cupmapper;
 	private final AdminCommonService commonService;
 
-	public AdminCupController(AdminCupService cupService, AdminCommonService commonService,AdminCupMapper cupMapper,AdminKioskMapper kioskMapper) {
+	public AdminCupController(AdminCupService cupService, AdminCommonService commonService,AdminCupMapper cupmapper) {
 		this.cupService = cupService;
 		this.commonService = commonService;
-		this.cupMapper= cupMapper;
-		this.kioskMapper = kioskMapper;
+		this.cupmapper= cupmapper;
 	}
 	
 	
@@ -224,51 +220,31 @@ public class AdminCupController {
 		
 		//required= false 입력값 필수로 안받겠다. defaultValue = "1" 기본값 설정,문자열만 입력 가능 Modle=보내질 데이터
 		Map<String,Object> resultMap = cupService.getCupStateList(currentPage,searchKey,searchValue);
+		int lastPage = (int)resultMap.get("lastPage");
 		
 		List<Map<String,Object>> cupStateList = (List<Map<String,Object>>)resultMap.get("cupStateList");
 		int startPageNum = (int) resultMap.get("startPageNum");
 		int endPageNum = (int) resultMap.get("endPageNum");
-		int lastPage = (int)resultMap.get("lastPage");
 		int rowPerPage = (int) resultMap.get("rowPerPage");
-		int cupStateListCount = (int) resultMap.get("cupStateListCount");
 		
 		if(msg != null) model.addAttribute("msg", msg);
 		model.addAttribute("title", "컵 상태 관리");
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("cupStateListCount",cupStateListCount);
+		model.addAttribute("cupStateListCount",cupmapper.getCupStateListCount());
 		model.addAttribute("cupStateList", cupStateList);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
 		model.addAttribute("rowPerPage", rowPerPage);
 		return "admin/cup/cupStateManage";
 	}
-	//컵 출고 관리
-	@SuppressWarnings("unchecked")
-	@GetMapping("/cupOutManage")
-	public String cupOutManage(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
-								Model model) {
-		Map<String,Object> resultMap = cupService.getDayOutList(currentPage);
-		List<Map<String,Object>> cupDayOutList = (List<Map<String,Object>>)resultMap.get("cupDayOutList");
-		int startPageNum = (int) resultMap.get("startPageNum");
-		int endPageNum = (int) resultMap.get("endPageNum");
-		int rowPerPage = (int) resultMap.get("rowPerPage");
-		int lastPage = (int)resultMap.get("lastPage");
-		List<Kiosk>installedKiosk = kioskMapper.getInstalledKioskPartnerList();
-		log.info("installedKioskdjhfadskufhei8uhfeiwkufhaewk:{}",installedKiosk.size());
-		
-		model.addAttribute("title","구구 컵 출고관리");
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("cupDayOutList", cupDayOutList);
-		model.addAttribute("installedKiosk", installedKiosk);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		model.addAttribute("rowPerPage", rowPerPage);
-		return "admin/cup/cupOutManage";
+	
+	// 컵 관련 기준 관리
+	@GetMapping("/cupManageStandard")
+	public String cupManageStandard(Model model) {
+		model.addAttribute("title","구구컵 관련 기준 관리");
+		return "admin/cup/cupManageStandard";
 	}
-	
-	
 	// 컵 재고 관리
 	@SuppressWarnings("unchecked")
 	@GetMapping("/cupStockManage")
@@ -290,7 +266,6 @@ public class AdminCupController {
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
 		model.addAttribute("rowPerPage", rowPerPage);
-		model.addAttribute("finalStock", cupMapper.getFinalStock());
 	
 		return "admin/cup/cupStockManage";
 		}
