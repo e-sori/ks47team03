@@ -211,7 +211,7 @@ public class AdminCupService {
 		//마지막 페이지 계산 
 		//1. 보여질 테이블의 전체 행의 갯수
 		String tableName = "cup_manage";
-		double rowsCount = adminCupMapper.getListCount(tableName);
+		double rowsCount = adminCupMapper.getSearchListCount(paramMap);
 		int cupStateListCount = adminCupMapper.getListCount(tableName);
 		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
 		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨

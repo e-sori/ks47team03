@@ -47,7 +47,7 @@ public class UserBoardController {
 		model.addAttribute("currentPage", page);  // Current page number
 		model.addAttribute("maxPage", maxPage);  // Maximum page number
 
-		return "/user/board/communityBoardView";
+		return "user/board/communityBoardView";
 	}
 	// 커뮤니티 게시글 작성
 	@GetMapping("/communityBoardWrite")
@@ -65,14 +65,14 @@ public class UserBoardController {
 			board.getCommunity_now_board_content() == null || board.getCommunity_now_board_content().isEmpty()) {
 			model.addAttribute("message", "제목과 내용은 필수 입력 사항입니다.");
 			model.addAttribute("searchUrl", "/board/communityBoardWrite");
-			return "/user/board/message";
+			return "user/board/message";
 		}
 		// admin_id 설정
 		board.setAdmin_id("adminid001");
 		userBoardService.communityBoardWrite(board, request);
 		model.addAttribute("message","글 작성이 완료되었습니다.");
 		model.addAttribute("searchUrl","/board/communityBoardView");
-		return "/user/board/message";
+		return "user/board/message";
 	}
 	// 커뮤니티 게시글 상세 조회
 	@GetMapping("/communityBoardDetail")
@@ -92,7 +92,7 @@ public class UserBoardController {
 			// 게시글 정보를 모델에 추가후 페이지를 로드
 			model.addAttribute("detail", board);
 		}
-		return "/user/board/communityBoardDetail";
+		return "user/board/communityBoardDetail";
 	}
 	// 커뮤니티 게시글 삭제
 	@GetMapping("/communityBoardDelete")
@@ -119,7 +119,7 @@ public class UserBoardController {
 									   Model model, RedirectAttributes redirectAttributes) {
 		Board board = userBoardService.communityBoardDetail(boardCode);
 		model.addAttribute("detail", board);
-		return "/user/board/communityBoardModify";
+		return "user/board/communityBoardModify";
 	}
 	// 커뮤니티 게시글 (ID확인)
 	@GetMapping("/checkAuthor/{boardCode}")
