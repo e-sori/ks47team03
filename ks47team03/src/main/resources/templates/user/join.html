@@ -14,16 +14,16 @@
 						<h3>회원가입</h3>
 						<form class="login_form" th:action="@{/join}" method="post" id="joinUserForm" >
 							<div class="row col-md-12 form-group">
-								<label for="userId" class="col-3">아이디</label>
+								<label for="userId" class="col-31">아이디</label>
 								<input type="text" class="col-6" id="userId" name="userId" placeholder="아이디를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디를 입력해 주세요'">
 								<div class="col-3"><button type="button" class="btn mb-2 btn-light" id="idCheck">아이디중복체크</button></div>
 							</div>
 							<div class="row col-md-12 form-group">
-								<label for="userPw" class="col-4">비밀번호</label>
-								<input type="text" class="col-8" id="userPw" name="userPw" placeholder="비밀번호를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호를 입력해 주세요'" disabled="disabled">
+								<label for="userPw" class="col-31">비밀번호</label>
+								<input type="password" class="col-8" id="userPw" name="userPw" placeholder="비밀번호를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호를 입력해 주세요'" disabled="disabled">
 					        </div>
 					        <div class="row col-md-12 form-group">
-					        	<label for="userName" class="col-4">이름</label>
+					        	<label for="userName" class="col-31">이름</label>
 								<input type="text" class="col-8" id="userName" name="userName" placeholder="이름을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '이름을 입력해 주세요'" disabled="disabled">
 					        </div>
 					        <div class="col-md-12 form-group">		
@@ -38,7 +38,7 @@
 								</select>	
 							</div>
 			              	<div class="row col-md-12 form-group">
-			              		<label for="userIdcardnumber" class="col-4">이메일</label>
+			              		<label for="userIdcardnumber" class="col-4">주민등록번호</label>
 								<input type="text" class="col-8" id="userIdcardnumber" name="userIdcardnumber" placeholder="주민등록번호를 입력해 주세요" 
 										onfocus="this.placeholder = ''" onblur="this.placeholder = '주민등록번호를 입력해 주세요'" disabled="disabled">
 			              	</div>
@@ -50,16 +50,16 @@
 								<input type="text" name="userAddr" class="form-control" id="extraAddress" placeholder="참고항목" disabled="disabled">
 							</div>
 			             	<div class="row col-md-12 form-group">
-			              		<label for="userEmail" class="col-4">이메일</label>
+			              		<label for="userEmail" class="col-31">이메일</label>
 								<input type="text" class="col-8" id="userEmail" name="userEmail" placeholder="이메일을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '이메일을 입력해 주세요'" disabled="disabled">
 			              	</div>
 							<div class="row col-md-12 form-group">
-			              		<label for="userPhone" class="col-4">휴대번호</label>
+			              		<label for="userPhone" class="col-31">휴대번호</label>
 								<input type="text" class="col-8" id="userPhone" name="userPhone" placeholder="전화번호를 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '전화번호를 입력해 주세요'" disabled="disabled">
 			              	</div>
 			              	<div class="row col-md-12 form-group">
-			              		<label for="userNick" class="col-4">닉네임</label>
-								<input type="text" class="col-8" id="userNick" name="userNick" placeholder="닉네임을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '닉네임을 입력해 주세요'" disabled="disable	d">
+			              		<label for="userNick" class="col-31">닉네임</label>
+								<input type="text" class="col-8" id="userNick" name="userNick" placeholder="닉네임을 입력해 주세요" onfocus="this.placeholder = ''" onblur="this.placeholder = '닉네임을 입력해 주세요'" disabled="disabled">
 			              	</div>
 							<div class="row col-md-12 form-group">
 								<div class="creat_account" >&nbsp;&nbsp;
@@ -70,7 +70,7 @@
 								</div>
 							</div>
 							<div class="col-md-12 form-group">
-								<button id="joinUserBtn" type="submit" value="submit" class="joinbtn">
+								<button id="joinUserBtn" type="submit" value="submit" class="btn">
 									<img src="/user/img/button/join.png" height="36" width="107" alt="">
 								</button>
 							</div>
@@ -196,7 +196,10 @@
 		            return isSubmit;
 		        });
 		
-		        if(isSubmit) $('#joinUserForm').submit();
+		        if(isSubmit) {
+		        	alert('회원 가입에 성공했습니다.');
+		        	$('#joinUserForm').submit();
+		        }
 		    });
     	    		
     		// 아이디중복버튼 이벤트

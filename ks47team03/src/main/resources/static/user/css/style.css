@@ -4064,8 +4064,12 @@ object-fit : cover;
 		  width: 360px;
 	}
 }
-
-
+.col-31{
+	flex: 0 0 25%;
+	max-width : 25%;
+	text-align: left;
+	padding-left: 12px;
+}
 
 
 .login_form_inner h3 {
@@ -4076,7 +4080,7 @@ object-fit : cover;
 }
 
 .login_form_inner .login_form {
-  max-width: 385px;
+  max-width: 400px;
   margin: auto
 }
 
