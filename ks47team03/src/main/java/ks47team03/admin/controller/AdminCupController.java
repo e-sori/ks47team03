@@ -255,7 +255,7 @@ public class AdminCupController {
 		int rowPerPage = (int) resultMap.get("rowPerPage");
 		int lastPage = (int)resultMap.get("lastPage");
 		List<Kiosk>installedKiosk = kioskMapper.getInstalledKioskPartnerList();
-		log.info("installedKioskdjhfadskufhei8uhfeiwkufhaewk:{}",installedKiosk.size());
+		log.info("installedKiosk:{}",installedKiosk.size());
 		
 		model.addAttribute("title","구구 컵 출고관리");
 		model.addAttribute("currentPage", currentPage);
