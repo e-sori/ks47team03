@@ -201,6 +201,23 @@
 		FROM
 			${tableName};
 	</select>
+	
+	<select id="getSearchListCount" parameterType="map"  resultType="int">
+		/*전체 행의 갯수*/
+		SELECT
+		 	COUNT(*)
+		FROM
+			cup_manage AS cm
+		   INNER join
+		   static_code AS sc
+		   on
+		   cm.static_code = sc.static_code
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue}
+        	</if>
+        </where>;
+	</select>
 
 	
 	<select id="getCupStateListCount" parameterType="map" resultType="int">
