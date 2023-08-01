@@ -214,8 +214,20 @@
 						
 					
 
-				});		
-
+				});	
+			 //첨부파일 삭제
+			 const $deleteAEles = document.querySelectorAll('.delete-file');
+				
+				$deleteAEles.forEach(item => {
+					item.addEventListener('click', function(e){
+						e.preventDefault();
+						let isDelete = confirm('정말로 삭제하시겠습니까?')
+						if(isDelete){					
+							const fileIdx = this.dataset.fileIdx;
+							location.href = `/admin/cup/file/deleteFile?fileIdx=${fileIdx}`;
+						}
+					});
+				});
 		</script>
 	</th:block>
 </html>

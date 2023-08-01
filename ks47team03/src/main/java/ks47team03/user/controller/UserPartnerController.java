@@ -96,12 +96,12 @@ public class UserPartnerController {
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";
 	}
-
+	//추가컵 배송에서 키오스크 번호 확인
 	@GetMapping("/addCupKioskNum")
 	@ResponseBody
 	public List<Kiosk> addCupKioskNum(String partnerCode) {
 		List<Kiosk> kioskNumList = kioskMapper.getinstalledKioskListByCode(partnerCode);
-		log.info("kioskNumListdjhfiqewauyhfi8eahf:{}",kioskNumList.size());
+		log.info("kioskNumList:{}",kioskNumList);
 		return kioskNumList;
 	}
 	//추가컵 배송 신청
@@ -118,6 +118,11 @@ public class UserPartnerController {
 		//model.addAttribute("partnerInfoByLevel", partnerInfoByLevel);
 		model.addAttribute("title", "추가 컵 배송");
 		return "user/partner/businessAddCup";
+	}
+	@PostMapping("/applyAddCup")
+	public String applyAddCup (Partner partner) {
+		
+		return "redirect:/partner/businessAddCup";
 	}
 	@GetMapping("/businessKioskApply")
 	public String businessKioskApply(Model model) {
