@@ -37,6 +37,7 @@ public class AdminCupService {
 		this.spreadsheetFilePasing = spreadsheetFilePasing;
 		this.fileUtil=fileUtil;
 	}
+	
 	//파일 삭제
 	public void deleteFileByIdx(FileDto fileDto) {
 		Boolean isDelete = fileUtil.deleteFileByIdx(fileDto);
