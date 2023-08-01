@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{admin/layout/default}">
+
+
+<th:block layout:fragment="customContents">
+
+     <div class="container-fluid">
+       <div class="row justify-content-center">
+          <div class="col-12">
+            <a class="return-tag" href="/admin/user/userAll">회원 관리</a>
+             <h6 class="card-text">현재 회원 정보를 수정합니다.</h6>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <!-- table -->
+                    <form id="cupStateModifyForm" th:action="@{/admin/user/userModify}" method="post">
+                      <table class="table datatables table-hover" id="dataTable-1">
+                      <thead>
+                      	<tr>
+                      		<th colspan="2">회원 정보 수정</th>
+                      	</tr>
+                      </thead>
+                        <tbody th:object="${userInfo}">
+	                          <tr>
+	                          <td>
+	                          	<label for="userId" >유저 아이디</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userId" name="userId" th:value="*{userId}" readonly="readonly">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userPw" >유저 비밀번호</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userPw" name="userPw" th:value="*{userPw}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userName" >유저 이름</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userName" name="userName" th:value="*{userName}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userLevel" >유저 권한</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userLevel" name="userLevel" th:value="*{userLevel}" readonly="readonly">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userIdcardnumber" >유저 주민등록번호</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userIdcardnumber" name="userIdcardnumber" th:value="*{userIdcardnumber}" readonly="readonly">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userAddr" >유저 주소</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userAddr" name="userAddr" th:value="*{userAddr}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userEmail" >유저 이메일</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userEmail" name="userEmail" th:value="*{userEmail}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userPhone" >유저 전화번호</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userPhone" name="userPhone" th:value="*{userPhone}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userNick" >유저 닉네임</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userNick" name="userNick" th:value="*{userNick}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userSmscheck" >sms수신동의</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userSmscheck" name="userSmscheck" th:value="*{userSmscheck}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          <td>
+	                          	<label for="userEmailcheck" >email수신동의</label>
+	                          </td>
+	                          <td>
+	                            <input type="text" id="userEmailcheck" name="userEmailcheck" th:value="*{userEmailcheck}">
+	                          </td>
+	                          </tr>
+	                          <tr>
+	                          	<td>
+	                          		<label for="staticCode" >회원 현재 상태</label>
+	                          	</td>
+	                            <td>
+		                           	<select id="staticCode" name="staticCode">
+											<option value="">====현재 상태====</option>
+											<th:block th:unless="${#lists.isEmpty(userStaticInfo)}"
+										  			  th:each="u : ${userStaticInfo}">
+											<option 
+													th:selected="${u.staticCode} == *{staticCode}"
+													th:value="${u.staticCode}"
+													th:text="|${u.staticCode} :::: ${u.staticCodeContent}|">
+													<!-- | : 자바스크립트의 백틱 역할 -->
+											</option>
+											<!-- db의 컬럼명을 화면에 노출시키지 않으려고 할 때 value를 변수로 사용한다. -->
+											<!-- 서버단에서 처리하기 위해서는 MemberService 클래스에서 searchKey를 m_id 등 컬럼명으로 바꿔주는 작업을 추가해야 한다. -->
+
+											</th:block>
+									</select>	
+	                             </td>
+	                          </tr>
+	                          <tr>
+								<td colspan="2">
+									<button type="submit" id="modifyUserInfoBtn" class="btn mb-2 btn-secondary">등록</button>
+									<button type="reset" id="resetBtn" class="btn mb-2 btn-secondary">입력취소</button>
+								</td>
+			                  </tr>
+                        </tbody>                     
+                      </table>
+                     </form>
+                    </div>
+                  </div>
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+           </div>
+          </div>
+	</th:block>
+</html>

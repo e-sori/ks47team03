@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import ks47team03.user.dto.Static;
 import ks47team03.user.dto.User;
 import ks47team03.admin.mapper.AdminCommonMapper;
 
@@ -27,8 +28,49 @@ public class AdminCommonService {
 		return adminIdList;
 	}
 	
+	
+	//체크된 회원 상태 삭제
+	public void removeUser(List<String> userIdArr) {
+		adminCommonMapper.removeUser(userIdArr);
+	}
+	//한명 회원 상태 상태 수정 
+	public void modifyUser(User user) {
+		adminCommonMapper.modifyUser(user);
+	}
+	//한명 회원 현재 상태 조회
+	public User getUserInfoByID(String userId) {
+		User userInfo= adminCommonMapper.getUserInfoByID(userId);
+		return userInfo;
+	}
+	//회원 상태 코드 리스트 조회
+	public List<Static> getUserStaticList(){
+		List<Static> userStaticList = adminCommonMapper.getUserStaticList();
+		return userStaticList;
+	};
 	//회원 목록 조회
-	public Map<String,Object> getUserList(int currentPage) {
+	public Map<String,Object> getUserList(int currentPage,String searchKey, String searchValue) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		if(searchValue != null) {
+			switch(searchKey) {
+				case "userId"->{
+					searchKey="u.user_id";
+				}
+				case "userName"->{
+					searchKey="u.user_name";				
+								}
+				case "userLevel"->{
+					searchKey="u.user_level";				
+								}
+				case "userJoindatetime"->{
+					searchKey="u.user_join_datetime";				
+								}				
+			}
+			
+			paramMap.put("searchKey", searchKey);
+			paramMap.put("searchValue", searchValue);
+		
+		}		
+		
 		//보여질 행의 갯수
 		int rowPerPage = 16;
 		
@@ -37,7 +79,7 @@ public class AdminCommonService {
 		
 		//마지막 페이지 계산 
 		//1. 보여질 테이블의 전체 행의 갯수
-		double rowsCount = adminCommonMapper.getUserListCount();
+		double rowsCount = adminCommonMapper.getUserListCount(paramMap);
 		//int보다 더 넓은 자료형을 담아 줄 수 있는게 double 타입 int넣으면 소숫점 절삭
 		// ex) 102/5 =20.4 int로 담을경우 소숫점 절삭되서 20으로 됨
 		//2. 마지막 페이지
@@ -49,17 +91,6 @@ public class AdminCommonService {
         // 마지막 번호
         int endPageNum = (lastPage < 10)? lastPage : 10;
 
-        /*
-         * if(currentPage >= 7 && lastPage > 10) {
-            if(currentPage < lastPage - 4) {
-                startPageNum = currentPage - 5;
-                endPageNum = currentPage + 4;
-            }else {
-                startPageNum = lastPage - 9;
-                endPageNum = lastPage;
-            }
-        }*/
-        
         if(currentPage >= 7 && lastPage > 10) {
         	startPageNum = currentPage - 5;
             endPageNum = currentPage + 4;
@@ -68,8 +99,6 @@ public class AdminCommonService {
             	endPageNum = lastPage;
             }
         }
-        
-		Map<String,Object> paramMap = new HashMap<String,Object>();
 		paramMap.put("startIndex", startIndex);
 		paramMap.put("rowPerPage", rowPerPage);
 		log.info("paramMap:{}",paramMap);
@@ -84,6 +113,7 @@ public class AdminCommonService {
 		paramMap.put("userList", userList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
+		paramMap.put("rowPerPage", rowPerPage);
 		
 		return paramMap;
 		

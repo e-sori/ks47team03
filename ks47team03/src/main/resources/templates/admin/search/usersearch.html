@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">  
+	<div th:fragment="userSearchFragment">
+		<form th:action="@{/admin/user/userAll}" method="get">
+           	<div class="col-md-auto ml-auto text-right">
+		                  <button type="button" class="btn" data-toggle="modal" data-target=".modal-slide"><span class="fe fe-search fe-16 text-muted"></span></button>
+		               </div>
+		              <!-- Slide Modal -->
+		              <div class="modal fade modal-slide" tabindex="-1" role="dialog">
+		                <div class="modal-dialog" role="document">
+		                  <div class="modal-content">
+		                    <div class="modal-header">
+		                      <h5 class="modal-title" id="defaultModalLabel">Search</h5>
+		                      <button type="button" class="close" data-dismiss="modal">
+		                        <i class="fe fe-x fe-12"></i>
+		                      </button>
+		                    </div>
+		                    <div class="modal-body">
+		                      <div class="p-2">
+		                        <div class="form-group my-4">
+		                          <p class="mb-2"><strong>Select</strong></p>
+		                          <select class="form-control select2"   name="searchKey">
+		                              <option class="option-user-search" value="userId">회원 아이디</option>
+		                              <option class="option-user-search" value="userName">회원 이름</option>
+		                              <option class="option-user-search" value="userLevel">회원 등급</option>
+		                              <option class="option-user-search" value="userJoindatetime">업데이트 날짜</option>
+		                          </select>
+		                        </div> <!-- form-group -->
+
+		                        <div class="form-group my-4">
+		                          <p class="mb-2">
+		                            <strong>Value</strong>
+		                          </p>
+		                          <div>
+		                            <input type="text" class="cupSearchValue" name="searchValue" placeholder="검색어를 입력해주세요." />
+		                          </div>
+		                        </div> <!-- form-group -->
+		                      </div>
+		                    </div>
+		                    <div class="modal-footer">
+		                      <button type="submit" class="btn mb-2 btn-primary btn-block">Search</button>
+		                      <button type="reset" class="btn mb-2 btn-secondary btn-block">Reset</button>
+		                    </div>
+		                  </div>
+		                </div>
+		              </div>
+		</form>
+	</div>
+</html>
