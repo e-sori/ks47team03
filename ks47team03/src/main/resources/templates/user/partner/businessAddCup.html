@@ -27,13 +27,15 @@
     <div class="container">
       <div class="order_details_table" style="height: 300px">
         <h2>99CUP Order </h2>
+        <p>추가로 필요한 99컵 수량과 배송희망 날짜를 입력해주세요</p>
+        <form id="addCupForm" method="post" th:action="@{/partner/applyAddCup}">
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">사업장 코드</th>
                 <th scope="col">무인기기 번호</th>
-                <th scope="col">추가 배송 수량</th>
-                <th scope="col">배송 희망 날짜</th>
+                <th scope="col"><label for="addCupAmount">추가 배송 수량</label></th>
+                <th scope="col"><label for="addCupDate">배송 희망 날짜</label></th>
               </tr>
             </thead>
            	<tbody class="tbody">
@@ -63,14 +65,14 @@
 			<tfoot>
 				<tr>
 					<td colspan="4" class="addCupTfoot">
-						<a>
-							<img alt="" src="/user/img/button/apply.png">
-						</a>
+						<button type="button" class="addCupBtn" id="addCupBtn">
+							<img class="applyImg" alt="신청" src="/user/img/button/apply.png">
+						</button>
 					</td>
 				</tr>
 			</tfoot>
           </table>
-         
+         </form>
         </div>
       </div>
   </section>
@@ -79,12 +81,25 @@
    <th:block layout:fragment="customJs">
 	<script type="text/javascript" th:inline="javascript">
 	
+	// 유효성검사 함수
+	const validCheck = element => {
+	    let data = $(element).val();
+	    let eleId = $(element).attr('id');
+	    if (typeof data == 'undefined' || data == null || data == '' ) {
+	        let cate = $(`label[for="${eleId}"]`).text();
+	        alert(`${cate} 필수 입력항목입니다.`);
+	        $(element).focus();
+	        return false;
+	    }
+	    return true;
+		}
+	
 	// 선택된 값으로 td 값 삽입 -->change
 	function loadKioskNum(){
 		let $selectedValue = $('.addCupselect option:selected').val();
 		console.log($selectedValue);
 		//생성된 td 제거
-		 $('.tbody tr .dynamic-td').remove();
+		 $('.kioskTd').empty();
 		
 		const request =$.ajax({
             url: '/partner/addCupKioskNum',
@@ -93,23 +108,20 @@
 		})	
 		  
 		request.done(function(response) {
-			 let td;
+			console.log(response);
 		    if (response.length > 1) {
-		        let $kioskNum = $('<select></select>').attr('size', '1').addClass('nice-select');
+		        let $kioskNum = $('<select></select>').attr('size', '1').attr('name', 'kioskSerialNum').addClass('nice-select');
 		        $.each(response, function(idx, item) {
 		            let kioskOption = $('<option></option>').val(item.kioskSerialNum).text(item.kioskSerialNum);
 		            $kioskNum.append(kioskOption);
+			        $('.kioskTd').append($kioskNum);
 		        });
 		        
-		        td = $('.kioskTd').addClass('dynamic-td').append($kioskNum);
 		       
 		    } else {
 		   		let $kioskNum = $('<input />',{ name:'kioskSerialNum', value:response[0].kioskSerialNum}).prop('readonly',true)
-		       td = $('.kioskTd').addClass('dynamic-td');
-		        $(td).append($kioskNum);
+		        $('.kioskTd').append($kioskNum);
 		    }
-		    
-	        $('.kioskTd').append(td);
 		
 		});
 	}
@@ -119,6 +131,19 @@
 	    // select 값 변경 시 호출
 	    $('.addCupselect').change(loadKioskNum);
 	});
+	//버튼 클릭 이벤트
+	$('#addCupBtn').click(function(){
+		const validateEle = $('#addCupForm select,input');   			
+		let isSubmit = false;
+		validateEle.each((idx, item) => {    				
+			isSubmit = validCheck(item);
+			return isSubmit;
+		})
+		if(isSubmit) {
+			alert("신청완료")
+			$('#addCupForm').submit();
+		}
+	})
 	//데이트 피커
 	$('.drgpicker').daterangepicker(
 		      {
@@ -127,7 +152,7 @@
 		        showDropdowns: true,
 		        locale:
 		        {
-		          format: 'MM/DD/YYYY'
+		          format: 'YYYY-MM-DD'
 		        }
 	});			
 				

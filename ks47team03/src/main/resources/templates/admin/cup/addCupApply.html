@@ -10,8 +10,7 @@
      <div class="container-fluid">
        <div class="row justify-content-center">
           <div class="col-12">
-            <a class="return-tag" href="/admin/cup/cupStateManage">구구컵 상태 관리</a>
-             <p class="card-text"> 현재 보유한 구구컵:<mark>[[${cupStateListCount}]]</mark>개</p>
+            <a class="return-tag" href="/admin/cup/addCupApply">구구컵 추가 배송 관리</a>
               <div class="row my-4">
                 <!-- Small table -->
                 <div class="col-md-12">
@@ -22,51 +21,34 @@
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
                           <tr>
-                           <th>
-	                           <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
-                            </th>
                             <th>NO.</th>
-                           	<th>컵 QR 코드</th>
-                            <th>컵 현재 상태</th>
-                            <th>컵 등록 날짜</th>
-                            <th>관리자 ID</th>
+                           	<th>사업장 코드</th>
+                            <th>무인기기 번호</th>
+                            <th>신청 수량</th>
                             <th>업데이트 날짜</th>
-                            <th>Action</th>
+                            <th>배송희망 날짜</th>
+                            <th>승인 상태</th>
+                            <th>관리자 아이디</th>
                           </tr>
                         </thead>
-                        <tbody>
-                        	<th:block th:unless="${#lists.isEmpty(cupStateList)}"  th:each="c,state : ${cupStateList}">
+                       <tbody>
+                        	<th:block th:unless="${#lists.isEmpty(addCupApplyList)}"  th:each="a,state : ${addCupApplyList}">
 		                          <tr>
-		                            <td>
-		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks" th:data-cup-qr="${c.cupQR}">
-		                            </td>
-		                            <td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
-		                            <td th:text="${c.cupQR}"></td>
-		                            <td th:text="${c.staticCode}"></td>
-		                            <td th:text="${c.setDate}"></td>
-		                            <td th:text="${c.adminId}"></td>
-		                            <td th:text="${c.upDateTime}"></td>
-		                            <td>
-		                                <a class="dropdown-item" th:href="@{/admin/cup/cupStateModify(cupQR=${c.cupQR})}">Edit</a>
-		                            </td>
+		                            <td th:text="${state.count}"></td>
+		                            <td th:text="${a.partnerCode}"></td>
+		                            <td th:text="${a.KioskSerialNum}"></td>
+		                            <td th:text="${a.outAmount}"></td>
+		                            <td th:text="${a.upDateTime}"></td>
+		                            <td th:text="${a.deliveryDesiredDate}"></td>
+		                            <td th:text="${a.staticCode}"></td>
+		                            <td th:text="${a.userId}"></td>
 		                          </tr>
                           	</th:block>
-
-                          	<tr th:if="${#lists.isEmpty(cupStateList)}">
-								<td colspan="8">보유한 컵이 없습니다.</td>
-	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	                                <span class="text-muted sr-only">Action</span>
-	                              </button>
-	                              <div class="dropdown-menu dropdown-menu-right">
-	                                <a class="dropdown-item" href="#">Edit</a>
-	                                <a class="dropdown-item" href="#">Remove</a>
-	                                <a class="dropdown-item" href="#">Assign</a>
-	                              </div>
-	                            </td>
-							</tr>
+                          	<tr th:if="${#lists.isEmpty(addCupApplyList)}">
+								<td colspan="8">폐기컵이 없습니다.</td>
+	              			</tr>
                         </tbody>
-                     
-                        <tfoot>
+                        <!-- <tfoot>
                         
 							<tr>
 								<td colspan="7">
@@ -87,7 +69,7 @@
 									<button type="button" class="btn mb-2 btn-secondary" id="delCheckBtn" >삭제</button>
 								</td>
 							</tr>
-						</tfoot>
+						</tfoot> -->
                       </table>
                     </div>
                   </div>

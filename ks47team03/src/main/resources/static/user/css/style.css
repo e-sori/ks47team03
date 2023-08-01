@@ -23,8 +23,17 @@
     font-weight: normal;
     font-style: normal;
 }
-.zoo123{
-	padding: 200px;
+
+.addCupTfoot{
+	text-align: right;
+}
+.applyImg{
+	height: 36px;
+	
+}
+.addCupBtn{
+	border: none;
+	background: border-box;
 }
 
 body {

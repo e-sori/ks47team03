@@ -9,8 +9,9 @@ public class Partner {
 	private String partnerCode;
 	private String partnerNumber;
 	private String partnerType;
-	private String static_code;
+	private String staticCode;
 	private String partnerAddr;
+	private String upDateTime;
 	private double locationLatitude;
 	private double locationLongitude;
 	public String getUserId() {
@@ -61,17 +62,23 @@ public class Partner {
 	public void setPartnerType(String partnerType) {
 		this.partnerType = partnerType;
 	}
-	public String getStatic_code() {
-		return static_code;
+	public String getStaticCode() {
+		return staticCode;
 	}
-	public void setStatic_code(String static_code) {
-		this.static_code = static_code;
+	public void setStaticCode(String staticCode) {
+		this.staticCode = staticCode;
 	}
 	public String getPartnerAddr() {
 		return partnerAddr;
 	}
 	public void setPartnerAddr(String partnerAddr) {
 		this.partnerAddr = partnerAddr;
+	}
+	public String getUpDateTime() {
+		return upDateTime;
+	}
+	public void setUpDateTime(String upDateTime) {
+		this.upDateTime = upDateTime;
 	}
 	public double getLocationLatitude() {
 		return locationLatitude;
@@ -104,10 +111,12 @@ public class Partner {
 		builder.append(partnerNumber);
 		builder.append(", partnerType=");
 		builder.append(partnerType);
-		builder.append(", static_code=");
-		builder.append(static_code);
+		builder.append(", staticCode=");
+		builder.append(staticCode);
 		builder.append(", partnerAddr=");
 		builder.append(partnerAddr);
+		builder.append(", upDateTime=");
+		builder.append(upDateTime);
 		builder.append(", locationLatitude=");
 		builder.append(locationLatitude);
 		builder.append(", locationLongitude=");
@@ -115,5 +124,7 @@ public class Partner {
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
 
 }

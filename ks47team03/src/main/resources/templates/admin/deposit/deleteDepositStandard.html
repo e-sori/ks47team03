@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{admin/layout/default}">
+	  
+    
+    <th:block layout:fragment="customJs">
+    	<script th:src="@{/js/jquery-3.7.0.js}"></script>
+    	<script type="text/javascript" th:inline="javascript">
+    		let msg = '[[${msg}]]';
+    		if (msg != 'null') {
+    			alert(msg);
+    		}
+    		
+    		// Ajax 요청 보내는 함수
+    		function sendAjaxRequest() {
+    			let formData = {
+    				'waitingDepositStandardCode': $('#waitingDepositStandardCode').val(),
+    				'adminId': $('#adminId').val()
+    			};
+    			
+    			$.ajax({
+    				url: '/admin/deposit/deleteDepositStandard',
+    				type: 'POST',
+    				data: formData,
+    				dataType: 'json',
+    				success: function(response) {
+    					alert('성공적으로 삭제되었습니다.');
+    					// 여기에서 추가적인 처리를 할 수 있습니다.
+    				},
+    				error: function() {
+    					alert('삭제에 실패했습니다. 기준은 삭제할 수 없습니다');
+    					// 여기에서 에러 처리를 할 수 있습니다.
+    				}
+    			});
+    		}
+    		
+    		$(document).ready(function() {
+    			// 버튼 클릭 이벤트 핸들러 등록
+    			$('#deleteDepositStandardBtn').click(function() {
+    				sendAjaxRequest();
+    			});
+    		});
+    	</script>
+    </th:block>
+	<th:block layout:fragment="customContents">
+	  <div class="row justify-content-center">
+          <div class="col-12">
+            <h2 class="mb-2 page-title">보증금 관련 기준 삭제</h2>
+             <p class="card-text">기준 삭제</p>
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
+                  <div class="card shadow">
+                    <div class="card-body">
+                      <div class="form-wrapper">
+                      <!-- table -->
+						<form id="deleteDepositStandardForm" th:action="@{/admin/deposit/deleteDepositStandard}" method="post">
+							<table class="table datables table-hover">
+							<thead>
+							<tr>
+							<th colspan="5">삭제</th>
+							</tr>
+							</thead>
+							 <tbody th:object="${depositStandardInfo}">										
+							<tr>
+							<td>
+								<label for="waitingDepositStandardCode"></label>
+							</td>
+							<td>
+								<input type="text" id="waitingDepositStandardCode" name="waitingDepositStandardCode" th:value="${waitingDepositStandardCode}" placeholder="코드" readonly="readonly"/>
+							</td>
+							<td>
+								<input type="text" id="adminId" name="adminId" placeholder="adminid1"/>
+							</td>
+						</tr>
+					<tr>
+						<td colspan="10">
+							<button type="reset"id="deleteDepositStandardBtn">삭제</button>
+							<button type="reset" id="resetBtn">입력취소</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</th:block>
+	
+	
+</html>

@@ -7,92 +7,6 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
 	
-	<select id="getPointRefundStandard" resultType="java.util.LinkedHashMap">
-		/* 5-2 포인트 환급 기준 조회 */
-		SELECT
-			CAST(SUBSTRING_INDEX(RS.point_refund_standard_code,'code',-1) AS UNSIGNED) AS 'No',
-			RS.point_refund_standard_code AS '환급 기준 코드',
-			SUT.point_save_use_type AS '포인트 타입',
-			RS.minimum_refund_standard AS '최소 환급 포인트',
-			RS.refund_unit AS '환급 단위',
-			RS.refund_fee_rate AS '환급 수수료',
-			CASE 
-			   WHEN RS.code_use = 'Y' THEN '사용가능'
-			   WHEN RS.code_use = 'N' THEN '사용불가능'
-			END AS '코드 사용 유무',	
-			RS.set_datetime AS '최초 등록일',
-			RS.admin_id AS '관리자 ID',
-			RS.up_datetime AS '최종 수정일'	
-		FROM 
-			point_refund_standard AS RS
-			INNER JOIN
-			point_save_use_type AS SUT
-			ON
-			RS.point_save_use_type_code = SUT.point_save_use_type_code
-		ORDER BY No
-	</select>
-
-	<select id="getPointSaveStandard" resultType="java.util.LinkedHashMap">
-		/* 4-2 포인트 적립 기준 조회 */
-		SELECT
-			CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)	AS 'No',
-			PSS.point_save_standard_code AS '적립 기준 코드',
-			GS.grade_name AS '등급',
-			PSS.grade_attain_point AS '등급 달성 포인트',
-			PSS.use_save_point AS '이용 포인트',
-			CASE 
-			   WHEN PSS.code_use = 'Y' THEN '사용가능'
-			   WHEN PSS.code_use = 'N' THEN '사용불가능'
-			END AS '코드 사용 유무',		
-			PSS.set_datetime AS '최초 등록일',
-			PSS.admin_id AS '관리자 ID',
-			PSS.up_datetime AS '최종 수정일'	
-		FROM
-			point_save_standard AS PSS
-			INNER JOIN
-			grade_standard AS GS
-			ON
-			PSS.grade_standard_code = GS.grade_standard_code
-		ORDER BY No
-	</select>
-	
-	<select id="getPointTypeStandard" resultType="java.util.LinkedHashMap">
-		/* 3-2 포인트 타입 기준 조회 */
-		SELECT
-			CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED) AS 'No',
-			point_save_use_type_code AS '포인트 타입 코드',
-			point_save_use_type AS '포인트 타입',
-			CASE 
-			   WHEN code_use = 'Y' THEN '사용가능'
-			   WHEN code_use = 'N' THEN '사용불가능'
-			END AS '코드 사용 유무',		
-			set_datetime AS '최초 등록일',
-			admin_id AS '관리자 ID',
-			up_datetime AS '최종 수정일'	
-		FROM
-			point_save_use_type
-		ORDER BY No
-	</select>
-	
-	<select id="getPointExpireStandard" resultType="java.util.LinkedHashMap">
-		/* 2-2 포인트 만료 기간 기준 조회 */
-		SELECT
-			CAST(SUBSTRING_INDEX(point_expire_standard_code,'code',-1) AS UNSIGNED) AS 'No',
-			point_expire_standard_code AS '유효 기간 코드',		
-			point_expire AS '유효 기간',
-			CASE 
-			   WHEN code_use = 'Y' THEN '사용가능'
-			   WHEN code_use = 'N' THEN '사용불가능'
-			END AS '코드 사용 유무',	
-			set_datetime AS '최초 등록일',
-			admin_id AS '관리자 ID',
-			up_datetime AS '최종 수정일'						
-		FROM
-			point_expire_standard
-		ORDER BY No
-	</select>
-	
-
 	<delete id="delPointMaxCountStandard" parameterType="String">
 		/* 1-5 하루 최대 적립 포인트 횟수 기준 삭제 */
 	</delete>
@@ -115,39 +29,166 @@
 			g_code = #{goodsCode}
 	</update>
 	
-	<insert id="addPointMaxCountStandard" parameterType="map">
-		<!-- order ="BEFORE" - insert 태그 내에 같이 묶여있는 쿼리를 실행하기 전에 실행해라 -->
-		<selectKey resultType="String" keyColumn="newPointMaxCode" keyProperty="PointMaxCode" order="BEFORE">
-			/* 자동 숫자 증가 코드 가져오기 */
+	<insert id="addPointRefundStandard" parameterType="AdminPoint">
+		<selectKey resultType="String" keyColumn="pointSaveUseTypeCode" keyProperty="pointSaveUseTypeCode" order="BEFORE">
+			<!-- CDATA <를 쿼리문에서 문자열로 인식시켜주기 위해서 사용 -->
+			/* 등급명과 일치하는 등급 코드 조회 */
 			<![CDATA[
 			SELECT
-				CASE
-					WHEN COUNT(*) = 0
-					THEN 'day_maximum_count_code1'
-				ELSE	
-					CONCAT('day_maximum_count_code',
-					MAX(CAST(SUBSTRING_INDEX(day_maximum_count_code,'code',-1) AS UNSIGNED))+1)
-				END AS increaseCode
+				point_save_use_type_code AS pointSaveUseTypeCode
 			FROM
-				day_maximum_count
-			]]>
+				point_save_use_type
+			WHERE
+				point_save_use_type =  #{pointType};
+			]]>			
 		</selectKey>
-		/* 1-3 하루 최대 적립 포인트 횟수 기준 등록 */
+		/* 5-2 포인트 환급 기준 등록 */
+		INSERT INTO point_refund_standard
+			(point_refund_standard_code, point_save_use_type_code, minimum_refund_standard, refund_unit, refund_fee_rate, code_use, set_datetime, admin_id, up_datetime)
+		VALUES
+			(#{newCode}, #{pointSaveUseTypeCode}, #{minRefundPoint}, #{refundUnit}, #{refundFeeRate}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+	</insert>
+	
+	<insert id="addPointSaveStandard" parameterType="AdminPoint">
+		<!-- order ="BEFORE" - insert 태그 내에 같이 묶여있는 쿼리를 실행하기 전에 실행해라 -->
+		<selectKey resultType="String" keyColumn="gradeStandardCode" keyProperty="gradeStandardCode" order="BEFORE">
+			<!-- CDATA <를 쿼리문에서 문자열로 인식시켜주기 위해서 사용 -->
+			/* 등급명과 일치하는 등급 코드 조회 */
+			<![CDATA[
+			SELECT
+				grade_standard_code AS gradeStandardCode
+			FROM
+				grade_standard
+			WHERE
+				grade_name = #{gradeName};
+			]]>			
+		</selectKey>
+		/* 4-2 포인트 적립 기준 등록 */
+		INSERT INTO point_save_standard
+			(point_save_standard_code, grade_standard_code, grade_attain_point, use_save_point, code_use, set_datetime, admin_id, up_datetime)
+		VALUES
+			(#{newCode}, #{gradeStandardCode}, #{gradePoint}, #{usePoint}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+	</insert>
+	
+	<insert id="addPointTypeStandard" parameterType="AdminPoint">
+		/* 3-2 포인트 타입 기준 등록 */
+		INSERT INTO point_save_use_type
+			(point_save_use_type_code, point_save_use_type, code_use, set_datetime, admin_id, up_datetime)
+		VALUES
+			(#{newCode}, #{pointType}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+	</insert>
+	
+	<insert id="addPointExpireStandard" parameterType="AdminPoint">
+		/* 2-2 포인트 만료 기간 기준 등록 */
+		INSERT INTO point_expire_standard
+			(point_expire_standard_code, point_expire, code_use, set_datetime, admin_id, up_datetime)
+		VALUES
+			(#{newCode}, #{expirePeriod}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+	</insert>
+	
+	<insert id="addPointMaxCountStandard" parameterType="AdminPoint">
+		/* 1-2 하루 최대 적립 포인트 횟수 기준 등록 */
 		INSERT INTO day_maximum_count
 			(day_maximum_count_code, count_benefit_type, use_maximum_count, code_use, set_datetime, admin_id, up_datetime)
 		VALUES
-			(#{goodsCode}, #{goodsName}, #{goodsPrice}, #{goodsSellerId}, CURDATE())		
+			(#{newCode}, "포인트", #{useMaxCount}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
 	</insert>
+		
+	<select id="getPointRefundStandard" resultType="java.util.LinkedHashMap">
+		/* 5-1 포인트 환급 기준 조회 */
+		SELECT
+			CAST(SUBSTRING_INDEX(RS.point_refund_standard_code,'code',-1) AS UNSIGNED) AS No,
+			RS.point_refund_standard_code AS '환급 기준 코드',
+			SUT.point_save_use_type AS '포인트 타입',
+			RS.minimum_refund_standard AS '최소 환급 포인트',
+			RS.refund_unit AS '환급 단위',
+			RS.refund_fee_rate AS '환급 수수료',
+			CASE 
+			   WHEN RS.code_use = 'Y' THEN '사용중'
+			   WHEN RS.code_use = 'N' THEN '사용중지'
+			END AS '코드 사용 유무',	
+			RS.set_datetime AS '최초 등록일',
+			RS.admin_id AS '관리자 ID',
+			RS.up_datetime AS '최종 수정일'	
+		FROM 
+			point_refund_standard AS RS
+			INNER JOIN
+			point_save_use_type AS SUT
+			ON
+			RS.point_save_use_type_code = SUT.point_save_use_type_code
+		ORDER BY No
+	</select>
+
+	<select id="getPointSaveStandard" resultType="java.util.LinkedHashMap">
+		/* 4-1 포인트 적립 기준 조회 */
+		SELECT
+			CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)	AS No,
+			PSS.point_save_standard_code AS '적립 기준 코드',
+			GS.grade_name AS '등급',
+			GS.grade_name AS '등급',
+			PSS.grade_attain_point AS '등급 달성 포인트',
+			PSS.use_save_point AS '이용 포인트',
+			CASE 
+			   WHEN PSS.code_use = 'Y' THEN '사용중'
+			   WHEN PSS.code_use = 'N' THEN '사용중지'
+			END AS '코드 사용 유무',		
+			PSS.set_datetime AS '최초 등록일',
+			PSS.admin_id AS '관리자 ID',
+			PSS.up_datetime AS '최종 수정일'	
+		FROM
+			point_save_standard AS PSS
+			INNER JOIN
+			grade_standard AS GS
+			ON
+			PSS.grade_standard_code = GS.grade_standard_code
+		ORDER BY No
+	</select>
+	
+	<select id="getPointTypeStandard" resultType="java.util.LinkedHashMap">
+		/* 3-1 포인트 타입 기준 조회 */
+		SELECT
+			CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED) AS No,
+			point_save_use_type_code AS '포인트 타입 코드',
+			point_save_use_type AS '포인트 타입',
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용중'
+			   WHEN code_use = 'N' THEN '사용중지'
+			END AS '코드 사용 유무',		
+			set_datetime AS '최초 등록일',
+			admin_id AS '관리자 ID',
+			up_datetime AS '최종 수정일'	
+		FROM
+			point_save_use_type
+		ORDER BY No
+	</select>
+	
+	<select id="getPointExpireStandard" resultType="java.util.LinkedHashMap">
+		/* 2-1 포인트 만료 기간 기준 조회 */
+		SELECT
+			CAST(SUBSTRING_INDEX(point_expire_standard_code,'code',-1) AS UNSIGNED) AS No,
+			point_expire_standard_code AS '유효 기간 코드',		
+			point_expire AS '유효 기간',
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용중'
+			   WHEN code_use = 'N' THEN '사용중지'
+			END AS '코드 사용 유무',	
+			set_datetime AS '최초 등록일',
+			admin_id AS '관리자 ID',
+			up_datetime AS '최종 수정일'						
+		FROM
+			point_expire_standard
+		ORDER BY No
+	</select>
 	
 	<select id="getPointMaxCountStandard" parameterType="String" resultType="java.util.LinkedHashMap">
-		/* 1-2 하루 최대 적립 포인트 횟수 기준 조회 */
+		/* 1-1 하루 최대 적립 포인트 횟수 기준 조회 */
 		SELECT
-			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS dayNum,
+			ROW_NUMBER() OVER (ORDER BY CAST(SUBSTRING_INDEX(day_maximum_count_code, 'code', -1) AS UNSIGNED)) AS No,
 			day_maximum_count_code AS dayMaximumCountCode,
 			use_maximum_count AS useMaximumCount,
 			CASE 
-			   WHEN code_use = 'Y' THEN '사용가능'
-			   WHEN code_use = 'N' THEN '사용불가능'		
+			   WHEN code_use = 'Y' THEN '사용중'
+			   WHEN code_use = 'N' THEN '사용중지'		
 			END AS codeUse,	
 			set_datetime AS setDatetime,
 			admin_id AS adminId,
@@ -156,7 +197,23 @@
 			day_maximum_count
 		WHERE
 			day_maximum_count_code LIKE CONCAT('%', #{type}, '%')
-		ORDER BY dayNum
+		ORDER BY No
+	</select>
+	
+	<select id="getPointMaxIncreaseCode" resultType="String">
+		/* 하루 최대 적립 포인트 횟수 숫자 증가 코드 가져오기 */
+		<![CDATA[
+		SELECT
+			CASE
+				WHEN COUNT(*) = 0
+				THEN 'day_maximum_count_point_code1'
+			ELSE	
+				CONCAT('day_maximum_count_point_code',
+				MAX(CAST(SUBSTRING_INDEX(day_maximum_count_code,'code',-1) AS UNSIGNED))+1)
+			END AS increaseCode
+		FROM
+			day_maximum_count
+		]]>
 	</select>
 	
 	<select id="getDistinctData" parameterType="String" resultType="String">
@@ -168,8 +225,8 @@
 			
 			<if test="columnName == 'code_use'">
 				DISTINCT CASE 
-				   WHEN code_use = 'Y' THEN '사용가능'
-				   WHEN code_use = 'N' THEN '사용불가능'
+				   WHEN code_use = 'Y' THEN '사용중'
+				   WHEN code_use = 'N' THEN '사용중지'
 				END  AS distinctData
 			</if>
 		FROM

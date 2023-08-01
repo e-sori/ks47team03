@@ -92,8 +92,7 @@
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/deposit/depositRefundManage(currentPage=${lastPage})}>마지막으로</a>
 								</td>
-							</tr> 
-							
+							</tr> 							
 						</tfoot>
                       </table>
                     </div>
@@ -108,11 +107,12 @@
 		<script>		
 			$(function(){
 		      $('#dataTable-1').DataTable({
-			        autoWidth: true,
-			        "lengthMenu": [
-			          [16, 32, 64, -1],
-			          [16, 32, 64, "All"]
-			        ],
+			          autoWidth: true,			      
+			         "lengthChange": false, 
+                  "pageLength" : 10,
+                  "searching" : false,
+                  "info": false,
+                  "paging" :false, 
 			        columnDefs: [{
 			            targets: 0,
 			            searchable: false,
