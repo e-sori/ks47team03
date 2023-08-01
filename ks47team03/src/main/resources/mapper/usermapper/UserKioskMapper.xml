@@ -6,16 +6,24 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserKioskMapper">
-
+	<select id="getinstalledKioskListByCode" parameterType="String" resultType="Kiosk">
+	/*사업장 코드로 설치된 키오스크 조회*/
+	SELECT
+		ikl.kiosk_serial_num AS kioskSerialNum
+	FROM
+		installed_kiosk_list AS ikl
+	WHERE
+		ikl.approval_partner_plus_info_code = #{partnerCode};
+	</select>
 	<select id="getKioskLocationList" resultType="Partner">
 	/*지도에 뿌려질 위도와 경도 가져오기*/
-		SELECT
-			appi.latitude AS locationLatitude,
-			appi.longitude AS locationLongitude
-		FROM
-			approval_partner_plus_info AS appi
-		WHERE
-		 	appi.partner_type='설치 사업장';
+	SELECT
+		um.latitude AS locationLatitude,
+		um.longitude AS locationLongitude
+	FROM
+			user_manage AS um
+	WHERE	
+			um.user_level='설치사업장';
 	</select>
 	
 	<select id="getinstalledKioskList" resultType="Kiosk">

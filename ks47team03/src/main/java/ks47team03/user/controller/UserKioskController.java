@@ -34,7 +34,7 @@ public class UserKioskController {
 	@ResponseBody
 	public List<Partner> installedLocation() {
 		
-		List<Partner> kioskLocation = kioskService.getKioskLocationList();;
+		List<Partner> kioskLocation = kioskService.getKioskLocationList();
 		
 		return kioskLocation;
 	}

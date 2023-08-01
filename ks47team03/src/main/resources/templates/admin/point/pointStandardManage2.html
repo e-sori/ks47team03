@@ -58,13 +58,13 @@
 															<td>
 																<input type="checkbox" class="custom-control custom-checkbox checkbox checks">
 															</td>
-															<td th:text="${p.dayNum}"></td>
-															<td th:text="${p.dayMaximumCountCode}"></td>
-															<td th:text="${p.useMaximumCount}"></td>
-															<td th:text="${p.codeUse}"></td>
-															<td th:text="${p.setDatetime}"></td>
-															<td th:text="${p.adminId}"></td>
-															<td th:text="${p.upDatetime}"></td>
+															<td th:text="${p['No']}"></td>
+															<td th:text="${p['횟수 기준 코드']}"></td>
+															<td th:text="${p['적립 가능 횟수']}"></td>
+															<td th:text="${p['코드 사용 유무']}"></td>
+															<td th:text="${p['최초 등록일']}"></td>
+															<td th:text="${p['관리자 ID']}"></td>
+															<td th:text="${p['최종 수정일']}"></td>
 														</tr>  
 													</th:block>                
 												</tbody> 
@@ -72,7 +72,7 @@
 											<!-- 포인트 기준 테이블 끝 -->  
 											<!-- 등록버튼 -->
 											<div class="colSpan-left">
-												<button type="button" class="btn mb-2 btn-secondary modalInsert" data-toggle="modal" data-target="#modalInsert">등록</button>
+												<button type="button" class="btn mb-2 btn-secondary" data-toggle="modal" data-target="#modalInsert">등록</button>
 												<div class="modal fade" id="modalInsert" tabindex="-1" role="dialog" aria-labelledby="modalInsertLabel" aria-hidden="true">
 													<div class="modal-dialog" role="document">
 														<div class="modal-content">
@@ -83,21 +83,10 @@
 																</button>
 															</div>
 															<div class="modal-body">
-																<form action="" method="Post" th:object="${pointStandardList}">
-																	<div class="form-group">
-																		<label for="message-text" class="col-form-label">횟수 기준 코드:</label>
-																		<input type="text" class="form-control" readonly="readonly">
-																	</div>
+																<form>
 																	<div class="form-group">
 																		<label for="message-text" class="col-form-label">적립 가능 횟수:</label>
-																		<input type="text" class="form-control">
-																	</div>
-																	<div class="form-group">
-																		<label for="message-text" class="col-form-label">코드 사용 유무:</label>
-																			<select class="form-control">
-																				  	<option value="Y">사용 가능</option>
-																				  	<option value="N">사용 불가능</option>
-																			</select>
+																		<input type="text" class="form-control" value="횟수">
 																	</div>
 																	<div class="form-group">
 																		<label for="message-text" class="col-form-label">관리자 ID:</label>
@@ -129,10 +118,10 @@
 															  	</button>
 					                 						</div>
 					                 						<div class="modal-body">
-																<form action="" method="Post" th:object="${pointStandardList}">
+																<form action="" method="Post">
 																	<div class="form-group">
-																		<label th:for="modifyCode" class="col-form-label">횟수 기준 코드</label>
-																		<input type="text" class="form-control" readonly="readonly">
+																		<label th:for="modifyCode" class="col-form-label">코드</label>
+																		<input type="text" class="form-control" readonly="readonly" th:value="ㅇㅇ">
 																	</div>
 																	<div class="form-group">
 																		<label th:for="modifyCount" class="col-form-label">적립 가능 횟수</label>
@@ -238,6 +227,10 @@
 					});
 				});
 				$('#pointStandardManage').find('.sorting_asc').toggleClass('sorting_asc');
+				
+				const $buttons = $('.colSpan-left').clone(true);
+				$('.colSpan-left').remove();
+				$('#pointStandardManage_wrapper').append($buttons);
 			});		
 		
 			// ajax와 제이쿼리로 데이터테이블 동적으로 수정
@@ -246,6 +239,7 @@
 				 $('.checkbox').prop('checked', false);       
 				
 				let tableId = $(e.target).attr('aria-controls');  
+				console.log(tableId);
 				
 				// 클릭한 탭으로 속성 변경
 		        $('.tab-pane').attr('id', tableId).attr('aria-labelledby', `${tableId}-tab`);
@@ -260,7 +254,10 @@
 		 		});
 				requestData.done(function( response ) {
 					if(response){
-						let pointStandardList = response.pointStandardList;						
+						console.log(response);
+						
+						const $check = $('.checks').first().clone(true);
+						const $allCheck = $('.allCheck').clone(true);
 						
 				        // key(title) : <th> , value(data) : <td>에 담아주기 위해 배열 선언 
 				        const newData = [
@@ -271,38 +268,22 @@
 				        	        searchable: false,
 				        	        targets: 0 
 				        	    }
-				        ];				        
-				        
-				        const labels = {
-				        	    dayNum : "No",
-				        	    dayMaximumCountCode : "횟수 기준 코드",
-				        	    useMaximumCount : "적립 가능 횟수",
-				        	    codeUse : "코드 사용 유무",
-				        	    setDateTime : "최초 등록일",
-				        	    adminId : "관리자 ID",
-				        	    upDatetime : "최종 수정일",				      	    
-				        };        
+				        ];
 
 				        // response : 배열 , list : 객체 (배열 안에 객체 여러 개가 존재하는 형태)
-				        for (let obj of pointStandardList){
+				        for (let obj of response){
 				        	for(let key in obj){
-				        		if(tableId == 'pills-max'){
-				        			newData.push({
-				        				title: labels[key] || key, 
-					                    data: key
-						            });				        			
-				        		}else{
-				        			newData.push({
-						                title: key,  // key 자체를 문자열로 컬럼에 넣어줄 예정
-						                data: key  // key와 일치하는 value를 행으로 넣어줄 예정 (data의 키)
-						            });				        			
-				        		}				        		
+				        		newData.push({
+					                title: key,  // key 자체를 문자열로 컬럼에 넣어줄 예정
+					                data: key  // key와 일치하는 value를 행으로 넣어줄 예정 (data의 키)
+					            });
 				        	}
 				        	break; // 어차피 컬럼은 객체 하나만 돌아도 되기 때문에 한 번만 돌고 반복문을 끝내준다.
 				        }
-				        
-				        console.log(newData);
-				       
+
+				        const $buttons = $('.colSpan-left').clone(true);
+						$('.colSpan-left').remove();
+
 						// 데이터 테이블 파괴
 						$('#pointStandardManage').DataTable().destroy();
 						
@@ -331,17 +312,19 @@
 									orderable: false,
 									className: 'sorting_disabled'
 							    }],
-							    data: pointStandardList,
+							    data: response,
 					            columns: newData
 							});
 						});
 						$('#pointStandardManage').find('.sorting_asc').toggleClass('sorting_asc');
 						
+						$('#pointStandardManage_wrapper').append($buttons);
+						
 						// 테이블 헤더 변경
 						switch(tableId){
 						case 'pills-expire':
 							let pointExpire;
-							for(let list of pointStandardList){
+							for(let list of response){
 								if(list['코드 사용 유무'] == '사용가능') {
 									pointExpire = list['유효 기간'];
 								}
@@ -363,15 +346,21 @@
 							break;
 						case 'pills-max':
 							let useMaxCount;
-							for(let list of pointStandardList){
-								if(list['codeUse'] == '사용가능') {
-									useMaxCount = list['useMaximumCount'];
+							for(let list of response){
+								if(list['코드 사용 유무'] == '사용가능') {
+									useMaxCount = list['적립 가능 횟수'];
 								}
 							}
 							$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');
 							$('.card-small-text').text(`하루에 적립 가능한 포인트 횟수는 최대 ${useMaxCount}번입니다.`);								
 							break;
 						}
+						$('#modalInsert').attr('id',"modalInsertA");
+						$('button[data-target="#modalInsert"]').attr('data-target',"#modalInsertA");
+						
+						$('.modal-title[id="modalInsertLabel"]').attr('id',"modalInsertLabelA");
+						$('#modalInsertA').attr('aria-labelledby',"modalInsertLabelA");
+
 					}
 					requestData.fail(function( jqXHR, textStatus ) {
 						alert( "Request failed: " + textStatus );
@@ -394,9 +383,11 @@
 			});		
 			
 			
-		
 			
-		
+			
+			$('#modalInsert').click(e => {
+				$('#modalInsert').modal(show);
+			})	
 				
 			
 			</script>

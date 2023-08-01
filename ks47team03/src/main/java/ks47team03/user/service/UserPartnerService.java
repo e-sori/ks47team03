@@ -37,6 +37,12 @@ public class UserPartnerService {
 			List<Kiosk> installedKiost = partnerMapper.getInstalledKioskById(loginId);
 			return installedKiost;
 		}
+		//아이디로 파트너 코드 조회
+		public List<Partner> getPartnerCodeById(String loginId, String userLevel){
+			List<Partner> partnerCodeById =partnerMapper.getPartnerCodeById(loginId,userLevel);
+			return partnerCodeById;
+		}
+		
 		//레벨과 아이디 이용해 업체정보 조회
 		public List<Kiosk> getPartnerInfoByLevel(String loginId){
 			Map<String,Object> paramMap = new HashMap<String,Object>(); 
