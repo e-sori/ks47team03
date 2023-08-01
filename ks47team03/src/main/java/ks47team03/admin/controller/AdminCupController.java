@@ -88,7 +88,7 @@ public class AdminCupController {
 		 * log.info("cupQR:{}",cupQR); }
 		 */
 		
-		return "redirect:/admin/cup/discardCupManage";
+		return "redirect:admin/cup/discardCupManage";
 	}
 	//폐기컵 관리 화면
 	@GetMapping("/discardCupManage")
@@ -156,6 +156,7 @@ public class AdminCupController {
 		
         return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 	}
+	
 	//다운로드 파일 삭제
 	@GetMapping("/file/deleteFile")
 	public String fileDelete(@RequestParam(value="fileIdx") String fileIdx) {
@@ -174,7 +175,7 @@ public class AdminCupController {
 		log.info("cupStateModify cup:{}", cup);
 		cupService.modifyCupState(cup);
 		
-		return "redirect:/admin/cup/cupStateManage";
+		return "redirect:admin/cup/cupStateManage";
 	}
 	//컵 상태 삭제
 	@PostMapping("/cupStateRemove")
