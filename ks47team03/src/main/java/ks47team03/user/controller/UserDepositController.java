@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import ks47team03.user.service.UserDepositService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +24,19 @@ public class UserDepositController {
 	
 	public UserDepositController(UserDepositService userDepositService) {
 		this.userDepositService = userDepositService;
+	}
+	
+	@GetMapping("/depositCheckSuccess")
+	public String depositCheckSuccess(
+			//@RequestParam(value="orderId",)
+			Model model) {
+		model.addAttribute("title","결제 성공");
+		return "user/deposit/depositCheckSuccess";
+	}
+	@GetMapping("/depositCheckFail")
+	public String depositCheckfail(Model model) {
+		model.addAttribute("title","결제 실패");
+		return "user/deposit/depositCheckFail";
 	}
 
 	@GetMapping("/mydeposit")
@@ -46,13 +60,32 @@ public class UserDepositController {
 		
 		return "user/deposit/mydeposit";
 	}
+	
 	@GetMapping("/mydepositPay")
-	public String mydepositPay(Model model) {
-		
+	public String mydepositPay(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+								HttpSession session,							
+								Model model) {
+		Map<String,Object> resultMap = userDepositService.getUserDepositPayList(currentPage);
 		model.addAttribute("title","보증금 결제 신청");
+		int lastPage = (int)resultMap.get("lastPage");
+		List<Map<String,Object>> userDepositPayList = (List<Map<String,Object>>)resultMap.get("userDepositPayList");
+		log.info("userDepositPayList:{}",userDepositPayList);		
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
+		model.addAttribute("title","보증금 결제");
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("userDepositPayList", userDepositPayList);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
 		
+		model.addAttribute("title","보증금 결제");
 		return "user/deposit/mydepositPay";
 	}
+	
+	
+	
+	
 	@GetMapping("/mydepositRefund")
 	public String pointRefundSponsorship(Model model) {
 		
