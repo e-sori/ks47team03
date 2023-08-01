@@ -6,18 +6,20 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks47team03.user.dto.Cup;
+import ks47team03.user.dto.Partner;
 import ks47team03.user.dto.Static;
 
 
 @Mapper
 public interface AdminCupMapper {
-
+	//추가컵 배송
+	public List<Partner> getAddCupApplyList();
 	//엑셀 업로드
 	public int addDiscardCupByExcelFile(List<Cup> discardCupList);
 	//폐기컵 
 	public List<Cup> getAllDiscardCupQRList();
 	//폐기컵 조회
-	public List<Map<String,Object>> getDiscardCupList (Map<String,Object>paramMap);
+	public List<Cup> getDiscardCupList ();
 	//체크 된 컵 삭제
 	public void removeDiscardCup(List<String> cupQRArr);
 	//체크 된 컵 삭제

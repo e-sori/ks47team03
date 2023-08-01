@@ -13,7 +13,24 @@
 		<result column="admin_id" 					property="userId"/>
 		<result column="up_datetime" 				property="upDateTime"/>
 	</resultMap>
-	
+	<select id="getAddCupApplyList" resultType="Partner">
+	SELECT
+	 	ada.approval_partner_plus_info_code AS partnerCode,
+	 	ada.kiosk_serial_num AS kioskSerialNum,
+	 	ada.delivery_cup_quantity AS outAmount,
+		ada.delivery_request_datetime AS upDateTime,
+	 	ada.delivery_desired_datetime AS deliveryDesiredDate,
+	 	sc.static_code_content AS staticCode,
+	 	IFNULL(ada.admin_id ,'-') AS userId
+	FROM
+		add_delivery_application AS ada
+		INNER join
+		static_code AS sc
+		on
+		ada.static_code = sc.static_code
+	ORDER BY
+		CAST(SUBSTRING_INDEX(ada.add_delivery_application_code,'code',-1)as UNSIGNED);
+	</select>
 	
 	<select id="getAllDiscardCupQRList" resultMap="cupResultMap">
 		/*전체 폐기컵리스트 조회-*/
@@ -59,20 +76,18 @@
       		#{item}
     	</foreach>
 	</delete>
-	<select id="getDiscardCupList"  parameterType="map" resultType="map" >
+	<select id="getDiscardCupList"   resultType="Cup" >
 	/*폐기컵  조회*/
 		SELECT 
+			cast(SUBSTRING_INDEX(cdm.cup_discard_manage_code,'code',-1) AS UNSIGNED) AS num, 
 			cdm.approval_partner_plus_info_code AS partnerInfo,
 			cdm.cup_QR_code AS cupQR,
-			cdm.admin_id AS adminId,
+			cdm.admin_id AS userId,
 			cdm.up_datetime AS upDateTime
 		FROM
 			cup_discard_manage AS cdm
 
 		ORDER BY CAST(SUBSTRING_INDEX(cdm.cup_discard_manage_code,'code',-1) AS UNSIGNED)	
-		<if test="startIndex != null and startIndex > -1 ">
-			LIMIT #{startIndex},#{rowPerPage};
-		</if>
 	</select>
 
 	<delete id="removeCupState" parameterType="List">

@@ -75,7 +75,7 @@
                 <td>
                 </td>
                 <td>
-                	<button type="submit" class="btn mb-2 btn-outline-success" id="commitBtn"><span class="fe fe-upload-cloud fe-16"></span></button>    
+                	<button type="button" class="btn mb-2 btn-outline-success" id="commitBtn"><span class="fe fe-upload-cloud fe-16"></span></button>    
                 </td>
               </tr>
               <tr>
@@ -107,9 +107,9 @@
               </tr>
             </thead>
             <tbody>
-            	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d,state : ${discardCupList}">
+            	<th:block th:unless="${#lists.isEmpty(discardCupList)}"  th:each="d : ${discardCupList}">
                  	<tr>
-                    	 <td class="washDiscardCupCheck" th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
+                    	 <td class="washDiscardCupCheck" th:text="${d.num}"></td>
                      	 <td class="washDiscardCupCheck" th:text="${d.partnerInfo}"></td>
                      	 <td class="washDiscardCupCheck" th:text="${d.cupQR}"></td>
                      	<td class="washDiscardCupCheck" th:text="${d.upDateTime}"></td>
@@ -122,26 +122,6 @@
 					<td class="washDiscardCupCheck" colspan="4">폐기컵이 없습니다.</td>
 				</tr>
             </tbody>
-			 <tfoot class="tfoot-cup">
-				<tr>
-					<td colspan="4">
-						<button type="button" class="pages btn mb-2 btn-secondary" th:unless="${currentPage==1}">처음으로</button>
-						<label class="btn mb-2 btn-secondary" th:if="${currentPage==1}">처음으로</label>
-						<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage>1}">이전</button>
-						<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
-						<div class="btn-group mr-2" role="group" aria-label="First group">
-							<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
-								<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:text="${num}"></button>
-								<label class="btn mb-2 btn-secondary current-page-btn foot-pg" th:if="${currentPage == num}" th:text="${num}"></label>
-							</th:block>
-						</div>				
-						<button type="button" class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}">다음</button>
-						<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
-						<button type="button" class="pages btn mb-2 btn-secondary lastPg" th:unless="${currentPage==lastPage}" th:attr="lastPage=${lastPage}">마지막으로</button>
-						<label class="btn mb-2 btn-secondary" th:if="${currentPage==lastPage}">마지막으로</label>
-					</td>
-				</tr>
-			</tfoot>
          </table>
        </div>
       </div>
@@ -157,51 +137,16 @@
 		console.log(msg);
 		if(msg != 'null') alert(msg);
 		
-		
-		// 탭 내의 페이지네이션 클릭했을 때 해당 탭 유지하기 (get방식으로 ajax 요청 - 리다이렉트)	
-		$('tfoot button').click(e => {		
-			e.preventDefault();
-			e.stopPropagation();
+		$('#commitBtn').click(function(e){
+			const $inputEle = $('#discardform input').val();
+			if($inputEle){
+				if(result){
+					let result = confirm("업로드 하시겠습니까?");
+					$('#discardform').submit();
+				}else alert("취소 되었습니다.");
+			}else alert("파일을 선택해 주세요");
 			
-			//let tableId = $('.tab-pane').attr('id');
-			
-			let currentPage;
-			
-			if($(e.target).text() == '처음으로') currentPage = 1;
-			else if($(e.target).text() == '이전') currentPage = Number($('.foot-pg').text()) - 1;
-			else if($(e.target).text() == '다음') currentPage = Number($('.foot-pg').text()) + 1;
-			else if($(e.target).text() == '마지막으로') currentPage = Number($('.lastPg').attr('lastPage'));
-			else currentPage = $(e.target).text();
-			
-		    currentPage = parseInt(currentPage);
-			
-			console.log(currentPage);
-			
-			
-		 
-		 	 const request = $.ajax({
-					url: '/partner/washDiscardCupList',
-					method: 'GET',
-					data: { 'currentPage' : currentPage},
-					dataType: 'text'
-		 	});
-
-					request.done(function( response ) {
-	   					if(response){
-	   						const data = JSON.parse(response);
-	   						data.
-							console.log(response)
-	   	    				return false;
-	   					}else{
-	   						console.log(response);
-	   					}
-	   				});
-	   				 
-	   				request.fail(function( jqXHR, textStatus ) {
-						alert( "Request failed: " + textStatus );
-	   				});
-		});      
-		
+		});
 		</script>
 	</th:block>
 </html>

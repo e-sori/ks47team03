@@ -41,6 +41,7 @@ import ks47team03.admin.service.AdminCupService;
 import ks47team03.user.dto.Cup;
 import ks47team03.user.dto.FileDto;
 import ks47team03.user.dto.Kiosk;
+import ks47team03.user.dto.Partner;
 import ks47team03.user.dto.Static;
 import ks47team03.user.dto.User;
 
@@ -64,8 +65,14 @@ public class AdminCupController {
 		this.cupMapper= cupMapper;
 		this.kioskMapper = kioskMapper;
 	}
-	
-	
+	//추가컵 배송 
+	@GetMapping("/addCupApply")
+	public String  addCupApply(Model model) {
+		List<Partner>addCupApplyList=cupMapper.getAddCupApplyList();
+		
+		model.addAttribute("addCupApplyList", addCupApplyList);
+		return "admin/cup/addCupApply";
+	}
 	//폐기컵 관련 파일 업로드
 	@PostMapping("/file/upload")
 	public String archiveUpload(@RequestParam MultipartFile[] uploadfile, Model model, HttpServletRequest request,RedirectAttributes reAttr) {
@@ -77,10 +84,10 @@ public class AdminCupController {
 	//폐기컵 삭제
 	@PostMapping("/discardCupRemove")
 	public String discardCupRemove (Model model,
-								  @RequestParam(name="cupQR") List<String> cupQRArr,
-								  RedirectAttributes reAttr) {
+								  @RequestParam(name="cupQR") List<String> cupQRArr
+								 ) {
 		cupService.removeDiscardCup(cupQRArr);
-		reAttr.addAttribute("msg", "삭제완료");
+		
 		
 		/*
 		 * //cupQRArr 배열을 돌아 값을 cupQR에 담아준다. for(String cupQR : cupQRArr) {
@@ -88,34 +95,19 @@ public class AdminCupController {
 		 * log.info("cupQR:{}",cupQR); }
 		 */
 		
-		return "redirect:admin/cup/discardCupManage";
+		return "redirect:/admin/cup/discardCupManage";
 	}
 	//폐기컵 관리 화면
 	@GetMapping("/discardCupManage")
 	@SuppressWarnings("unchecked")
-	public String discardCupManage (@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
-									@RequestParam(value="msg", required = false) String msg,
+	public String discardCupManage (
 									HttpServletRequest request,
 									Model model) {
 		
-		Map<String,Object> resultMap = cupService.getDiscardCupList(currentPage);
-		int lastPage = (int)resultMap.get("lastPage");
-		
-		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
-		int startPageNum = (int) resultMap.get("startPageNum");
-		int endPageNum = (int) resultMap.get("endPageNum");
-		int rowPerPage = (int) resultMap.get("rowPerPage");
-		
+		List<Cup> discardCupList = cupService.getDiscardCupList();		
 		model.addAttribute("fileList", cupService.getFileList());
-		model.addAttribute("msg", msg);
 		model.addAttribute("title", "컵 상태 관리");
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPage", lastPage);
 		model.addAttribute("discardCupList", discardCupList);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
-		model.addAttribute("rowPerPage", rowPerPage);
-
 		return "admin/cup/discardCupManage";
 	}
 	
@@ -180,10 +172,10 @@ public class AdminCupController {
 	//컵 상태 삭제
 	@PostMapping("/cupStateRemove")
 	public String cupStateRemove (Model model,
-								  @RequestParam(name="cupQR") List<String> cupQRArr,
-								  RedirectAttributes reAttr) {
+								  @RequestParam(name="cupQR") List<String> cupQRArr
+								  ) {
 		cupService.removeCupState(cupQRArr);
-		reAttr.addAttribute("msg", "삭제완료");
+
 		
 		/*
 		 * //cupQRArr 배열을 돌아 값을 cupQR에 담아준다. for(String cupQR : cupQRArr) {
@@ -219,7 +211,6 @@ public class AdminCupController {
 	public String cupStateManage(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
 								 @RequestParam (value="searchKey", required= false) String searchKey,
 							     @RequestParam (value="searchValue", required= false) String searchValue,
-								 @RequestParam(value="msg", required = false) String msg,
 								 Model model) {
 		//search 
 		
@@ -233,7 +224,6 @@ public class AdminCupController {
 		int rowPerPage = (int) resultMap.get("rowPerPage");
 		int cupStateListCount = (int) resultMap.get("cupStateListCount");
 		
-		if(msg != null) model.addAttribute("msg", msg);
 		model.addAttribute("title", "컵 상태 관리");
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", lastPage);

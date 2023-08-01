@@ -93,18 +93,7 @@
 	    }
 	    return true;
 		}
-	//버튼 클릭 이벤트
-	$('#addCupBtn').click(function(){
-		
-		const validateEle = $('#addCupForm select,input');   			
-		let isSubmit = false;
-		validateEle.each((idx, item) => {    				
-			isSubmit = validCheck(item);
-			return isSubmit;
-		})
-		alert("신청완료");
-		if(isSubmit) $('#addGoodsForm').submit();
-	})
+	
 	// 선택된 값으로 td 값 삽입 -->change
 	function loadKioskNum(){
 		let $selectedValue = $('.addCupselect option:selected').val();
@@ -121,7 +110,7 @@
 		request.done(function(response) {
 			console.log(response);
 		    if (response.length > 1) {
-		        let $kioskNum = $('<select></select>').attr('size', '1').addClass('nice-select');
+		        let $kioskNum = $('<select></select>').attr('size', '1').attr('name', 'kioskSerialNum').addClass('nice-select');
 		        $.each(response, function(idx, item) {
 		            let kioskOption = $('<option></option>').val(item.kioskSerialNum).text(item.kioskSerialNum);
 		            $kioskNum.append(kioskOption);
@@ -142,6 +131,19 @@
 	    // select 값 변경 시 호출
 	    $('.addCupselect').change(loadKioskNum);
 	});
+	//버튼 클릭 이벤트
+	$('#addCupBtn').click(function(){
+		const validateEle = $('#addCupForm select,input');   			
+		let isSubmit = false;
+		validateEle.each((idx, item) => {    				
+			isSubmit = validCheck(item);
+			return isSubmit;
+		})
+		if(isSubmit) {
+			alert("신청완료")
+			$('#addCupForm').submit();
+		}
+	})
 	//데이트 피커
 	$('.drgpicker').daterangepicker(
 		      {
@@ -150,7 +152,7 @@
 		        showDropdowns: true,
 		        locale:
 		        {
-		          format: 'MM/DD/YYYY'
+		          format: 'YYYY-MM-DD'
 		        }
 	});			
 				
