@@ -223,17 +223,16 @@ private static final Logger log = LoggerFactory.getLogger(AdminCommonService.cla
 	 	return depositStandardInfo;
 }
 
-	public int modifyDepositStandard(DepositStandard depositStandard) {
-		int result = adminDepositMapper.modifyDepositStandard(depositStandard);
-		return result;
+	public void modifyDepositStandard(DepositStandard depositStandard) {
+		adminDepositMapper.modifyDepositStandard(depositStandard);	
 		
 	}
-	public int deleteDepositStandard(DepositStandard depositStandard) {
-		int result = adminDepositMapper.deleteDepositStandardById(depositStandard);
-		return result;
+	public void deleteDepositStandard(DepositStandard depositStandard) {
+		adminDepositMapper.deleteDepositStandardById(depositStandard);
+		
 	}
 
-	public Map<String, Object> isValidMember(String waitingDepositStandardCode, String adminId) {
+	public Map<String, Object> isValidDepositStandard(String waitingDepositStandardCode, String adminId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		boolean isValid = false;

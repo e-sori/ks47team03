@@ -62,16 +62,15 @@
 			IFNULL(DPH.virtual_account,'') AS virtualAccount, 
 			DPH.charging_amount AS charginAmount,
 			cast(DPH.pay_application_datetime as char(20))  AS applicationDatetime,
-			cast(IFNULL(DPH.deposit_completion_datetime,'') as char(20)) AS depositCompletionDatetime
-			
+			cast(IFNULL(DPH.deposit_completion_datetime,'') as char(20)) AS depositCompletionDatetime			
 		FROM	
 			deposit_pay_histroy AS DPH
 			INNER JOIN	
 			user_manage AS UM
 			ON
 			DPH.user_id=UM.user_id
-		WHERE
-		    DPH.user_id= #{userId}
+		 WHERE
+		    DPH.user_id= #{userId} 
 		order by length(DPH.deposit_pay_histroy),DPH.deposit_pay_histroy
 		LIMIT 1;
 

@@ -14,21 +14,7 @@
                 <!-- Small table -->
                 <div class="col-md-12">
                   <div class="card shadow">
-                    <div class="card-body">
-              	<ul class="nav nav-pills justify-content-start">
-                    <li class="nav-item">
-                      <a class="nav-link active bg-transparent pr-2 pl-0 text-primary" href="#">All <span class="badge badge-pill bg-primary text-white ml-2">164</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Pending <span class="badge badge-pill bg-white border text-muted ml-2">64</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Processing <span class="badge badge-pill bg-white border text-muted ml-2">48</span></a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link text-muted px-2" href="#">Completed <span class="badge badge-pill bg-white border text-muted ml-2">52</span></a>
-                    </li>
-                  </ul>
+                    <div class="card-body">              	
                       <!-- table -->
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
@@ -102,11 +88,12 @@
 		<script>		
 			$(function(){
 		      $('#dataTable-1').DataTable({
-			        autoWidth: true,
-			        "lengthMenu": [
-			          [16, 32, 64, -1],
-			          [16, 32, 64, "All"]
-			        ],
+			      	  autoWidth: true,			      
+			         "lengthChange": false, 
+               		   "pageLength" : 10,
+                  "searching" : false,
+                  "info": false,
+                  "paging" :false, 
 			        columnDefs: [{
 			            targets: 0,
 			            searchable: false,

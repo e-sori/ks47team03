@@ -17,12 +17,6 @@
 		<result column="admin_id" 	property="adminId"/>
 		<result column="up_datetime" 	property="upDatetime"/>
 	</resultMap>
-
-
-
-	
-	
-	
 	
 	<delete id="deleteDepositStanardById" parameterType="String">
 		/* 기준삭제 삭제 */
@@ -32,10 +26,6 @@
 		WHERE
 			admin_id = #{adminId};
 	</delete>
-
-
-
-
 
 
 
@@ -162,10 +152,10 @@
     WHERE admin_id = #{adminId}
 	</select>
 	
-<update id="modifyDepositStandard" parameterType="depositStandard">
+		<update id="modifyDepositStandard" parameterType="depositStandard">
 		/* 보증금 수정 */
-		UPDATE waiting_deposit_standard
-		<trim prefix="SET" suffixOverrides=",">
+			UPDATE waiting_deposit_standard
+			<trim prefix="SET" suffixOverrides=",">
 			<if test="waitingDepositPeriod != null and waitingDepositPeriod != ''">						
 				waiting_deposit_period 	= #{waitingDepositPeriod},
 			</if>
@@ -175,8 +165,8 @@
 			<if test="adminId != null and adminId != ''">
 				admin_id 	= #{adminId},
 			</if>
-			<if test="up_datetime != null and upDatetime != ''">
-				up_datetime = #{upDatetime},
+			<if test="upDatetime != null and upDatetime != ''">
+				up_datetime = NOW()
 			</if>
 		</trim>
 		WHERE

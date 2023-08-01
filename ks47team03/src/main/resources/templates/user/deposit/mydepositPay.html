@@ -8,6 +8,8 @@
   <head>
   	<meta charset="utf-8"/>
  	 <script src="https://js.tosspayments.com/v1/payment"></script>
+ 	 <script th:src="@{/js/jquery-3.7.0.js}"></script>
+ 	 <
   </head>
     <section class="page-banner-area" id="category">
     <div class="container h-100">
@@ -29,10 +31,11 @@
 				<div class="login_join_center">
 					<div class="login_form_inner">
 						<h3>보증금 결제</h3>
-						<form class="row login_form" action="#/" id="contactForm" >
+						<form class="row login_form" action="#/" id="contactForm" >						
 							<div class="col-md-12 form-group">
+								
 								<input type="text" class="form-control" id="depositName" name="depositName" placeholder="입금자명" 
-								onfocus="this.placeholder = '입금자명'" onblur="this.placeholder = '입금자명' ">
+								onfocus="this.placeholder = '입금자명'" onblur="this.placeholder = '입금자명'" value="">
 							</div>
 							<div class="col-md-12 form-group">
 								<select id="depositAmount" name="depositAmount">
@@ -46,8 +49,11 @@
 									<option value="8000">8000</option>	
 									<option value="9000">9000</option>	
 									<option value="10000">10000</option>	
+									<option value="123456789">123456789</option>	
+									<option value="77777777777777">77777777777777</option>	
+									<option value="10000000000000000">10000000000000000</option>	
 								</select>
-								</div>					
+								</div>									
 						</form>
 							 <button id="payment-button">무통장결제</button>
 							 <button id="payment-button2">계좌이체</button>
@@ -61,32 +67,30 @@
     const tossPayments = TossPayments(clientKey)
 	let button = document.getElementById('payment-button')
     let button2 = document.getElementById('payment-button2') // 결제하기 버튼
-    
+    const depositName = document.getElementById('depositName').value;
     button.addEventListener('click', function () {
-    const selectedAmount = document.getElementById('depositAmount').value;
-       
+    	const selectedAmount = document.getElementById('depositAmount').value;
         tossPayments.requestPayment('가상계좌', {
           amount: parseInt(selectedAmount),
           orderId: '2BUAd1-rnDgOilzWC3bZO',
           orderName: '보증금',
-          customerName: '고객명',     
+          customerName: 'depositName',     
           successUrl: 'http://localhost/deposit/depositCheckSuccess',
           failUrl: 'http://localhost/deposit/depositCheckFail',
         })    
-        })
-        
-        
+        })    
         button2.addEventListener('click', function () {
 		const selectedAmount2 = document.getElementById('depositAmount').value;
             tossPayments.requestPayment('계좌이체', {
-              amount: parseInt(selectedAmount),
+              amount: parseInt(selectedAmount2),
               orderId: '2BUAd1-rnDgOilzWC3bZO',
               orderName: '보증금',
-              customerName: '고객명',           
+              customerName: 'depositName',           
               successUrl: 'http://localhost/deposit/depositCheckSuccess',
               failUrl: 'http://localhost/deposit/depositCheckFail',
        } )
       })  
+      	
     </script>
     
    <section class="order_details section-margin--small">

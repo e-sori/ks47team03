@@ -140,39 +140,37 @@ public class AdminDepositController {
 		 public String modifyDepositStandardPost(DepositStandard depositStandard) {		 		
 			 depositService.modifyDepositStandard(depositStandard);
 
-		 return "redirect:/deposit/depositStandard";
+		 return "redirect:depositStandard";
 				 }
 		
 		 
 		
 		@PostMapping("/deleteDepositStandard")
-		public String deleteDepositStandard(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
-											@RequestParam(value="adminId") String adminId,
-											RedirectAttributes reAttr) {
+		public String deleteDepositStandardPost(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
+												@RequestParam(value="adminId") String adminId,
+												RedirectAttributes reAttr) {
 				
 				// 회원 여부 검증
-				Map<String, Object> isValidMap = depositService.isValidMember(waitingDepositStandardCode, adminId);
-				boolean isValid = (boolean) isValidMap.get("isValid");
-				
+				Map<String, Object> isValidMap = depositService.isValidDepositStandard(waitingDepositStandardCode, adminId);
+				boolean isValid = (boolean) isValidMap.get("isValid");				
 				// 비밀번호 일치 회원탈퇴
 				if(isValid) {
 					DepositStandard deleteDepositStandardInfo = (DepositStandard) isValidMap.get("deleteDepositStandardInfo");
-
-					// 회원탈퇴 서비스 메소드 호출(숙제: 2023년 06월 26일 확인)
+				
 					depositService.deleteDepositStandard(deleteDepositStandardInfo);
-					return "redirect:/admin/deposit/depositStandard";
+					return "redirect:depositStandard";
 				}
 				
 				reAttr.addAttribute("adminId", adminId);
-				reAttr.addAttribute("msg", "비번 확인해주세요");
+				reAttr.addAttribute("msg", "관리자 확인해주세요");
 				
-				return "redirect:/admin/deposit/deleteDepositStandard";
+				return "redirect:deleteDepositStandard";
 			}
 			
 			@GetMapping("/deleteDepositStandard")
-			public String deleteDepositStandard(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
-																@RequestParam(value="msg", required = false) String msg,
-																Model model) {
+			public String deleteDepositStandardGet(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
+												 @RequestParam(value="msg", required = false) String msg,
+													Model model) {
 				
 				model.addAttribute("title", "회원탈퇴");
 				model.addAttribute("waitingDepositStandardCode", waitingDepositStandardCode);
