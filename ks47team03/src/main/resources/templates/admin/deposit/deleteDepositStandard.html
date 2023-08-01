@@ -6,10 +6,41 @@
     
     <th:block layout:fragment="customJs">
     	<script th:src="@{/js/jquery-3.7.0.js}"></script>
-    	<script type="text/javascript" th:inline="javascript">    		
+    	<script type="text/javascript" th:inline="javascript">
     		let msg = '[[${msg}]]';
-    		if(msg != 'null') alert(msg);    		
+    		if (msg != 'null') {
+    			alert(msg);
+    		}
     		
+    		// Ajax 요청 보내는 함수
+    		function sendAjaxRequest() {
+    			let formData = {
+    				'waitingDepositStandardCode': $('#waitingDepositStandardCode').val(),
+    				'adminId': $('#adminId').val()
+    			};
+    			
+    			$.ajax({
+    				url: '/admin/deposit/deleteDepositStandard',
+    				type: 'POST',
+    				data: formData,
+    				dataType: 'json',
+    				success: function(response) {
+    					alert('성공적으로 삭제되었습니다.');
+    					// 여기에서 추가적인 처리를 할 수 있습니다.
+    				},
+    				error: function() {
+    					alert('삭제에 실패했습니다. 기준은 삭제할 수 없습니다');
+    					// 여기에서 에러 처리를 할 수 있습니다.
+    				}
+    			});
+    		}
+    		
+    		$(document).ready(function() {
+    			// 버튼 클릭 이벤트 핸들러 등록
+    			$('#deleteDepositStandardBtn').click(function() {
+    				sendAjaxRequest();
+    			});
+    		});
     	</script>
     </th:block>
 	<th:block layout:fragment="customContents">
@@ -40,12 +71,12 @@
 								<input type="text" id="waitingDepositStandardCode" name="waitingDepositStandardCode" th:value="${waitingDepositStandardCode}" placeholder="코드" readonly="readonly"/>
 							</td>
 							<td>
-								<input type="text" id="adminId" name="adminId" placeholder="관리자"/>
+								<input type="text" id="adminId" name="adminId" placeholder="adminid1"/>
 							</td>
 						</tr>
 					<tr>
 						<td colspan="10">
-							<button type="reset"id="resetBtn">삭제</button>
+							<button type="submit"id="deleteDepositStandardBtn">삭제</button>
 							<button type="reset" id="resetBtn">입력취소</button>
 						</td>
 					</tr>
