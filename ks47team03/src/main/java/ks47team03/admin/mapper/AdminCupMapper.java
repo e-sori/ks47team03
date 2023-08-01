@@ -42,6 +42,8 @@ public interface AdminCupMapper {
 	public List<Map<String,Object>> getCupManageList (Map<String,Object>paramMap);
 	//컵 이용 내역 리스트 갯수
 	public int getCupManageListCount();
+	//테이블 검색 되는 행 갯수 카운드
+	public int getSearchListCount(Map<String,Object>paramMap);
 	//테이블 행 갯수 카운드
 	public int getListCount(String tableName);
 }
