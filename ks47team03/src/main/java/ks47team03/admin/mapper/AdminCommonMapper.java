@@ -14,6 +14,12 @@ public interface AdminCommonMapper {
 	//관리자 조회
 	public List<User>getadminIdList();
 	
+	//회원 등급 갯수
+	public int getGradeManageListCount();
+	public int getGradeManageListCount(Map<String,Object>paramMap);
+	//회원 등급 리스트
+	public List<Map<String,Object>> getGradeManageList(Map<String,Object>paramMap);
+	
 	//회원 조회
 	public List<Map<String,Object>> getUserList(Map<String,Object>paramMap);
 	//회원 리스트 갯수

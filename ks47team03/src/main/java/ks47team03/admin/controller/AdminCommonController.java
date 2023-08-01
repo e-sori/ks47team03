@@ -147,11 +147,34 @@ public class AdminCommonController {
 	
 	
 	//회원 등급 관리
+	@SuppressWarnings("unchecked")
 	@GetMapping("/user/gradeManage")
-	public String gradeManage(Model model) {
+	public String gradeManage(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+								@RequestParam (value="searchKey", required= false) String searchKey,
+								@RequestParam (value="searchValue", required= false) String searchValue,
+								@RequestParam(value="msg", required = false) String msg,
+								Model model) {
+		Map<String,Object> resultMap = adminService.getGradeManageList(currentPage,searchKey,searchValue);
+		int lastPage = (int)resultMap.get("lastPage");
+		
+		List<Map<String,Object>> gradeManageList = (List<Map<String,Object>>)resultMap.get("getGradeManageList");
+		log.info("gradeStandardList:{}",gradeManageList);
+		
+		int startPageNum = (int) resultMap.get("startPageNum");
+		int endPageNum = (int) resultMap.get("endPageNum");
+		int rowPerPage = (int) resultMap.get("rowPerPage");
+		
 		model.addAttribute("title","회원 등급 관리");
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("lastPage", lastPage);
+		model.addAttribute("getGradeManageListCount",adminMapper.getGradeManageListCount());
+		model.addAttribute("gradeManageList", gradeManageList);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("rowPerPage", rowPerPage);
 		return "admin/user/gradeManage";
 	}
+	
 	//회원 바코드 관리
 	@GetMapping("/user/barCodeManage")
 	public String barCodeManage(Model model) {

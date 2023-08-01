@@ -30,6 +30,31 @@
 
 
 
+	<select id="getGradeMangeList" parameterType="map" resultType="map">
+		/* 회원등급 관리 */
+		SELECT
+			g.grade_manage_code					AS gradeManagecode,
+			g.grade_standard_code				AS gradeStandardcode,
+			g.past_grade_name					AS pastGradename,	
+			g.now_grade_name					AS nowGradename,
+			g.user_id							AS userId,
+			g.user_use_count					AS userUsecount,
+			cast(g.user_grade_change_datetime 	AS CHAR(20))	AS userGradechangedatetime,
+			g.admin_id							AS adminId,
+		FROM 
+			grade_manage as g
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue}
+        	</if>
+        </where>
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select> 
+
+
+
 	<select id="getadminIdList" resultType="User">
 	/*관리자 아이디 조회*/
 		SELECT
