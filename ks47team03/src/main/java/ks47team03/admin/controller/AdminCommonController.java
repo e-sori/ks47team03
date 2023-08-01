@@ -60,7 +60,7 @@ public class AdminCommonController {
 	}
 	//전체 회원 관리
 	/*
-	 * @GetMapping("/user/userAll") 
+	 * @GetMapping("Map<String,Object>paramMap") 
 	 * public String userAll(Model model,
 	 * 
 	 * @RequestParam(value="searchKey", required = false, defaultValue = "") String
