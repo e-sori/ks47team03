@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import ks47team03.admin.dto.AdminPoint;
 import ks47team03.admin.mapper.AdminCommonMapper;
 import ks47team03.admin.mapper.AdminPointMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +22,25 @@ public class AdminPointService {
 		this.adminCommonMapper = adminCommonMapper;
 	}
 	
+	public void addPointStandard(AdminPoint adminPoint) {
+		
+		String formName = adminPoint.getFormName();
+		
+		if (formName.equals("pointMaxCount")) adminPointMapper.addPointMaxCountStandard(adminPoint);
+		else if (formName.equals("pointExpire")) adminPointMapper.addPointExpireStandard(adminPoint);
+		else if (formName.equals("pointType")) adminPointMapper.addPointTypeStandard(adminPoint);
+		else if (formName.equals("pointSave")) adminPointMapper.addPointSaveStandard(adminPoint);
+		else if (formName.equals("pointRefund")) adminPointMapper.addPointRefundStandard(adminPoint);
+		
+	};
+	
 	// 새로운 코드 가져오기
 	public String getIncreaseCode(String tableDbName) {		
-		String getNewCode = adminCommonMapper.getIncreaseCode(tableDbName);
+		
+		String getNewCode = null;
+		
+		if(tableDbName.equals("day_maximum_count")) getNewCode = adminPointMapper.getPointMaxIncreaseCode();
+		else getNewCode = adminCommonMapper.getIncreaseCode(tableDbName);
 		
 		return getNewCode;
 	};	

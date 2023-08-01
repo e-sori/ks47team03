@@ -6,6 +6,22 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserPartnerMapper">
+	<select id="getPartnerCodeById" parameterType="String" resultType="Partner">
+	SELECT 
+		appi.approval_partner_plus_info_code AS partnerCode,
+		appi.partner_name AS partnerName
+	FROM
+		approval_partner_plus_info AS appi
+	<if test="userLevel =='설치사업장'">
+	WHERE 
+		appi.user_id = #{loginId}
+	</if>
+	<if test="userLevel =='관리자'">
+	WHERE 
+		appi.partner_type = '설치 사업장'
+	ORDER BY CAST(SUBSTRING_INDEX(approval_partner_plus_info_code,'business',-1) AS UNSIGNED)
+	</if>
+	</select>
 	<select id="getInstalledKioskById" parameterType="String" resultType="Kiosk">
 		SELECT
 			ikl.kiosk_serial_num as kioskSerialNum
@@ -19,9 +35,13 @@
 			installed_kiosk_list AS ikl
 			ON 
 			ikl.approval_partner_plus_info_code = appi.approval_partner_plus_info_code
+		<if test="userLevel == '설치사업장'">	
 		WHERE
-			um.user_id =#{loginId};
+			um.user_id =#{loginId}
+		</if>
+		ORDER BY CAST(SUBSTRING_INDEX(kioskSerialNum,'num',-1) AS UNSIGNED)	
 	</select>
+	
 	<insert id="addBusinessCup" parameterType="Partner">
 	INSERT
 	INTO 

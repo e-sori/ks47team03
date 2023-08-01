@@ -3,6 +3,8 @@ package ks47team03.user.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import ks47team03.user.dto.Board;
+import ks47team03.user.dto.BoardLike;
+import ks47team03.user.mapper.UserBoardLikeMapper;
 import ks47team03.user.mapper.UserBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,8 @@ public class UserBoardService {
 
     @Autowired
     private UserBoardMapper userBoardMapper;
-
+    @Autowired
+    private UserBoardLikeMapper userBoardLikeMapper;
     // 게시글 작성
     public void communityBoardWrite(Board board, HttpServletRequest request){
         // 게시글 작성 날짜 추가
@@ -74,5 +77,32 @@ public class UserBoardService {
 
         board.setDeleted(true);
         userBoardMapper.save(board);
+    }
+    // 게시글 좋아요
+    public boolean toggleLike(String userId, String boardCode) {
+        try {
+            Board board = userBoardMapper.findByCommunityNowBoardCode(boardCode);
+            if (board == null) {
+                return false;
+            }
+            BoardLike boardLike = userBoardLikeMapper.findByUserIdAndBoardCode(userId, boardCode);
+            if (boardLike == null) {
+                boardLike = new BoardLike(userId, boardCode, true); // 좋아요
+                board.setCommunity_now_board_like(board.getCommunity_now_board_like() + 1);
+                userBoardLikeMapper.save(boardLike); // 좋아요 객체 저장
+            } else {
+                boardLike.setLiked(!boardLike.isLiked());
+                if (boardLike.isLiked()) {
+                    board.setCommunity_now_board_like(board.getCommunity_now_board_like() + 1);
+                } else {
+                    board.setCommunity_now_board_like(board.getCommunity_now_board_like() - 1);
+                }
+                userBoardLikeMapper.save(boardLike); // 좋아요 객체 업데이트
+            }
+            userBoardMapper.save(board);
+            return boardLike.isLiked(); // 최종 좋아요 상태 반환
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

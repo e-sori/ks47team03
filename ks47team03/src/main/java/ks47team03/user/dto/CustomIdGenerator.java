@@ -25,7 +25,7 @@ public class CustomIdGenerator implements IdentifierGenerator {
                     try (ResultSet rs = statement.executeQuery("SELECT COUNT(community_now_board_code) as code FROM community_now_board")) {
                         if (rs.next()) {
                             int count = rs.getInt("code");
-                            id[0] = prefix + new Integer(count + 1).toString();
+                            id[0] = prefix + Integer.valueOf(count + 1).toString();
                             System.out.println("Generated Id: " + id[0]);
                         }
                     }
