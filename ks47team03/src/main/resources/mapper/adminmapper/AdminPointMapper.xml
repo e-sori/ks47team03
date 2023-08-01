@@ -7,9 +7,6 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
 	
-
-	
-
 	<delete id="delPointMaxCountStandard" parameterType="String">
 		/* 1-5 하루 최대 적립 포인트 횟수 기준 삭제 */
 	</delete>
@@ -107,8 +104,8 @@
 			RS.refund_unit AS '환급 단위',
 			RS.refund_fee_rate AS '환급 수수료',
 			CASE 
-			   WHEN RS.code_use = 'Y' THEN '사용가능'
-			   WHEN RS.code_use = 'N' THEN '사용불가능'
+			   WHEN RS.code_use = 'Y' THEN '사용중'
+			   WHEN RS.code_use = 'N' THEN '사용중지'
 			END AS '코드 사용 유무',	
 			RS.set_datetime AS '최초 등록일',
 			RS.admin_id AS '관리자 ID',
@@ -132,8 +129,8 @@
 			PSS.grade_attain_point AS '등급 달성 포인트',
 			PSS.use_save_point AS '이용 포인트',
 			CASE 
-			   WHEN PSS.code_use = 'Y' THEN '사용가능'
-			   WHEN PSS.code_use = 'N' THEN '사용불가능'
+			   WHEN PSS.code_use = 'Y' THEN '사용중'
+			   WHEN PSS.code_use = 'N' THEN '사용중지'
 			END AS '코드 사용 유무',		
 			PSS.set_datetime AS '최초 등록일',
 			PSS.admin_id AS '관리자 ID',
@@ -154,8 +151,8 @@
 			point_save_use_type_code AS '포인트 타입 코드',
 			point_save_use_type AS '포인트 타입',
 			CASE 
-			   WHEN code_use = 'Y' THEN '사용가능'
-			   WHEN code_use = 'N' THEN '사용불가능'
+			   WHEN code_use = 'Y' THEN '사용중'
+			   WHEN code_use = 'N' THEN '사용중지'
 			END AS '코드 사용 유무',		
 			set_datetime AS '최초 등록일',
 			admin_id AS '관리자 ID',
@@ -172,8 +169,8 @@
 			point_expire_standard_code AS '유효 기간 코드',		
 			point_expire AS '유효 기간',
 			CASE 
-			   WHEN code_use = 'Y' THEN '사용가능'
-			   WHEN code_use = 'N' THEN '사용불가능'
+			   WHEN code_use = 'Y' THEN '사용중'
+			   WHEN code_use = 'N' THEN '사용중지'
 			END AS '코드 사용 유무',	
 			set_datetime AS '최초 등록일',
 			admin_id AS '관리자 ID',
@@ -190,8 +187,8 @@
 			day_maximum_count_code AS dayMaximumCountCode,
 			use_maximum_count AS useMaximumCount,
 			CASE 
-			   WHEN code_use = 'Y' THEN '사용가능'
-			   WHEN code_use = 'N' THEN '사용불가능'		
+			   WHEN code_use = 'Y' THEN '사용중'
+			   WHEN code_use = 'N' THEN '사용중지'		
 			END AS codeUse,	
 			set_datetime AS setDatetime,
 			admin_id AS adminId,
@@ -228,8 +225,8 @@
 			
 			<if test="columnName == 'code_use'">
 				DISTINCT CASE 
-				   WHEN code_use = 'Y' THEN '사용가능'
-				   WHEN code_use = 'N' THEN '사용불가능'
+				   WHEN code_use = 'Y' THEN '사용중'
+				   WHEN code_use = 'N' THEN '사용중지'
 				END  AS distinctData
 			</if>
 		FROM

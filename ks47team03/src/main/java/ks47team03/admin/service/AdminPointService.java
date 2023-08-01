@@ -46,7 +46,7 @@ public class AdminPointService {
 	};	
 	
 	// 포인트 관련기준 조회 
-	public Map<String, Object> getPointStandard(String tableId){		
+	public Map<String, Object> getPointStandardList(String tableId){		
 		// adminPointMapper에서 return 값 받아오기	
 		String tableDbName = null;
 		Map<String,Object> paramMap = new LinkedHashMap<String,Object>();	

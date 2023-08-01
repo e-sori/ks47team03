@@ -72,8 +72,8 @@
 											<!-- 포인트 기준 테이블 끝 -->  
 											<!-- 등록버튼 -->
 											<div class="colSpan-left">
-												<button type="button" class="btn mb-2 btn-secondary modalInsert" data-toggle="modal" data-target="#modalInsert">등록</button>
-												<div class="modal fade" id="modalInsert" tabindex="-1" role="dialog" aria-labelledby="modalInsertLabel" aria-hidden="true">
+												<button type="button" class="btn mb-2 btn-secondary modalInsert" data-toggle="modal" data-target="#modalInsertBtn">등록</button>
+												<div class="modal fade" id="modalInsertBtn" tabindex="-1" role="dialog" aria-labelledby="modalInsertLabel" aria-hidden="true">
 													<div class="modal-dialog" role="document">
 														<div class="modal-content">
 															<div class="modal-header">
@@ -86,31 +86,31 @@
 																<form id="insertForm" th:action="@{/admin/point/addPointStandard}" method="Post">
 																	<input type="hidden" name="formName" value="pointMaxCount">
 																	<div class="form-group">
-																		<label for="insertCode" class="col-form-label">횟수 기준 코드:</label>
+																		<label for="insertCode" class="col-form-label">횟수 기준 코드</label>
 																		<input type="text" id="insertCode" name="newCode" class="form-control" readonly="readonly">
 																	</div>
 																	<div class="form-group">
-																		<label for="insertMaxCount" class="col-form-label">적립 가능 횟수:</label>
+																		<label for="insertMaxCount" class="col-form-label">적립 가능 횟수</label>
 																		<input type="text" id="insertMaxCount" name="useMaxCount" class="form-control">
 																	</div>
 																	<div class="form-group">
-																		<label for="insertCodeUse" class="col-form-label">코드 사용 유무:</label>
-																			<select id="insertCodeUse" name="codeUse" class="form-control">
-																				  	<option value="Y">사용 가능</option>
-																				  	<option value="N">사용 불가능</option>
-																			</select>
+																		<label for="insertCodeUse" class="col-form-label">코드 사용 유무</label>
+																		<select id="insertCodeUse" name="codeUse" class="form-control">
+																			  	<option value="Y">사용 중</option>
+																			  	<option value="N">사용 중지</option>
+																		</select>
 																	</div>
 																	<div class="form-group">
-																		<label for="insertAdminId" class="col-form-label">관리자 ID:</label>
+																		<label for="insertAdminId" class="col-form-label">관리자 ID</label>
 																		<input type="text" id="insertAdminId" name="adminId" class="form-control" readonly="readonly">
 																	</div>
 																	<div class="form-group">
-																		<label for="insertAdminPw" class="col-form-label">비밀번호 : </label>
+																		<label for="insertAdminPw" class="col-form-label">비밀번호</label>
 																		<input type="password" id="insertAdminPw" name="adminPw" class="form-control">
 																	</div>
 																	<div class="modal-footer">
-																		<button type="reset" class="btn mb-2 btn-secondary" id="insertResetBtn">입력 취소</button>
-																		<button type="submit" class="btn mb-2 btn-secondary" id="insertBtn">등록 확인</button>																								
+																		<button type="button" class="btn mb-2 btn-secondary resetBtn">입력 취소</button>
+																		<button type="button" class="btn mb-2 btn-secondary" id="insertBtn">등록 확인</button>																								
 																	</div>
 																</form>
 															</div>
@@ -119,8 +119,8 @@
 													</div>
 												</div>
 												<!-- 수정 버튼 -->
-												<button type="button" class="btn mb-2 btn-secondary" data-toggle="modal" data-target="#modalModify">수정</button>
-	           									<div class="modal fade" id="modalModify" tabindex="-1" role="dialog" aria-labelledby="modalModifyLabel" aria-hidden="true">
+												<button type="button" class="btn mb-2 btn-secondary" data-toggle="modal" data-target="#modalModifyBtn">수정</button>
+	           									<div class="modal fade" id="modalModifyBtn" tabindex="-1" role="dialog" aria-labelledby="modalModifyLabel" aria-hidden="true">
 		              								<div class="modal-dialog" role="document">
 														<div class="modal-content">
 															<div class="modal-header">
@@ -154,7 +154,7 @@
 																		<input type="password" class="form-control" >
 																	</div>
 																	<div class="modal-footer">
-																		<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+																		<button type="button" class="btn mb-2 btn-secondary resetBtn">입력 취소</button>
 																		<button type="button" class="btn mb-2 btn-secondary" >수정 확인</button>
 																	</div>
 																</form>
@@ -164,7 +164,7 @@
 				           						</div>
 												<!-- 삭제 버튼 -->
 												<button type="button" class="btn mb-2 btn-secondary" data-toggle="modal" data-target="#modalDeleteBtn">삭제</button>
-												<div class="modal fade varyModalDelete" id="modalDeleteBtn" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+												<div class="modal fade" id="modalDeleteBtn" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel" aria-hidden="true">
 													<div class="modal-dialog" role="document">
 														<div class="modal-content">
 															<div class="modal-header">
@@ -192,7 +192,7 @@
 																		<input type="password" class="form-control">
 																	</div>
 																	<div class="modal-footer">
-																		<button type="reset" class="btn mb-2 btn-secondary">입력 취소</button>
+																		<button type="button" class="btn mb-2 btn-secondary resetBtn">입력 취소</button>
 																		<button type="button" class="btn mb-2 btn-secondary" id="varyModalDeleteBtn">삭제 확인</button>
 																	</div>	
 																</form>
@@ -213,8 +213,11 @@
 	</th:block>
 	<th:block layout:fragment="customJs">
 		<script type="text/javascript" th:inline="javascript">
-			let message = [[${message}]];
-			if(message) alert(message);
+			
+			let message = '[[${message}]]';
+			console.log(message);
+			if(message != 'null') alert(message);
+			
 			
 			// 데이터 테이블 설정
 			$(function(){
@@ -251,7 +254,7 @@
 		        $(e.target).toggleClass('active');
 		        
 				const requestData = $.ajax({
-		 		 	url: '/admin/point/pointStandardManageAjax',
+		 		 	url: '/admin/point/getpointStandardList',
 					method: 'GET',
 					data: { 'tableId' : tableId },
 					dataType: 'json'
@@ -353,10 +356,9 @@
 						// 테이블 헤더 변경, 모달 변경
 						switch(tableId){
 						case 'pills-expire':
-						console.log("sfsdfsdfsdfsd",pointStandardList);
 							let pointExpire;
 							for(let list of pointStandardList){
-								if(list['코드 사용 유무'] == '사용가능') {
+								if(list['코드 사용 유무'] == '사용중') {
 									pointExpire = list['유효 기간'];
 								}
 							}
@@ -389,7 +391,7 @@
 							
 							break;
 						case 'pills-save':
-							$('.page-small-title').text('포인트 적립 기준');
+							$('.page-small-title').text('포인트 적립 기준'); 
 							$('.card-small-text').text('포인트 적립 기준입니다.');
 							
 							$('input[name="formName"]').val('pointSave');
@@ -447,8 +449,9 @@
 						case 'pills-max':
 							let useMaxCount;
 							for(let list of pointStandardList){
-								if(list['codeUse'] == '사용가능') {
+								if(list['codeUse'] == '사용중') {
 									useMaxCount = list['useMaximumCount'];
+									codeUseYes = true;
 								}
 							}
 							$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');
@@ -465,6 +468,7 @@
 							   
 							break;
 						}
+					
 					}
 					requestData.fail(function( jqXHR, textStatus ) {
 						alert( "Request failed: " + textStatus );
@@ -491,7 +495,7 @@
 				let tableId = $('.tab-pane').attr('id');
 				
 				const requestData = $.ajax({
-		 		 	url: '/admin/point/addPointStandardAjax',
+		 		 	url: '/admin/point/getPointStandardModalList',
 					method: 'GET',
 					data: { 'tableId' : tableId },
 					dataType: 'json'
@@ -501,8 +505,87 @@
 						console.log("sfsdfsdfsdfsd",response);
 						const newCode = response.newPointStandardCode;
 						const SID = response.SID;
+						const adminPw = response.adminPw;
 						$('#insertCode').val(newCode);
 						$('#insertAdminId').val(SID);
+						
+						// 유효성 검사 함수
+						const validCheck = element => {
+							let data = $(element).val();
+							let eleId = $(element).attr('id');
+							let tableId = $('.tab-pane').attr('id');
+							if ($(element).is('input')){
+								if(typeof data == 'undefined' || data == null || data ==''){
+									if($(element).next().is('span')) $(element).next().remove();
+									$(element).after(`<span class="validCheck">* 필수 입력 항목입니다.</span>`);
+									
+									$(element).focus();
+									
+									return false;
+								}else{
+									// 숫자만 입력 가능한 폼					
+									const intTypes = ['insertMaxCount', 'InsertExpirePeriod', 'insertGradePoint', 'insertUsePoint', 
+									                  'insertMinRefundPoint', 'insertRefundUnit', 'insertRefundFeeRate'];
+									
+									if (intTypes.includes(eleId) && isNaN(data)) {
+										if($(element).next().is('span')) $(element).next().remove();
+										$(element).after(`<span class="validCheck">* 숫자만 입력 가능합니다.</span>`);
+									
+									    $(element).focus();
+									    
+									    return false;
+									}			
+									if (tableId === 'pills-type' && $(element).is('#insertPointType')) {
+									    let $tdArr = $('td');
+									    for(let td of $tdArr){
+								    		if($(td).text() == $(element).val()){
+								    			if($(element).next().is('span')) $(element).next().remove();
+									            $(element).after(`<span class="validCheck">* 이미 존재하는 포인트 타입입니다.</span>`);
+									            
+									            $(element).focus();
+										           
+									            return false;
+								    		}
+									    }									        
+									}
+								}
+							// 이미 사용 가능한 기준이 존재하는지 체크
+							}else if($(element).is('select')){		
+							    if (tableId === 'pills-max' || tableId === 'pills-expire') {
+							        if ($('select').val() === 'Y' && $('td:contains("사용중")').length > 0) {
+							        	if($(element).next().is('span')) $(element).next().remove();
+							            $(element).after(`<span class="validCheck">* 이미 사용중인 기준이 존재합니다.</span>`);
+							            
+							            $(element).focus();
+							           
+							            return false;
+							        }
+							    }
+							}				
+							  if($(element).next().is('span')) $(element).next().remove(); 
+							  return true;
+						}						
+
+						$('#insertBtn').click(function() {
+						    const validateEle = $('#insertForm div').find('select, input');
+						    let isSubmit = true;
+						    validateEle.each((idx, item) => {
+						        if (!validCheck(item)) {
+						            isSubmit = false;
+						            return false;
+						        }
+						        
+						    });
+						  	//관리자 비밀번호 검증
+						    if (adminPw != $('#insertAdminPw').val() && $('#insertAdminPw').val() != '') {
+					        	if($('#insertAdminPw').next().is('span')) $(element).next().remove();
+					        	$('#insertAdminPw').after(`<span class="validCheck">* 비밀번호가 일치하지 않습니다.</span>`);
+					        	isSubmit = false;
+					            return false;
+					        }
+						    if (isSubmit) $('#insertForm').submit();
+						});
+
 						
 						}
 						
@@ -512,6 +595,19 @@
 					});
 
 				});
+				
+				// 모달 창에서 벗어나면 모든 경고문 지우기
+				$('.modal').on('hidden.bs.modal', function () {
+				    $('form').find('span').remove();
+				});
+			
+				// 입력 취소 버튼 클릭 시 readonly 빼고 리셋하기
+				$('.resetBtn').click(e => {
+					$(e.target).closest('form').find('input:not([readonly])').val('');				
+				})
+			
+			
+				
 			</script>
 	</th:block>
 </html>

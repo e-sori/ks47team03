@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import ks47team03.admin.dto.AdminPoint;
 import ks47team03.admin.service.AdminPointService;
+import ks47team03.user.dto.User;
 import ks47team03.user.service.UserCommonService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,32 +67,22 @@ public class AdminPointController {
 	// 포인트 관련 기준 등록
 	@PostMapping("/addPointStandard")
 	public String addPointStandard(AdminPoint adminPoint, 
-											RedirectAttributes reAttr) {
+									RedirectAttributes reAttr) {
 		
-		String adminId = adminPoint.getAdminId();
-		String adminPw = adminPoint.getAdminPw();
-				
-		//관리자 비밀번호 검증
-		Map<String, Object> isValidMap = userCommonService.isValidUser(adminId, adminPw);
-		boolean isValid = (boolean) isValidMap.get("isValid");
-		
-		log.info("sfddsfsdfsdfL:{}",isValid);
-				
-		//비밀번호 일치 후 기준 등록
-		if(isValid) {
-			adminPointService.addPointStandard(adminPoint);
-			reAttr.addAttribute("message","등록되었습니다.");
-		}else reAttr.addAttribute("message","등록이 실패했습니다.");
+		adminPointService.addPointStandard(adminPoint);
+			
+		reAttr.addAttribute("message","등록 완료");
+			
 		return "redirect:/admin/point/pointStandardManage";
 	}		
 	
 	// 포인트 관련 기준 등록 모달 (ajax로 데이터 리턴)
-	@GetMapping("/addPointStandardAjax")
+	@GetMapping("/getPointStandardModalList")
 	@ResponseBody
-	public Map<String,Object> addPointStandard(@RequestParam(value="tableId")String tableId, 
-									Model model, HttpSession session) {
+	public Map<String,Object> getPointStandardModalList(@RequestParam(value="tableId")String tableId, 
+									HttpSession session) {
 		
-		Map<String,Object> addPointStandardAjax = new HashMap<String,Object>();
+		Map<String,Object> pointStandardModalReusltMap = new HashMap<String,Object>();
 		
 		String tableDbName = null;		
 		
@@ -106,23 +94,24 @@ public class AdminPointController {
 		
 		String newPointStandardCode = adminPointService.getIncreaseCode(tableDbName);
 		
-		String SID = (String) session.getAttribute("SID");
+		String SID = (String) session.getAttribute("SID");		
+		User adminInfo = userCommonService.getUserInfoById(SID);		
+		String adminPw = adminInfo.getUserPw();
 		
-		addPointStandardAjax.put("newPointStandardCode", newPointStandardCode);
-		addPointStandardAjax.put("SID", SID);
+		pointStandardModalReusltMap.put("newPointStandardCode", newPointStandardCode);
+		pointStandardModalReusltMap.put("SID", SID);
+		pointStandardModalReusltMap.put("adminPw", adminPw);
 		
-		model.addAttribute("title","포인트 관련 기준 수정");
-		
-		return addPointStandardAjax;
+		return pointStandardModalReusltMap;
 	}		
 	
 	// 포인트 관련 기준 관리 화면	(ajax로 데이터 리턴)
-	@GetMapping("/pointStandardManageAjax")
+	@GetMapping("/getpointStandardList")
 	@ResponseBody
-	public Map<String,Object> pointStandardMange(@RequestParam(value="tableId")String tableId,
+	public Map<String,Object> getpointStandardList(@RequestParam(value="tableId")String tableId,
 													Model model) {
 		
-		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard(tableId);		
+		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandardList(tableId);		
 	
 		model.addAttribute("title", "포인트 관련 기준 관리");		
 		
@@ -132,16 +121,17 @@ public class AdminPointController {
 	// 포인트 관련 기준 관리 화면	
 	@GetMapping("/pointStandardManage")
 	@SuppressWarnings("unchecked")
-	public String pointStandardManage(Model model) {
+	public String pointStandardManage(@RequestParam(value="message", required = false) String message,
+										Model model) {
 		
 		/* 포인트 기준 조회 */
-		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandard("pills-max");
+		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandardList("pills-max");
 		
 		List<Map<String,Object>>  pointStandardList = (List<Map<String,Object>> )pointStandardResultMap.get("pointStandardList");
 		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
 
 		for (Map<String,Object> MaxCount : pointStandardList) { 
-			if(MaxCount.get("codeUse").equals("사용가능")) { 
+			if(MaxCount.get("codeUse").equals("사용중")) { 
 				int useMaxCount = (int)MaxCount.get("useMaximumCount"); 
 				model.addAttribute("useMaxCount", useMaxCount); 
 				break; 
@@ -150,7 +140,8 @@ public class AdminPointController {
 			
 		model.addAttribute("title","포인트 관련 기준 관리");
 		model.addAttribute("codeUseList", codeUseList);
-		model.addAttribute("pointStandardList", pointStandardList);			
+		model.addAttribute("pointStandardList", pointStandardList);	
+		if(message != null) model.addAttribute("message", message);
 		
 		return "admin/point/pointStandardManage";
 	}
