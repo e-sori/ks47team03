@@ -3,17 +3,16 @@ package ks47team03.user.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import ks47team03.user.dto.Board;
+import ks47team03.user.dto.BoardComment;
+import ks47team03.user.service.UserBoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import ks47team03.user.service.UserBoardService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
 import java.util.*;
 
 
@@ -62,7 +61,7 @@ public class UserBoardController {
 		// 제목, 내용 비어 있는지 확인
 		// 제목, 내용이 비어 있다면 메지지 반환 및 메서드 종료
 		if (board.getCommunity_now_board_title() == null || board.getCommunity_now_board_title().isEmpty() ||
-			board.getCommunity_now_board_content() == null || board.getCommunity_now_board_content().isEmpty()) {
+				board.getCommunity_now_board_content() == null || board.getCommunity_now_board_content().isEmpty()) {
 			model.addAttribute("message", "제목과 내용은 필수 입력 사항입니다.");
 			model.addAttribute("searchUrl", "/board/communityBoardWrite");
 			return "user/board/message";
@@ -92,6 +91,9 @@ public class UserBoardController {
 			// 게시글 정보를 모델에 추가후 페이지를 로드
 			model.addAttribute("detail", board);
 		}
+		// 댓글 조회
+		List<BoardComment> comments = userBoardService.getCommentsByBoardCode(boardCode);
+		model.addAttribute("comments", comments);
 		return "user/board/communityBoardDetail";
 	}
 	// 커뮤니티 게시글 삭제
@@ -151,5 +153,18 @@ public class UserBoardController {
 		response.put("liked", liked);
 		return ResponseEntity.ok(response);
 	}
-
+	// 커뮤니티 댓글 작성
+	@PostMapping("/comment/write")
+	public String communityWriteComment(String boardCode, String commentContent, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		HttpSession session = request.getSession();
+		String currentUserId = (String) session.getAttribute("SID"); // 현재 로그인한 사용자의 아이디
+		userBoardService.communityWriteComment(boardCode, currentUserId, commentContent);
+		return "redirect:/board/communityBoardDetail?boardCode=" + boardCode;
+	}
+	// 커뮤니티 댓글 삭제
+	@PostMapping("/comment/delete")
+	public String deleteComment(String commentCode, String boardCode) {
+		userBoardService.communityDeleteComment(commentCode);
+		return "redirect:/board/communityBoardDetail?boardCode=" + boardCode;
+	}
 }
