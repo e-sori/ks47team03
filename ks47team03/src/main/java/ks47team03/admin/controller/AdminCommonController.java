@@ -150,11 +150,10 @@ public class AdminCommonController {
 	@SuppressWarnings("unchecked")
 	@GetMapping("/user/gradeManage")
 	public String gradeManage(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
-								@RequestParam (value="searchKey", required= false) String searchKey,
-								@RequestParam (value="searchValue", required= false) String searchValue,
+								
 								@RequestParam(value="msg", required = false) String msg,
 								Model model) {
-		Map<String,Object> resultMap = adminService.getGradeManageList(currentPage,searchKey,searchValue);
+		Map<String,Object> resultMap = adminService.getGradeManageList(currentPage);
 		int lastPage = (int)resultMap.get("lastPage");
 		
 		List<Map<String,Object>> gradeManageList = (List<Map<String,Object>>)resultMap.get("gradeManageList");

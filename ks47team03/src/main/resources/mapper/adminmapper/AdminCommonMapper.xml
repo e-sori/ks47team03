@@ -40,14 +40,10 @@
 			g.user_id							AS userId,
 			g.user_use_count					AS userUsecount,
 			cast(g.user_grade_change_datetime 	AS CHAR(20))	AS userGradechangedatetime,
-			g.admin_id							AS adminId,
+			g.admin_id							AS adminId
 		FROM 
 			grade_manage as g
-		<where>
-        	<if test="searchValue != null and searchValue !=''">
-        		${searchKey} = #{searchValue}
-        	</if>
-        </where>
+
 		<if test="startIndex != null and startIndex > -1 ">
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
@@ -57,12 +53,8 @@
 		SELECT
 			COUNT(*)
 		FROM
-			grade_manage as g
-		<where>
-        	<if test="searchValue != null and searchValue !=''">
-        		${searchKey} = #{searchValue};
-        	</if>
-        </where>
+			grade_manage as g;
+		
 	</select> 
 
 

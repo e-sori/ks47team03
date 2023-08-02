@@ -34,22 +34,22 @@
 					<div class="">
 						<!-- User Image -->
 						<div class="">
-							<img src="/user/img/member5.jpg" alt="" class="span" width="300" heigh="150">
+							<img src="/user/img/member/member5.jpg" alt="" class="span" width="300" heigh="150">
 						</div>
 						<!-- User Name -->
-						<h5 class="text-center">서원</h5>
+						<h5 class="text-center col-11">서원</h5>
 						<p>Joined 2018</p>
 					</div>
 					<!-- Dashboard Links -->
-					<div class="">
+					<div class="container">
 						<ul>
 							<li>
-								<a href=""><span class="fe fe-user"></span>마이 페이지</a></li>
+								<span class=""></span>마이 페이지</a></li>
 							<li>
-								<a href=""><span class="fe fe-hourglass-end"></span> 배송 신청 </a>
+								<span class=""></span> 배송 신청 </a>
 							</li>
 							<li>
-								<a href=""><span class="fe fe-truck"></span>배송 조회 </a>
+								<span class=""></span>배송 조회 </a>
 							</li>
 						</ul>
 					</div>
@@ -58,44 +58,33 @@
 			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
 				<!-- Edit Personal Info -->
 				<div class="widget personal-info">
-					<h1 class="widget-header user">배송 주문 정보</h1>
+					<div class="container p-3 border" >				  
+	                	<a class="userHello-username" href="/mypage/myInfo" th:text="${session.SNAME}"></a>
+	                    <span>회원님 반갑습니다.</span>
+					</div>
+					<div class="container p-3 border" >				  
+	                	
+	                    <span>컵 이용 현황 : 개</span>
+					</div>
+					
+					
 					<form action="#">
 						<!-- First Name -->
-						<div class="container p-3 my-3 border" >
-							<h1>주문자 이름</h1>
-						    <label for="first-name">주문자 이름</label>
-						    
+						<div class="container p-3 my-5 border" >
+						    <span>바코드</span>
 						</div>
-						<!-- Last Name -->
-						<div class="form-group">
-						    <label for="last-name">주문자 연락처</label>
-						    
-						</div>
+					
 					</form>
 				</div>
 				<div class="widget personal-info">
 						<!-- Comunity Name -->
-						<div class="form-group">
-							<h1 class="widget-header user">배송지</h1>	
+						
+							
 							
 						    <input type="text" class="form-control" id="comunity-name" placeholder="&nbsp; &nbsp; &nbsp;➕ &nbsp; &nbsp; &nbsp; 배송지 추가하기">
 						</div>
 				</div>
-				<div class="widget personal-info">		
-					<h1 class="widget-header user">결제 수단</h1>		
-						<!-- Checkbox -->
-						<div class="form-check">
-						  <label class="form-check-label" for="hide-profile">
-						    <input class="form-check-input" type="radio" value="" id="hide-profile">
-						    일반결제
-						  </label>
-						</div>		
-						<div class="select">
-							<input type="radio" id="select" name="temp1"><label for="select">신용/체크카드</label>
-							<input type="radio" id="select2" name="temp1"><label for="select2">무통장 입금</label>
-					    </div>
-							<button type="button" class="btn btn-transparent btn-danger btn-block">결제하기</button>
-				</div>
+				
 			</div>	
 		</div>
 	</div>

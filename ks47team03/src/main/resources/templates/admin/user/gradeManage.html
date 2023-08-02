@@ -14,7 +14,7 @@
                 <div class="col-md-12">
                   <div class="card shadow">
                     <div class="card-body">
-                     <div th:insert="~{admin/search/gradesearch :: userSearchFragment}"></div>
+                     
                       <!-- table -->
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
@@ -31,13 +31,14 @@
                             <th>사용자 이용 횟수</th>
                             <th>등급 변경 일자</th>
                             <th>등급 변경 승인자</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                         	<th:block th:unless="${#lists.isEmpty(gradeManageList)}"  th:each="g,state : ${gradeManageList}">
 		                          <tr>
 		                            <td>
-		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks" th:data-grade-manage="${u.userId}">
+		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks" th:data-grade-manage="${g.gradeManagecode}">
 		                            </td>
 		                            <td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
 		                            <td th:text="${g.gradeManagecode}"></td>
@@ -49,7 +50,7 @@
 		                            <td th:text="${g.userGradechangedatetime}"></td>
 		                            <td th:text="${g.adminId}"></td>
 		                            <td>
-		                                <a class="dropdown-item" th:href="@{/admin/user/gradeModify(${g.gradeManagecode}=${g.${g.gradeManagecode}})}">Edit</a>
+		                                <a class="dropdown-item" th:href="@{/admin/user/gradeModify(gradeManagecode=${g.gradeManagecode})}">Edit</a>
 		                            </td>
 		                          </tr>
                           	</th:block>

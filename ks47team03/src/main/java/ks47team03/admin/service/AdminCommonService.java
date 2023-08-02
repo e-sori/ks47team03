@@ -119,28 +119,9 @@ public class AdminCommonService {
 		
 	}
 	
-	public Map<String,Object> getGradeManageList(int currentPage,String searchKey, String searchValue) {
+	public Map<String,Object> getGradeManageList(int currentPage) {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		if(searchValue != null) {
-			switch(searchKey) {
-				case "gradeManagecode"->{
-					searchKey="g.grade_manage_code";
-				}
-				case "gradeStandardcode"->{
-					searchKey="g.grade_standard_code";				
-								}
-				case "userId"->{
-					searchKey="g.user_id";				
-								}
-				case "userUsecount"->{
-					searchKey="g.user_use_count";				
-								}				
-			}
-			
-			paramMap.put("searchKey", searchKey);
-			paramMap.put("searchValue", searchValue);
 		
-		}		
 		
 		
 		//보여질 행의 갯수
@@ -178,13 +159,13 @@ public class AdminCommonService {
 		log.info("paramMap:{}",paramMap);
 		
 
-		List<Map<String,Object>> getGradeStandardList = adminCommonMapper.getGradeManageList(paramMap);
-		log.info("전체 회원 목록:{}",getGradeStandardList);
+		List<Map<String,Object>> gradeManageList = adminCommonMapper.getGradeManageList(paramMap);
+		log.info("전체 회원 목록:{}",gradeManageList);
 
 		//controller에 전달
 		paramMap.clear(); // map 객체 안의 data초기화
 		paramMap.put("lastPage", lastPage);
-		paramMap.put("getGradeStandardList", getGradeStandardList);
+		paramMap.put("gradeManageList", gradeManageList);
 		paramMap.put("startPageNum", startPageNum);
 		paramMap.put("endPageNum", endPageNum);
 		paramMap.put("rowPerPage", rowPerPage);
