@@ -30,7 +30,7 @@
 
 
 
-	<select id="getGradeMangeList" parameterType="map" resultType="map">
+	<select id="getGradeManageList" parameterType="map" resultType="map">
 		/* 회원등급 관리 */
 		SELECT
 			g.grade_manage_code					AS gradeManagecode,
@@ -52,7 +52,18 @@
 			LIMIT #{startIndex},#{rowPerPage};
 		</if>
 	</select> 
-
+	<select id="getGradeManageListCount" parameterType="map" resultType="int">
+		/*회원 등급 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			grade_manage as g
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue};
+        	</if>
+        </where>
+	</select> 
 
 
 	<select id="getadminIdList" resultType="User">

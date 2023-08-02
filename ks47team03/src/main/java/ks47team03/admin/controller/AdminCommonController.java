@@ -157,17 +157,18 @@ public class AdminCommonController {
 		Map<String,Object> resultMap = adminService.getGradeManageList(currentPage,searchKey,searchValue);
 		int lastPage = (int)resultMap.get("lastPage");
 		
-		List<Map<String,Object>> gradeManageList = (List<Map<String,Object>>)resultMap.get("getGradeManageList");
-		log.info("gradeStandardList:{}",gradeManageList);
+		List<Map<String,Object>> gradeManageList = (List<Map<String,Object>>)resultMap.get("gradeManageList");
+		log.info("gradeManageList:{}",gradeManageList);
 		
 		int startPageNum = (int) resultMap.get("startPageNum");
 		int endPageNum = (int) resultMap.get("endPageNum");
 		int rowPerPage = (int) resultMap.get("rowPerPage");
 		
+		if(msg != null) model.addAttribute("msg", msg);
 		model.addAttribute("title","회원 등급 관리");
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("getGradeManageListCount",adminMapper.getGradeManageListCount());
+		model.addAttribute("gradeManageListCount",adminMapper.getGradeManageListCount());
 		model.addAttribute("gradeManageList", gradeManageList);
 		model.addAttribute("startPageNum", startPageNum);
 		model.addAttribute("endPageNum", endPageNum);
