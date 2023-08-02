@@ -10,7 +10,9 @@ import ks47team03.user.dto.Partner;
 
 @Mapper
 public interface UserPartnerMapper {
+	//로그인 아이디로 설치된 키오스크 조회
 	public List<Kiosk>getInstalledKioskById(String loginId);
+	//입력받은 폼으로 추가컵 배송 신청 
 	public void addBusinessCup(Partner partner);
 	//아이디로 파트너 코드 조회
 	public List<Partner> getPartnerCodeById(String loginId,String userLevel);

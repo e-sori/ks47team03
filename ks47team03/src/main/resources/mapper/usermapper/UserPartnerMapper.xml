@@ -6,7 +6,9 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserPartnerMapper">
+
 	<select id="getPartnerCodeById" parameterType="String" resultType="Partner">
+	/*로그인 아이디로 파트너 코드 조회 */
 	SELECT 
 		appi.approval_partner_plus_info_code AS partnerCode,
 		appi.partner_name AS partnerName
@@ -22,7 +24,10 @@
 	ORDER BY CAST(SUBSTRING_INDEX(approval_partner_plus_info_code,'business',-1) AS UNSIGNED)
 	</if>
 	</select>
+	
+	
 	<select id="getInstalledKioskById" parameterType="String" resultType="Kiosk">
+		/*로그인 아이디로 설치된 키오스크 번호 조회*/
 		SELECT
 			ikl.kiosk_serial_num as kioskSerialNum
 		FROM 
@@ -43,6 +48,7 @@
 	</select>
 	
 	<insert id="addBusinessCup" parameterType="Partner">
+	/*추가 신청 수량 인서트*/
 	INSERT
 	INTO 
 		add_delivery_application(add_delivery_application_code,approval_partner_plus_info_code,kiosk_serial_num,delivery_cup_quantity,delivery_request_datetime,delivery_desired_datetime,static_code)
@@ -71,6 +77,7 @@
 	</insert>
 
 	<select id="getPartnerInfoByLevel" parameterType="map" resultType="Kiosk">
+		/*사용자 권한으로 사업장 정보 조회*/
 		SELECT
 			appi.approval_partner_plus_info_code AS partnerCode,
 			appi.partner_name AS partnerName,
