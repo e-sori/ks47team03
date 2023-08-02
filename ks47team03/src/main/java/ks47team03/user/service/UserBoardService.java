@@ -3,7 +3,9 @@ package ks47team03.user.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import ks47team03.user.dto.Board;
+import ks47team03.user.dto.BoardComment;
 import ks47team03.user.dto.BoardLike;
+import ks47team03.user.mapper.UserBoardCommentMapper;
 import ks47team03.user.mapper.UserBoardLikeMapper;
 import ks47team03.user.mapper.UserBoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class UserBoardService {
     private UserBoardMapper userBoardMapper;
     @Autowired
     private UserBoardLikeMapper userBoardLikeMapper;
+    @Autowired
+    private UserBoardCommentMapper userBoardCommentMapper;
     // 게시글 작성
     public void communityBoardWrite(Board board, HttpServletRequest request){
         // 게시글 작성 날짜 추가
@@ -104,5 +108,25 @@ public class UserBoardService {
         } catch (Exception e) {
             return false;
         }
+    }
+    // 댓글 조회
+    public List<BoardComment> getCommentsByBoardCode(String boardCode) {
+        // 게시글 코드를 사용하여 댓글 목록을 찾는 쿼리를 작성합니다.
+        return userBoardCommentMapper.findByboardCode(boardCode);
+    }
+    // 댓글 작성
+    public void communityWriteComment(String boardCode, String userId, String commentContent) {
+        // 댓글 객체 생성
+        BoardComment comment = new BoardComment();
+        comment.setBoardCode(boardCode);
+        comment.setUserId(userId);
+        comment.setBoardCommentContent(commentContent);
+        comment.setCommentDatetime(LocalDateTime.now());
+        // 댓글 저장
+        userBoardCommentMapper.save(comment);
+    }
+    // 댓글 삭제
+    public void communityDeleteComment(String commentCode) {
+        userBoardCommentMapper.deleteById(Long.parseLong(commentCode));
     }
 }
