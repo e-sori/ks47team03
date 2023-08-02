@@ -73,6 +73,25 @@
 			</tfoot>
           </table>
          </form>
+          <div class="order_details_table">
+          <table>
+          	<thead>
+          		<tr>
+          			<th>NO.</th>
+          			<th>사업장 코드</th>
+          			<th>사업장 이름</th>
+          			<th>무인기기 번호</th>
+          			<th>신청 수량</th>
+          			<th>배송 희망 날짜</th>
+          			<th>현재 상태</th>
+          			<th>업데이트 날짜</th>
+          		</tr>
+          	</thead>
+          	<tbody class="applyBody">
+          	</tbody>
+          </table>
+          
+          </div>
         </div>
       </div>
   </section>
@@ -124,6 +143,9 @@
 		    }
 		
 		});
+		request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+        });
 	}
 	$(document).ready(function() {
 	    loadKioskNum();
@@ -131,6 +153,8 @@
 	    // select 값 변경 시 호출
 	    $('.addCupselect').change(loadKioskNum);
 	});
+	
+
 	//버튼 클릭 이벤트
 	$('#addCupBtn').click(function(){
 		const validateEle = $('#addCupForm select,input');   			
@@ -143,6 +167,7 @@
 			alert("신청완료")
 			$('#addCupForm').submit();
 		}
+		
 	})
 	//데이트 피커
 	$('.drgpicker').daterangepicker(
