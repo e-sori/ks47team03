@@ -28,6 +28,7 @@ public class UserPartnerService {
 			this.commonMapper = commonMapper;
 
 		}
+
 		//추가컵 배송 신청
 		public void addBusinessCup(Partner partner) {
 			partnerMapper.addBusinessCup(partner);

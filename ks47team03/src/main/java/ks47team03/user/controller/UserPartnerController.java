@@ -1,7 +1,5 @@
 package ks47team03.user.controller;
-
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -97,6 +95,7 @@ public class UserPartnerController {
 		model.addAttribute("title", "추가 컵 배송");
 		return "user/partner/businessAddCup";
 	}
+	
 	@PostMapping("/applyAddCup")
 	public String applyAddCup (Partner partner) {
 		partnerService.addBusinessCup(partner);

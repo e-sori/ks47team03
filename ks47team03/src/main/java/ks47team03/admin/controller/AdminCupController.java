@@ -99,7 +99,6 @@ public class AdminCupController {
 	}
 	//폐기컵 관리 화면
 	@GetMapping("/discardCupManage")
-	@SuppressWarnings("unchecked")
 	public String discardCupManage (
 									HttpServletRequest request,
 									Model model) {
