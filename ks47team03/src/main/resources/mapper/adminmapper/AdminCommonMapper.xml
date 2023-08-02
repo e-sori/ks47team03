@@ -30,6 +30,34 @@
 
 
 
+	<select id="getGradeManageList" parameterType="map" resultType="map">
+		/* 회원등급 관리 */
+		SELECT
+			g.grade_manage_code					AS gradeManagecode,
+			g.grade_standard_code				AS gradeStandardcode,
+			g.past_grade_name					AS pastGradename,	
+			g.now_grade_name					AS nowGradename,
+			g.user_id							AS userId,
+			g.user_use_count					AS userUsecount,
+			cast(g.user_grade_change_datetime 	AS CHAR(20))	AS userGradechangedatetime,
+			g.admin_id							AS adminId
+		FROM 
+			grade_manage as g
+
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select> 
+	<select id="getGradeManageListCount" parameterType="map" resultType="int">
+		/*회원 등급 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			grade_manage as g;
+		
+	</select> 
+
+
 	<select id="getadminIdList" resultType="User">
 	/*관리자 아이디 조회*/
 		SELECT
