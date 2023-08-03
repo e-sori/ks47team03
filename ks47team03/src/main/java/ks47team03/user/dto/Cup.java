@@ -1,6 +1,7 @@
 package ks47team03.user.dto;
 
 public class Cup {
+	private int num;
 	private String userId;
 	private String userName;
 	private String userNick;
@@ -45,6 +46,14 @@ public class Cup {
 	}
 	
 	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+
 	private String cupQR;
 	private String staticCode;
 	private String setDateTime;
@@ -83,7 +92,9 @@ public class Cup {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Cup [userId=");
+		builder.append("Cup [num=");
+		builder.append(num);
+		builder.append(", userId=");
 		builder.append(userId);
 		builder.append(", userName=");
 		builder.append(userName);

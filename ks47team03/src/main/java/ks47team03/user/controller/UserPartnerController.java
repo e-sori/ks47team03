@@ -1,13 +1,12 @@
 package ks47team03.user.controller;
-
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.service.AdminCupService;
+import ks47team03.user.dto.Cup;
 import ks47team03.user.dto.FileDto;
 import ks47team03.user.dto.Kiosk;
 import ks47team03.user.dto.Partner;
@@ -59,43 +59,23 @@ public class UserPartnerController {
 		else{reAttr.addAttribute("msg", "업로드 완료❤");}
 		return "redirect:/partner/washDiscardCup";
 	}
-	
+
 	//폐기컵 리스트 조회
-	@SuppressWarnings("unchecked")
-	@GetMapping("/washDiscardCupList")
-	@ResponseBody
-	public List<Map<String,Object>> discardCupList(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage){
-		Map<String,Object> resultMap = adminCupService.getDiscardCupList(currentPage);
-		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
-		
-		return discardCupList; 
-	}
-	//폐기컵 리스트 조회
-	@SuppressWarnings("unchecked")
 	@GetMapping("/washDiscardCup")
 	public String washDiscardCup(Model model,
-								@RequestParam(value="msg", required = false) String msg,
-								@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage) {
+								@RequestParam(value="msg", required = false) String msg
+								) {
 		
-		Map<String,Object> resultMap = adminCupService.getDiscardCupList(currentPage);
-		int lastPage = (int)resultMap.get("lastPage");
-		List<Map<String,Object>> discardCupList = (List<Map<String,Object>>)resultMap.get("discardCupList");
-		int startPageNum = (int) resultMap.get("startPageNum");
-		int endPageNum = (int) resultMap.get("endPageNum");
-		int rowPerPage = (int) resultMap.get("rowPerPage");
+		List<Cup> discardCupList = adminCupService.getDiscardCupList();
 		List<FileDto> fileList = adminCupService.getFileList();
 		if(msg != null) model.addAttribute("msg", msg);
-		
-		model.addAttribute("currentPage", currentPage);
-		model.addAttribute("lastPage", lastPage);
-		model.addAttribute("startPageNum", startPageNum);
-		model.addAttribute("endPageNum", endPageNum);
+
 		model.addAttribute("discardCupList", discardCupList);
-		model.addAttribute("rowPerPage", rowPerPage);
 		model.addAttribute("fileList",fileList );
 		model.addAttribute("title", "폐기컵 등록");
 		return "user/partner/washDiscardCup";
 	}
+	
 	//추가컵 배송에서 키오스크 번호 확인
 	@GetMapping("/addCupKioskNum")
 	@ResponseBody
@@ -104,6 +84,7 @@ public class UserPartnerController {
 		log.info("kioskNumList:{}",kioskNumList);
 		return kioskNumList;
 	}
+	
 	//추가컵 배송 신청
 	@GetMapping("/businessAddCup")
 	public String businessAddCup(Model model,
@@ -111,19 +92,22 @@ public class UserPartnerController {
 		String loginId = (String) session.getAttribute("SID");
 		String userLevel = commonMapper.getUserLevelById(loginId);
 		List<Partner> partnerCodeList = partnerService.getPartnerCodeById(loginId,userLevel);
-		//List<Kiosk> partnerInfoByLevel = partnerService.getPartnerInfoByLevel(loginId);
-		//List<Kiosk> kioskList = partnerService.getInstalledKioskById(loginId);
-		
 		model.addAttribute("partnerCodeList", partnerCodeList);
-		//model.addAttribute("partnerInfoByLevel", partnerInfoByLevel);
 		model.addAttribute("title", "추가 컵 배송");
 		return "user/partner/businessAddCup";
 	}
-	@PostMapping("/applyAddCup")
-	public String applyAddCup (Partner partner) {
-		
-		return "redirect:/partner/businessAddCup";
+	//추가컵 신청
+	@PostMapping("/businessAddCup")
+	@ResponseBody
+	public List<Partner> applyAddCup (@RequestBody Partner partner) {
+		log.info("partnerzDXcvadzsf:{}",partner);
+		partnerService.addBusinessCup(partner);
+		String partnerCode = partner.getPartnerCode();
+		List<Partner> addCupCheckList = partnerService.addCupCheckList(partnerCode);
+		log.info("addCupCheckList:{}",addCupCheckList);
+		return addCupCheckList;
 	}
+	
 	@GetMapping("/businessKioskApply")
 	public String businessKioskApply(Model model) {
 		

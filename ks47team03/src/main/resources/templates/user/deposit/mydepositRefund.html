@@ -5,30 +5,55 @@
 	<th:block layout:fragment="customContents">
   
  <!-- ================ start banner area ================= -->
-  <section class="page-banner-area" id="category">
+ <head>
+  	<meta charset="utf-8"/>
+ 	 <script src="https://js.tosspayments.com/v1/payment"></script>
+  </head>
+    <section class="page-banner-area" id="category">
     <div class="container h-100">
         <div class="text-center">
-          <h1>나의 보증금 환급</h1>
+          <h1>나의 보증금 결제</h1>
           <nav aria-label="breadcrumb" class="banner-breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+            	<li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
               <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">나의 보증금 환급</li>
+              <li class="breadcrumb-item active" aria-current="page">나의 보증금 결제</li>
             </ol>
           </nav>
       </div>
     </div>
   </section>
- 
+   
+   
 	  <!-- ================ end banner area ================= -->
 
   <!--================Point table Area =================-->
-  <section class="order_details section-margin--small">
-  
-           
-   
-  </section>
-  <!--================End Order Details Area =================-->
+ <section class="login_box_area section-margin">
+		<div class="container">
+			<div class="rowlogin">
+				<div class="login_join_center">
+					<div class="login_form_inner">
+						<h3>보증금 결제</h3>
+						<form class="row login_form" action="#/" id="contactForm" >
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="depositName" name="depositName" placeholder="입금자명" onfocus="this.placeholder = '입금자명'" onblur="this.placeholder = '입금자명'">
+							</div>
+							<div class="col-md-12 form-group">
+								<select id="depositRefundAmount" name="depositRefundAmount">
+									<option value="1000">1000</option>	
+									<option value="2000">2000</option>	
+									<option value="3000">3000</option>							
+								</select>
+								</div>					
+						</form>
+									 <button id="payment-button">무통장결제</button>
+									 <button id="payment-button2">계좌이체</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 
    </th:block>
 </html>

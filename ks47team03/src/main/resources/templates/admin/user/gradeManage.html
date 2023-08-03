@@ -4,69 +4,186 @@
 	  layout:decorate="~{admin/layout/default}">
 	  
 	<th:block layout:fragment="customContents">
-		<h2 class="page-title">회원 등급 관리</h2>
-             <div class="col-md-6 my-4">
+
+     <div class="container-fluid">
+       <div class="row justify-content-center">
+          <div class="col-12">
+            <h2 class="mb-2 page-title">회원 등급 관리</h2>          
+              <div class="row my-4">
+                <!-- Small table -->
+                <div class="col-md-12">
                   <div class="card shadow">
-                    <div class="card-body">                    
-                      <h5 class="card-title">Simple Table</h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <table class="table table-hover">
-                        <thead>
+                    <div class="card-body">
+                     
+                      <!-- table -->
+                      <table class="table datatables table-hover" id="dataTable-1">
+                      <thead>
                           <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Company</th>
-                            <th>Address</th>
-                            <th>Date</th>
-                            <th>Status</th>
+                          	<th>
+	                           <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
+                            </th>
+                            <th>NO. </th>
+                            <th>등급 관리 코드</th>
+                           	<th>등급 코드</th>
+                            <th>과거 등급</th>
+                            <th>현재 등급</th>
+                            <th>회원 아이디</th>
+                            <th>사용자 이용 횟수</th>
+                            <th>등급 변경 일자</th>
+                            <th>등급 변경 승인자</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td>3224</td>
-                            <td>Keith Baird</td>
-                            <td>Enim Limited</td>
-                            <td>901-6206 Cras Av.</td>
-                            <td>Apr 24, 2019</td>
-                            <td><span class="badge badge-pill badge-warning">Hold</span></td>
-                          </tr>
-                          <tr>
-                            <td>3218</td>
-                            <td>Graham Price</td>
-                            <td>Nunc Lectus Incorporated</td>
-                            <td>Ap #705-5389 Id St.</td>
-                            <td>May 23, 2020</td>
-                            <td><span class="badge badge-pill badge-success">Success</span></td>
-                          </tr>
-                          <tr>
-                            <td>2651</td>
-                            <td>Reuben Orr</td>
-                            <td>Nisi Aenean Eget Limited</td>
-                            <td>7425 Malesuada Rd.</td>
-                            <td>Nov 4, 2019</td>
-                            <td><span class="badge badge-pill badge-warning">Hold</span></td>
-                          </tr>
-                          <tr>
-                            <td>2636</td>
-                            <td>Akeem Holder</td>
-                            <td>Pellentesque Associates</td>
-                            <td>896 Sodales St.</td>
-                            <td>Mar 27, 2020</td>
-                            <td><span class="badge badge-pill badge-danger">Danger</span></td>
-                          </tr>
-                          <tr>
-                            <td>2757</td>
-                            <td>Beau Barrera</td>
-                            <td>Augue Incorporated</td>
-                            <td>4583 Id St.</td>
-                            <td>Jan 13, 2020</td>
-                            <td><span class="badge badge-pill badge-success">Success</span></td>
-                          </tr>
+                        	<th:block th:unless="${#lists.isEmpty(gradeManageList)}"  th:each="g,state : ${gradeManageList}">
+		                          <tr>
+		                            <td>
+		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks" th:data-grade-manage="${g.gradeManagecode}">
+		                            </td>
+		                            <td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
+		                            <td th:text="${g.gradeManagecode}"></td>
+		                            <td th:text="${g.gradeStandardcode}"></td>
+		                            <td th:text="${g.pastGradename}"></td>
+		                            <td th:text="${g.nowGradename}"></td>
+		                            <td th:text="${g.userId}"></td>
+		                            <td th:text="${g.userUsecount}"></td>
+		                            <td th:text="${g.userGradechangedatetime}"></td>
+		                            <td th:text="${g.adminId}"></td>
+		                            <td>
+		                                <a class="dropdown-item" th:href="@{/admin/user/gradeModify(gradeManagecode=${g.gradeManagecode})}">Edit</a>
+		                            </td>
+		                          </tr>
+                          	</th:block>
+                          	
+                          	<tr th:if="${#lists.isEmpty(gradeManageList)}">
+                          	<td colspan="15">등록된 등급이 존재하지 않습니다.</td>
+	                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                                <span class="text-muted sr-only">Action</span>
+	                              </button>
+	                              <div class="dropdown-menu dropdown-menu-right">
+	                                <a class="dropdown-item" href="#">Edit</a>
+	                                <a class="dropdown-item" href="#">Remove</a>
+	                                <a class="dropdown-item" href="#">Assign</a>
+	                              </div>
+	                            </td>
+							</tr>
                         </tbody>
+                        <tfoot>
+                        
+							 <tr>
+								<td colspan="10">
+									<a class="pages btn mb-2 btn-secondary" th:href="@{/admin/user/gradeManage}">처음으로</a>
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage>1}" th:href="@{/admin/user/gradeManage(currentPage=${currentPage-1})}">이전</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage>1}">이전</label>
+										<div class="btn-group mr-2" role="group" aria-label="First group">
+											<th:block th:each="num : ${#numbers.sequence(startPageNum,endPageNum)}" >
+												<a class="btn mb-2 btn-secondary" th:if="${currentPage != num}" th:href="@{/admin/user/gradeManage(currentPage=${num})}" th:text="${num}"></a>
+												<label class="btn mb-2 btn-secondary" th:if="${currentPage == num}" th:text="${num}"></label>
+											</th:block>
+										</div>				
+									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/user/gradeManage(currentPage=${currentPage+1})}">다음</a>
+									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
+									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/user/gradeManage(currentPage=${lastPage})}>마지막으로</a>
+								</td>
+								<td class="btn-right-align">
+									<button type="button" class="btn mb-2 btn-secondary" id="delCheckBtn" >삭제</button>
+								</td>
+							</tr> 
+						</tfoot>
                       </table>
                     </div>
                   </div>
-                </div> <!-- simple table -->     	
+                </div> <!-- simple table -->
+              </div> <!-- end section -->
+            </div> <!-- .col-12 -->
+           </div>
+          </div>
 	</th:block>
+	<th:block layout:fragment="customJs">
+	<script type="text/javascript" th:inline="javascript">
+		let msg = '[[${msg}]]';
+		console.log(msg);
+		if(msg != 'null') alert(msg);
+		$(function(){
+	      $('#dataTable-1').DataTable({
+		        autoWidth: true,
+		        "lengthChange": false, 
+                "pageLength" : 10,
+                "searching" : false,
+                "info": false,
+                "paging" : false,
+		        columnDefs: [{
+		            targets: 0,
+		            searchable: false,
+		            orderable: false,
+		            className: 'sorting_disabled'
+		            
+		         }
+		         ,{
+		            targets: $('#dataTable-1').find('th').length-1,
+		            searchable: false,
+		            orderable: false,
+		            className: 'sorting_disabled',	           
+		         	}
+		         ]
+					      	
+			});
+			$('#dataTable-1').find('.sorting_asc').toggleClass('sorting_asc');
+			});
+			
+		 $('table').click((e) => {
+		        if ($(e.target).is($('.allCheck'))) {
+		          const isChecked = $(e.currentTarget)
+		            .find('.allCheck')
+		            .prop('checked');
+		          $(e.currentTarget).find('.checks').prop('checked', isChecked);
+		        }
+		
+		        if ($(e.target).is($('.checks'))) {
+		          if (
+		            $(e.currentTarget).find('.checks').length ==
+		            $(e.currentTarget).find('.checks:checked').length
+		          ) {
+		            $(e.currentTarget).find('.allCheck').prop('checked', true);
+		          } else $(e.currentTarget).find('.allCheck').prop('checked', false);
+		        }
+		      });
 	
+			  $('#delCheckBtn').click(function(e){
+				  //배열 선언
+					const gradeManagecodeArr = [];
+				  //check 클래스 중 속성이 checked된 요소만 변수에 담아줌
+					const $checkedEle = $('.checks:checked');
+				  //배열 순회
+					$checkedEle.each((idx, item) => {
+						//input태그에 속성인 th:data-user-all
+						let gradeManagecode = $(item).data('gradeManage');
+						//베열에 cuserId 담아줌
+						gradeManagecodeArr.push(gradeManagecode);
+					})
+					console.log(gradeManagecodeArr);
+				  	//배열의 길이가 0이 아니면
+					if(gradeManagecodeArr.length != 0){
+						//새로운 폼 생성 ->jquery
+						const newForm = $('<form></form>');
+						//새로운 폼에 set attribute	
+						newForm.attr("method","post");
+						newForm.attr("action","/admin/user/gradeRemove");
+						// create element & set attribute (input)
+						//$ 제이쿼리 배열을 순회하는데 순회하는 배열은 괄호 안쪽에서 부름
+						$.each(gradeManagecodeArr, (idx, item) => {
+							newForm.append($('<input/>', {type: 'hidden', name: 'gradeManagecode', value:item}));
+						})
+						// append form (to body) 
+						// newForm은 이미 제이쿼리 문법으로 선언
+						newForm.appendTo('body');
+						newForm.submit();
+					}
+						
+					
+
+				});
+				
+		</script>
+	</th:block>
 </html>

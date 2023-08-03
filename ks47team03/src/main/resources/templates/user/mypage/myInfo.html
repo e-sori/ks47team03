@@ -31,71 +31,53 @@
 			<div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
 				<div class="sidebar">
 					<!-- User Widget -->
-					<div class="">
+					<div class="container border" >
 						<!-- User Image -->
-						<div class="">
-							<img src="/user/img/member5.jpg" alt="" class="span" width="300" heigh="150">
-						</div>
+							<img src="/user/img/member/person-circle.svg" alt="" class="person-circle col-12" width="200" heigh="150">
 						<!-- User Name -->
-						<h5 class="text-center">서원</h5>
-						<p>Joined 2018</p>
-					</div>
+						<h5 class="text-center col-12 magin">서원</h5>
 					<!-- Dashboard Links -->
-					<div class="">
+					<div class="jb-division-line"></div>
 						<ul>
 							<li>
-								<a href=""><span class="fe fe-user"></span>마이 페이지</a></li>
+								<span class=""></span>cj one포인트</a></li>
 							<li>
-								<a href=""><span class="fe fe-hourglass-end"></span> 배송 신청 </a>
-							</li>
-							<li>
-								<a href=""><span class="fe fe-truck"></span>배송 조회 </a>
+								<span class=""></span>보증금</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0 magin">
 				<!-- Edit Personal Info -->
 				<div class="widget personal-info">
-					<h1 class="widget-header user">배송 주문 정보</h1>
+					<div class="container p-3 border" style="background-color: #f89b00; color:white magin" >				  
+	                	<a class="userHello-username" style="color:white" th:text="${session.SNAME}"></a>
+	                    <span>회원님 반갑습니다.</span>
+					</div>
+					<div class="container p-3 border" >				  
+	                	
+	                    <span>컵 이용 현황 : 개</span>
+					</div>
+					
+					
 					<form action="#">
 						<!-- First Name -->
-						<div class="container p-3 my-3 border" >
-							<h1>주문자 이름</h1>
-						    <label for="first-name">주문자 이름</label>
-						    
+						<div class="container p-3 my-5 border magin" >
+						    <span>바코드</span>
 						</div>
-						<!-- Last Name -->
-						<div class="form-group">
-						    <label for="last-name">주문자 연락처</label>
-						    
-						</div>
+					
 					</form>
 				</div>
 				<div class="widget personal-info">
 						<!-- Comunity Name -->
-						<div class="form-group">
-							<h1 class="widget-header user">배송지</h1>	
+						
 							
-						    <input type="text" class="form-control" id="comunity-name" placeholder="&nbsp; &nbsp; &nbsp;➕ &nbsp; &nbsp; &nbsp; 배송지 추가하기">
+							
+						    <input type="text" class="form-control" id="comunity-name" placeholder="즐겨찾기한 무인기기 위치 미니 버전">
 						</div>
 				</div>
-				<div class="widget personal-info">		
-					<h1 class="widget-header user">결제 수단</h1>		
-						<!-- Checkbox -->
-						<div class="form-check">
-						  <label class="form-check-label" for="hide-profile">
-						    <input class="form-check-input" type="radio" value="" id="hide-profile">
-						    일반결제
-						  </label>
-						</div>		
-						<div class="select">
-							<input type="radio" id="select" name="temp1"><label for="select">신용/체크카드</label>
-							<input type="radio" id="select2" name="temp1"><label for="select2">무통장 입금</label>
-					    </div>
-							<button type="button" class="btn btn-transparent btn-danger btn-block">결제하기</button>
-				</div>
+				
 			</div>	
 		</div>
 	</div>

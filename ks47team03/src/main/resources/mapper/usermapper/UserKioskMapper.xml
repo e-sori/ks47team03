@@ -18,10 +18,17 @@
 	<select id="getKioskLocationList" resultType="Partner">
 	/*지도에 뿌려질 위도와 경도 가져오기*/
 	SELECT
+		um.user_addr AS partnerAddr,
+		appi.partner_name AS  partnerName,
+		um.user_phone AS partnerNumber,
 		um.latitude AS locationLatitude,
 		um.longitude AS locationLongitude
 	FROM
 			user_manage AS um
+			INNER join
+			approval_partner_plus_info AS appi
+			on
+			um.user_id = appi.user_id
 	WHERE	
 			um.user_level='설치사업장';
 	</select>

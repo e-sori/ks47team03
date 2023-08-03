@@ -14,7 +14,7 @@
                 <!-- Small table -->
                 <div class="col-md-12">
                   <div class="card shadow">
-                    <div class="card-body">
+                    <div class="card-body">              	
                       <!-- table -->
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
@@ -88,11 +88,12 @@
 		<script>		
 			$(function(){
 		      $('#dataTable-1').DataTable({
-			        autoWidth: true,
-			        "lengthMenu": [
-			          [16, 32, 64, -1],
-			          [16, 32, 64, "All"]
-			        ],
+			      	  autoWidth: true,			      
+			         "lengthChange": false, 
+               		   "pageLength" : 10,
+                  "searching" : false,
+                  "info": false,
+                  "paging" :false, 
 			        columnDefs: [{
 			            targets: 0,
 			            searchable: false,
