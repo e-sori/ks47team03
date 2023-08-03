@@ -6,7 +6,35 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserPartnerMapper">
-
+	<select id="getAddCupCheckList" parameterType="String" resultType="Partner">
+	/*신청한 추가 컵 내용 확인*/
+		SELECT
+			adp.approval_partner_plus_info_code AS partnerCode,
+			appi.partner_name AS partnerName,
+			adp.kiosk_serial_num AS kioskSerialNum,
+			adp.delivery_cup_quantity AS outAmount,
+			adp.delivery_request_datetime AS upDateTime,
+			adp.delivery_desired_datetime AS deliveryDesiredDate,
+			sc.static_code_content AS staticCode
+		FROM
+			add_delivery_application AS adp
+			INNER join
+			static_code AS sc
+			on
+			adp.static_code = sc.static_code
+			INNER join
+			approval_partner_plus_info AS appi
+			on
+			adp.approval_partner_plus_info_code = appi.approval_partner_plus_info_code
+		WHERE
+			adp.approval_partner_plus_info_code = #{partnerCode}
+		ORDER BY
+			CAST(SUBSTRING_INDEX(adp.add_delivery_application_code,'code', -1) AS UNSIGNED);
+	
+	
+	
+	
+	</select>
 	<select id="getPartnerCodeById" parameterType="String" resultType="Partner">
 	/*로그인 아이디로 파트너 코드 조회 */
 	SELECT 

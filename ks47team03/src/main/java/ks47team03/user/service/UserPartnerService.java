@@ -28,7 +28,11 @@ public class UserPartnerService {
 			this.commonMapper = commonMapper;
 
 		}
-
+		//추가컵 신청 확인
+		public List<Partner> addCupCheckList (String partnerCode){
+			List<Partner> addCupCheckList = partnerMapper.getAddCupCheckList(partnerCode);
+			return addCupCheckList;
+		}
 		//추가컵 배송 신청
 		public void addBusinessCup(Partner partner) {
 			partnerMapper.addBusinessCup(partner);

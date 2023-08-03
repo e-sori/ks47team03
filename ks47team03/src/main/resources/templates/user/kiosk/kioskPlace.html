@@ -25,7 +25,7 @@
   <!--================Point table Area =================-->
   <section class="order_details section-margin--small">
     <div class="container">
-	
+		<p> 마커를 클릭하세요 :)</p>
 	   <div id="map" style="width:100%;height:350px;"></div>
 
 	
@@ -89,29 +89,56 @@
                 
     		        // 데이터에서 좌표 값을 가지고 마커를 표시합니다
     		        // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
-    		        var markers = $(response).map(function(i, item) {
-    		            return new kakao.maps.Marker({
+    		        $(response).each(function(i, item) {
+    		        	 var content = '<div class="wrap">' + 
+     		            '    <div class="info">' + 
+     		            '        <div class="title">' + 
+     		            				item.partnerName+ 
+     		            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+  
+     		            '        <div class="body">' + 
+     		            '                <div class="ellipsis">'+item.partnerAddr+'</div>' + 
+     		            '                <div class="number">'+item.partnerNumber+'</div>' + 
+     		            '            </div>' + 
+     		            '        </div>' + 
+     		            '    </div>' +    
+     		            '</div>';
+    		        	
+    		        	const marker =   new kakao.maps.Marker({
+    		        		 map: map,
     		                position : new kakao.maps.LatLng(item.locationLatitude, item.locationLongitude)
     		            });
-    		        });
-    	
-    		        // 클러스터러에 마커들을 추가합니다
-    		        clusterer.addMarkers(markers);
-    		   
-               /* kakao.maps.event.addListener(clusterer, 'clusterclick', function(cluster) {
+    		           
+    		        	// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+         		        kakao.maps.event.addListener(marker, 'click', function() {
+         		        	$('.wrap').remove();
+         		           
+	      		        	 var overlay = new kakao.maps.CustomOverlay({
+	      		        	    content: content,
+	      		        	    map: map,
+	      		        	    position: marker.getPosition()       
+	      		        	}); 
+         		        });
+    		        	
+    		        	 
+         		     
+		    		});
 
-    		        // 현재 지도 레벨에서 1레벨 확대한 레벨
-    		        var level = map.getLevel()-1;
+	    		        // 클러스터러에 마커들을 추가합니다
+	    		        //clusterer.addMarkers(markers); 
+    		         	
+        		      
 
-    		        // 지도를 클릭된 클러스터의 마커의 위치를 기준으로 확대합니다
-    		        map.setLevel(level, {anchor: cluster.getCenter()});
-    		    });*/
-                
 			});
+		    
+
 			request.fail(function( jqXHR, textStatus ) {
 				alert( "Request failed: " + textStatus );
 				});		   
 			
+			$(document).on('click','.close', function(){
+				$('.wrap').remove();
+			});
 			
 			
 			
