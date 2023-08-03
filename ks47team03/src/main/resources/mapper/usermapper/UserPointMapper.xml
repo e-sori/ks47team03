@@ -74,7 +74,9 @@
 		FROM
 			point_past_now_history
 		WHERE
-			user_id = #{userId};
+			user_id = #{userId}
+		ORDER BY up_datetime DESC
+		LIMIT 1;
 	</select>
 		
 	<select id="getAllUserPoint" parameterType="map" resultMap="pointResultMap">
