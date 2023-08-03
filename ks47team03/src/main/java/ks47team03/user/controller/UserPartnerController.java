@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -95,12 +96,18 @@ public class UserPartnerController {
 		model.addAttribute("title", "추가 컵 배송");
 		return "user/partner/businessAddCup";
 	}
-	
-	@PostMapping("/applyAddCup")
-	public String applyAddCup (Partner partner) {
+	//추가컵 신청
+	@PostMapping("/businessAddCup")
+	@ResponseBody
+	public List<Partner> applyAddCup (@RequestBody Partner partner) {
+		log.info("partnerzDXcvadzsf:{}",partner);
 		partnerService.addBusinessCup(partner);
-		return "redirect:/partner/businessAddCup";
+		String partnerCode = partner.getPartnerCode();
+		List<Partner> addCupCheckList = partnerService.addCupCheckList(partnerCode);
+		log.info("addCupCheckList:{}",addCupCheckList);
+		return addCupCheckList;
 	}
+	
 	@GetMapping("/businessKioskApply")
 	public String businessKioskApply(Model model) {
 		
