@@ -29,6 +29,29 @@
 	font-size: 13px
 }
 
+.wizardValidCheckOk{
+	margin-bottom : 10px !important;
+	color : #88BFC2;
+	font-size: 15px;
+	font-weight : bold;
+	text-align: center;
+}
+
 .nice-select{
 	margin-bottom: 20px
+}
+
+.currentPoint{
+	color : #F63495;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.nice-select.disabled {
+	background-color: #e9ecef;
+}
+
+input::placeholder {
+  color: #CDCDCD !important;
+  font-size: 13px;
 }
