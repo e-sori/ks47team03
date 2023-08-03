@@ -111,7 +111,7 @@ public class AdminCommonController {
 		
 		return "admin/user/userModify";
 	}
-	//회원 상태 관리
+	//전체 회원 관리
 		@SuppressWarnings("unchecked")
 		@GetMapping("/user/userAll")
 		public String userAll(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
