@@ -32,11 +32,22 @@ public class UserPointController {
 		this.adminCommonMapper = adminCommonMapper;	
 	}
 	
-	// 포인트 후원 화면
+	// 포인트 후원 신청 화면
 	@GetMapping("/myPointRefundSponsorship")
-	public String pointRefundSponsorship(Model model) {
+	public String pointRefundSponsorship(Model model, HttpSession session) {
+		String accountName = (String) session.getAttribute("SNAME");	
+		String userId = (String) session.getAttribute("SID");
+		int currentPoint = 0;
 		
-		model.addAttribute("title","구구컵 : 포인트 후원");
+		Point userPoint = userPointService.getUserPoint(userId);
+		
+		if(userPoint !=null) currentPoint = userPoint.getCurrentHoldingPoint();
+		
+		model.addAttribute("title","구구컵 : 포인트 환급 신청");
+		model.addAttribute("accountName",accountName);
+		model.addAttribute("currentPoint",currentPoint);
+		
+		model.addAttribute("title","구구컵 : 포인트 후원 신청");
 		
 		return "user/point/myPointRefundSponsorship";
 	}

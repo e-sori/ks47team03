@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+  
+ <!-- ================ start banner area ================= -->
+  <section class="page-banner-area" id="category">
+    <div class="container h-100">
+        <div class="text-center">
+          <h1>포인트 후원</h1>
+          <nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+              <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+              <li class="breadcrumb-item active" aria-current="page">포인트 후원</li>
+            </ol>
+          </nav>
+      </div>
+    </div>
+  </section>
+ 
+	  <!-- ================ end banner area ================= -->
+
+  <!--================Point table Area =================-->
+  <section class="order_details section-margin--small">
+    <div class="container">
+      <p class="billing-alert">포인트 조회는 .....소리</p>
+      <div class="order_details_table">
+        <h2>Order Details</h2>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">포인트</th>
+                <th scope="col">날짜</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <p>Pixelstore fresh Blackberry</p>
+                </td>
+                <td>
+                  <h5>x 02</h5>
+                </td>
+                <td>
+                  <p>$720.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>Pixelstore fresh Blackberry</p>
+                </td>
+                <td>
+                  <h5>x 02</h5>
+                </td>
+                <td>
+                  <p>$720.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p>Pixelstore fresh Blackberry</p>
+                </td>
+                <td>
+                  <h5>x 02</h5>
+                </td>
+                <td>
+                  <p>$720.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Subtotal</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p>$2160.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Shipping</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <p>Flat rate: $50.00</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h4>Total</h4>
+                </td>
+                <td>
+                  <h5></h5>
+                </td>
+                <td>
+                  <h4>$2210.00</h4>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--================End Order Details Area =================-->
+
+   </th:block>
+</html>
