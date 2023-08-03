@@ -7,6 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import ks47team03.user.mapper.UserPointMapper;
+import ks47team03.user.dto.Account;
+import ks47team03.user.dto.Point;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -14,11 +16,38 @@ import lombok.extern.slf4j.Slf4j;
 public class UserPointService {
 	
 	private final UserPointMapper userPointMapper;
+
 	
 	public UserPointService (UserPointMapper userPointMapper) {
 		this.userPointMapper = userPointMapper;
+	
 	}
 	
+	// 특정 회원 계좌 수정
+	public void modifyUserAccount(Account account) {
+		userPointMapper.modifyUserAccount(account);		
+	}	
+	
+	// 특정 회원 계좌 등록
+	public void addUserAccount(Account account) {
+		userPointMapper.addUserAccount(account);		
+	}	
+	
+	// 특정 회원 계좌 조회
+	public Account getUserAccount(String userId) {
+		Account userAccount = userPointMapper.getUserAccount(userId);
+		
+		return userAccount; 
+	}
+	
+	// 특정 회원 포인트 조회
+	public Point getUserPoint(String userId) {
+		Point userPoint = userPointMapper.getUserPoint(userId);
+		
+		return userPoint;
+	};
+	
+	// 전체 회원 포인트 조회
 	public Map<String,Object> getAllUserPoint(int currentPage){
 		// 한 번에 최대로 보여줄 행의 개수
 				int rowPerPage = 10;

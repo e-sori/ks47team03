@@ -7,6 +7,14 @@
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserPointMapper">
 
+	<resultMap type="Account" id="userAccountResultMap">
+		<id column="user_bank_code" 	property="userBankCode"/>
+		<result column="user_id" 					property="userId"/>
+		<result column="account_user_name" 		property="accountUserName"/>		
+		<result column="bank_name" 					property="bankName"/>		
+		<result column="account_number" 				property="accountNumber"/>		
+	</resultMap>
+	
 	<resultMap type="Point" id="pointResultMap">
 		<id column="user_deposit_point_code" 	property="userDepositPointCode"/>
 		<result column="user_id" 					property="userId"/>
@@ -15,7 +23,47 @@
 		<result column="up_datetime" 				property="upDatetime"/>		
 	</resultMap>
 	
-	<select id="getUserPoint" resultMap="pointResultMap">
+	<update id="modifyUserAccount" parameterType="Account">
+		/* 회원 계좌 수정 */
+		UPDATE
+			user_bank 
+		SET 
+			account_user_name = #{accountUserName},
+			bank_name = #{bankName},
+			account_number = #{accountNumber},
+			admin_id = 'adminid001',
+			up_datetime = CURDATE()
+		WHERE
+			user_id = #{userId}
+	</update>
+	
+	<insert id="addUserAccount" parameterType="Account">
+		/* 회원 계좌 등록 */
+		INSERT INTO user_bank 
+		VALUES(#{userBankCode},
+				#{userId},
+				#{accountUserName},
+				#{bankName},
+				#{accountNumber},
+				'adminid001',
+				CURDATE());
+	</insert>
+	
+	<select id="getUserAccount" parameterType="String" resultMap="userAccountResultMap">
+		/* 특정 회원 계좌 조회 */
+		SELECT
+			user_bank_code,
+			user_id,
+			account_user_name,
+			bank_name,
+			account_number
+		FROM
+			user_bank
+		WHERE
+			user_id = #{sessionId}
+	</select>
+	
+	<select id="getUserPoint" parameterType="String" resultMap="pointResultMap">
 		/* 특정 회원 현재 보유 포인트 조회*/
 		SELECT
 			point_past_now_history_code,
@@ -25,9 +73,10 @@
 			up_datetime
 		FROM
 			point_past_now_history
+		WHERE
+			user_id = #{userId};
 	</select>
-
-	
+		
 	<select id="getAllUserPoint" parameterType="map" resultMap="pointResultMap">
 		/* 전체 회원 현재 보유 포인트 조회*/
 		SELECT

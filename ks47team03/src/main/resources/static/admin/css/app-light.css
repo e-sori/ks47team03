@@ -61,6 +61,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
  .validCheck{
  	color : red;
  	margin-top : 5px;
+ 	font-size: 13px
  }
  
 .simplebar-content-wrapper{

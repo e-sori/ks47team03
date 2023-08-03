@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import ks47team03.user.dto.User;
 import ks47team03.user.dto.UserLevel;
 import ks47team03.user.mapper.UserCommonMapper;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class UserCommonService {
 	
 	private final UserCommonMapper userCommonMapper;

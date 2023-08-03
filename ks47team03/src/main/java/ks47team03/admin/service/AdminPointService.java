@@ -22,6 +22,7 @@ public class AdminPointService {
 		this.adminCommonMapper = adminCommonMapper;
 	}
 	
+	// 포인트 관련 기준 등록
 	public void addPointStandard(AdminPoint adminPoint) {
 		
 		String formName = adminPoint.getFormName();
@@ -45,7 +46,7 @@ public class AdminPointService {
 		return getNewCode;
 	};	
 	
-	// 포인트 관련기준 조회 
+	// 포인트 관련 기준 조회 
 	public Map<String, Object> getPointStandardList(String tableId){		
 		// adminPointMapper에서 return 값 받아오기	
 		String tableDbName = null;
