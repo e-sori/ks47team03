@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks47team03.user.dto.Cup;
 import ks47team03.user.dto.DepositStandard;
 
 
@@ -30,4 +31,9 @@ public interface AdminDepositMapper {
 	
 	public DepositStandard getDepositStandardInfoById(String waitingDepositStandardCode);
 	public int modifyDepositStandard(DepositStandard depositStandard);
+	
+
+	public int deleteDepositStandardById(DepositStandard depositStandard);
+	
+	public int modifyDepositStandardById(DepositStandard depositStandard);
 }

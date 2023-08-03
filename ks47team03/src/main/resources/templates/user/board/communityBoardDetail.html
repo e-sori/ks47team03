@@ -1,151 +1,186 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{user/layout/default}">
-	<th:block layout:fragment="customContents">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{user/layout/default}">
+<th:block layout:fragment="customContents">
 
- <!-- ================ start banner area ================= -->
-  <section class="page-banner-area" id="category">
-    <div class="container h-100">
-        <div class="text-center">
-          <h1>게시글 내용</h1>
-          <nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
-              <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
-              <li class="breadcrumb-item active" aria-current="page">게시글 내용</li>
-            </ol>
-          </nav>
-      </div>
-    </div>
-  </section>
-
-	  <!-- ================ end banner area ================= -->
-        <section class="section-margin--small">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="blog_left_sidebar">
-
+    <!-- ================ start banner area ================= -->
+    <section class="page-banner-area" id="category">
+        <div class="container h-100">
+            <div class="text-center">
+                <h1>게시글 내용</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+                        <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+                        <li class="breadcrumb-item active" aria-current="page">게시글 내용</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </section>
+    <!-- ================ end banner area ================= -->
+    <!--================Point table Area =================-->
+    <section class="section-margin--small1">
+        <div class="container2">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card1 p-5">
+                        <h4 class="text-center">게시글</h4>
+                        <article class="row blog_item">
+                            <div class="col-md-3">
+                                <div class="blog_info1 text-left">
+                                    <ul class="blog_meta list">
+                                        <li>
+                                            <i class="lnr lnr-enter"> 게시글 번호 </i>
+                                            <p th:text="${detail.getSimpleCode}">작성자</p>
+                                        </li>
+                                        <li>
+                                            <i class="lnr lnr-user"> 작성자 </i>
+                                            <p th:text="${detail.user_id}">작성자</p>
+                                        </li>
+                                        <li>
+                                            <i class="lnr lnr-calendar-full"> 작성날짜 </i>
+                                            <p th:text="${detail.community_now_board_datetime}">작성날짜</p>
+                                        </li>
+                                        <li>
+                                            <i class="lnr lnr-eye"> 조회수 </i>
+                                            <p th:text="${detail.community_now_board_view}">조회수</p>
+                                        </li>
+                                        <li>
+                                            <i class="lnr lnr-heart"> 좋아요 </i>
+                                            <p th:text="${detail.community_now_board_like}">좋아요</p>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-        </section>
-  <!--================Point table Area =================-->
-        <section class="section-margin--small">
-            <div class="container2">
-                <div class="row">
-                    <div class="col-lg-8 mx-auto">
-                        <div class="card1 p-5">
-                            <h4 class="text-center">게시글</h4>
-                            <article class="row blog_item">
-                                <div class="col-md-3">
-                                    <div class="blog_info1 text-left">
-                                        <ul class="blog_meta list">
-                                            <li>
-                                                <i class="lnr lnr-enter"> 게시글 번호 </i>
-                                                <p th:text="${detail.getSimpleCode}">작성자</p>
-                                            </li>
-                                            <li>
-                                                <i class="lnr lnr-user"> 작성자 </i>
-                                                <p th:text="${detail.user_id}">작성자</p>
-                                            </li>
-                                            <li>
-                                                <i class="lnr lnr-calendar-full"> 작성날짜 </i>
-                                                <p th:text="${detail.community_now_board_datetime}">작성날짜</p>
-                                            </li>
-                                            <li>
-                                                <i class="lnr lnr-eye"> 조회수 </i>
-                                                <p th:text="${detail.community_now_board_view}">조회수</p>
-                                            </li>
-                                            <li>
-                                                <i class="lnr lnr-heart"> 좋아요 </i>
-                                                <p th:text="${detail.community_now_board_like}">좋아요</p>
-                                            </li>
-                                        </ul>
+                            <div class="col-md-9">
+                                <div class="blog_post">
+                                    <div class="blog_details1">
+                                        <label for="title" class="bold-label margin-bottom-label">제목</label>
+                                        <h4 class="margin-bottom-h4" id="title" th:text="${detail.community_now_board_title}">제목</h4>
+                                        <label for="content" class="bold-label margin-bottom-label">내용</label>
+                                        <p class="seo-border" id="content" th:text="${detail.community_now_board_content}">내용</p>
                                     </div>
                                 </div>
-                                <div class="col-md-9">
-                                    <div class="blog_post">
-                                        <div class="blog_details1">
-                                            <label for="title" class="bold-label margin-bottom-label">제목</label>
-                                            <h4 class="margin-bottom-h4" id="title" th:text="${detail.community_now_board_title}">제목</h4>
-                                            <label for="content" class="bold-label margin-bottom-label">내용</label>
-                                            <p class="seo-border" id="content" th:text="${detail.community_now_board_content}">내용</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
-                            <div class="button-container">
-                                <a class="btn list-button" href="/board/communityBoardView"><img class="list-img" src="../user/img/button/list.png" height="40" width="70" alt=""></a>
-                                <a class="btn like-button like-button" onclick="likePost()"><img class="like-img" src="../user/img/button/like.png" height="40" width="80" alt=""></a>
-                                <a class="btn btn-move-right modify-button" onclick="checkAuthorAndRedirect('${detail.community_now_board_code}')"><img class="modify-img" src="../user/img/button/modify.png" height="40" width="70" alt=""></a>
-                                <a id="deleteButton" class="btn delete-button" onclick="deletePost()"><img class="delete-img" src="../user/img/button/delete.png" height="40" width="70" alt=""></a>
-                                <script th:inline="javascript">
-                                    /*<![CDATA[*/
-                                    let boardCode = [[${detail.community_now_board_code}]];
+                            </div>
+                        </article>
+                        <div class="button-container">
+                            <a class="btn list-button" href="/board/communityBoardView"><img class="list-img" src="../user/img/button/list.png" height="40" width="70" alt=""></a>
+                            <a class="btn like-button like-button" onclick="likePost()"><img class="like-img" src="../user/img/button/like.png" height="40" width="80" alt=""></a>
+                            <a class="btn btn-move-right modify-button" onclick="checkAuthorAndRedirect('${detail.community_now_board_code}')"><img class="modify-img" src="../user/img/button/modify.png" height="40" width="70" alt=""></a>
+                            <a id="deleteButton" class="btn delete-button" onclick="deletePost()"><img class="delete-img" src="../user/img/button/delete.png" height="40" width="70" alt=""></a>
+                            <script th:inline="javascript">
+                                /*<![CDATA[*/
+                                let boardCode = [[${detail.community_now_board_code}]];
 
-                                    function likePost() {
-                                        $.ajax({
-                                            url: '/board/likePost/' + boardCode,
-                                            type: 'POST',
-                                            success: function(response) {
-                                                if (response.success) {
-                                                    if (response.liked) {
-                                                        alert('게시글을 좋아합니다.');
-                                                    } else {
-                                                        alert('게시글 좋아요를 취소합니다.');
-                                                    }
+                                function likePost() {
+                                    $.ajax({
+                                        url: '/board/likePost/' + boardCode,
+                                        type: 'POST',
+                                        success: function(response) {
+                                            if (response.success) {
+                                                if (response.liked) {
+                                                    alert('게시글을 좋아합니다.');
                                                 } else {
-                                                    alert('오류가 발생했습니다. 다시 시도해 주세요.');
+                                                    alert('게시글 좋아요를 취소합니다.');
                                                 }
-                                            },
-                                            error: function(xhr, status, error) {
-                                                alert("오류가 발생했습니다." + error);
+                                            } else {
+                                                alert('오류가 발생했습니다. 다시 시도해 주세요.');
                                             }
-                                        });
-                                    }
-                                    function checkAuthorAndRedirect() {
-                                        $.ajax({
-                                            url: '/board/checkAuthor/' + boardCode,
-                                            type: 'GET',
-                                            success: function(response) {
-                                                if (response.canEdit) {
-                                                    window.location.href = '/board/communityBoardModify/' + boardCode;
-                                                } else {
-                                                    alert('작성자만 수정할 수 있습니다.');
-                                                }
-                                            }
-                                        });
-                                    }
-                                    function deletePost() {
-                                        if (!confirm('정말로 삭제하시겠습니까?')) {
-                                            return;
+                                        },
+                                        error: function(xhr, status, error) {
+                                            alert("오류가 발생했습니다." + error);
                                         }
-                                        $.ajax({
-                                            url: '/board/communityBoardDelete',
-                                            type: 'GET',
-                                            data: { boardCode: boardCode },
-                                            success: function(response) {
-                                                alert("게시글이 성공적으로 삭제되었습니다.");
-                                                window.location.href = '/board/communityBoardView';
-                                            },
-                                            error: function(xhr, status, error) {
-                                                alert("작성자만 삭제할 수 있습니다." + error);
+                                    });
+                                }
+                                function checkAuthorAndRedirect() {
+                                    $.ajax({
+                                        url: '/board/checkAuthor/' + boardCode,
+                                        type: 'GET',
+                                        success: function(response) {
+                                            if (response.canEdit) {
+                                                window.location.href = '/board/communityBoardModify/' + boardCode;
+                                            } else {
+                                                alert('작성자만 수정할 수 있습니다.');
                                             }
-                                        });
+                                        }
+                                    });
+                                }
+                                function deletePost() {
+                                    if (!confirm('정말로 삭제하시겠습니까?')) {
+                                        return;
                                     }
-                                    /*]]>*/
-                                </script>
-                            </div>
+                                    $.ajax({
+                                        url: '/board/communityBoardDelete',
+                                        type: 'GET',
+                                        data: { boardCode: boardCode },
+                                        success: function(response) {
+                                            alert("게시글이 성공적으로 삭제되었습니다.");
+                                            window.location.href = '/board/communityBoardView';
+                                        },
+                                        error: function(xhr, status, error) {
+                                            alert("작성자만 삭제할 수 있습니다." + error);
+                                        }
+                                    });
+                                }
+                                /*]]>*/
+                            </script>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+    <section class="section-margin--small1">
+        <div class="container2">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card1 p-5">
+                        <div class="form-group">
+                            <label class="lnr lnr-laptop bold-label">댓글</label>
+                            <div class="seo-border-comment" th:each="comment : ${comments}">
+                                <p class="seo-margin-comment">작성자 : <span class="comment-margin" th:text="${comment.userId}">작성자 아이디</span>
+                                    작성 날짜 : <span th:text="${comment.commentDatetime}">작성 날짜</span></p>
+                                <div class="comment-content">
+                                    <h5 class="seo-margin-comment">내용 : <span th:text="${comment.boardCommentContent}">댓글 내용</span></h5>
+                                    <form th:if="${comment.userId == session.SID}" action="/board/comment/delete" method="post" class="delete-form">
+                                        <input type="hidden" name="commentCode" th:value="${comment.commentCode}">
+                                        <input type="hidden" name="boardCode" th:value="${detail.community_now_board_code}">
+                                        <button type="submit" class="btn delete-button" onclick="return confirm('삭제하시겠습니까?')"><img class="delete-img" src="../user/img/button/delete.png" height="25" width="40" alt=""></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <form id="commentForm" action="/board/comment/write" method="post" onsubmit="return validateForm();">
+                                <div class="form-group1">
+                                    <label class="lnr lnr-cloud-upload bold-label" for="writeComment">댓글 작성</label>
+                                    <textarea name="commentContent" class="form-control" id="writeComment" rows="2"></textarea>
+                                    <input type="hidden" name="boardCode" th:value="${detail.community_now_board_code}">
+                                </div>
+                                <div class="button-container">
+                                    <button type="submit" class="btn write-button" onclick="return confirm('작성하시겠습니까?')"><img class="write-img" src="../user/img/button/write.png" height="40" width="70"></button>
+                                </div>
+                            </form>
+                            <script th:inline="javascript">
+                                /*<![CDATA[*/
+                                function validateForm() {
+                                    let commentForm = document.getElementById("commentForm");
+                                    let commentContent = commentForm["commentContent"].value;
+                                    if (commentContent == null || commentContent.trim() === "") {
+                                        alert("댓글 내용은 필수 입력 항목입니다.");
+                                        return false;
+                                    }
+                                    return true;
+                                }
+                                /*]]>*/
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Order Details Area =================-->
 
-        </section>
-  <!--================End Order Details Area =================-->
-
-   </th:block>
+</th:block>
 </html>

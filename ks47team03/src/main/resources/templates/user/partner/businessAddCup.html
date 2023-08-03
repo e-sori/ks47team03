@@ -25,11 +25,10 @@
   <!--================Point table Area =================-->
   <section class="order_details section-margin--small">
     <div class="container">
-      <div class="order_details_table" style="height: 300px">
+      <div class="order_details_table">
         <h2>99CUP Order </h2>
         <p>추가로 필요한 99컵 수량과 배송희망 날짜를 입력해주세요</p>
-        <form id="addCupForm" method="post" th:action="@{/partner/applyAddCup}">
-          <table class="table">
+          <table class="table addCupApply">
             <thead>
               <tr>
                 <th scope="col">사업장 코드</th>
@@ -72,7 +71,10 @@
 				</tr>
 			</tfoot>
           </table>
-         </form>
+
+          <div class="addCupTable">
+        
+          </div>
         </div>
       </div>
   </section>
@@ -93,18 +95,7 @@
 	    }
 	    return true;
 		}
-	//버튼 클릭 이벤트
-	$('#addCupBtn').click(function(){
-		
-		const validateEle = $('#addCupForm select,input');   			
-		let isSubmit = false;
-		validateEle.each((idx, item) => {    				
-			isSubmit = validCheck(item);
-			return isSubmit;
-		})
-		alert("신청완료");
-		if(isSubmit) $('#addGoodsForm').submit();
-	})
+	
 	// 선택된 값으로 td 값 삽입 -->change
 	function loadKioskNum(){
 		let $selectedValue = $('.addCupselect option:selected').val();
@@ -121,7 +112,7 @@
 		request.done(function(response) {
 			console.log(response);
 		    if (response.length > 1) {
-		        let $kioskNum = $('<select></select>').attr('size', '1').addClass('nice-select');
+		        let $kioskNum = $('<select></select>').attr('size', '1').attr('name', 'kioskSerialNum').attr('id', 'kioskSerialNum').addClass('nice-select');
 		        $.each(response, function(idx, item) {
 		            let kioskOption = $('<option></option>').val(item.kioskSerialNum).text(item.kioskSerialNum);
 		            $kioskNum.append(kioskOption);
@@ -130,11 +121,17 @@
 		        
 		       
 		    } else {
-		   		let $kioskNum = $('<input />',{ name:'kioskSerialNum', value:response[0].kioskSerialNum}).prop('readonly',true)
+		   		let $kioskNum = $('<input />',
+		   						 {  name:'kioskSerialNum', 
+		   							value:response[0].kioskSerialNum,
+		   							id: 'kioskSerialNum'}).prop('readonly',true)
 		        $('.kioskTd').append($kioskNum);
 		    }
 		
 		});
+		request.fail(function( jqXHR, textStatus ) {
+            alert( "Request failed: " + textStatus );
+        });
 	}
 	$(document).ready(function() {
 	    loadKioskNum();
@@ -142,6 +139,78 @@
 	    // select 값 변경 시 호출
 	    $('.addCupselect').change(loadKioskNum);
 	});
+	
+
+	//버튼 클릭 이벤트
+	$('#addCupBtn').click(function(){
+		let partnerCode = $('#partnerCode').val();
+		let kioskSerialNum = $('#kioskSerialNum').val(); // 동적으로 생성된 kiosk 번호 읽기
+		let addCupAmount = $('#addCupAmount').val();
+		let addCupDate = $('#addCupDate').val();
+		 const value = {
+				    partnerCode: partnerCode,
+				    kioskSerialNum: kioskSerialNum,
+				    outAmount: addCupAmount,
+				    deliveryDesiredDate: addCupDate
+				  };
+		//유효성 검가
+		const validateEle = $('#addCupForm select,input');   	
+		let isSubmit = false;
+		validateEle.each((idx, item) => {   
+			isSubmit = validCheck(item);
+			return isSubmit;
+		})
+		if(isSubmit) {
+			alert("신청완료")
+			const addCupRequest =$.ajax({
+	            url: '/partner/businessAddCup',
+	            type: 'POST',
+	            contentType: 'application/json',
+	            data: JSON.stringify(value) // 서버에 전송할 데이터
+			})	
+				addCupRequest.done(function(response) {
+				console.log(response);
+				const $divEle = $('.addCupTable');
+				$divEle.empty();
+				const newTable = $('<table class="table"></table>');
+				const newThead = $('<thead></thead>');
+				const newTheadTr = $('<tr></tr>');
+				const newTBody = $('<tbody></tbody>');
+				
+				//thead 생성
+				const thArry=['사업장 코드', '사업장 이름' ,'무인기기 번호','추가 수량','희망 날짜','업데이트 날짜','상태']
+				thArry.forEach((item) => {    				 
+					const newTh = $('<th>'+item+'</th>')
+					console.log(newTh.text());
+					newTheadTr.append(newTh);
+				})
+					newThead.append(newTheadTr);
+					newTable.append(newThead);
+					$divEle.append(newTable);
+				//tbody 생성	
+				$.each(response, function(idx, item) {
+						const newTbodyTr = $('<tr></tr>');
+					  // 각 값에 대해 새로운 td 요소를 생성하고 행에 추가
+					  $('<td></td>').text(item.partnerCode).appendTo(newTbodyTr);
+					  $('<td></td>').text(item.partnerName).appendTo(newTbodyTr);
+					  $('<td></td>').text(item.kioskSerialNum).appendTo(newTbodyTr);
+					  $('<td></td>').text(item.outAmount).appendTo(newTbodyTr);
+					  $('<td></td>').text(item.deliveryDesiredDate).appendTo(newTbodyTr);
+					  $('<td></td>').text(item.upDateTime).appendTo(newTbodyTr);
+					  $('<td></td>').text(item.staticCode).appendTo(newTbodyTr);
+
+
+					  newTbodyTr.append(newTbodyTr); // 테이블 본문에 새로운 행 추가					
+						newTBody.append(newTbodyTr);
+						newTable.append(newTBody);
+		        });
+			});
+			addCupRequest.fail(function( jqXHR, textStatus ) {
+	            alert( "Request failed: " + textStatus );
+	        });
+		}
+		
+	})
 	//데이트 피커
 	$('.drgpicker').daterangepicker(
 		      {
@@ -150,7 +219,7 @@
 		        showDropdowns: true,
 		        locale:
 		        {
-		          format: 'MM/DD/YYYY'
+		          format: 'YYYY-MM-DD'
 		        }
 	});			
 				

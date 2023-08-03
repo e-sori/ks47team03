@@ -150,7 +150,11 @@
 						// append form (to body) 
 						// newForm은 이미 제이쿼리 문법으로 선언
 						newForm.appendTo('body');
-						newForm.submit();
+						let result = confirm("정말로 삭제하시겠습니까?")
+							if(result){
+								alert("삭제 완료!!")
+								newForm.submit();
+							}else alert("취소 되었습니다.")
 					}
 						
 					

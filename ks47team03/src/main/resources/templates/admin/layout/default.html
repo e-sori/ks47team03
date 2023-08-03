@@ -264,14 +264,15 @@
 	      <script th:src="@{/admin/js/config.js}"></script>
 	   	  <script th:src="@{/admin/js/apps.js}"></script>
 	      <script th:src="@{/admin/js/jquery.dataTables.min.js}"></script>
-	      <script type="text/javascript">
+	      <<script type="text/javascript" th:inline="javascript">
 			$(document).ready(function() {
 			  $('.gotop').bind('click', function() {
 			    $('html, body').animate({scrollTop: '0'}, 680);
 			  });
 			  // 애니메이션 효과로 자연스럽게 이동됨, 0.68초
 			});
-		</script>	
-	      <th:block layout:fragment="customJs"></th:block>
+			
+	      </script>
+	     	 <th:block layout:fragment="customJs"></th:block>
 </body>
 </html>

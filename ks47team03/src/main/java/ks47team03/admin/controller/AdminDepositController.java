@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks47team03.admin.service.AdminDepositService;
 import ks47team03.user.dto.DepositStandard;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,18 +27,6 @@ public class AdminDepositController {
 	public AdminDepositController(AdminDepositService depositService) {
 		this.depositService = depositService;
 	}	
-	
-	
-	@GetMapping("/depositCheckSuccess")
-	public String depositCheckSuccess(Model model) {
-		model.addAttribute("title","결제 성공");
-		return "admin/deposit/depositCheckSuccess";
-	}
-	@GetMapping("/depositCheckfail")
-	public String depositCheckfail(Model model) {
-		model.addAttribute("title","결제 실패");
-		return "admin/deposit/depositCheckfail";
-	}
 	
 	
 	
@@ -150,11 +140,44 @@ public class AdminDepositController {
 		 public String modifyDepositStandardPost(DepositStandard depositStandard) {		 		
 			 depositService.modifyDepositStandard(depositStandard);
 
-		 return "redirect:/deposit/depositStandard";
+		 return "redirect:depositStandard";
 				 }
 		
+		 
 		
-		
+		@PostMapping("/deleteDepositStandard")
+		public String deleteDepositStandardPost(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
+												@RequestParam(value="adminId") String adminId,
+												RedirectAttributes reAttr) {
+				
+				// 회원 여부 검증
+				Map<String, Object> isValidMap = depositService.isValidDepositStandard(waitingDepositStandardCode, adminId);
+				boolean isValid = (boolean) isValidMap.get("isValid");				
+				// 비밀번호 일치 회원탈퇴
+				if(isValid) {
+					DepositStandard deleteDepositStandardInfo = (DepositStandard) isValidMap.get("deleteDepositStandardInfo");
+				
+					depositService.deleteDepositStandard(deleteDepositStandardInfo);
+					return "redirect:depositStandard";
+				}
+				
+				reAttr.addAttribute("adminId", adminId);
+				reAttr.addAttribute("msg", "관리자 확인해주세요");
+				
+				return "redirect:deleteDepositStandard";
+			}
+			
+			@GetMapping("/deleteDepositStandard")
+			public String deleteDepositStandardGet(@RequestParam(value="waitingDepositStandardCode") String waitingDepositStandardCode,
+												 @RequestParam(value="msg", required = false) String msg,
+													Model model) {
+				
+				model.addAttribute("title", "회원탈퇴");
+				model.addAttribute("waitingDepositStandardCode", waitingDepositStandardCode);
+				if(msg != null) model.addAttribute("msg", msg);
+				
+				return "admin/deposit/deleteDepositStandard";
+			}
 		
 
 

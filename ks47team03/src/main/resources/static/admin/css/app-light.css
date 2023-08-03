@@ -58,6 +58,12 @@ html {
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
   
+ .validCheck{
+ 	color : red;
+ 	margin-top : 5px;
+ 	font-size: 13px
+ }
+ 
 .simplebar-content-wrapper{
     margin-top: 0px;
     background-image: url('/admin/assets/images/background.jpg');

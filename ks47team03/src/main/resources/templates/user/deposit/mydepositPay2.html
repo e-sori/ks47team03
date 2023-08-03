@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+  
+ <!-- ================ start banner area ================= -->
+  <head>
+  	<meta charset="utf-8"/>
+ 	 <script src="https://js.tosspayments.com/v1/payment"></script>
+  </head>
+    <section class="page-banner-area" id="category">
+    <div class="container h-100">
+        <div class="text-center">
+          <h1>나의 보증금 결제</h1>
+          <nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+            	<li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+              <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+              <li class="breadcrumb-item active" aria-current="page">나의 보증금 결제</li>
+            </ol>
+          </nav>
+      </div>
+    </div>
+  </section> 
+ <section class="login_box_area section-margin">
+		<div class="container">
+			<div class="rowlogin">
+				<div class="login_join_center">
+					<div class="login_form_inner">
+						<h3>보증금 결제</h3>
+						<form class="row login_form" action="#/" id="contactForm" >
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="depositName" name="depositName" placeholder="입금자명" 
+								onfocus="this.placeholder = '입금자명'" onblur="this.placeholder = '입금자명'" value="depositName">
+							</div>
+							<div class="col-md-12 form-group">
+								<select id="depositAmount" name="depositAmount">
+									<option value="1000">1000</option>	
+									<option value="2000">2000</option>	
+									<option value="3000">3000</option>	
+									<option value="4000">4000</option>	
+									<option value="5000">5000</option>	
+									<option value="6000">6000</option>	
+									<option value="7000">7000</option>	
+									<option value="8000">8000</option>	
+									<option value="9000">9000</option>	
+									<option value="10000">10000</option>	
+									<option value="123456789">123456789</option>	
+									<option value="77777777777777">77777777777777</option>	
+									<option value="10000000000000000">10000000000000000</option>	
+								</select>
+								</div>					
+						</form>
+							 <button id="payment-button">무통장결제</button>
+							 <button id="payment-button2">계좌이체</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    <script>
+    const clientKey = 'test_ck_JQbgMGZzorzx402jdj73l5E1em4d'
+    const tossPayments = TossPayments(clientKey)
+	let button = document.getElementById('payment-button')
+    let button2 = document.getElementById('payment-button2') // 결제하기 버튼
+    const depositName = document.getElementById('depositName').value;
+    
+    button.addEventListener('click', function () {
+    	const selectedAmount = document.getElementById('depositAmount').value;
+        tossPayments.requestPayment('가상계좌', {
+          amount: parseInt(selectedAmount),
+          orderId: '2BUAd1-rnDgOilzWC3bZO',
+          orderName: '보증금',
+          customerName: 'depositName',     
+          successUrl: 'http://localhost/deposit/depositCheckSuccess',
+          failUrl: 'http://localhost/deposit/depositCheckFail',
+        })    
+        })
+        
+
+        button2.addEventListener('click', function () {
+		const selectedAmount2 = document.getElementById('depositAmount').value;
+            tossPayments.requestPayment('계좌이체', {
+              amount: parseInt(selectedAmount2),
+              orderId: '2BUAd1-rnDgOilzWC3bZO',
+              orderName: '보증금',
+              customerName: 'depositName',           
+              successUrl: 'http://localhost/deposit/depositCheckSuccess',
+              failUrl: 'http://localhost/deposit/depositCheckFail',
+       } )
+      })  
+    </script>
+    
+   <section class="order_details section-margin--small">
+    <div class="container">    
+      <div class="order_details_table">
+        <h2>보증금 결제 내역</h2>
+        <div class="table-responsive">
+          <table class="table">
+       		<thead>
+              <tr>
+                <th scope="col">아이디</th>
+                <th scope="col">이름</th>
+                <th scope="col">결제 방법</th>
+                <th scope="col">가상계좌</th>
+                <th scope="col">결제 금액</th>
+                <th scope="col">신청날짜</th>
+                <th scope="col">만료날짜</th>              
+              </tr>
+            </thead>
+           <tbody>
+                <th:block th:unless="${#lists.isEmpty(userDepositPayList)}"  th:each="udp : ${userDepositPayList}" >
+		                  <tr>		                         		             
+		                       <td th:text="${udp.userId}"></td>
+		                       <td th:text="${udp.userName}"></td>
+		                       <td th:text="${udp.paymenteMethod}"></td>
+		                       <td th:text="${udp.virtualAccount}"></td>
+		                       <td th:text="${udp.charginAmount}"></td>
+		                       <td th:text="${udp.applicationDatetime}"></td>
+		                       <td th:text="${udp.depositCompletionDatetime}"></td>		                                      		                            		                          
+		                 </tr>
+                 </th:block>                          
+             </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+   </th:block>
+</html>
