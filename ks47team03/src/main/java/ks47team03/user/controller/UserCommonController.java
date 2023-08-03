@@ -56,10 +56,12 @@ public class UserCommonController {
 				User loginInfo = (User) validMap.get("userInfo");
 				String userLevel = loginInfo.getUserLevel();
 				String userName = loginInfo.getUserName();
+				String userNick = loginInfo.getUserNick();
 
 				session.setAttribute("SID", userId);
 				session.setAttribute("SLEVEL", userLevel);
 				session.setAttribute("SNAME", userName);
+				session.setAttribute("SNICKNAME", userNick);
 				
 				return "redirect:/";
 			}
@@ -149,7 +151,7 @@ public class UserCommonController {
 		@GetMapping("/")
 		public String main(Model model) {
 			
-			model.addAttribute("title","구구컵프로젝트");
+			model.addAttribute("title","구구컵프로젝트");			
 			
 			return "user/main";
 		}

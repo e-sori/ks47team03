@@ -89,7 +89,7 @@
   .nice-select .list {
   	width:100%;
     background-color: #fff;
-    max-height: 150px;
+    max-height: 100px;
     border-radius: 5px;
     box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.11);
     box-sizing: border-box;

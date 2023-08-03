@@ -8,3 +8,27 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
+#example-basic {
+    display: none;
+}
+
+.colSpan-center {
+  display: flex;
+  justify-content: center;
+}
+
+.margin-btn{
+	margin-right: 10px;
+    margin-left: 10px;
+}
+
+.wizardValidCheck{
+	margin-bottom : 20px !important;
+	color : red;
+	font-size: 13px
+}
+
+.nice-select{
+	margin-bottom: 20px
+}

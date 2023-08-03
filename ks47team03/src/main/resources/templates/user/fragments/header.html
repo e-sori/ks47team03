@@ -98,8 +98,8 @@
 	                            <li class="nav-item"><a class="nav-link mainmenu" href="/service/troubleKiosk">!AS 접수:우석</a></li>
 	                            
 								<!--로그인한 모든 회원-->
-	                            <li th:if="${session.SID != null}" class="nav-item">
-	                             	<a class="userHello-username" href="/mypage/myInfo" th:text="${session.SNAME}"></a>
+	                            <li th:if="${session.SNICKNAME != null}" class="nav-item">
+	                             	<a class="userHello-username" href="/mypage/myInfo" th:text="${session.SNICKNAME}"></a>
 	                             	<span>님 안녕하세요! 알림:서원</span>
 	                            	<a class="fe fe-16 fe-bell userHello" href="#"><span class="notice-dot"></span></a>                         	                            	
 	                            </li>
