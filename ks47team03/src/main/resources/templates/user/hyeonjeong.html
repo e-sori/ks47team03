@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+	<!-- ================ start banner area ================= -->
+		<section class="blog-banner-area" id="blog">
+			<div class="container h-100">
+				<img class="img-main" src="user/img/earthmain.jpg" 
+		            	onmouseover="this.src='user/img/earthmainhover.jpg'" 
+		            	onmouseout="this.src='user/img/earthmain.jpg'" alt="">	         
+		    </div>
+	    </section>
+	  <!-- ================ end banner area ================= -->
+	  
+  <!--================ Main Area =================-->	    
+		<section class="section-margin calc-60px">
+			<div class="container container-body">
+				<div class="row">
+		            <div class="js-display-flex-left">
+		     	       	<div class="row">
+
+					            
+
+						</div>
+					</div>
+				</div>
+		        <div>
+		        	<h2>KSMART 47기 3팀 프로젝트 <span class="section-intro__style"> 박현정</span> 구현 기능입니다.</h2>
+		            <div class="js-h-blank-20"></div>
+		            <div class="card text-center card-product">
+						<div class="img-left">
+							<img src="user/img/member/member2.png" width="200px" height="200px" alt="">
+								<ul class="card-product__imgOverlay">
+									 <li><a class="btn mb-2 btn-secondary" href="https://blog.naver.com/hyeonjj20" target="_blank">블로그</a></li>
+					                 <li><a class="btn mb-2 btn-secondary" href="https://github.com/e-sori/ks47team03" target="_blank">깃허브</a></li>
+					                 <li><a class="btn mb-2 btn-secondary" href="/hyeonjeong" target="_self">담당기능</a></li>
+								</ul>
+						</div>
+		            </div>
+		            <h4>- 사용자 화면 : </h4>
+		            <h4>- 관리자 화면 : </h4>
+		        </div>
+		       	<div class="js-h-blank-50"></div>
+		        <div>
+		            <p style="font-size: 30px; font-weight: bolder"><span class="fe fe-folder"></span> 사용자 페이지</p>
+		        </div>
+		        <div class="row">
+		        	<a class="btn mb-2 btn-secondary btn-margin" href="/kiosk/kioskPlace">무인기기 위치
+					 <!-- <img src="/user/img/member/member4.jpg" alt="">	 -->						                
+					</a>	  
+					<a class="btn mb-2 btn-secondary btn-margin" href="/partner/businessAddCup">추가 컵 배송 신청</a>	
+					<a class="btn mb-2 btn-secondary btn-margin" href="/partner/businessAddCup">폐기 컵 등록</a>    		
+				</div>
+		        <div class="js-h-blank-50"></div>
+		        <div>
+		            <p style="font-size: 30px; font-weight: bolder"><span class="fe fe-folder"></span> 관리자 페이지</p>
+		        </div>
+		        <div class="row">
+					<a class="btn mb-2 btn-secondary btn-margin" href="/admin/cup/discardCupManage">폐기 컵 관리</a>   
+					<a class="btn mb-2 btn-secondary btn-margin" href="/admin/cup/cupStateManage">컵 상태 관리</a>   
+				</div>		        
+			</div>
+		</section>
+	</th:block>
+</html>
