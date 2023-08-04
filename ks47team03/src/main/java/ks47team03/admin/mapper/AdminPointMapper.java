@@ -29,6 +29,9 @@ public interface AdminPointMapper {
 	/* 5-1 포인트 환급 기준 조회 */
 	public List<Map<String,Object>> getPointRefundStandard();	
 	
+	/* 4-1-1 등급 기준 조회 */
+	public List<Map<String,Object>> getGradeStandard();
+	
 	/* 4-1 포인트 적립 기준 조회 */
 	public List<Map<String,Object>> getPointSaveStandard();
 	

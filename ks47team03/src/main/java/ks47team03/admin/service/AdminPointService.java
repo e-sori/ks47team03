@@ -52,6 +52,8 @@ public class AdminPointService {
 		String tableDbName = null;
 		Map<String,Object> paramMap = new LinkedHashMap<String,Object>();	
 		List<Map<String,Object>> pointStandardList = null;	
+		List<Map<String,Object>> pointTypeList = null;	
+		List<Map<String,Object>> gradeList = null;	
 		
 		if(tableId.equals("pills-max"))	{
 			tableDbName = "day_maximum_count";	
@@ -62,9 +64,13 @@ public class AdminPointService {
 		}else if(tableId.equals("pills-save")) {
 			tableDbName = "point_save_standard";
 			pointStandardList = adminPointMapper.getPointSaveStandard();
+			gradeList = adminPointMapper.getGradeStandard();
+			paramMap.put("gradeList", gradeList);
 		}else if(tableId.equals("pills-refund")) {
 			tableDbName = "point_refund_standard";
 			pointStandardList = adminPointMapper.getPointRefundStandard();
+			pointTypeList = adminPointMapper.getPointTypeStandard();
+			paramMap.put("pointTypeList", pointTypeList);
 		}else {
 			tableDbName = "point_save_use_type";	
 			pointStandardList = adminPointMapper.getPointTypeStandard();

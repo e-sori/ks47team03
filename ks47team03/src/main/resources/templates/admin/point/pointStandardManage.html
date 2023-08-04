@@ -261,7 +261,7 @@
 		 		});
 				requestData.done(function( response ) {
 					if(response){
-						let pointStandardList = response.pointStandardList;						
+						let pointStandardList = response.pointStandardList;										
 						
 				        // key(title) : <th> , value(data) : <td>에 담아주기 위해 배열 선언 
 				        const newData = [
@@ -301,9 +301,7 @@
 				        	}
 				        	break; // 어차피 컬럼은 객체 하나만 돌아도 되기 때문에 한 번만 돌고 반복문을 끝내준다.
 				        }
-				        
-				        console.log(newData.length);
-				       
+				        				       
 						// 데이터 테이블 파괴
 						$('#pointStandardManage').DataTable().destroy();
 						
@@ -379,6 +377,7 @@
 						case 'pills-type':
 							$('.page-small-title').text('포인트 타입');
 							$('.card-small-text').text('포인트 타입입니다.');
+							console.log(pointStandardList);
 							
 							$('input[name="formName"]').val('pointType');
 							$('label[for="insertCode"]').text('포인트 타입 코드');
@@ -389,8 +388,16 @@
 							
 							$('.form-group').eq(1).append($addTypeFirst);
 							
+							for (let list of pointStandardList) {
+								if (list['코드 사용 유무'] === '사용중') {
+								  $addRefundFirst += `<option value="${list['포인트 타입']}">${list['포인트 타입']}</option>`;
+								}
+							}
+							
 							break;
 						case 'pills-save':
+							const gradeList = response.gradeList;
+							console.log(gradeList);
 							$('.page-small-title').text('포인트 적립 기준'); 
 							$('.card-small-text').text('포인트 적립 기준입니다.');
 							
@@ -399,7 +406,11 @@
 							$('.modal-header').find('#modalInsertLabel').text('포인트 적립 기준 등록');
 							
 							let $addSaveFirst = `<label for="insertGradeName" class="col-form-label">등급 이름</label>`
-							$addSaveFirst += `<input type="text" id="insertGradeName" name="gradeName" class="form-control">`
+								$addSaveFirst += `<select id="insertGradeName" name="gradeName" class="form-control">`
+								for (let list of gradeList) {
+									$addSaveFirst += `<option value="${list.grade_name}">${list.grade_name}</option>`;
+								}
+								$addSaveFirst += `</select>` 							
 							let $addSaveSecond = `<label for="insertGradePoint" class="col-form-label">등급 달성 포인트</label>`
 							$addSaveSecond += `<input type="text" id="insertGradePoint" name="gradePoint" class="form-control">`
 							let $addSaveThird = `<label for="insertUsePoint" class="col-form-label">이용 포인트</label>`
@@ -412,8 +423,8 @@
 							
 							break;
 						case 'pills-refund':
-							console.log("포인트 타입:", pointStandardList[0]["포인트 타입"]);
-							console.log("sfsdfsdfsdfsd",pointStandardList);
+							let pointTypeList = response.pointTypeList;		
+							
 							$('.page-small-title').text('포인트 환급 기준');
 							$('.card-small-text').text('포인트 환급 기준입니다.');
 							
@@ -421,16 +432,13 @@
 							$('label[for="insertCode"]').text('포인트 환급 기준 코드');
 							$('.modal-header').find('#modalInsertLabel').text('포인트 타입 등록');
 							
-							
 							let $addRefundFirst = `<label for="insertPointType" class="col-form-label">포인트 타입</label>`
 							$addRefundFirst += `<select id="insertPointType" name="pointType" class="form-control">`
-							for(list of pointStandardList){
-								  for(obj in list){
-								    if (obj === "포인트 타입") {
-								    	$addRefundFirst += `<option value="${list[obj]}"">${list[obj]}</option>` 
-								    }
-								  }
-								}	
+							for (let list of pointTypeList) {
+								if (list['코드 사용 유무'] === '사용중') {
+								  $addRefundFirst += `<option value="${list['포인트 타입']}">${list['포인트 타입']}</option>`;
+								}
+							}
 							$addRefundFirst += `</select>` 	
 							  	
 							let $addRefundSecond = `<label for="insertMinRefundPoint" class="col-form-label">최소 환급 포인트</label>`
@@ -514,6 +522,8 @@
 							let data = $(element).val();
 							let eleId = $(element).attr('id');
 							let tableId = $('.tab-pane').attr('id');
+							
+							// input 태그 유효성 검사
 							if ($(element).is('input')){
 								if(typeof data == 'undefined' || data == null || data ==''){
 									if($(element).next().is('span')) $(element).next().remove();
@@ -535,6 +545,7 @@
 									    
 									    return false;
 									}			
+									// 포인트 타입 테이블인 경우 이미 존재하는 타입은 등록할 수 없게 한다.
 									if (tableId === 'pills-type' && $(element).is('#insertPointType')) {
 									    let $tdArr = $('td');
 									    for(let td of $tdArr){
@@ -546,10 +557,10 @@
 										           
 									            return false;
 								    		}
-									    }									        
+									    }							
 									}
 								}
-							// 이미 사용 가능한 기준이 존재하는지 체크
+							// select 태그 이미 사용 가능한 기준이 존재하는지 체크
 							}else if($(element).is('select')){		
 							    if (tableId === 'pills-max' || tableId === 'pills-expire') {
 							        if ($('select').val() === 'Y' && $('td:contains("사용중")').length > 0) {
@@ -560,7 +571,41 @@
 							           
 							            return false;
 							        }
-							    }
+							    }// 환급 기준 테이블인 경우 이미 사용중인 기준이 존재하는 타입은 기준을 등록할 수 없게 한다.
+								else if (tableId === 'pills-refund' && $(element).is('#insertPointType')) {
+									const pointType = $('#insertPointType').val();
+								    let $trArr = $('tr');
+								    for(let tr of $trArr){
+							    		if($(tr).find('td').eq(3).text() == pointType && 
+							    				$(tr).find('td').eq(7).text() == '사용중' &&
+							    				$('#insertCodeUse').val() == 'Y')
+							    		{
+							    			if($(element).next().is('span')) $(element).next().remove();
+								            $(element).after(`<span class="validCheck">* 이미 ${pointType}의 사용중인 기준이 존재합니다.</span>`);								           
+								            
+								            $(element).focus();
+								            
+								            return false;
+							    		}
+								    }									        
+								}//적립 기준 테이블인 경우 이미 사용중인 기준이 존재하는 등급은 등록할 수 없게 한다.
+								else if (tableId === 'pills-save' && $(element).is('#insertGradeName')) {
+									const gradeName = $('#insertGradeName').val();
+								    let $trArr = $('tr');
+								    for(let tr of $trArr){
+							    		if($(tr).find('td').eq(3).text() == gradeName && 
+							    				$(tr).find('td').eq(6).text() == '사용중' &&
+							    				$('#insertCodeUse').val() == 'Y')
+							    		{
+							    			if($(element).next().is('span')) $(element).next().remove();
+								            $(element).after(`<span class="validCheck">* 이미 ${gradeName}의 사용중인 기준이 존재합니다.</span>`);								           
+								            
+								            $(element).focus();
+								            
+								            return false;
+							    		}
+								    }									        
+								}
 							}				
 							  if($(element).next().is('span')) $(element).next().remove(); 
 							  return true;
