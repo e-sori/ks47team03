@@ -31,16 +31,13 @@
 	
 	<insert id="addPointRefundStandard" parameterType="AdminPoint">
 		<selectKey resultType="String" keyColumn="pointSaveUseTypeCode" keyProperty="pointSaveUseTypeCode" order="BEFORE">
-			<!-- CDATA <를 쿼리문에서 문자열로 인식시켜주기 위해서 사용 -->
 			/* 등급명과 일치하는 등급 코드 조회 */
-			<![CDATA[
 			SELECT
 				point_save_use_type_code AS pointSaveUseTypeCode
 			FROM
 				point_save_use_type
 			WHERE
-				point_save_use_type =  #{pointType};
-			]]>			
+				point_save_use_type =  #{pointType};	
 		</selectKey>
 		/* 5-2 포인트 환급 기준 등록 */
 		INSERT INTO point_refund_standard
@@ -52,16 +49,13 @@
 	<insert id="addPointSaveStandard" parameterType="AdminPoint">
 		<!-- order ="BEFORE" - insert 태그 내에 같이 묶여있는 쿼리를 실행하기 전에 실행해라 -->
 		<selectKey resultType="String" keyColumn="gradeStandardCode" keyProperty="gradeStandardCode" order="BEFORE">
-			<!-- CDATA <를 쿼리문에서 문자열로 인식시켜주기 위해서 사용 -->
 			/* 등급명과 일치하는 등급 코드 조회 */
-			<![CDATA[
 			SELECT
 				grade_standard_code AS gradeStandardCode
 			FROM
 				grade_standard
 			WHERE
-				grade_name = #{gradeName};
-			]]>			
+				grade_name = #{gradeName};		
 		</selectKey>
 		/* 4-2 포인트 적립 기준 등록 */
 		INSERT INTO point_save_standard

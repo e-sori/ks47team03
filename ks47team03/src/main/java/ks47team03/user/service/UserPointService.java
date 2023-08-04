@@ -23,6 +23,12 @@ public class UserPointService {
 	
 	}
 	
+	// 포인트 사용 적립 신청 
+	public void addPointUseSaveList(Point point) {
+		userPointMapper.addPointUseSaveList(point);
+		userPointMapper.modifyUserPoint(point);
+	}
+	
 	// 특정 회원 계좌 수정
 	public void modifyUserAccount(Account account) {
 		userPointMapper.modifyUserAccount(account);		

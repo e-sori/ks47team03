@@ -11,6 +11,14 @@ import ks47team03.user.dto.Point;
 @Mapper
 public interface UserPointMapper {
 	
+	// 포인트 사용, 적립 신청2
+	/* 보유 포인트 변동 내역 */
+	public void modifyUserPoint(Point point);
+	
+	// 포인트 사용, 적립 신청1
+	/* 포인트 사용 적립 내역 */
+	public void addPointUseSaveList(Point point);
+	
 	// 특정 회원 계좌 수정
 	public void modifyUserAccount(Account account);
 	

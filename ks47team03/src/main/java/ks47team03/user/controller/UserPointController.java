@@ -32,17 +32,52 @@ public class UserPointController {
 		this.adminCommonMapper = adminCommonMapper;	
 	}
 	
-	// 포인트 후원 화면
+	// 포인트 후원 신청 화면
 	@GetMapping("/myPointRefundSponsorship")
-	public String pointRefundSponsorship(Model model) {
+	public String pointRefundSponsorship(Model model, HttpSession session) {
+		String accountName = (String) session.getAttribute("SNAME");	
+		String userId = (String) session.getAttribute("SID");
+		int currentPoint = 0;
 		
-		model.addAttribute("title","구구컵 : 포인트 후원");
+		Point userPoint = userPointService.getUserPoint(userId);
+		
+		if(userPoint !=null) currentPoint = userPoint.getCurrentHoldingPoint();
+		
+		model.addAttribute("title","구구컵 : 포인트 환급 신청");
+		model.addAttribute("accountName",accountName);
+		model.addAttribute("currentPoint",currentPoint);
+		
+		model.addAttribute("title","구구컵 : 포인트 후원 신청");
 		
 		return "user/point/myPointRefundSponsorship";
 	}
 	
 	// 포인트 환급 신청 처리2 - 포인트 입력
-	
+	@GetMapping("/addPointUseList")
+	@ResponseBody
+	public boolean addPointUseList(int usePoint, HttpSession session) {
+		String userId = (String) session.getAttribute("SID");
+		Point addPointUseList = new Point();
+		
+		Point userPoint = userPointService.getUserPoint(userId);
+		String pastNowHistoryNewCode = adminCommonMapper.getIncreaseCode("point_past_now_history");			
+		String useHistoryNewCode = adminCommonMapper.getIncreaseCode("point_save_use_history");	
+		int passHoldingpoint = userPoint.getCurrentHoldingPoint();
+		int currentHoldingPoint = passHoldingpoint - usePoint;
+				
+		addPointUseList.setPointPastNowHistoryCode(pastNowHistoryNewCode);
+		addPointUseList.setPointSaveUseHistoryCode(useHistoryNewCode);
+		addPointUseList.setUserId(userId);
+		addPointUseList.setPointSaveUseHistory(usePoint);
+		addPointUseList.setPointSaveUseType("포인트 환급");
+		addPointUseList.setSaveUseType("use");
+		addPointUseList.setCurrentHoldingPoint(currentHoldingPoint);
+		addPointUseList.setPassHoldingpoint(passHoldingpoint);
+		
+		userPointService.addPointUseSaveList(addPointUseList);
+
+		return true;
+	}	
 	
 	// 포인트 환급 신청 처리1 - 계좌 등록, 수정
 	@PostMapping("/addUserAccount")

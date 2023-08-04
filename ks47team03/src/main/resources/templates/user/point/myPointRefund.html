@@ -73,31 +73,33 @@
 							</section>
 							<h3 class="col-lg-4 col-md-4 col-sm-12 col-xs-12">포인트 환급 신청</h3>
 							<section>
-								<div class="form-group">
-									<span th:text="${session.SNAME}"></span>
-	                          		<span>회원님의 현재 보유 포인트는</span>
-	                          		<span class="currentPoint" th:text="${currentPoint}"></span>
-	                          		<span>포인트 입니다.</span>
-	                          		<div>- 최소 환급 신청 가능 포인트는 1,000포인트입니다.</div>
-	                          		<div>- 100포인트 단위로 환급 신청 가능합니다.</div>
-	                          		<div>- 환급 신청 포인트와 환급 수수료 10%를 포함한 포인트를 보유하고 있어야 환급 신청이 가능합니다.</div>
-	                        	</div>
-								<div class="form-group">
-	                          		<label for="refundPoint">환급 신청 포인트 (수수료 포함)*</label>
-	                          		<input class="form-control" id="refundPoint" name="refundPoint" type="text" placeholder="환급 신청할 포인트를 입력해주세요.">
-	                        	</div>
-		                        <div class="form-group">
-	                          		<label for="refundFee">환급 수수료</label>
-	                          		<input class="form-control" id="refundFee" name="refundFee" type="text" readonly="readonly">
-	                        	</div>
-								<div class="form-group">
-									<label for="willRefundPoint">환급 예정 포인트 (환급 신청 포인트에서 환급 수수료를 제한 금액)</label>
-									<input class="form-control" id="willRefundPoint" name="willRefundPoint" type="text" readonly="readonly">
-								</div>
-								<div class="colSpan-center">
-									<label for="pointCalBtn"></label>
-									<button class="btn mb-2 btn-secondary margin-btn" id="pointCalBtn" name="pointCalBtn" type="button">환급 포인트 계산</button>
-								</div>
+								<form id="pointInsertForm">
+									<div class="form-group">
+										<span th:text="${session.SNAME}"></span>
+		                          		<span>회원님의 현재 보유 포인트는</span>
+		                          		<span class="currentPoint" th:text="${currentPoint}"></span>
+		                          		<span>포인트 입니다.</span>
+		                          		<div>- 최소 환급 신청 가능 포인트는 1,000포인트입니다.</div>
+		                          		<div>- 100포인트 단위로 환급 신청 가능합니다.</div>
+		                          		<div>- 환급 신청 포인트와 환급 수수료 10%를 포함한 포인트를 보유하고 있어야 환급 신청이 가능합니다.</div>
+		                        	</div>
+									<div class="form-group">
+		                          		<label for="refundPoint">환급 신청 포인트 (수수료 포함)*</label>
+		                          		<input class="form-control" id="refundPoint" name="refundPoint" type="text" placeholder="환급 신청할 포인트를 입력해주세요.">
+		                        	</div>
+			                        <div class="form-group">
+		                          		<label for="refundFee">환급 수수료</label>
+		                          		<input class="form-control" id="refundFee" name="refundFee" type="text" readonly="readonly">
+		                        	</div>
+									<div class="form-group">
+										<label for="willRefundPoint">환급 예정 포인트 (환급 신청 포인트에서 환급 수수료를 제한 금액)</label>
+										<input class="form-control" id="willRefundPoint" name="willRefundPoint" type="text" readonly="readonly">
+									</div>
+									<div class="colSpan-center">
+										<label for="pointCalBtn"></label>
+										<button class="btn mb-2 btn-secondary margin-btn" id="pointCalBtn" name="pointCalBtn" type="button">환급 포인트 계산</button>
+									</div>
+								</form>
 							</section>
 							<h3 class="col-lg-4 col-md-4 col-sm-12 col-xs-12">포인트 환급 신청 완료</h3>
 							<section>
@@ -105,24 +107,24 @@
 									<div>- 포인트 환급 신청이 완료되었습니다.</div>
 	                        	</div>
 								<div class="form-group">
-	                          		<label for="accountUserName">예금주</label>
-	                          		<input class="form-control" id="accountUserName" name="accountUserName" type="text" readonly="readonly">
+	                          		<label for="accountUserNameOk">예금주</label>
+	                          		<input class="form-control" id="accountUserNameOk" name="accountUserNameOk" type="text" readonly="readonly">
 	                        	</div>
 		                        <div class="form-group">
-		                          	<label for="bankName">은행</label>
-	                          		<input class="form-control" id="bankName" name="bankName" type="text" readonly="readonly">
+		                          	<label for="bankNameOk">은행</label>
+	                          		<input class="form-control" id="bankNameOk" name="bankNameOk" type="text" readonly="readonly">
 		                        </div>
 								<div class="form-group">
-									<label for="accountNum">계좌번호</label>
-									<input class="form-control" id="accountNum" name="accountNum" type="text" readonly="readonly">
+									<label for="accountNumOk">계좌번호</label>
+									<input class="form-control" id="accountNumOk" name="accountNumOk" type="text" readonly="readonly">
 								</div>
 								<div class="form-group">
-									<label for="refundPoint">환급 완료 포인트 (환급 신청 포인트에서 환급 수수료를 제한 금액)</label>
-									<input class="form-control" id="refundPoint" name="refundPoint" type="text" readonly="readonly"> 
+									<label for="refundPointOk">환급 완료 포인트 (환급 신청 포인트에서 환급 수수료를 제한 금액)</label>
+									<input class="form-control" id="refundPointOk" name="refundPointOk" type="text" readonly="readonly"> 
 								</div>
 								<div class="form-group">
-									<label for="currentPoint">환급 후 포인트</label>
-									<input class="form-control" id="currentPoint" name="currentPoint" type="text" readonly="readonly"> 
+									<label for="currentPointOk">환급 후 포인트</label>
+									<input class="form-control" id="currentPointOk" name="currentPointOk" type="text" readonly="readonly"> 
 								</div>
 							</section>
 						</div>						
@@ -143,7 +145,6 @@
 		    if ($(element).is('input')) {
 		      // 유효성 검사
 		      if (typeof data == 'undefined' || data == null || data == '') {
-		        console.log('Validation failed for element: ', element);
 		        if (formGroup.find('.wizardValidCheck'))
 		          formGroup.find('.wizardValidCheck').remove();
 		        formGroup.append(
@@ -198,17 +199,18 @@
 			  basicWizard.show();
 			  
 			  $('a[href="#next"]').addClass('nextBtn');
-
+			  
 			  // 신청 완료 버튼 속성 수정
 			  $('.steps,.actions').click((e) => {
 			    e.stopPropagation;
 			    const selectSection = $('.steps').find('.current').find('a').attr('id');
+			    $('#finishBtn').closest('li').addClass('disabled');
 			    if (selectSection == 'example-basic-t-1') {
 			      $('ul li')
 			        .last()
 			        .find('a')
 			        .attr('id', 'finishBtn')
-			        .attr('href', '/point/myPointRefund');
+			        .attr('href', '#');
 			      $('#finishBtn')
 			        .closest('li')
 			        .attr('aria-hidden', 'false')
@@ -217,9 +219,10 @@
 			      $('#finishBtn')
 			        .closest('li')
 			        .attr('aria-hidden', 'true')
-			        .attr('style', 'display: none;');
+			        .attr('style', 'display: none;');			      
 			    }
-			  });
+			    
+			 });
 
 			  // input 폼 placeholder 이벤트
 			  let placeholder;
@@ -258,7 +261,6 @@
 			        if (response) {
 			          $('#accountInsertForm').find('input').attr('readonly', 'readonly');
 			          $('.current').closest('div').addClass('disabled');
-			          console.log(response);
 			          alert('등록 되었습니다.');
 			          $('.noBank').after(
 			            '<div class="yesBank">- 계좌가 등록되어 있습니다.</div>'
@@ -370,7 +372,9 @@
 			});
 		});
 		
+		let currentPoint = $('.currentPoint').text();
 		// 환급 포인트 계산 버튼 클릭시 유효성 검사 등.. 후 submit
+		let finishBtnOk = $('#pointInsertForm').find('.wizardValidCheckOk');
 		$(document).on('click','#pointCalBtn',  e => {
 			$('.wizardValidCheckOk').remove();
 			 const validateEle = $('#refundPoint');
@@ -380,7 +384,6 @@
 					return false;
 				}			        
 			let refundPoint = $('#refundPoint').val();
-			let currentPoint = $('.currentPoint').text();
 			let refundFee = parseInt(refundPoint/10);
 						
 			// 1000원 미만일 시 환급 불가
@@ -390,22 +393,67 @@
 			// 보유 포인트를 초과하면 환급 불가
 			else if (refundPoint > currentPoint ) $('#refundPoint').after(`<span class="wizardValidCheck">보유 포인트가 <환급 포인트 + 수수료> 보다 적습니다.</span>`);
 			// 정상적인 상황
-			else $('.colSpan-center').before(`<div class="wizardValidCheckOk">환급 신청이 가능합니다.</div>`);
+			else {
+				$('.colSpan-center').before(`<div class="wizardValidCheckOk">환급 신청이 가능합니다.</div>`);
+				$('#finishBtn').attr('href','#next');
+				$('#finishBtn').closest('li').removeClass('disabled');				
+			}
 			// 수수료 계산
 			let willRefundPoint = refundPoint-refundFee;
 			$('#refundFee').val(refundFee);
-			$('#willRefundPoint').val(willRefundPoint);
+			$('#willRefundPoint').val(willRefundPoint);		
+			
+			finishBtnOk = $('#pointInsertForm').find('.wizardValidCheckOk');
+				
 		}); 	
-		
 		// 환급 신청 가능 메세지 지우기
 		$(document).on('click','button:not(#pointCalBtn),a:not(#finishBtn)',  e => {
 			$('.wizardValidCheckOk').remove();
 		});
 		
+		// 신청 완료 버튼 클릭시 포인트 차감
 		$(document).on('click','#finishBtn',  e => {
-			if($('.wizardValidCheckOk').length === 0) alert('먼저 환급 포인트 계산을 진행해주세요.');
-			console.log('포인트 데이터 베이스... 로 인서트....');
+			console.log('sfsdfsfsdfsdfdfsd',finishBtnOk);
+			if(finishBtnOk.length === 0) alert('먼저 환급 포인트 계산을 진행해주세요.');
+			else{
+				let usePoint = $('#refundPoint').val();
+				console.log(usePoint);
+				
+				const requestData = $.ajax({
+			        url: '/point/addPointUseList',
+			        method: 'GET',
+			        data: { 'usePoint' : usePoint },
+			      });
+			      requestData.done(function (response) {
+			        if (response) {		        	
+			        	const accountUserName = $('#accountUserName').val();
+			        	const bankName = $('#bankName').val();
+			        	const accountNum = $('#accountNum').val();
+			        	const willRefundPoint = $('#willRefundPoint').val();
+			        	const refundPoint = $('#refundPoint').val();
+			        	
+			        	console.log(refundPoint);
+			        	console.log(currentPoint);
+			        	console.log(currentPoint + refundPoint);
+			        	
+			        	$('#accountUserNameOk').val(accountUserName);
+			        	$('#bankNameOk').val(bankName);
+			        	$('#accountNumOk').val(accountNum);
+			        	$('#refundPointOk').val(willRefundPoint);
+			        	$('#currentPointOk').val(currentPoint-refundPoint);
+			    		
+			        	$('.actions').remove();
+			        	
+			        	$('.steps').find('.done').find('a').attr('href','');
+			        
+			        }
+			      });
+			      requestData.fail(function (jqXHR, textStatus) {
+			        alert('Request failed: ' + textStatus);
+			      });
+			}
 		});
+		
 		
 		
 
