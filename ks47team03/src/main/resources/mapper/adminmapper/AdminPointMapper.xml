@@ -31,7 +31,7 @@
 	
 	<insert id="addPointRefundStandard" parameterType="AdminPoint">
 		<selectKey resultType="String" keyColumn="pointSaveUseTypeCode" keyProperty="pointSaveUseTypeCode" order="BEFORE">
-			/* 등급명과 일치하는 등급 코드 조회 */
+			/* 포인트 타입과 일치하는 기준 코드 조회 */
 			SELECT
 				point_save_use_type_code AS pointSaveUseTypeCode
 			FROM
@@ -112,13 +112,20 @@
 			RS.point_save_use_type_code = SUT.point_save_use_type_code
 		ORDER BY No
 	</select>
+	
+	<select id="getGradeStandard" resultType="map">
+		/* 4-1-1 현재 존재하는 등급 기준 조회 */
+		SELECT
+			grade_name
+		FROM
+			grade_standard
+	</select>
 
 	<select id="getPointSaveStandard" resultType="java.util.LinkedHashMap">
 		/* 4-1 포인트 적립 기준 조회 */
 		SELECT
 			CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)	AS No,
 			PSS.point_save_standard_code AS '적립 기준 코드',
-			GS.grade_name AS '등급',
 			GS.grade_name AS '등급',
 			PSS.grade_attain_point AS '등급 달성 포인트',
 			PSS.use_save_point AS '이용 포인트',
