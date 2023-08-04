@@ -201,7 +201,6 @@
 	
 	<select id="getIncreaseCode" resultType="String" parameterType="String">
 		/* 자동 숫자 증가 코드 가져오기 */
-		<![CDATA[
 		SELECT
 			CASE
 				WHEN COUNT(*) = 0
@@ -212,7 +211,6 @@
 			END AS increaseCode
 		FROM
 			${tableName}
-		]]>
 	</select>
 	
 </mapper>

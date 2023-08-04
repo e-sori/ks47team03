@@ -8,20 +8,66 @@
 <mapper namespace="ks47team03.user.mapper.UserPointMapper">
 
 	<resultMap type="Account" id="userAccountResultMap">
-		<id column="user_bank_code" 	property="userBankCode"/>
-		<result column="user_id" 					property="userId"/>
-		<result column="account_user_name" 		property="accountUserName"/>		
-		<result column="bank_name" 					property="bankName"/>		
-		<result column="account_number" 				property="accountNumber"/>		
+		<id 	column="user_bank_code" 	property="userBankCode"/>
+		<result column="user_id" 			property="userId"/>
+		<result column="account_user_name" 	property="accountUserName"/>		
+		<result column="bank_name" 			property="bankName"/>		
+		<result column="account_number" 	property="accountNumber"/>		
 	</resultMap>
 	
 	<resultMap type="Point" id="pointResultMap">
-		<id column="user_deposit_point_code" 	property="userDepositPointCode"/>
-		<result column="user_id" 					property="userId"/>
-		<result column="current_holding_point" 		property="currentHoldingPoint"/>		
-		<result column="admin_id" 					property="adminId"/>		
-		<result column="up_datetime" 				property="upDatetime"/>		
+		<id 	column="point_past_now_history_code" 	property="pointPastNowHistoryCode"/>
+		<result column="user_id" 						property="userId"/>
+		<result column="past_holding_point" 			property="passHoldingpoint"/>			
+		<result column="point_save_use_history_code" 	property="pointSaveUseHistoryCode"/>			
+		<result column="point_save_use_history" 		property="pointSaveUseHistory"/>			
+		<result column="current_holding_point" 			property="currentHoldingPoint"/>			
+		<result column="save_use_type" 					property="saveUseType"/>		
+		<result column="point_save_use_type" 			property="pointSaveUseType"/>		
 	</resultMap>
+	
+	
+	<insert id="modifyUserPoint" parameterType="Point">
+		/* 보유 포인트 변동 내역 */
+		INSERT point_past_now_history
+		VALUES(#{pointPastNowHistoryCode},
+				#{userId},
+				#{passHoldingpoint},
+				#{pointSaveUseHistory},
+				#{currentHoldingPoint},
+				'adminid002',
+				NOW(),
+				#{saveUseType})
+	</insert>
+	
+	<insert id="addPointUseSaveList" parameterType="Point">
+		<selectKey resultType="String" keyColumn="pointSaveUseTypeCode" keyProperty="pointSaveUseTypeCode" order="BEFORE">
+			/* 포인트 사용 혹은 적립과 일치하는 코드 조회 */
+			SELECT
+				point_save_use_type_code AS pointSaveUseTypeCode
+			FROM
+				point_save_use_type
+			WHERE
+				point_save_use_type = #{pointSaveUseType}		
+		</selectKey>
+		/* 포인트 사용 적립 내역 */
+		INSERT INTO point_save_use_history 
+		VALUES(#{pointSaveUseHistoryCode},
+				#{userId},
+				#{saveUseType},
+				#{pointSaveUseTypeCode},
+				-#{pointSaveUseHistory},
+				<choose>
+				    <when test="saveUseType != null and saveUseType == 'save'">
+				        DATE_ADD(NOW(), INTERVAL 3 YEAR)
+				    </when>
+				    <otherwise>
+				        NULL
+				    </otherwise>
+				</choose>,				
+				'adminid002',
+				NOW());	
+	</insert>
 	
 	<update id="modifyUserAccount" parameterType="Account">
 		/* 회원 계좌 수정 */
@@ -68,6 +114,7 @@
 		SELECT
 			point_past_now_history_code,
 			user_id,
+			past_holding_point,
 			current_holding_point,
 			admin_id,
 			up_datetime
@@ -79,21 +126,18 @@
 		LIMIT 1;
 	</select>
 		
-	<select id="getAllUserPoint" parameterType="map" resultMap="pointResultMap">
+	<select id="getAllUserPoint" parameterType="Point" resultMap="pointResultMap">
 		/* 전체 회원 현재 보유 포인트 조회*/
 		SELECT
 			CAST(SUBSTRING_INDEX(user_deposit_point_code,'code',-1) AS UNSIGNED) AS num,
-			user_deposit_point_code AS userDepositPointCode
+			point_past_now_history_code,
 			user_id,
 			current_holding_point,
 			admin_id,
 			up_datetime
-		FROM 
-			user_deposit_point
+		FROM
+			point_past_now_history
 		ORDER BY num
-		<if test="currentFirstIndex != null and currentFirstIndex > -1">
-			LIMIT #{currentFirstIndex},#{rowPerPage};
-		</if>
 	</select>
 	
 	<select id="getAllUserPointCount" parameterType="String" resultType="int">
