@@ -53,7 +53,31 @@ public class UserPointController {
 	}
 	
 	// 포인트 환급 신청 처리2 - 포인트 입력
-	
+	@GetMapping("/addPointUseList")
+	@ResponseBody
+	public boolean addPointUseList(int usePoint, HttpSession session) {
+		String userId = (String) session.getAttribute("SID");
+		Point addPointUseList = new Point();
+		
+		Point userPoint = userPointService.getUserPoint(userId);
+		String pastNowHistoryNewCode = adminCommonMapper.getIncreaseCode("point_past_now_history");			
+		String useHistoryNewCode = adminCommonMapper.getIncreaseCode("point_save_use_history");	
+		int passHoldingpoint = userPoint.getCurrentHoldingPoint();
+		int currentHoldingPoint = passHoldingpoint - usePoint;
+				
+		addPointUseList.setPointPastNowHistoryCode(pastNowHistoryNewCode);
+		addPointUseList.setPointSaveUseHistoryCode(useHistoryNewCode);
+		addPointUseList.setUserId(userId);
+		addPointUseList.setPointSaveUseHistory(usePoint);
+		addPointUseList.setPointSaveUseType("포인트 환급");
+		addPointUseList.setSaveUseType("use");
+		addPointUseList.setCurrentHoldingPoint(currentHoldingPoint);
+		addPointUseList.setPassHoldingpoint(passHoldingpoint);
+		
+		userPointService.addPointUseSaveList(addPointUseList);
+
+		return true;
+	}	
 	
 	// 포인트 환급 신청 처리1 - 계좌 등록, 수정
 	@PostMapping("/addUserAccount")
