@@ -136,6 +136,41 @@ public class UserCommonController {
 			return "user/join";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 		}
 		
+		// 멤버 담당 기능 화면3 - 현주열
+		@GetMapping("/juyeol")
+		public String introJuyeol(Model model,  HttpSession session) {
+			
+			session.setAttribute("SID","adminid001");
+			session.setAttribute("SLEVEL","관리자");
+			
+			model.addAttribute("title","현주열 담당 기능 소개");			
+			
+			return "user/juyeol";
+		}	
+		
+		// 멤버 담당 기능 화면2 - 박현정
+		@GetMapping("/hyeonjeong")
+		public String introHyeonjeong(Model model,  HttpSession session) {
+			
+			session.setAttribute("SID","adminid001");
+			session.setAttribute("SLEVEL","관리자");
+			
+			model.addAttribute("title","박현정 담당 기능 소개");			
+			
+			return "user/hyeonjeong";
+		}	
+		
+		// 멤버 담당 기능 화면1 - 이소리
+		@GetMapping("/sori")
+		public String introSori(Model model,  HttpSession session) {
+			
+			session.setAttribute("SID","adminid001");
+			session.setAttribute("SLEVEL","관리자");
+			
+			model.addAttribute("title","이소리 담당 기능 소개");			
+			
+			return "user/sori";
+		}		
 				
 		// 프로젝트 소개 화면
 		@GetMapping("/projectIntro")

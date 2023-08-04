@@ -155,3 +155,10 @@ a{
 	width: 100%;
 }
 
+.img-left{
+	text-align: left;
+}
+
+.btn-margin{
+	margin-right:10px
+}
