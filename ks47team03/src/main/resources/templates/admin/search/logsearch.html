@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">  
-	<div th:fragment="userSearchFragment">
-		<form th:action="@{/admin/user/userAll}" method="get">
+	<div th:fragment="logSearchFragment">
+		<form th:action="@{/admin/user/loginHistory}" method="get">
            	<div class="col-md-auto ml-auto text-right">
 		                  <button type="button" class="btn" data-toggle="modal" data-target=".modal-slide"><span class="fe fe-search fe-16 text-muted"></span></button>
 		               </div>
@@ -20,10 +20,8 @@
 		                        <div class="form-group my-4">
 		                          <p class="mb-2"><strong>Select</strong></p>
 		                          <select class="form-control select2"   name="searchKey">
-		                              <option class="option-user-search" value="userId">회원 아이디</option>
-		                              <option class="option-user-search" value="userName">회원 이름</option>
-		                              <option class="option-user-search" value="userLevel">회원 등급</option>
-		                              <option class="option-user-search" value="userJoindatetime">업데이트 날짜</option>
+		                              <option class="option-log-search" value="userId">회원 아이디</option>
+		                              <option class="option-log-search" value="userName">회원 이름</option>
 		                          </select>
 		                        </div> <!-- form-group -->
 
@@ -32,7 +30,7 @@
 		                            <strong>Value</strong>
 		                          </p>
 		                          <div>
-		                            <input type="text" class="userSearchValue" name="searchValue" placeholder="검색어를 입력해주세요." />
+		                            <input type="text" class="logSearchValue" name="searchValue" placeholder="검색어를 입력해주세요." />
 		                          </div>
 		                        </div> <!-- form-group -->
 		                      </div>
