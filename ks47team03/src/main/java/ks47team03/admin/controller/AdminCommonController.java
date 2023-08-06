@@ -52,6 +52,41 @@ public class AdminCommonController {
 		this.adminService = adminService;
 		this.adminMapper = adminMapper;
 	}
+	//로그 기록
+		@SuppressWarnings("unchecked")
+		@GetMapping("/user/loginHistory")
+		public String loginHistory(@RequestParam(value="currentPage", required = false ,defaultValue = "1")int currentPage,
+									 @RequestParam (value="searchKey", required= false) String searchKey,
+								     @RequestParam (value="searchValue", required= false) String searchValue,
+								     @RequestParam(value="msg", required = false) String msg,
+									 Model model) {
+			//search 
+			
+			//required= false 입력값 필수로 안받겠다. defaultValue = "1" 기본값 설정,문자열만 입력 가능 Modle=보내질 데이터
+			Map<String,Object> resultMap = adminService.getLogHistoryList(currentPage,searchKey,searchValue);
+			
+			
+			List<Map<String,Object>> logHistoryList = (List<Map<String,Object>>)resultMap.get("logHistoryList");
+			log.info("logHistoryList:{}",logHistoryList);
+			int startPageNum = (int) resultMap.get("startPageNum");
+			int endPageNum = (int) resultMap.get("endPageNum");
+			int lastPage = (int)resultMap.get("lastPage");
+			int rowPerPage = (int) resultMap.get("rowPerPage");
+
+			
+			if(msg != null) model.addAttribute("msg", msg);
+			model.addAttribute("title", "로그인 이력 조회");
+			model.addAttribute("currentPage", currentPage);
+			model.addAttribute("lastPage", lastPage);
+			model.addAttribute("logHistoryListCount",adminMapper.getLogHistoryListCount());
+			model.addAttribute("logHistoryList", logHistoryList);
+			model.addAttribute("startPageNum", startPageNum);
+			model.addAttribute("endPageNum", endPageNum);
+			model.addAttribute("rowPerPage", rowPerPage);
+			return "admin/user/loginHistory";
+		}
+	
+	
 	//회원 관리 기준
 	@GetMapping("/user/userMangeStandard")
 	public String userMangeStandard(Model model) {
@@ -204,12 +239,6 @@ public class AdminCommonController {
 	public String userWithdrawal(Model model) {
 		model.addAttribute("title","탈퇴 회원 관리");
 		return "admin/user/userWithdrawal";
-	}
-	//로그인 기록 관리
-	@GetMapping("/user/loginHistory")
-	public String loginHistory(Model model) {
-		model.addAttribute("title","로그인 이력 조회");
-		return "admin/user/loginHistory";
 	}
 	
 	// admin 메인화면
