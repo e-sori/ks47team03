@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  
+	   <!-- Wizard -->
+    <link rel="stylesheet" th:href="@{/admin/css/jquery.steps.css}">
+    <link rel="stylesheet" th:href="@{/user/css/wizard.css}">
+	  
+	<th:block layout:fragment="customContents">  
+		<!-- ================ start banner area ================= -->
+		<section class="page-banner-area" id="category">
+			<div class="container h-100">
+				<div class="text-center">
+					<h1>포인트 후원 신청</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+		 				<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+							<li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+							<li class="breadcrumb-item active" aria-current="page">포인트 후원 신청</li>
+		 				</ol>
+					</nav>
+				</div>
+			</div>
+		</section>
+		<!-- ================ end banner area ================= -->
+		<!--================Point table Area =================-->
+		<section class="order_details section-margin--small">
+	    	<div class="container">
+	    		<h3 class="page-title">포인트 후원 신청</h3>
+	    		<div class="card my-4">
+	                <div class="card-body-wizard">
+						<div id="example-basic">
+							<h3 class="col-lg-4 col-md-4 col-sm-12 col-xs-12">포인트 후원 신청</h3>
+							<section>
+								<div class="form-group">
+									<span th:text="${session.SNAME}"></span>
+	                          		<span>회원님의 현재 보유 포인트는</span>
+	                          		<span class="currentPoint" th:text="${currentPoint}"></span>
+	                          		<span>포인트 입니다.</span>
+	                        	</div>
+								<div class="form-group">
+	                          		<label for="sponPoint">후원 신청 포인트 *</label>
+	                          		<input class="form-control" id="sponPoint" name="sponPoint" type="text" placeholder="후원 신청할 포인트를 입력해주세요.">
+	                        	</div>
+	                        	<div class="colSpan-center">
+									<label for="pointCalBtn"></label>
+									<button class="btn mb-2 btn-secondary margin-btn" id="pointCalBtn" name="pointCalBtn" type="button">후원 포인트 확인</button>
+								</div>
+							</section>
+							<h3 class="col-lg-4 col-md-4 col-sm-12 col-xs-12">포인트 후원 신청 완료</h3>
+							<section>
+								<div class="form-group">
+									<div>- 포인트 후원 신청이 완료되었습니다.</div>
+	                        	</div>
+								<div class="form-group">
+									<label for="sponPointOk">후원 완료 포인트</label>
+									<input class="form-control" id="sponPointOk" name="sponPointOk" type="text" readonly="readonly"> 
+								</div>
+								<div class="form-group">
+									<label for="currentPointOk">후원 후 포인트</label>
+									<input class="form-control" id="currentPointOk" name="currentPointOk" type="text" readonly="readonly"> 
+								</div>
+							</section>
+						</div>						
+	                </div> <!-- .card-body -->
+				</div> <!-- .card -->
+			</div>
+		</section>
+	  <!--================End Order Details Area =================-->
+	</th:block>
+
+	<th:block layout:fragment="customJs">
+		<script>
+		// 유효성 검사 함수
+		const validCheck = (element) => {
+		  let data = $(element).val();
+		  let formGroup = $(element).closest('.form-group');
+
+		  // 유효성 검사
+		  if ($(element).is('input')) {
+		    if (typeof data == 'undefined' || data == null || data == '') {
+		      if (formGroup.find('.wizardValidCheck'))
+		        formGroup.find('.wizardValidCheck').remove();
+		      formGroup.append(
+		        `<span class="wizardValidCheck">* 필수 입력 항목입니다.</span>`
+		      );
+
+		      formGroup.focus();
+
+		      return false;
+		    }
+		  }
+		  // 숫자만 입력했는지 검사
+		  if (isNaN(data) && !$(element).attr('readonly')) {
+		    if (formGroup.find('.wizardValidCheck'))
+		      formGroup.find('.wizardValidCheck').remove();
+		    formGroup.append(
+		      `<span class="wizardValidCheck">* 숫자만 입력 가능합니다.</span>`
+		    );
+		    formGroup.focus();
+
+		    return false;
+		  }
+
+		  if ($('.wizardValidCheck')) $('.wizardValidCheck').remove();
+		  
+		  return true;
+		};
+
+	$(function () {
+		  // baskcWizard 탭 설정
+		  const basicWizard = $('#example-basic');
+		  basicWizard.length &&
+		    basicWizard.steps({
+		      headerTag: 'h3',
+		      bodyTag: 'section',
+		      transitionEffect: 'fade',
+		      autoFocus: true,
+		    });
+		  basicWizard.show();
+		
+		// 신청 완료 버튼 속성 수정
+		const selectSection = $('.steps').find('.current').find('a').attr('id');
+		$('.actions').find('li').last().addClass('disabled');
+		if (selectSection == 'example-basic-t-0') {
+		  $('ul li')
+		    .last()
+		    .find('a')
+		    .attr('id', 'finishBtn')
+		    .attr('href', '#');
+		  $('#finishBtn')
+		    .closest('li')
+		    .attr('aria-hidden', 'false')
+		    .attr('style', '');
+		} else {
+		  $('#finishBtn')
+		    .closest('li')
+		    .attr('aria-hidden', 'true')
+		    .attr('style', 'display: none;');			      
+		}
+
+		// input 폼 placeholder 이벤트
+		let placeholder;
+		$('input').on('focus', (e) => {
+		  placeholder = $(e.target).attr('placeholder');
+		  $(e.target).removeAttr('placeholder');
+		});
+
+		$('input').on('blur', (e) => {
+		  $(e.target).attr('placeholder', placeholder);
+		});
+
+		let currentPoint = parseInt($('.currentPoint').text());
+		// 후원 포인트 계산 버튼 클릭시 유효성 검사 등.. 후 submit
+		let finishBtnOk = $('#pointInsertForm').find('.wizardValidCheckOk');
+		$(document).on('click','#pointCalBtn',  e => {
+		  $('.wizardValidCheckOk').remove();
+		  const validateEle = $('#sponPoint');
+		  let isSubmit = true;
+		  if(!validCheck(validateEle)) {
+		    isSubmit = false; 
+		    return false;
+		  }	
+		  
+		  let sponPoint = $('#sponPoint').val();
+
+		  // 1000원 미만일 시 후원 불가
+		  if (sponPoint < 1000) $('#sponPoint').after(`<span class="wizardValidCheck">1,000원 이상 후원 가능합니다.</span>`);
+		  // 100원 단위가 아닐 시 후원 불가
+		  else if (sponPoint % 100 != 0) $('#sponPoint').after(`<span class="wizardValidCheck">100원 단위로 후원 가능합니다.</span>`);
+		  // 보유 포인트를 초과하면 후원 불가
+		  else if (sponPoint > currentPoint ) $('#sponPoint').after(`<span class="wizardValidCheck">보유 포인트가 <후원 포인트> 보다 적습니다.</span>`);
+		  // 정상적인 상황
+		  else {
+		    $('.colSpan-center').before(`<div class="wizardValidCheckOk">후원 신청이 가능합니다.</div>`);
+		    $('#finishBtn').attr('href','#next');
+		    $('#finishBtn').closest('li').removeClass('disabled');				
+		  }
+		  finishBtnOk = $('#example-basic-p-0').find('.wizardValidCheckOk');
+			console.log('dkfkdkdkddddddddddkfk',finishBtnOk);
+		}); 
+
+		// 후원 신청 가능 메세지 지우기
+		$(document).on('click','button:not(#pointCalBtn),a:not(#finishBtn)',  e => {
+		  $('.wizardValidCheckOk').remove();
+		});
+
+		// 신청 완료 버튼 클릭시 포인트 차감
+		$(document).on('click','#finishBtn',  e => {
+		  if(finishBtnOk.length === 0) alert('먼저 후원 포인트 확인을 진행해주세요.');
+		  else{
+		    let usePoint = $('#sponPoint').val();
+		    console.log(usePoint);
+
+		    const requestData = $.ajax({
+		      url: '/point/addPointSponList',
+		      method: 'GET',
+		      data: { 'usePoint' : usePoint },
+		    });
+		    requestData.done(function (response) {
+		      if (response) {		        	
+		        const sponPoint = $('#sponPoint').val();
+		        
+		        console.log(sponPoint);
+		        console.log(currentPoint);
+		        console.log(currentPoint + sponPoint);
+		        
+		        $('#sponPointOk').val(sponPoint);
+		        $('#currentPointOk').val(currentPoint-sponPoint);
+		      
+		        $('.actions').remove();
+		        
+		        $('.steps').find('.done').find('a').attr('href','');
+		      }
+		    });
+		    requestData.fail(function (jqXHR, textStatus) {
+		      alert('Request failed: ' + textStatus);
+		    });
+		  }
+    	});
+  	});
+
+		</script>
+	</th:block>
+</html>
