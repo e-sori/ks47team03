@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ks47team03.admin.service.AdminDepositService;
 import ks47team03.user.dto.DepositStandard;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -177,6 +177,14 @@ public class AdminDepositController {
 				if(msg != null) model.addAttribute("msg", msg);
 				
 				return "admin/deposit/deleteDepositStandard";
+			}
+			
+			@PostMapping("/modifyCheck")
+			@ResponseBody
+			public int modifyCheck(@RequestParam(value="waitingDepositPeriod")int waitingDepositPeriod) {
+				log.info("수정 체크:{}",waitingDepositPeriod);
+				int result = depositService.modifyCheck(waitingDepositPeriod);
+				return waitingDepositPeriod;
 			}
 		
 
