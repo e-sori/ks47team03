@@ -37,7 +37,7 @@ public class AdminCommonService {
 					searchKey="l.user_id";
 				}
 				case "userName"->{
-					searchKey="l.user_name";				
+					searchKey="u.user_name";				
 								}				
 			}
 			paramMap.put("searchKey", searchKey);
