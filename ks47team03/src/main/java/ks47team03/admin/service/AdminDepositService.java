@@ -250,4 +250,9 @@ private static final Logger log = LoggerFactory.getLogger(AdminCommonService.cla
 		
 		return resultMap;
 	}
+
+	public int modifyCheck(int waitingDepositPeriod) {
+		adminDepositMapper.modifyCheck(waitingDepositPeriod);
+		return waitingDepositPeriod;
+		}
 }

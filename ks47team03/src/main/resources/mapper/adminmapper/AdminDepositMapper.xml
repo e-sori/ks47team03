@@ -172,7 +172,15 @@
 		WHERE
 			admin_id = #{adminId}
 	</update>
-
+<select id="modifyCheck" resultType="int" parameterType="int">
+		/* 사용중인 만료기간 */
+		SELECT 
+			wds.waiting_deposit_period
+		FROM
+			waiting_deposit_standard as wds
+		WHERE 
+			wds.waiting_deposit_period = #{waitingDepositPeriod};
+	</select> 
 	
 	
 </mapper>

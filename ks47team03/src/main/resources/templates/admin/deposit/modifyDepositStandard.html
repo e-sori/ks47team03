@@ -40,7 +40,7 @@
                                   <label for="waitingDepositPeriod"></label>
                                 </td>
                                 <td>
-                                  <input type="text" id="waitingDepositPeriod" name="waitingDepositPeriod" th:value="*{waitingDepositPeriod}" placeholder="기간 수정"/>
+                                  <input type="number" id="waitingDepositPeriod" name="waitingDepositPeriod" th:value="*{waitingDepositPeriod}" placeholder="기간 수정"/>
                                 </td>                             
                                 <td>
                                   <label for="setDatetime"></label>
@@ -78,6 +78,62 @@
             </div> <!-- .col-12 -->
            </div>
           </div>
+          <button id="start_ajax">사용중인 만료기간 조회</button>
+          <p id="name"></p>
+	</th:block>
+		<th:block layout:fragment="customJs">
+				
+		<script th:src="@{/js/jquery-3.7.0.js}"></script>
+    	<script type="text/javascript" th:inline="javascript">
+				// 유효성검사 함수
+			const validCheck = element => {
+				let data = $(element).val();
+				let eleId = $(element).attr('id');
+				if(typeof data == 'undefined' || data == null || data == '' ){
+					let cate = $(`label[for="${eleId}"]`).text();
+					alert(`[${cate}] 필수 입력항목입니다.`);
+					$(element).focus();
+					return false;
+				}
+				return true;
+			}
+    	
+    		$('#modifyDepositStandardBtn').click(function(){
+    			const validateEle = $('#modifyDepositStandardForm select,input');   			
+    			let isSubmit = false;
+    			validateEle.each((idx, item) => {    				
+	    			isSubmit = validCheck(item);
+	    			return isSubmit;
+    			})
+    			if(isSubmit) $('#modifyDepositStandardForm').submit();
+    		})
+			
+			
+			
+			
+			
+			
+			
+			
+			$(document).ready(function() {
+				let formData = {
+    				'waitingDepositPeriod': $('#waitingDepositPeriod').val()}
+				
+				$("#start_ajax").click(function(){
+					$.ajax({
+						url: "modifyCheck",	// 이 주소와 통신을 시작한다.
+						type: "POST",						
+						data:formData,		
+						success: function(result) {							
+							$("#name").text('지금 적용되고 있는 기준은'+ result+'일 입니다');
+						},		
+						error:function(){
+							alert('실패');
+						}
+					});
+				});
+			});		
+		</script>
 	</th:block>
 	
 </html>
