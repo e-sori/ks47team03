@@ -21,9 +21,9 @@ public class UserPointService {
 	public UserPointService (UserPointMapper userPointMapper) {
 		this.userPointMapper = userPointMapper;
 	
-	}
-	
-	// 포인트 사용 적립 신청 
+	}	
+
+	// 포인트 사용 또는 적립 신청 
 	public void addPointUseSaveList(Point point) {
 		userPointMapper.addPointUseSaveList(point);
 		userPointMapper.modifyUserPoint(point);

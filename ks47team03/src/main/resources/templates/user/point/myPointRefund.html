@@ -249,13 +249,12 @@
 
 			    let bankName = $('#bankName').val();
 			    let accountNum = $('#accountNum').val();
-			    let buttonType = 'add';
 
 			    if (isSubmit) {
 			      const requestData = $.ajax({
 			        url: '/point/addUserAccount',
 			        method: 'POST',
-			        data: { 'buttonType' : buttonType, 'bankName': bankName, 'accountNum': accountNum },
+			        data: { 'bankName': bankName, 'accountNum': accountNum },
 			      });
 			      requestData.done(function (response) {
 			        if (response) {
@@ -333,13 +332,12 @@
 
 			    let bankName = $('#bankName').val();
 			    let accountNum = $('#accountNum').val();
-			    let buttonType = 'modify';
 
 			    if (isSubmit) {
 			      const requestData = $.ajax({
-			        url: '/point/addUserAccount',
+			        url: '/point/modifyUserAccount',
 			        method: 'POST',
-			        data: { 'buttonType' : buttonType, 'bankName': bankName, 'accountNum': accountNum },
+			        data: { 'bankName': bankName, 'accountNum': accountNum },
 			      });
 			      requestData.done(function (response) {
 			        if (response) {
@@ -372,7 +370,7 @@
 			});
 		});
 		
-		let currentPoint = $('.currentPoint').text();
+		let currentPoint = parseInt($('.currentPoint').text());
 		// 환급 포인트 계산 버튼 클릭시 유효성 검사 등.. 후 submit
 		let finishBtnOk = $('#pointInsertForm').find('.wizardValidCheckOk');
 		$(document).on('click','#pointCalBtn',  e => {
@@ -384,7 +382,7 @@
 					return false;
 				}			        
 			let refundPoint = $('#refundPoint').val();
-			let refundFee = parseInt(refundPoint/10);
+			let refundFee = refundPoint/10;
 						
 			// 1000원 미만일 시 환급 불가
 			if (refundPoint < 1000) $('#refundPoint').after(`<span class="wizardValidCheck">1,000원 이상 환급 가능합니다.</span>`);
@@ -413,14 +411,13 @@
 		
 		// 신청 완료 버튼 클릭시 포인트 차감
 		$(document).on('click','#finishBtn',  e => {
-			console.log('sfsdfsfsdfsdfdfsd',finishBtnOk);
 			if(finishBtnOk.length === 0) alert('먼저 환급 포인트 계산을 진행해주세요.');
 			else{
 				let usePoint = $('#refundPoint').val();
 				console.log(usePoint);
 				
 				const requestData = $.ajax({
-			        url: '/point/addPointUseList',
+			        url: '/point/addPointRefundList',
 			        method: 'GET',
 			        data: { 'usePoint' : usePoint },
 			      });

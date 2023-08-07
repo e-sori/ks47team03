@@ -32,10 +32,36 @@ public class UserPointController {
 		this.adminCommonMapper = adminCommonMapper;	
 	}
 	
+	// 포인트 후원 신청 처리 - 포인트 후원 처리
+		@GetMapping("/addPointSponList")
+		@ResponseBody
+		public boolean addPointUseListSpon(int usePoint, HttpSession session) {
+			String userId = (String) session.getAttribute("SID");
+			Point addPointUseList = new Point();
+			
+			Point userPoint = userPointService.getUserPoint(userId);
+			String pastNowHistoryNewCode = adminCommonMapper.getIncreaseCode("point_past_now_history");			
+			String useHistoryNewCode = adminCommonMapper.getIncreaseCode("point_save_use_history");	
+			int passHoldingpoint = userPoint.getCurrentHoldingPoint();
+			int currentHoldingPoint = passHoldingpoint - usePoint;
+					
+			addPointUseList.setPointPastNowHistoryCode(pastNowHistoryNewCode);
+			addPointUseList.setPointSaveUseHistoryCode(useHistoryNewCode);
+			addPointUseList.setUserId(userId);
+			addPointUseList.setPointSaveUseHistory(usePoint);
+			addPointUseList.setPointSaveUseType("포인트 후원");
+			addPointUseList.setSaveUseType("use");
+			addPointUseList.setCurrentHoldingPoint(currentHoldingPoint);
+			addPointUseList.setPassHoldingpoint(passHoldingpoint);
+			
+			userPointService.addPointUseSaveList(addPointUseList);
+
+			return true;
+		}	
+	
 	// 포인트 후원 신청 화면
-	@GetMapping("/myPointRefundSponsorship")
+	@GetMapping("/myPointSpon")
 	public String pointRefundSponsorship(Model model, HttpSession session) {
-		String accountName = (String) session.getAttribute("SNAME");	
 		String userId = (String) session.getAttribute("SID");
 		int currentPoint = 0;
 		
@@ -43,17 +69,14 @@ public class UserPointController {
 		
 		if(userPoint !=null) currentPoint = userPoint.getCurrentHoldingPoint();
 		
-		model.addAttribute("title","구구컵 : 포인트 환급 신청");
-		model.addAttribute("accountName",accountName);
-		model.addAttribute("currentPoint",currentPoint);
-		
 		model.addAttribute("title","구구컵 : 포인트 후원 신청");
+		model.addAttribute("currentPoint",currentPoint);		
 		
-		return "user/point/myPointRefundSponsorship";
+		return "user/point/myPointSponsorship";
 	}
 	
-	// 포인트 환급 신청 처리2 - 포인트 입력
-	@GetMapping("/addPointUseList")
+	// 포인트 환급 신청 처리3 - 포인트 환급 처리
+	@GetMapping("/addPointRefundList")
 	@ResponseBody
 	public boolean addPointUseList(int usePoint, HttpSession session) {
 		String userId = (String) session.getAttribute("SID");
@@ -79,10 +102,28 @@ public class UserPointController {
 		return true;
 	}	
 	
-	// 포인트 환급 신청 처리1 - 계좌 등록, 수정
+	// 포인트 환급 신청 처리2 - 계좌 수정
+		@PostMapping("/modifyUserAccount")
+		@ResponseBody
+		public boolean modifyUserAccount(String bankName, String accountNum, HttpSession session) {
+			String userId = (String) session.getAttribute("SID");
+			Account addUserAccount = new Account();
+			
+			String accountName = (String) session.getAttribute("SNAME");	
+			addUserAccount.setAccountNumber(accountNum);
+			addUserAccount.setAccountUserName(accountName);
+			addUserAccount.setBankName(bankName);
+			addUserAccount.setUserId(userId);				
+			
+			userPointService.modifyUserAccount(addUserAccount);
+			
+			return true;
+		}
+	
+	// 포인트 환급 신청 처리1 - 계좌 등록
 	@PostMapping("/addUserAccount")
 	@ResponseBody
-	public boolean addUserAccount(String buttonType, String bankName, String accountNum, HttpSession session) {
+	public boolean addUserAccount(String bankName, String accountNum, HttpSession session) {
 		String userId = (String) session.getAttribute("SID");
 		Account addUserAccount = new Account();
 		
@@ -92,12 +133,9 @@ public class UserPointController {
 		addUserAccount.setBankName(bankName);
 		addUserAccount.setUserId(userId);				
 		
-		if(buttonType.equals("add")) {
-			String userBankNewCode = adminCommonMapper.getIncreaseCode("user_bank");	
-			addUserAccount.setUserBankCode(userBankNewCode);
-			userPointService.addUserAccount(addUserAccount);
-		}
-		else if(buttonType.equals("modify")) userPointService.modifyUserAccount(addUserAccount);
+		String userBankNewCode = adminCommonMapper.getIncreaseCode("user_bank");	
+		addUserAccount.setUserBankCode(userBankNewCode);
+		userPointService.addUserAccount(addUserAccount);	
 		
 		return true;
 	}
