@@ -38,21 +38,6 @@
 		<result column="logout_history_datetime" 	property="logoutHistoryDatetime"/>
 	</resultMap>
 	
-	
-	<select id="getLogInfoById" parameterType="String" resultMap="logResultMap">
-	/*하나의 로그 조회*/
-		SELECT
-			l.log_history_code,
-			l.user_id,
-			l.user_name,
-			l.login_history_datetime,
-			l.logout_history_datetime
-		FROM
-			log_history AS l
-		WHERE
-			l.log_history_code =#{logHistoryCode};
-	</select>
-	
 	<select id="getLogHistoryList" parameterType="map" resultType="map">
 		/*로그 히스토리 리스트*/
 		SELECT

@@ -19,9 +19,8 @@ public interface AdminCommonMapper {
 	//로그 기록 리스트 갯수
 	public int getLogHistoryListCount();
 	public int getLogHistoryListCount(Map<String,Object>paramMap);
-	
-	//한 회원 상태 조회
-	public Loghistory getLogInfoById(String userId);
+
+
 	//회원 등급 리스트 갯수
 	public int getGradeManageListCount();
 	public int getGradeManageListCount(Map<String,Object>paramMap);

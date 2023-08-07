@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.mapper.AdminCommonMapper;
 import ks47team03.admin.service.AdminCommonService;
+import ks47team03.user.dto.Loghistory;
 import ks47team03.user.dto.Static;
 import ks47team03.user.dto.User;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,7 @@ public class AdminCommonController {
 		this.adminService = adminService;
 		this.adminMapper = adminMapper;
 	}
+		
 	//로그 기록
 		@SuppressWarnings("unchecked")
 		@GetMapping("/user/loginHistory")

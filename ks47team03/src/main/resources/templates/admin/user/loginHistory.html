@@ -22,33 +22,23 @@
                       <table class="table datatables table-hover" id="dataTable-1">
                       <thead>
                           <tr>
-                           <th>
-	                           <input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
-                            </th>
                             <th>NO. </th>
                             <th>코드</th>                            
                             <th>아이디</th>
                            	<th>이름</th>
                             <th>로그인 시간</th>
                             <th>로그아웃 시간</th>
-                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
                         	<th:block th:unless="${#lists.isEmpty(logHistoryList)}"  th:each="l,state : ${logHistoryList}">
 		                          <tr>
-		                            <td>
-		                                <input type="checkbox" class="custom-control custom-checkbox checkbox checks" th:data-log-all="${l.logHistoryCode}">
-		                            </td>
 		                            <td th:text="${state.count+(rowPerPage*(currentPage-1))}"></td>
 		                            <td th:text="${l.logHistoryCode}"></td>
 		                            <td th:text="${l.userId}"></td>
 		                            <td th:text="${l.userName}"></td>
 		                            <td th:text="${l.loginHistoryDatetime}"></td>
 		                            <td th:text="${l.logoutHistoryDatetime}"></td>
-		                            <td>
-		                                <a class="dropdown-item" th:href="@{/admin/user/logModify(logHistoryCode=${l.logHistoryCode})}">Edit</a>
-		                            </td>
 		                          </tr>
                           	</th:block>
                           	
@@ -81,9 +71,6 @@
 									<a class="btn mb-2 btn-secondary" th:if="${currentPage<lastPage}" th:href="@{/admin/user/loginHistory(currentPage=${currentPage+1})}">다음</a>
 									<label class="btn mb-2 btn-secondary" th:unless="${currentPage<lastPage}">다음</label>
 									<a class="pages btn mb-2 btn-secondary" th:href=@{/admin/user/loginHistory(currentPage=${lastPage})}>마지막으로</a>
-								</td>
-								<td class="btn-right-align">
-									<button type="button" class="btn mb-2 btn-secondary" id="delCheckBtn" >삭제</button>
 								</td>
 							</tr> 
 						</tfoot>
@@ -146,40 +133,7 @@
 		        }
 		      });
 	
-			  $('#delCheckBtn').click(function(e){
-				  //배열 선언
-					const logHistoryCodeArr = [];
-				  //check 클래스 중 속성이 checked된 요소만 변수에 담아줌
-					const $checkedEle = $('.checks:checked');
-				  //배열 순회
-					$checkedEle.each((idx, item) => {
-						//input태그에 속성인 th:data-log-all
-						let logHistoryCode = $(item).data('logAll');
-						//베열에 logHistoryCode 담아줌
-						logHistoryCodeArr.push(logHistoryCode);
-					})
-					console.log(logHistoryCodeArr);
-				  	//배열의 길이가 0이 아니면
-					if(logHistoryCodeArr.length != 0){
-						//새로운 폼 생성 ->jquery
-						const newForm = $('<form></form>');
-						//새로운 폼에 set attribute	
-						newForm.attr("method","post");
-						newForm.attr("action","/admin/user/logRemove");
-						// create element & set attribute (input)
-						//$ 제이쿼리 배열을 순회하는데 순회하는 배열은 괄호 안쪽에서 부름
-						$.each(logHistoryCodeArr, (idx, item) => {
-							newForm.append($('<input/>', {type: 'hidden', name: 'logHistoryCode', value:item}));
-						})
-						// append form (to body) 
-						// newForm은 이미 제이쿼리 문법으로 선언
-						newForm.appendTo('body');
-						newForm.submit();
-					}
-						
-					
-
-				});
+			  
 				
 		</script>
 	</th:block>
