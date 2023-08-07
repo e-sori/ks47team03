@@ -141,7 +141,8 @@ public class UserCommonController {
 		public String introJuyeol(Model model,  HttpSession session) {
 			
 			session.setAttribute("SID","adminid001");
-			session.setAttribute("SLEVEL","관리자");
+			session.setAttribute("SLEVEL",1);
+			session.setAttribute("SNICKNAME","관리자");
 			
 			model.addAttribute("title","현주열 담당 기능 소개");			
 			
@@ -154,6 +155,7 @@ public class UserCommonController {
 			
 			session.setAttribute("SID","adminid001");
 			session.setAttribute("SLEVEL","관리자");
+			session.setAttribute("SNICKNAME","관리자");
 			
 			model.addAttribute("title","박현정 담당 기능 소개");			
 			
@@ -166,6 +168,8 @@ public class UserCommonController {
 			
 			session.setAttribute("SID","adminid001");
 			session.setAttribute("SLEVEL","관리자");
+			session.setAttribute("SNAME","이소리");
+			session.setAttribute("SNICKNAME","관리자");
 			
 			model.addAttribute("title","이소리 담당 기능 소개");			
 			

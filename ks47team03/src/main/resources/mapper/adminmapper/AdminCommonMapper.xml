@@ -27,8 +27,57 @@
 		<result column="latitude" property="latitude"/>
 		<result column="longitude" property="longitude"/>
 	</resultMap>
+	
+	<resultMap type="Loghistory" id="logResultMap">
+		<!-- id태그는 조회시 테이블의 PK(기본키) -->
+		<id column="log_history_code"	property="logHistoryCode"/>
+		<!-- result태그는 조회시 테이블의 일반컬럼 혹은 외래키 -->
+		<result	column="user_id" 		property="userId"/>
+		<result column="user_name" 	property="userName"/>
+		<result column="login_history_datetime" 	property="loginHistoryDatetime"/>
+		<result column="logout_history_datetime" 	property="logoutHistoryDatetime"/>
+	</resultMap>
+	
+	<select id="getLogHistoryList" parameterType="map" resultType="map">
+		/*로그 히스토리 리스트*/
+		SELECT
+			l.log_history_code			as	logHistoryCode,
+			l.user_id					as	userId,
+			u.user_name					as	userName,
+			l.login_history_datetime	as	loginHistoryDatetime,
+			l.logout_history_datetime	as	logoutHistoryDatetime
+		FROM
+			log_history AS l
+		INNER JOIN
+			user_manage AS u
+		on
+			l.user_id = u.user_id
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue}
+        	</if>
+        </where>
+		<if test="startIndex != null and startIndex > -1 ">
+			LIMIT #{startIndex},#{rowPerPage};
+		</if>
+	</select> 
 
-
+	<select id="getLogHistoryListCount" parameterType="map" resultType="int">
+		/*로그 전체 행의 갯수*/
+		SELECT
+			COUNT(*)
+		FROM
+			log_history AS l
+			INNER JOIN
+			user_manage AS u
+			on
+			l.user_id = u.user_id
+		<where>
+        	<if test="searchValue != null and searchValue !=''">
+        		${searchKey} = #{searchValue};
+        	</if>
+        </where>
+	</select> 
 
 	<select id="getGradeManageList" parameterType="map" resultType="map">
 		/* 회원등급 관리 */
