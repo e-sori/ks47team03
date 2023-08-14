@@ -143,9 +143,11 @@ public class UserPointController {
 	// 포인트 환급 신청 화면
 	@GetMapping("/myPointRefund")
 	public String pointRefund(Model model, HttpSession session) {
-		
-		String accountName = (String) session.getAttribute("SNAME");	
+		// 예금주 value 입력 위해서 세션 네임 불러오기
+		String accountName = (String) session.getAttribute("SNAME");
+		// 사용자의 계좌 존재 여부 검사와 보유 포인트 불러오기 위해서 세션 아이디 불러오기
 		String userId = (String) session.getAttribute("SID");
+		// 은행, 계좌번호, 보유 포인트 초기화
 		String bankName = "notSelect";
 		String accountNum = "계좌번호를 입력해주세요.";
 		int currentPoint = 0;
