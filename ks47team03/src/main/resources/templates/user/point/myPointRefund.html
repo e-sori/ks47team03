@@ -383,6 +383,9 @@
 				}			        
 			let refundPoint = $('#refundPoint').val();
 			let refundFee = refundPoint/10;
+
+			$('#refundFee').val('');
+			$('#willRefundPoint').val('');
 						
 			// 1000원 미만일 시 환급 불가
 			if (refundPoint < 1000) $('#refundPoint').after(`<span class="wizardValidCheck">1,000원 이상 환급 가능합니다.</span>`);
@@ -394,13 +397,13 @@
 			else {
 				$('.colSpan-center').before(`<div class="wizardValidCheckOk">환급 신청이 가능합니다.</div>`);
 				$('#finishBtn').attr('href','#next');
-				$('#finishBtn').closest('li').removeClass('disabled');				
+				$('#finishBtn').closest('li').removeClass('disabled');
+
+				// 수수료 계산
+				let willRefundPoint = refundPoint-refundFee;
+				$('#refundFee').val(refundFee);
+				$('#willRefundPoint').val(willRefundPoint);
 			}
-			// 수수료 계산
-			let willRefundPoint = refundPoint-refundFee;
-			$('#refundFee').val(refundFee);
-			$('#willRefundPoint').val(willRefundPoint);		
-			
 			finishBtnOk = $('#pointInsertForm').find('.wizardValidCheckOk');
 				
 		}); 	
