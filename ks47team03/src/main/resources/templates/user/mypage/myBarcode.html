@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	<th:block layout:fragment="customContents">
+    <!-- ================ start banner area ================= -->
+      <section class="page-banner-area" id="category">
+        <div class="container h-100">
+            <div class="text-center">
+              <h1>나의 바코드</h1>
+              <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+                  <li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+                  <li class="breadcrumb-item active" aria-current="page">나의 바코드</li>
+                </ol>
+              </nav>
+          </div>
+        </div>
+      </section>
+ 
+	  <!-- ================ end banner area ================= -->
+
+      <!--================Point table Area =================-->
+      <section class="order_details section-margin--small">
+        <div class="container">
+            <div class="div-center">
+                <button type="button" class="btn mb-2 btn-secondary btn-margin" id="rentalBtn">대여</button>
+                <button type="button" class="btn mb-2 btn-secondary btn-margin" id="returnBtn">반납</button>
+            </div>
+            <div class="div-center">
+
+            </div>
+        </div>
+      </section>
+      <!--================End Order Details Area =================-->
+    </th:block>
+    <th:block layout:fragment="customJs">
+        $('#rentalBtn').click(e => {
+<!--            대여 버튼 누르면 해당 아이디의 연체 내역 찾아서 대여 가능한지 확인 후 대여-->
+        });
+
+        $('#returnBtn').click(e => {
+<!--            반납 누르면 해당 아이디 또는 바코드 통해서 반납 유무가 N인거 가져와서 반납 누를 수 있게 리스트 받아와서 화면에 출력하는 로직-->
+        });
+    </th:block>
+</html>
