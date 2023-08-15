@@ -24,7 +24,7 @@
 	  <!-- ================ end banner area ================= -->
 
   <!--================Point table Area =================-->
-  <section class="	">
+  <section class="mypage-margin">
     <div class="container">
       
       <div class="row">
@@ -35,48 +35,45 @@
 						<!-- User Image -->
 							<img src="/user/img/member/person-circle.svg" alt="" class="person-circle col-12" width="200" heigh="150">
 						<!-- User Name -->
-						<h5 class="text-center col-12 magin">서원</h5>
-					<!-- Dashboard Links -->
+						<h5 class="text-center col-12" style="margin-top: 30px;" th:text="${session.SNAME}"></h5>
+					<!-- 나의 포인트, 보증금 -->
 					<div class="jb-division-line"></div>
 						<ul>
 							<li>
-								<span class=""></span>cj one포인트</a></li>
+								나의 포인트 : <a class="currentPoint" href="/point/myPoint">[[${currentPoint}]]</a></li>
 							<li>
-								<span class=""></span>보증금</a>
+								나의 보증금 : <a style="margin-bottom: 20px;" href="/deposit/mydeposit">보증금추가해라</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0 magin">
-				<!-- Edit Personal Info -->
+			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+				<!-- 나의 정보 -->
 				<div class="widget personal-info">
-					<div class="container p-3 border" style="background-color: #f89b00; color:white magin" >				  
+					<div class="container p-3 border" style="background-color: #f89b00; color:white" >
 	                	<a class="userHello-username" style="color:white" th:text="${session.SNAME}"></a>
 	                    <span>회원님 반갑습니다.</span>
 					</div>
 					<div class="container p-3 border" >				  
 	                	
-	                    <span>컵 이용 현황 : 개</span>
+	                    <span>컵 이용 현황 : <a href="/mypage/myCup">컵 개수 추가해라</a> 개</span>
 					</div>
 					
 					
-					<form action="#">
-						<!-- First Name -->
-						<div class="container p-3 my-5 border magin" >
-						    <span>바코드</span>
+					<div style="margin-top: 30px;">
+						<!-- 바코드 -->
+						<div class="container p-3 border" style="display: inline-block; width: 320px;">
+							<a class="btn btn-secondary btn-margin" style="width: 287px; height: 287px;" href="/mypage/myBarcode">바코드찍기</a>
 						</div>
-					
-					</form>
-				</div>
-				<div class="widget personal-info">
-						<!-- Comunity Name -->
-						
-							
-							
-						    <input type="text" class="form-control" id="comunity-name" placeholder="즐겨찾기한 무인기기 위치 미니 버전">
+						<!-- 무인기기 즐겨찾기 -->
+						<div class="container p-3 border" style="display: inline-block; width: 372px; margin-left: 30px;">
+							<span class="btn" style="width: 287px; height: 287px;">즐겨찾기한 무인기기</span>
 						</div>
-				</div>
+
+					</div>
+				</di>
+			</div>
 				
 			</div>	
 		</div>

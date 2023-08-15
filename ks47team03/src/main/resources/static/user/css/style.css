@@ -15,13 +15,22 @@
   font-style: normal;
 }
 
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
-
 @font-face {
   font-family: 'EF_jejudoldam';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-EF@1.0/EF_jejudoldam.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.div-center{
+  text-align: center;
 }
 
 .addCupTfoot{
@@ -40,6 +49,11 @@
 	margin-top:30px;
 }
 
+.mypage-margin{
+  margin-top: 200px;
+  margin-bottom: 200px;
+}
+
 .jb-division-line {
 	border-top: 1px solid #444444;
 	margin: 30px 0px;
@@ -54,7 +68,7 @@
 
 body {
   color: #777;
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   font-size: 15px;
   font-weight: 400;
   line-height: 1.667;
@@ -140,7 +154,7 @@ body {
 
 .font{
   color: #777;
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   font-size: 15px;
   font-weight: 400;
   line-height: 1.667;
@@ -172,7 +186,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "GmarketSansMedium", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   color: #222;
   line-height: 1.1
 }
@@ -359,7 +373,7 @@ a {
   margin-right: 15px;
   margin-left: 15px;
   color: #777;
-  font-family: "SpoqaHanSansNeo", sans-serif !important;
+  font-family: "Pretendard-Regular", sans-serif !important;
   font-size: 17px;
   font-weight: 400;
   line-height: 1.667;
@@ -372,7 +386,7 @@ a {
     margin-right: 15px;
     margin-left: 15px;
     color: #777;
-    font-family: "SpoqaHanSansNeo", sans-serif !important;
+    font-family: "Pretendard-Regular", sans-serif !important;
     font-size: 17px;
     font-weight: 400;
     line-height: 1.667;
@@ -388,7 +402,7 @@ a {
     margin-right: 15px;
     margin-left: 15px;
     color: #777;
-    font-family: "SpoqaHanSansNeo", sans-serif !important;
+    font-family: "Pretendard-Regular", sans-serif !important;
     font-size: 15px;
     font-weight: 400;
     line-height: 1.667;
@@ -439,7 +453,7 @@ a {
 .header_area .navbar .nav .nav-item .dropmenu{
   margin-right: 45px;
   color: #777;
-  font-family: "SpoqaHanSansNeo", sans-serif !important;
+  font-family: "Pretendard-Regular", sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   line-height: 1.667
@@ -3292,7 +3306,7 @@ a {
   font-size: 15px;
   color: #777;
   margin-bottom: 30px;
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   margin-left: 30px;
 }
 
@@ -3352,7 +3366,7 @@ a {
 }
 
 .order_details_table .table tbody tr td h5 {
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   color: #222;
   margin-bottom: 0px;
   font-size: 15px;
@@ -3361,7 +3375,7 @@ a {
 }
 
 .order_details_table .table tbody tr td h4 {
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   text-transform: uppercase;
   margin-bottom: 0px;
   color: #222;
@@ -5126,7 +5140,7 @@ a {
 
 .tp_widgets p {
   color: #3A5265;
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
 
 }
 
@@ -5172,7 +5186,7 @@ a {
 
 .footer-bottom .footer-text {
   color: #3A5265;
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   font-size: 13px;
   margin-bottom: 0
 }
@@ -5367,7 +5381,7 @@ a {
   border-top: 1px solid #1b1e21;
   border-bottom: 1px solid #ddd;
   font-size: 20px;
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   font-weight: bold;
   color: #222;
   line-height: 1.7;
@@ -5390,7 +5404,7 @@ a {
 }
 
 .order_details_table1 .table-hover tbody tr td h5 {
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   color: #222;
   margin-bottom: 0px;
   font-size: 15px;
@@ -5399,7 +5413,7 @@ a {
 }
 
 .order_details_table1 .table-hover tbody tr td h4 {
-  font-family: "SpoqaHanSansNeo", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   text-transform: uppercase;
   margin-bottom: 0px;
   color: #222;
