@@ -106,8 +106,25 @@
 
 	</select>
  -->
-
-
-
+	<select id="getUserDeposit" parameterType="String">
+		/* 특정회원 보증금 조회 */
+		SELECT
+		IFNULL(ud.user_deposit_code, 0) AS userDepositCode,
+		um.user_id AS userId,
+		IFNULL(ud.current_holding_deposit, 0) AS currentHoldingDeposit,
+		IFNULL(ud.admin_id, 0) AS adminId,
+		IFNULL(ud.up_datetime, 0) AS upDatetime
+		FROM
+		user_manage AS um
+		LEFT join
+		user_deposit AS ud
+		on
+		ud.user_id = um.user_id
+		
+		WHERE
+			um.user_id= #{userId}
+			ORDER BY up_datetime DESC
+		LIMIT 1	
+	</select>
 	
 </mapper>
