@@ -51,26 +51,26 @@
 			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
 				<!-- 나의 정보 -->
 				<div class="widget personal-info">
-					<div class="container p-3 border" style="background-color: #f89b00; color:white" >
+					<div class="container cup-num p-3 border" style="background-color: #f89b00; color:white" >
 	                	<a class="userHello-username" style="color:white" th:text="${session.SNAME}"></a>
 	                    <span>회원님 반갑습니다.</span>
 					</div>
-					<div class="container p-3 border" >				  
-	                	
-	                    <span>컵 이용 현황 : <a href="/mypage/myCup">컵 개수 추가해라</a> 개</span>
+					<div class="container p-3 border" >
+	                	<span>컵 이용 현황 : <a href="/mypage/myCup">컵 개수 추가해라</a> 개</span>
 					</div>
 					
 					
-					<div style="margin-top: 30px;">
+					<div class="barcode-kiosk-div">
 						<!-- 바코드 -->
-						<div class="container p-3 border" style="display: inline-block; width: 320px;">
-							<a class="btn btn-secondary btn-margin" style="width: 287px; height: 287px;" href="/mypage/myBarcode">바코드찍기</a>
+						<div class="container-barcode p-3">
+							<a href="/mypage/myBarcode">
+								<img class="border" src="/user/img/qrcode.png">
+							</a>
 						</div>
 						<!-- 무인기기 즐겨찾기 -->
-						<div class="container p-3 border" style="display: inline-block; width: 372px; margin-left: 30px;">
-							<span class="btn" style="width: 287px; height: 287px;">즐겨찾기한 무인기기</span>
+						<div class="container-kiosk p-3 border">
+							<div>즐겨찾기한 무인기기</div>
 						</div>
-
 					</div>
 				</di>
 			</div>
