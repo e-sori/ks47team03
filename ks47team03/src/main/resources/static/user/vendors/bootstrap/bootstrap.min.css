@@ -580,6 +580,25 @@ pre code {
     max-height: 340px;
     overflow-y: scroll
 }
+.barcode-kiosk-div {
+    margin-top: 30px;
+}
+
+@media (max-width:767px) {
+    .barcode-kiosk-div {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .container-barcode, .container-kiosk {
+        display: block !important;
+        width: 100% !important;
+    }
+    .container-barcode img {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+}
 
 .container {
     width: 100%;
@@ -589,23 +608,98 @@ pre code {
     margin-left: auto
 }
 
+.container-barcode, .container-kiosk {
+    vertical-align: top;
+}
 
+.container-barcode {
+    display: inline-block;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: auto;
+    position: relative;
+}
+
+.container-barcode a {
+    display: block;
+}
+
+.container-barcode img {
+    position: absolute; /* 이미지의 위치를 절대값으로 지정 */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;  /* 이미지의 너비를 div의 너비에 맞춤 */
+    height: auto; /* 이미지의 높이를 원래 비율로 유지 */
+}
+
+.container-kiosk {
+    display: inline-block;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.cup-num{
+    margin-top: 25px;
+}
 
 @media (min-width:768px) {
     .container {
-        max-width: 720px
+        max-width: 720px;
     }
+    .cup-num{
+        margin-top: 0px;
+    }
+    .container-barcode {
+        width: 570px;
+        height: 570px;
+    }
+    .container-kiosk {
+        width: 570px;
+        height: 400px;
+        margin-top: 25px;
+        margin-left: 0px;
+    }
+
 }
 
 @media (min-width:992px) {
     .container {
         max-width: 960px
     }
+    .cup-num{
+        margin-top: 0px;
+    }
+    .container-barcode {
+        width: 290px;
+        height: 290px;
+    }
+    .container-kiosk {
+        width: 291px;
+        height: 290px;
+        margin-top: 0px;
+        margin-left: 25px;
+    }
 }
 
 @media (min-width:1200px) {
     .container {
         max-width: 1140px
+    }
+    .cup-num{
+        margin-top: 0px;
+    }
+    .container-barcode {
+        width: 351px;
+    }
+    .container-kiosk {
+        width: 350px;
+        height: 351px;
+        margin-left: 25px;
+        margin-top: 0px;
     }
 }
 
