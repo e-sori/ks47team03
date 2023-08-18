@@ -58,7 +58,15 @@
 			COUNT(*)
 		FROM
 			deposit_refund_histroy
-	</select> 
+	</select>
+
+	<select id="getDepositPrice" resultType="int">
+		/* 컵 대여 보증급 기준 조회 */
+		SELECT
+			cup_rental_price
+		FROM
+			cup_price_standard
+	</select>
 
 	<select id="getDepositStandardList" parameterType="map" resultType="map">
 		/* 보증금 기준 관리 */

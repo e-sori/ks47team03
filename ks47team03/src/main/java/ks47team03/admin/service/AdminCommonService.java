@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ks47team03.admin.mapper.AdminPointMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,23 @@ public class AdminCommonService {
 	private static final Logger log = LoggerFactory.getLogger(AdminCommonService.class);
 	
 	private final AdminCommonMapper adminCommonMapper;
+	private final AdminPointMapper adminPointMapper;
 	
-	public AdminCommonService(AdminCommonMapper adminCommonMapper) {
+	public AdminCommonService(AdminCommonMapper adminCommonMapper,AdminPointMapper adminPointMapper) {
 		this.adminCommonMapper = adminCommonMapper;
+		this.adminPointMapper = adminPointMapper;
+	}
+
+	// 등급 하루 최대 카운드
+	public int getMaxGrade(){
+		List<Map<String,Object>> pointStandardList = adminPointMapper.getPointMaxCountStandard("grade");
+		int gradeMaxCount = 0;
+		for (Map<String,Object> MaxCount : pointStandardList) {
+			if(MaxCount.get("codeUse").equals("사용중")) {
+				gradeMaxCount = (int)MaxCount.get("useMaximumCount");
+			}
+		}
+		return gradeMaxCount;
 	}
 	
 	//관리자 아이디 조회
