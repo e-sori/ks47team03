@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{user/layout/default}">
+	  	  
+	<th:block layout:fragment="customContents">
+		<!-- ================ start banner area ================= -->
+		<section class="page-banner-area" id="category">
+			<div class="container h-100">
+				<div class="text-center">
+					<h1>나의 구구컵</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="/"><span class="fe fe-16 fe-home"></span></a></li>
+							<li class="breadcrumb-item"><span class="fe fe-16 fe-chevron-right"></span></li>
+							<li class="breadcrumb-item active" aria-current="page">나의 구구컵</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</section>
+		<!-- ================ end banner area ================= -->
+		<section class="order_details section-margin--small">
+			<div class="container">
+				<div class="container-fluid">
+					<div class="row justify-content-center">
+						<div class="col-12">
+							<div class="row my-4">
+								<div class="col-md-12 table-margin-bottom">
+									<div class="card shadow">
+										<div class="card-body">
+											<div th:if="${userState} != null">
+												<span class="small-title title-margin"> [[${session.SNAME}]] 회원님은 현재 컵 연체로 인해</span>
+												<span class="red-title">[[${userState}]]</span>
+												<span class="small-title">상태입니다.</span>
+											</div>
+											<p class="small-title title-margin"> [[${session.SNAME}]] 회원님은 현재 구구컵 [[${cupRentalCount}]]개 이용중입니다.</p>
+											<p class="small-text"> - 대여 개수는 제한이 없습니다.</p>
+											<p class="small-text"> - 컵 대여 기간은 [[${cupRentalPeriod}]]일 입니다.</p>
+											<p class="small-text"> - 컵 대여 보증금은 [[${depositPrice}]]원 입니다.</p>
+											<p class="small-text"> - 하루 최대 포인트 적립 횟수는 [[${useMaxCount}]]회 입니다.</p>
+											<p class="small-text"> - 하루 최대 등급 승급을 위한 사용 횟수는 [[${gradeMax}]]회 입니다.</p>
+											<p class="small-text end-text"> - 포인트 적립과 사용 횟수는 반납 후에 업데이트 됩니다.</p>
+											<!-- tab 버튼 시작 -->
+											<ul class="nav nav-pills nav-fill mb-3 bottom-border" id="pills-tab" role="tablist">
+												<li class="nav-item">
+												  <a class="nav-link-cup nav-tab active" id="pills-rental-tab" data-toggle="pill" href="#pills-rental" role="tab" aria-controls="pills-rental" aria-selected="true">대여 내역</a>
+												</li>
+												<li class="nav-item">
+												  <a class="nav-link-cup nav-tab" id="pills-return-tab" data-toggle="pill" href="#pills-return" role="tab" aria-controls="pills-return" aria-selected="false">반납 내역</a>
+												</li>
+											</ul>
+											<!-- tab 버튼 끝 -->
+											<div class="tab-content mb-1" id="pills-tabContent">
+												<div class="tab-pane fade show active" id="pills-rental" role="tabpanel" aria-labelledby="pills-rental-tab">
+													<!-- 대여 내역 테이블 시작 -->
+													<table class="table datatables dataTable no-footer table-hover" id="cupRentalReturn">
+														<thead>
+															<tr class="table-center">
+																<th>No.</th>
+																<th>컵 번호</th>
+																<th>대여 장소</th>
+																<th>대여 날짜</th>
+																<th>반납 예정일</th>
+																<th>대여 상태</th>
+															</tr>
+														</thead>
+														<tbody>
+															<th:block 	th:unless="${#lists.isEmpty(userRentalCupList)}"
+																		th:each ="p , state: ${userRentalCupList}">
+																<tr class="table-center">
+																	<td th:text="${p.No}"></td>
+																	<td th:text="${p.cupNum}"></td>
+																	<td th:text="${p.partnerName}"></td>
+																	<td th:text="${p.rentalDate}"></td>
+																	<td th:text="${p.returnDue}"></td>
+																	<td th:text="${p.returnStatus}"></td>
+																</tr>
+															</th:block>
+															<tr th:if="${#lists.isEmpty(userRentalCupList)}">
+																<td class="table-center" colspan="6">대여 내역이 존재하지 않습니다.</td>
+															</tr>
+														</tbody>
+													</table>
+													<!-- 대여 내역 테이블  끝 -->
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:inline="javascript">
+			// 데이터 테이블 설정
+			$(function(){
+				$('#cupRentalReturn').each(function() {
+					const table = $(this);
+				    table.DataTable({
+					    autoWidth : true,
+					    lengthChange : false,
+					    pageLength : 10,
+						searching : false,
+					    info : false,
+					    pagingType : "full_numbers",
+					});
+				});
+			});
+
+			// ajax와 제이쿼리로 데이터테이블 동적으로 수정
+			$(document).on('click', '.nav-tab', e => {	
+				let tableId = $(e.target).attr('aria-controls');
+				
+				// 클릭한 탭으로 속성 변경
+		        $('.tab-pane').attr('id', tableId).attr('aria-labelledby', `${tableId}-tab`);
+		        $('#pills-tab').find('.active').toggleClass('active');
+		        $(e.target).toggleClass('active');
+		        
+				const requestData = $.ajax({
+		 		 	url: '/admin/point/getpointStandardList',
+					method: 'GET',
+					data: { 'tableId' : tableId },
+					dataType: 'json'
+		 		});
+				requestData.done(function( response ) {
+					if(response){
+						let pointStandardList = response.pointStandardList;										
+						
+				        // key(title) : <th> , value(data) : <td>에 담아주기 위해 배열 선언 
+				        const newData = [];
+				        
+				        const labels = {
+				        	    No : "No",
+				        	    dayMaximumCountCode : "횟수 기준 코드",
+				        	    useMaximumCount : "적립 가능 횟수",
+				        	    codeUse : "코드 사용 유무",
+				        	    setDateTime : "최초 등록일",
+				        	    adminId : "관리자 ID",
+				        	    upDatetime : "최종 수정일",				      	    
+				        };        
+
+				        // response : 배열 , list : 객체 (배열 안에 객체 여러 개가 존재하는 형태)
+				        for (let obj of pointStandardList){
+				        	for(let key in obj){
+				        		if(tableId == 'pills-max'){
+				        			newData.push({
+				        				title: labels[key] || key, 
+					                    data: key
+						            });				        			
+				        		}else{
+				        			newData.push({
+						                title: key,  // key 자체를 문자열로 컬럼에 넣어줄 예정
+						                data: key  // key와 일치하는 value를 행으로 넣어줄 예정 (data의 키)
+						            });				        			
+				        		}				        		
+				        	}
+				        	break; // 어차피 컬럼은 객체 하나만 돌아도 되기 때문에 한 번만 돌고 반복문을 끝내준다.
+				        }
+				        				       
+						// 데이터 테이블 파괴
+						$('#cupRentalReturn').DataTable().destroy();
+						
+						// thead의 th와 tbody의 td 비우기
+						$('thead tr th:not(:first-child)').remove();
+						$('tbody').remove();
+						
+				        const newDataNum = newData.length-1; 
+				        for(let i = 0 ; i < newDataNum ; i += 1) {
+				        	$('thead tr').append('<th></th>');			        	
+				        }
+												
+						// 위에서 담아준 배열을 이용해서 새로운 데이터테이블 생성
+						$('#cupRentalReturn').each(function() {
+							const table = $(this);
+						    table.DataTable({
+							    autoWidth : true,
+							    lengthChange : false, 
+							    pageLength : 10,
+							    searching : false,
+							    info : false,
+							    pagingType : "full_numbers",
+							    data: pointStandardList,
+					            columns: newData
+							});
+						});
+						$('#cupRentalReturn').find('.sorting_asc').toggleClass('sorting_asc');
+						
+						// 컬럼 개수 - 7 만큼 form-group 추가
+						const formGroupDivNum = newData.length - 7;
+						const $addDiv = `<div class="form-group"></div>`
+						
+						const $formGroups = $('#insertForm').find('.form-group');
+						$formGroups.each(function(index) {
+						  if (index >= 1 && index < $formGroups.length - 3) {
+						    $(this).remove();
+						  }
+						});
+						
+						for(let num = 0; num < formGroupDivNum; num += 1){
+							$('.form-group').eq(0).after($addDiv);
+						}
+						
+						// 테이블 헤더 변경, 모달 변경
+						switch(tableId){
+						case 'pills-return':
+							let pointExpire;
+							for(let list of pointStandardList){
+								if(list['코드 사용 유무'] == '사용중') {
+									pointExpire = list['유효 기간'];
+								}
+							}
+							$('.page-small-title').text('포인트 유효 기간 기준');
+							$('.card-small-text').text(`포인트 유효 기간은 ${pointExpire}년입니다.`);
+							
+							$('input[name="formName"]').val('pointExpire');
+							$('label[for="insertCode"]').text('유효 기간 코드');
+							$('.modal-header').find('#modalInsertLabel').text('포인트 유효 기간 기준 등록');
+							
+							let $addExpireFirst = `<label for="InsertExpirePeriod" class="col-form-label">유효 기간</label>`
+							$addExpireFirst += `<input type="text" id="InsertExpirePeriod" name="expirePeriod" class="form-control">`
+					
+							$('.form-group').eq(1).append($addExpireFirst);
+							
+							
+							break;
+						case 'pills-rental':
+							let useMaxCount;
+							for(let list of pointStandardList){
+								if(list['codeUse'] == '사용중') {
+									useMaxCount = list['useMaximumCount'];
+									codeUseYes = true;
+								}
+							}
+							$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');
+							$('.card-small-text').text(`하루에 적립 가능한 포인트 횟수는 최대 ${useMaxCount}번입니다.`);	
+							
+							$('input[name="formName"]').val('pointMaxCount');
+							$('label[for="insertCode"]').text('횟수 기준 코드');
+							$('.modal-header').find('#modalInsertLabel').text('하루 최대 적립 포인트 횟수 기준 등록');
+							
+							let $addMaxFirst = `<label for="insertMaxCount" class="col-form-label">적립 가능 횟수</label>`
+							$addMaxFirst += `<input type="text" id="insertMaxCount" name="useMaxCount" class="form-control">`
+					
+							$('.form-group').eq(1).append($addMaxFirst);
+							   
+							break;
+						}
+					
+					}
+					requestData.fail(function( jqXHR, textStatus ) {
+						alert( "Request failed: " + textStatus );
+					});
+
+				});
+			});
+			</script>
+	</th:block>
+</html>
