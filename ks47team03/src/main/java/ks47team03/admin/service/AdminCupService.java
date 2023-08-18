@@ -377,5 +377,10 @@ public class AdminCupService {
 		
 	}
 
+	public int getCupRentalPeriod(){
+			int cupRentalPeriod = adminCupMapper.getCupRentalPeriod();
+		return cupRentalPeriod;
+	}
+
 	
 }

@@ -20,9 +20,13 @@ public interface AdminDepositMapper {
 	public List<Map<String,Object>> getDepositPayList(Map<String,Object>paramMap);
 	public int getDepositPayListCount();
 
+	//컵 대여 보증금 기준 조회
+	public int getDepositPrice();
+
 	//보증금 관리
 	public List<Map<String,Object>> getDepositManageList(Map<String,Object>paramMap);
 	public int getDepositManageListCount();
+
 	
 	//보증금 환급
 	public List<Map<String,Object>> getDepositRefundList(Map<String,Object>paramMap);

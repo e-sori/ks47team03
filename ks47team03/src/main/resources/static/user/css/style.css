@@ -45,6 +45,39 @@
   background: border-box;
 }
 
+.table-center{
+  text-align: center;
+}
+
+.end-text{
+  margin-bottom: 30px !important;
+}
+
+.small-title {
+  margin-bottom: 10px;
+  font-family: "Pretendard-Regular", sans-serif;
+  font-size: 20px;
+}
+
+.title-margin {
+  padding-left: 15px;
+  margin-top: 10px
+}
+
+.red-title{
+  color: red;
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.small-text{
+  margin-bottom: 0px;
+  font-family: "Pretendard-Regular", sans-serif;
+  padding-left: 20px;
+}
+
 .magin{
 	margin-top:30px;
 }

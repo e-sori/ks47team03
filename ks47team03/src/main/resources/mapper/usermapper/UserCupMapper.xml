@@ -6,6 +6,38 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.user.mapper.UserCupMapper">
+    <select id="getRentalCupList" parameterType="String" resultType="map">
+        SELECT
+            row_number() OVER(ORDER BY rent.cup_rental_datetime DESC) as No,
+            SUBSTRING(rent.cup_QR_code, 6) AS cupNum,
+            part.partner_name AS partnerName,
+            rent.cup_rental_datetime AS rentalDate,
+            rent.cup_return_limit_datetime AS returnDue,
+            Case rent.return_status
+                WHEN 'Y' THEN '반납 완료'
+                WHEN 'N' THEN '이용중'
+                WHEN 'M' THEN '분실'
+                WHEN 'F' THEN '연체중'
+            END AS returnStatus
+        FROM
+            cup_rental_history AS rent
+            INNER JOIN
+            approval_partner_plus_info AS part
+            ON
+            rent.approval_partner_plus_info_code = part.approval_partner_plus_info_code
+        WHERE
+            rent.user_id = #{userId};
+    </select>
 
+    <select id="getUseCupCount" parameterType="String" resultType="int">
+        SELECT
+            COUNT(return_status) AS cupRentalCount
+        FROM
+            cup_rental_history
+        WHERE
+            user_id = #{userId}
+            AND
+            return_status = "N";
+    </select>
 	
 </mapper>

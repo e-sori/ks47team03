@@ -4447,6 +4447,21 @@ input[type=submit].btn-block {
     background-color: #007bff
 }
 
+.nav-pills .nav-link-cup {
+    border-radius: .25rem
+}
+
+.nav-pills .nav-link-cup.active,
+.nav-pills .show>.nav-link-cup {
+    color: #fff;
+    background-color: #88BFC2
+}
+.nav-link-cup {
+    display: block;
+    padding: .5rem 1rem
+}
+
+
 .nav-fill .nav-item {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
@@ -8223,7 +8238,7 @@ button.bg-dark:hover {
 }
 
 .shadow {
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, .07) !important;
 }
 
 .shadow-lg {

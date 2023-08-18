@@ -293,5 +293,13 @@
 			ON
 			crenh.cup_QR_code = creth.cup_QR_code
 	</select>
+
+	<select id="getCupRentalPeriod" resultType="int">
+		/*컵 대여 기간 기준*/
+		SELECT
+		cup_rental_period
+		FROM
+		cup_rental_period_standard;
+	</select>
 	
 </mapper>

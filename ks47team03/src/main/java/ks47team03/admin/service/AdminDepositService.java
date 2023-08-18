@@ -160,6 +160,13 @@ private static final Logger log = LoggerFactory.getLogger(AdminCommonService.cla
 		
 		return paramMap;
 	}
+
+	// 컵 대여 보증금 기준 관리
+	public int getDepositPrice(){
+		int depositPrice = adminDepositMapper.getDepositPrice();
+
+		return depositPrice;
+	}
 	
 	
 // 보증금 기준 관리 	

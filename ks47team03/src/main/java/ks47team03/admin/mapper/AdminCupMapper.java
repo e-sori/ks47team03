@@ -48,4 +48,7 @@ public interface AdminCupMapper {
 	public int getSearchListCount(Map<String,Object>paramMap);
 	//테이블 행 갯수 카운드
 	public int getListCount(String tableName);
+
+	// 컵 대여 기간 기준
+	public int getCupRentalPeriod();
 }
