@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import ks47team03.user.dto.Deposit;
+import ks47team03.user.dto.Point;
+
 @Mapper
 public interface UserDepositMapper {
 
@@ -13,6 +16,9 @@ public interface UserDepositMapper {
 	
 	public List<Map<String,Object>> getUserDepositPayList(Map<String,Object>paramMap);
 	public int getUserDepositPayListCount();
+	
+	public Deposit getUserDeposit(String userId);
+	
 	
 	
 }

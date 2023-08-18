@@ -57,13 +57,6 @@ public class AdminPointController {
 		return "admin/point/pointManage";	
 	}
 	
-	// 하루 최대 적립 포인트 횟수 기준 수정 화면
-	@GetMapping("/modifyPointMaxCountStandard")
-	public String mdifyPointMaxCountStandard(Model model) {
-		model.addAttribute("title","포인트 관련 기준 수정");
-		return "admin/point/modifyPointMaxCountStandard";
-	}		
-	
 	// 포인트 관련 기준 등록
 	@PostMapping("/addPointStandard")
 	public String addPointStandard(AdminPoint adminPoint, 
