@@ -1,36 +1,29 @@
 package ks47team03.user.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import jakarta.servlet.http.HttpSession;
 import ks47team03.admin.mapper.AdminCommonMapper;
 import ks47team03.user.dto.Account;
 import ks47team03.user.dto.Point;
-import ks47team03.user.dto.User;
 import ks47team03.user.service.UserPointService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
 @RequestMapping("/point")
 @Slf4j
+@AllArgsConstructor
 public class UserPointController {
 	
 	// 의존성 주입
 	private final UserPointService userPointService;
 	private final AdminCommonMapper adminCommonMapper;
-	
-	
-	public UserPointController(UserPointService userPointService, AdminCommonMapper adminCommonMapper) {
-		this.userPointService = userPointService;	
-		this.adminCommonMapper = adminCommonMapper;	
-	}
 	
 	// 포인트 후원 신청 처리 - 포인트 후원 처리
 		@GetMapping("/addPointSponList")

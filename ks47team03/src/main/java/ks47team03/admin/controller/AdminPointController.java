@@ -1,9 +1,15 @@
 package ks47team03.admin.controller;
 
+import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import ks47team03.admin.dto.AdminPoint;
+import ks47team03.admin.service.AdminPointService;
+import ks47team03.user.dto.User;
+import ks47team03.user.service.UserCommonService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,27 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpSession;
-import ks47team03.admin.dto.AdminPoint;
-import ks47team03.admin.service.AdminPointService;
-import ks47team03.user.dto.User;
-import ks47team03.user.service.UserCommonService;
-import lombok.extern.slf4j.Slf4j;
-
 
 @Controller
 @Slf4j
+@AllArgsConstructor
 @RequestMapping("/admin/point")
 public class AdminPointController {
 	
 	// 의존성 주입
 	private final AdminPointService adminPointService;
 	private final UserCommonService userCommonService;
-	
-	public AdminPointController(AdminPointService adminPointService, UserCommonService userCommonService) {
-		this.adminPointService = adminPointService;
-		this.userCommonService = userCommonService;
-	}
 	
 	// 포인트 후원내역 관리 화면
 	@GetMapping("/pointSponsorshipManage")
