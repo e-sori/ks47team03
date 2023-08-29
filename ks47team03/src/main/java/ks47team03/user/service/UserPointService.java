@@ -3,25 +3,18 @@ package ks47team03.user.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.stereotype.Service;
-
-import ks47team03.user.mapper.UserPointMapper;
 import ks47team03.user.dto.Account;
 import ks47team03.user.dto.Point;
+import ks47team03.user.mapper.UserPointMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class UserPointService {
-	
 	private final UserPointMapper userPointMapper;
-
-	
-	public UserPointService (UserPointMapper userPointMapper) {
-		this.userPointMapper = userPointMapper;
-	
-	}	
 
 	// 포인트 사용 또는 적립 신청 
 	public void addPointUseSaveList(Point point) {
