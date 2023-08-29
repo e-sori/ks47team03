@@ -1,18 +1,15 @@
 package ks47team03.user.service;
 
-import ks47team03.user.mapper.UserCupMapper;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
+import ks47team03.user.mapper.UserCupMapper;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class UserCupService {
     private final UserCupMapper userCupMapper;
-
-    public UserCupService(UserCupMapper userCupMapper){
-        this.userCupMapper = userCupMapper;
-    }
 
     // 컵 대여 리스트
     public List<Map<String,Object>> getRentalCupList(String userId){

@@ -3,24 +3,19 @@ package ks47team03.admin.service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.stereotype.Service;
-
 import ks47team03.admin.dto.AdminPoint;
 import ks47team03.admin.mapper.AdminCommonMapper;
 import ks47team03.admin.mapper.AdminPointMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AdminPointService {
 	private final AdminPointMapper adminPointMapper;
 	private final AdminCommonMapper adminCommonMapper;
-	
-	public AdminPointService(AdminPointMapper adminPointMapper, AdminCommonMapper adminCommonMapper) {
-		this.adminPointMapper = adminPointMapper;
-		this.adminCommonMapper = adminCommonMapper;
-	}
 	
 	// 포인트 관련 기준 등록
 	public void addPointStandard(AdminPoint adminPoint) {

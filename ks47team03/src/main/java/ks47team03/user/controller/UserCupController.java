@@ -1,6 +1,8 @@
 package ks47team03.user.controller;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 import ks47team03.admin.service.AdminCommonService;
 import ks47team03.admin.service.AdminCupService;
 import ks47team03.admin.service.AdminDepositService;
@@ -8,22 +10,20 @@ import ks47team03.admin.service.AdminPointService;
 import ks47team03.user.dto.Deposit;
 import ks47team03.user.dto.Point;
 import ks47team03.user.dto.User;
+import ks47team03.user.service.UserCupService;
+import ks47team03.user.service.UserDepositService;
 import ks47team03.user.service.UserPointService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ks47team03.user.service.UserCupService;
-import ks47team03.user.service.UserDepositService;
-
-import java.util.List;
-import java.util.Map;
-
 
 @Controller
 @Slf4j
+@AllArgsConstructor
 @RequestMapping("/mypage")
 public class UserCupController {
 	
@@ -35,23 +35,6 @@ public class UserCupController {
 	private final AdminDepositService adminDepositService;
 	private final AdminPointService adminPointService;
 	private final AdminCommonService adminCommonService;
-
-
-	public UserCupController(UserCupService userCupService,
-							 UserPointService userPointService,
-							 UserDepositService userDepositService,
-							 AdminCupService adminCupService,
-							 AdminDepositService adminDepositService,
-							 AdminPointService adminPointService,
-							 AdminCommonService adminCommonService) {
-		this.userCupService = userCupService;
-		this.userPointService = userPointService;
-		this.userDepositService = userDepositService;
-		this.adminCupService = adminCupService;
-		this.adminDepositService = adminDepositService;
-		this.adminPointService = adminPointService;
-		this.adminCommonService = adminCommonService;
-	}
 
 	//나의 바코드
 	@GetMapping("/myBarcode")
