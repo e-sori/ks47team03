@@ -1,70 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{user/layout/default}">
-	<th:block layout:fragment="customContents">
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			layout:decorate="~{user/layout/default}">
+<th:block layout:fragment="customContents">
 	<!-- ================ start banner area ================= -->
-		<section class="blog-banner-area" id="blog">
-			<div class="container h-100">
-				<img class="img-main" src="user/img/earthmain.jpg" 
-		            	onmouseover="this.src='user/img/earthmainhover.jpg'" 
-		            	onmouseout="this.src='user/img/earthmain.jpg'" alt="">	         
-		    </div>
-	    </section>
-	  <!-- ================ end banner area ================= -->
-	  
-  <!--================ Main Area =================-->	    
-		<section class="section-margin calc-60px">
-			<div class="container container-body">
-				<div>
-		        	<h2>KSMART 47기 3팀 프로젝트 <span class="section-intro__style"> 이소리</span> 구현 기능입니다.</h2>
-		            <div class="js-h-blank-20"></div>
-		            <div class="card text-center card-product">
-						<div class="img-left">
-							<img src="user/img/member/member1.jpg" width="200px" height="200px" alt="">
-								<ul class="card-product__imgOverlay">
-									 <li><a class="btn mb-2 btn-secondary" href="https://leeri-study.tistory.com/" target="_blank" >블로그</a></li>
-									 <li><a class="btn mb-2 btn-secondary" href="https://github.com/e-sori/ks47team03" target="_blank">깃허브</a></li>
-									 <li><a class="btn mb-2 btn-secondary" href="https://obsidian-snowflake-b70.notion.site/I-love-IT-70c250b38eec4ab09ad4df9cd60d5e38?pvs=4" target="_blank">노션</a></li>
-									 <li><a class="btn mb-2 btn-secondary" href="https://github.com/e-sori/ks47team03" target="_blank">담당기능</a></li>
-								</ul>
-						</div>
-		            </div>
-		            <h4>- 관리자 화면 : 포인트 관련 기준 관리</h4>
-		        </div>
-		       	<div class="js-h-blank-50"></div>
-		        <div>
-		            <p style="font-size: 30px; font-weight: bolder"><span class="fe fe-folder"></span> 사용자 페이지</p>
-		        </div>
-		        <div class="row">
-		        	<div class="card card-product js-project-box">
-			        	<img src="user/img/memberView/soriPointRefundApplyView.jpg" alt="">					                
+	<section class="blog-banner-area" id="blog">
+		<div class="container h-100">
+			<img class="img-main" src="user/img/earthmain.jpg"
+					 onmouseover="this.src='user/img/earthmainhover.jpg'"
+					 onmouseout="this.src='user/img/earthmain.jpg'" alt="">
+		</div>
+	</section>
+	<!-- ================ end banner area ================= -->
+
+	<!--================ Main Area =================-->
+	<section class="section-margin calc-60px">
+		<div class="container container-body">
+			<div>
+				<h2>KSMART 47기 3팀 프로젝트 <span class="section-intro__style"> 이소리</span> 구현 기능입니다.</h2>
+				<div class="js-h-blank-20"></div>
+				<div class="card text-center card-product">
+					<div class="img-left">
+						<img src="user/img/member/member1.jpg" width="200px" height="200px" alt="">
 						<ul class="card-product__imgOverlay">
-							 <li><a class="btn mb-2 btn-secondary" href="/point/myPointRefund" target="_blank" >구현 페이지</a></li>
-							 <li><a class="btn mb-2 btn-secondary" href="https://obsidian-snowflake-b70.notion.site/2424d241dc0f428d90ddf2a2d983b7bd" target="_blank">기능 소개</a></li>
-						</ul>	
-					</div>	    
-					<div class="card card-product js-project-box">
-			        	<img src="user/img/memberView/soriPointRefundApplyView.jpg" alt="">					                
-						<ul class="card-product__imgOverlay">
-							 <li><a class="btn mb-2 btn-secondary" href="/point/myPointSpon" target="_blank" >구현 페이지</a></li>
-						</ul>	
-					</div>    		   		
+							<li><a class="btn mb-2 btn-secondary" href="https://leeri-study.tistory.com/"
+										 target="_blank">블로그</a></li>
+							<li><a class="btn mb-2 btn-secondary" href="https://github.com/e-sori/ks47team03"
+										 target="_blank">깃허브</a></li>
+							<li><a class="btn mb-2 btn-secondary"
+										 href="https://obsidian-snowflake-b70.notion.site/I-love-IT-f1a3cc68dacd48f5992b69b38c20ec0b?pvs=4"
+										 target="_blank">노션</a></li>
+							<li><a class="btn mb-2 btn-secondary" href="https://github.com/e-sori/ks47team03"
+										 target="_blank">담당기능</a></li>
+						</ul>
+					</div>
 				</div>
-		        <div class="js-h-blank-50"></div>
-		        <div>
-		            <p style="font-size: 30px; font-weight: bolder"><span class="fe fe-folder"></span> 관리자 페이지</p>
-		        </div>
-		        <div class="row">
-		        	<div class="card card-product js-project-box">
-			        	<img src="user/img/memberView/soriPointStandardManageView.jpg" alt="">					                
-						<ul class="card-product__imgOverlay">
-							 <li><a class="btn mb-2 btn-secondary" href="/admin/point/pointStandardManage" target="_blank" >구현 페이지</a></li>
-							 <li><a class="btn mb-2 btn-secondary" href="https://obsidian-snowflake-b70.notion.site/808791cee53f4454b1212e59e9c0626d" target="_blank">기능 소개</a></li>
-						</ul>	
-					</div>			        		   		
-				</div>		        
 			</div>
-		</section>
-	</th:block>
+			<div class="js-h-blank-50"></div>
+			<div>
+				<p style="font-size: 30px; font-weight: bolder"><span class="fe fe-folder"></span> 사용자 페이지
+				</p>
+			</div>
+			<div class="row">
+				<div class="card card-product js-project-box">
+					<img src="user/img/memberView/soriPointRefundApplyView.jpg" alt="">
+					<ul class="card-product__imgOverlay">
+						<li><a class="btn mb-2 btn-secondary" href="/point/myPointRefund" target="_blank">구현
+							페이지</a></li>
+						<li><a class="btn mb-2 btn-secondary"
+									 href="https://obsidian-snowflake-b70.notion.site/bc94b9bdf7ac494783f05a18cad87456?pvs=4"
+									 target="_blank">기능 소개</a></li>
+					</ul>
+				</div>
+				<div class="card card-product js-project-box">
+					<img src="user/img/memberView/soriPointRefundApplyView.jpg" alt="">
+					<ul class="card-product__imgOverlay">
+						<li><a class="btn mb-2 btn-secondary" href="/mypage/myCup" target="_blank">구현 페이지</a>
+						</li>
+						<li><a class="btn mb-2 btn-secondary"
+									 href="#"
+									 target="_blank">기능 소개</a></li>
+					</ul>
+				</div>
+				<div class="card card-product js-project-box">
+					<img src="user/img/memberView/soriPointRefundApplyView.jpg" alt="">
+					<ul class="card-product__imgOverlay">
+						<li><a class="btn mb-2 btn-secondary" href="/point/myPointSpon" target="_blank">구현
+							페이지</a></li>
+						<li><a class="btn mb-2 btn-secondary"
+									 href="#"
+									 target="_blank">기능 소개</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="js-h-blank-50"></div>
+			<div>
+				<p style="font-size: 30px; font-weight: bolder"><span class="fe fe-folder"></span> 관리자 페이지
+				</p>
+			</div>
+			<div class="row">
+				<div class="card card-product js-project-box">
+					<img src="user/img/memberView/soriPointStandardManageView.jpg" alt="">
+					<ul class="card-product__imgOverlay">
+						<li><a class="btn mb-2 btn-secondary" href="/admin/point/pointStandardManage"
+									 target="_blank">구현 페이지</a></li>
+						<li><a class="btn mb-2 btn-secondary"
+									 href="https://obsidian-snowflake-b70.notion.site/b7e0aa2ce3e74977a07cb083f054370e?pvs=4"
+									 target="_blank">기능 소개</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+</th:block>
 </html>
