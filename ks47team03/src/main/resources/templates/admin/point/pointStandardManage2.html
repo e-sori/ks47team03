@@ -15,24 +15,24 @@
 									<!-- tab 버튼 시작 -->
 									<ul class="nav nav-pills nav-fill mb-3 bottom-border" id="pills-tab" role="tablist">
 									    <li class="nav-item">
-									      <a class="nav-link nav-tab active" id="Max-tab" data-toggle="pill" href="#Max" role="tab" aria-controls="Max" aria-selected="true">하루 최대 적립 포인트 횟수 기준</a>
+									      <a class="nav-link nav-tab active" id="pills-max-tab" data-toggle="pill" href="#pills-max" role="tab" aria-controls="pills-max" aria-selected="true">하루 최대 적립 포인트 횟수 기준</a>
 									    </li>
 									    <li class="nav-item">
-									      <a class="nav-link nav-tab" id="Expire-tab" data-toggle="pill" href="#Expire" role="tab" aria-controls="Expire" aria-selected="false">포인트 유효 기간 기준</a>
+									      <a class="nav-link nav-tab" id="pills-expire-tab" data-toggle="pill" href="#pills-expire" role="tab" aria-controls="pills-expire" aria-selected="false">포인트 유효 기간 기준</a>
 									    </li>
 									    <li class="nav-item">
-									      <a class="nav-link nav-tab" id="Type-tab" data-toggle="pill" href="#Type" role="tab" aria-controls="Type" aria-selected="false">포인트 타입</a>
+									      <a class="nav-link nav-tab" id="pills-type-tab" data-toggle="pill" href="#pills-type" role="tab" aria-controls="pills-type" aria-selected="false">포인트 타입</a>
 									    </li>
 									    <li class="nav-item">
-									      <a class="nav-link nav-tab" id="Save-tab" data-toggle="pill" href="#Save" role="tab" aria-controls="Save" aria-selected="false">포인트 적립 기준</a>
+									      <a class="nav-link nav-tab" id="pills-save-tab" data-toggle="pill" href="#pills-save" role="tab" aria-controls="pills-save" aria-selected="false">포인트 적립 기준</a>
 									    </li>
 									    <li class="nav-item">
-									      <a class="nav-link nav-tab" id="Refund-tab" data-toggle="pill" href="#Refund" role="tab" aria-controls="Refund" aria-selected="false">포인트 환급 기준</a>
+									      <a class="nav-link nav-tab" id="pills-refund-tab" data-toggle="pill" href="#pills-refund" role="tab" aria-controls="pills-refund" aria-selected="false">포인트 환급 기준</a>
 									    </li>
 									</ul>
 									<!-- tab 버튼 끝 -->
-									<div class="tab-content mb-1" id="tabContent">	                 
-										<div class="tab-pane fade show active" id="Max" role="tabpanel" aria-labelledby="Max-tab"> 
+									<div class="tab-content mb-1" id="pills-tabContent">	                 
+										<div class="tab-pane fade show active" id="pills-max" role="tabpanel" aria-labelledby="pills-max-tab"> 
 											<h5 class="mb-2 page-small-title">하루 최대 적립 포인트 횟수 기준</h5>
 											<p class="card-small-text"> 하루에 적립 가능한 포인트 횟수는 최대 [[${useMaxCount}]]번입니다.</p>
 											<!-- 포인트 기준 테이블 시작 -->
@@ -256,7 +256,7 @@
 		        $(e.target).toggleClass('active');
 		        
 				const requestData = $.ajax({
-		 		 	url: `/admin/point/point${tableId}Standard`,
+		 		 	url: '/admin/point/getPoint${tableId}StandardList',
 					method: 'GET',
 					dataType: 'json'
 		 		});
@@ -288,7 +288,7 @@
 				        // response : 배열 , list : 객체 (배열 안에 객체 여러 개가 존재하는 형태)
 				        for (let obj of pointStandardList){
 				        	for(let key in obj){
-				        		if(tableId == 'Max'){
+				        		if(tableId == 'pills-max'){
 				        			newData.push({
 				        				title: labels[key] || key, 
 					                    data: key
@@ -354,7 +354,7 @@
 						
 						// 테이블 헤더 변경, 모달 변경
 						switch(tableId){
-						case 'Expire':
+						case 'pills-expire':
 							let pointExpire;
 							for(let list of pointStandardList){
 								if(list['코드 사용 유무'] == '사용중') {
@@ -375,7 +375,7 @@
 							
 							
 							break;
-						case 'Type':
+						case 'pills-type':
 							$('.page-small-title').text('포인트 타입');
 							$('.card-small-text').text('포인트 타입입니다.');
 							console.log(pointStandardList);
@@ -389,8 +389,14 @@
 							
 							$('.form-group').eq(1).append($addTypeFirst);
 							
+							for (let list of pointStandardList) {
+								if (list['코드 사용 유무'] === '사용중') {
+								  $addRefundFirst += `<option value="${list['포인트 타입']}">${list['포인트 타입']}</option>`;
+								}
+							}
+							
 							break;
-						case 'Save':
+						case 'pills-save':
 							const gradeList = response.gradeList;
 							console.log(gradeList);
 							$('.page-small-title').text('포인트 적립 기준'); 
@@ -417,7 +423,7 @@
 
 							
 							break;
-						case 'Refund':
+						case 'pills-refund':
 							let pointTypeList = response.pointTypeList;		
 							
 							$('.page-small-title').text('포인트 환급 기준');
@@ -449,7 +455,7 @@
 							$('.form-group').eq(4).append($addRefundFourth);
 							
 							break;
-						case 'Max':
+						case 'pills-max':
 							let useMaxCount;
 							for(let list of pointStandardList){
 								if(list['codeUse'] == '사용중') {
@@ -541,7 +547,7 @@
 									    return false;
 									}			
 									// 포인트 타입 테이블인 경우 이미 존재하는 타입은 등록할 수 없게 한다.
-									if (tableId === 'Type' && $(element).is('#insertPointType')) {
+									if (tableId === 'pills-type' && $(element).is('#insertPointType')) {
 									    let $tdArr = $('td');
 									    for(let td of $tdArr){
 								    		if($(td).text() == $(element).val()){
@@ -557,7 +563,7 @@
 								}
 							// select 태그 이미 사용 가능한 기준이 존재하는지 체크
 							}else if($(element).is('select')){		
-							    if (tableId === 'Max' || tableId === 'Expire') {
+							    if (tableId === 'pills-max' || tableId === 'pills-expire') {
 							        if ($('select').val() === 'Y' && $('td:contains("사용중")').length > 0) {
 							        	if($(element).next().is('span')) $(element).next().remove();
 							            $(element).after(`<span class="validCheck">* 이미 사용중인 기준이 존재합니다.</span>`);
@@ -567,7 +573,7 @@
 							            return false;
 							        }
 							    }// 환급 기준 테이블인 경우 이미 사용중인 기준이 존재하는 타입은 기준을 등록할 수 없게 한다.
-								else if (tableId === 'Refund' && $(element).is('#insertPointType')) {
+								else if (tableId === 'pills-refund' && $(element).is('#insertPointType')) {
 									const pointType = $('#insertPointType').val();
 								    let $trArr = $('tr');
 								    for(let tr of $trArr){
@@ -584,7 +590,7 @@
 							    		}
 								    }									        
 								}//적립 기준 테이블인 경우 이미 사용중인 기준이 존재하는 등급은 등록할 수 없게 한다.
-								else if (tableId === 'Save' && $(element).is('#insertGradeName')) {
+								else if (tableId === 'pills-save' && $(element).is('#insertGradeName')) {
 									const gradeName = $('#insertGradeName').val();
 								    let $trArr = $('tr');
 								    for(let tr of $trArr){
