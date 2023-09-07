@@ -222,7 +222,7 @@
 							$('.modal-header').find('#modalInsertLabel').text('포인트 유효 기간 기준 등록');
 							
 							let $addExpireFirst = `<label for="InsertExpirePeriod" class="col-form-label">유효 기간</label>`
-							$addExpireFirst += `<input type="text" id="InsertExpirePeriod" name="expirePeriod" class="form-control">`
+							$addExpireFirst += `<input type="text" id="InsertExpirePeriod" name="pointExpire" class="form-control">`
 					
 							$('.form-group').eq(1).append($addExpireFirst);
 							
@@ -233,7 +233,6 @@
 							for(let list of pointStandardList){
 								if(list['codeUse'] == '사용중') {
 									useMaxCount = list['useMaximumCount'];
-									codeUseYes = true;
 								}
 							}
 							$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');

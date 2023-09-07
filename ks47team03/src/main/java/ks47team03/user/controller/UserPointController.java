@@ -5,7 +5,7 @@ import ks47team03.admin.mapper.AdminCommonMapper;
 import ks47team03.user.dto.Account;
 import ks47team03.user.dto.Point;
 import ks47team03.user.service.UserPointService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/point")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserPointController {
 	
 	// 의존성 주입
