@@ -74,10 +74,10 @@ public class AdminPointController {
 		
 		String tableDbName = null;		
 		
-		if(tableId.equals("pills-max"))	tableDbName = "day_maximum_count";	
-		else if(tableId.equals("pills-expire")) tableDbName = "point_expire_standard";			
-		else if(tableId.equals("pills-save")) tableDbName = "point_save_standard";
-		else if(tableId.equals("pills-refund")) tableDbName = "point_refund_standard";
+		if(tableId.equals("Max"))	tableDbName = "day_maximum_count";	
+		else if(tableId.equals("Expire")) tableDbName = "point_expire_standard";			
+		else if(tableId.equals("Save")) tableDbName = "point_save_standard";
+		else if(tableId.equals("Refund")) tableDbName = "point_refund_standard";
 		else tableDbName = "point_save_use_type";	
 		
 		String newPointStandardCode = adminPointService.getIncreaseCode(tableDbName);
@@ -92,16 +92,47 @@ public class AdminPointController {
 		
 		return pointStandardModalReusltMap;
 	}		
+	// 포인트 관련 기준 관리 화면 (ajax로 데이터 리턴 5. 포인트 타입)
+    @GetMapping("/pointTypeStandard")
+    @ResponseBody
+    public Map<String,Object> getPointTypeStandard(Model model) {        
+        Map<String,Object> pointStandardResultMap = adminPointService.getPointTypeStandard();        
+        
+        return pointStandardResultMap;
+    }
+    
+    // 포인트 관련 기준 관리 화면 (ajax로 데이터 리턴 4. 포인트 환급 기준)
+    @GetMapping("/pointRefundStandard")
+    @ResponseBody
+    public Map<String,Object> getPointRefundStandard(Model model) {        
+        Map<String,Object> pointStandardResultMap = adminPointService.getPointRefundStandard();        
+        
+        return pointStandardResultMap;
+    }
+    
+    // 포인트 관련 기준 관리 화면 (ajax로 데이터 리턴 3. 포인트 적립 기준)
+    @GetMapping("/pointSaveStandard")
+    @ResponseBody
+    public Map<String,Object> getPointSaveStandard(Model model) {        
+        Map<String,Object> pointStandardResultMap = adminPointService.getPointSaveStandard();        
+        
+        return pointStandardResultMap;
+    }
 	
-	// 포인트 관련 기준 관리 화면	(ajax로 데이터 리턴)
-	@GetMapping("/getpointStandardList")
+	// 포인트 관련 기준 관리 화면 (ajax로 데이터 리턴 2. 포인트 만료 기간 기준)
+    @GetMapping("/pointExpireStandard")
+    @ResponseBody
+    public Map<String,Object> getPointExpireStandard(Model model) {        
+        Map<String,Object> pointStandardResultMap = adminPointService.getPointExpireStandard();        
+        
+        return pointStandardResultMap;
+    }
+	
+	// 포인트 관련 기준 관리 화면	(ajax로 데이터 리턴 1. 하루 최대 적립 포인트 횟수 기준)
+	@GetMapping("/pointMaxStandard")
 	@ResponseBody
-	public Map<String,Object> getpointStandardList(@RequestParam(value="tableId")String tableId,
-													Model model) {
-		
-		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandardList(tableId);		
-	
-		model.addAttribute("title", "포인트 관련 기준 관리");		
+	public Map<String,Object> getPointMaxStandard(Model model) {		
+		Map<String,Object> pointStandardResultMap = adminPointService.getPointMaxStandard();		
 		
 		return pointStandardResultMap;
 	}
@@ -110,22 +141,14 @@ public class AdminPointController {
 	@GetMapping("/pointStandardManage")
 	@SuppressWarnings("unchecked")
 	public String pointStandardManage(@RequestParam(value="message", required = false) String message,
-										Model model) {
-		
-		/* 포인트 기준 조회 */
-		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandardList("pills-max");
+										Model model) {		
+		Map<String,Object> pointStandardResultMap = adminPointService.getPointMaxStandard();
 		
 		List<Map<String,Object>>  pointStandardList = (List<Map<String,Object>> )pointStandardResultMap.get("pointStandardList");
 		List<Map<String,Object>> codeUseList = (List<Map<String,Object>>) pointStandardResultMap.get("codeUseList");
-
-		for (Map<String,Object> MaxCount : pointStandardList) { 
-			if(MaxCount.get("codeUse").equals("사용중")) { 
-				int useMaxCount = (int)MaxCount.get("useMaximumCount"); 
-				model.addAttribute("useMaxCount", useMaxCount); 
-				break; 
-			} 
-		}		  
+		int useMaxCount = (int)pointStandardResultMap.get("useMaxCount");
 			
+		model.addAttribute("useMaxCount", useMaxCount); 
 		model.addAttribute("title","포인트 관련 기준 관리");
 		model.addAttribute("codeUseList", codeUseList);
 		model.addAttribute("pointStandardList", pointStandardList);	

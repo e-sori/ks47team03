@@ -72,7 +72,7 @@ public class UserCupController {
 		int depositPrice = adminDepositService.getDepositPrice();
 		String userId = (String) session.getAttribute("SID");
 
-		Map<String,Object> pointStandardResultMap = adminPointService.getPointStandardList("pills-max");
+		Map<String,Object> pointStandardResultMap = adminPointService.getPointMaxStandard();
 		List<Map<String,Object>>  pointStandardList = (List<Map<String,Object>> )pointStandardResultMap.get("pointStandardList");
 
 		for (Map<String,Object> MaxCount : pointStandardList) {

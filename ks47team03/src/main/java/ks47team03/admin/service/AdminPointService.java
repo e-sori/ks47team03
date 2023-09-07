@@ -41,37 +41,85 @@ public class AdminPointService {
 		return getNewCode;
 	};	
 	
-	// 포인트 관련 기준 조회 
-	public Map<String, Object> getPointStandardList(String tableId){		
-		// adminPointMapper에서 return 값 받아오기	
-		String tableDbName = null;
+	// 포인트 관련 기준 조회 (5. 포인트 타입)
+	public Map<String, Object> getPointTypeStandard(){           
+        Map<String,Object> paramMap = new LinkedHashMap<String,Object>();   
+        List<Map<String,Object>> pointStandardList = null;   
+
+        pointStandardList = adminPointMapper.getPointTypeStandard();
+        
+        List<String> codeUseList = adminPointMapper.getDistinctData("point_save_use_type", "code_use");
+        
+        paramMap.put("codeUseList", codeUseList);
+        paramMap.put("pointStandardList", pointStandardList);
+        
+        return paramMap;
+    };
+	
+	// 포인트 관련 기준 조회 (4. 포인트 환급 기준)
+	public Map<String, Object> getPointRefundStandard(){           
+        Map<String,Object> paramMap = new LinkedHashMap<String,Object>();   
+        List<Map<String,Object>> pointStandardList = null;  
+        List<Map<String,Object>> pointTypeList = null;      
+
+        pointStandardList = adminPointMapper.getPointRefundStandard();
+        pointTypeList = adminPointMapper.getPointTypeStandard();
+        
+        List<String> codeUseList = adminPointMapper.getDistinctData("point_refund_standard", "code_use");
+        
+        paramMap.put("pointTypeList", pointTypeList);
+        paramMap.put("codeUseList", codeUseList);
+        paramMap.put("pointStandardList", pointStandardList);
+        
+        return paramMap;
+    };
+	
+	// 포인트 관련 기준 조회 (3. 포인트 적립 기준)
+	public Map<String, Object> getPointSaveStandard(){           
+        Map<String,Object> paramMap = new LinkedHashMap<String,Object>();   
+        List<Map<String,Object>> pointStandardList = null;  
+        List<Map<String,Object>> gradeList = null;          
+
+        pointStandardList = adminPointMapper.getPointSaveStandard();
+        gradeList = adminPointMapper.getGradeStandard();
+        List<String> codeUseList = adminPointMapper.getDistinctData("point_save_standard", "code_use");      
+        
+        paramMap.put("gradeList", gradeList);
+        paramMap.put("codeUseList", codeUseList);
+        paramMap.put("pointStandardList", pointStandardList);
+        
+        return paramMap;
+    };
+    
+	// 포인트 관련 기준 조회 (2. 포인트 만료 기간 기준)
+	public Map<String, Object> getPointExpireStandard(){           
+        Map<String,Object> paramMap = new LinkedHashMap<String,Object>();   
+        List<Map<String,Object>> pointStandardList = null;  
+
+        pointStandardList = adminPointMapper.getPointExpireStandard();          
+        List<String> codeUseList = adminPointMapper.getDistinctData("point_expire_standard", "code_use");
+        
+        paramMap.put("codeUseList", codeUseList);
+        paramMap.put("pointStandardList", pointStandardList);
+        
+        return paramMap;
+    };
+    
+	// 포인트 관련 기준 조회 (1. 하루 최대 적립 포인트 횟수 기준)
+	public Map<String, Object> getPointMaxStandard(){			
 		Map<String,Object> paramMap = new LinkedHashMap<String,Object>();	
 		List<Map<String,Object>> pointStandardList = null;	
-		List<Map<String,Object>> pointTypeList = null;	
-		List<Map<String,Object>> gradeList = null;	
+	
+		pointStandardList = adminPointMapper.getPointMaxCountStandard("point");	
+		List<String> codeUseList = adminPointMapper.getDistinctData("day_maximum_count", "code_use");
 		
-		if(tableId.equals("pills-max"))	{
-			tableDbName = "day_maximum_count";	
-			pointStandardList = adminPointMapper.getPointMaxCountStandard("point");	
-		}else if(tableId.equals("pills-expire")) {
-			tableDbName = "point_expire_standard";	
-			pointStandardList = adminPointMapper.getPointExpireStandard();			
-		}else if(tableId.equals("pills-save")) {
-			tableDbName = "point_save_standard";
-			pointStandardList = adminPointMapper.getPointSaveStandard();
-			gradeList = adminPointMapper.getGradeStandard();
-			paramMap.put("gradeList", gradeList);
-		}else if(tableId.equals("pills-refund")) {
-			tableDbName = "point_refund_standard";
-			pointStandardList = adminPointMapper.getPointRefundStandard();
-			pointTypeList = adminPointMapper.getPointTypeStandard();
-			paramMap.put("pointTypeList", pointTypeList);
-		}else {
-			tableDbName = "point_save_use_type";	
-			pointStandardList = adminPointMapper.getPointTypeStandard();
-		}
-		
-		List<String> codeUseList = adminPointMapper.getDistinctData(tableDbName, "code_use");
+		for (Map<String,Object> MaxCount : pointStandardList) { 
+            if(MaxCount.get("codeUse").equals("사용중")) { 
+                int useMaxCount = (int)MaxCount.get("useMaximumCount"); 
+                paramMap.put("useMaxCount", useMaxCount); 
+                break; 
+            } 
+        }         
 		
 		paramMap.put("codeUseList", codeUseList);
 		paramMap.put("pointStandardList", pointStandardList);
