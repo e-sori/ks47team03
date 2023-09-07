@@ -13,7 +13,7 @@ import ks47team03.user.dto.User;
 import ks47team03.user.service.UserCupService;
 import ks47team03.user.service.UserDepositService;
 import ks47team03.user.service.UserPointService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/mypage")
 public class UserCupController {
 	
@@ -73,7 +73,7 @@ public class UserCupController {
 		String userId = (String) session.getAttribute("SID");
 
 		Map<String,Object> pointStandardResultMap = adminPointService.getPointMaxStandard();
-		List<Map<String,Object>>  pointStandardList = (List<Map<String,Object>> )pointStandardResultMap.get("pointStandardList");
+		List<Map<String,Object>>  pointStandardList = (List<Map<String,Object>>)pointStandardResultMap.get("pointStandardList");
 
 		for (Map<String,Object> MaxCount : pointStandardList) {
 			if(MaxCount.get("codeUse").equals("사용중")) {
