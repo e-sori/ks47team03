@@ -3,11 +3,11 @@ package ks47team03.user.service;
 import java.util.List;
 import java.util.Map;
 import ks47team03.user.mapper.UserCupMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserCupService {
     private final UserCupMapper userCupMapper;
 

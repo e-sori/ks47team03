@@ -10,24 +10,151 @@
 	<delete id="delPointMaxCountStandard" parameterType="String">
 		/* 1-5 하루 최대 적립 포인트 횟수 기준 삭제 */
 	</delete>
-
-	<update id="modifyPointMaxCountStandard" parameterType="String">
-		/* 1-4 하루 최대 적립 포인트 횟수 기준 수정 */
-		UPDATE tb_goods
-		<set>
-			<if test="goodsName != null and goodsName != ''">
-				g_name = #{goodsName},
-			</if>
-			<if test="goodsPrice != null and goodsPrice != ''">
-				g_price = #{goodsPrice},
-			</if>
-			<if test="goodsSellerId != null and goodsSellerId != ''">
-				g_seller_id = #{goodsSellerId},
-			</if>
-		</set>
+	
+	<update id="modifyPointTypeStandard" parameterType="AdminPoint">
+		/* 5-4 포인트 타입 기준 수정 */
+		UPDATE point_save_use_type
+		SET
+			point_save_use_type = #{pointSaveUseType},
+			code_use = #{codeUse},
+			admin_id = #{adminId},
+			up_datetime = CURDATE()		
 		WHERE
-			g_code = #{goodsCode}
+			point_save_use_type = #{pointSaveUseTypeCode}
 	</update>
+	
+	<update id="modifyPointRefundStandard" parameterType="AdminPoint">
+		/* 4-4 포인트 환급 기준 수정 */
+		UPDATE point_refund_standard
+		SET
+			use_maximum_count = #{useMaximumCount},
+			minimum_refund_standard = #{minimumRefundStandard},
+			refund_unit = #{refundUnit},
+			refund_fee_rate = #{refundFeeRate},
+			code_use = #{codeUse},
+			admin_id = #{adminId},
+			up_datetime = CURDATE()		
+		WHERE
+			point_refund_standard = #{pointRefundStandardCode}
+	</update>
+	
+	<update id="modifyPointSaveStandard" parameterType="AdminPoint">
+	/* 3-4 포인트 적립 기준 수정*/
+		UPDATE point_save_standard
+		SET
+			grade_attain_point = #{gradeAttainPoint},
+			use_save_point = #{useSavePoint},
+			code_use = #{codeUse},
+			admin_id = #{adminId},
+			up_datetime = CURDATE()		
+		WHERE
+			point_save_standard = #{pointSaveStandardCode}
+	</update>
+	
+	<update id="modifyPointExpireStandard" parameterType="AdminPoint">
+		/* 2-4 포인트 만료 기간 기준  수정*/
+		UPDATE point_expire_standard
+		SET
+			point_expire = #{pointExpire},
+			code_use = #{codeUse},
+			admin_id = #{adminId},
+			up_datetime = CURDATE()		
+		WHERE
+			point_expire_standard_code = #{pointExpireStandardCode}
+	</update>
+	
+	<update id="modifyPointMaxStandard" parameterType="AdminPoint">
+		/* 1-4 선택된 하루 최대 적립 포인트 횟수 기준 수정 */
+		UPDATE day_maximum_count
+		SET
+			use_maximum_count = #{useMaximumCount},
+			code_use = #{codeUse},
+			admin_id = #{adminId},
+			up_datetime = CURDATE()		
+		WHERE
+			day_maximum_count_code = #{dayMaximumCountCode}
+	</update>
+	
+	<select id="getPointTypeStandardDetail" parameterType="String" resultType="AdminPoint">
+		/* 5-3 선택된 포인트 타입 기준 조회 */
+		SELECT
+			point_save_use_type_code,
+			point_save_use_type,
+			code_use
+		FROM
+			point_save_use_type
+		WHERE
+			point_save_use_type_code = #{code}
+	</select>
+	
+	<select id="getPointRefundStandardDetail" parameterType="String" resultType="AdminPoint">
+		/* 4-3 선택된 포인트 환급 기준 조회 */
+		SELECT
+			RS.point_refund_standard_code,
+			SUT.point_save_use_type,
+			RS.minimum_refund_standard,
+			RS.refund_unit,
+			RS.refund_fee_rate,
+			RS.code_use
+		FROM
+			point_refund_standard AS RS
+			INNER JOIN
+			point_save_use_type AS SUT
+			ON
+			RS.point_save_use_type_code = SUT.point_save_use_type_code
+		WHERE
+			point_refund_standard_code = #{code}
+	</select>
+	
+	<select id="getPointSaveStandardDetail" parameterType="String" resultType="AdminPoint">
+		/* 3-3 선택된 포인트 적립 기준  조회 */
+		SELECT
+			SS.point_save_standard_code,
+			GS.grade_name,
+			SS.grade_attain_point,
+			SS.use_save_point,
+			SS.code_use	
+		FROM
+			point_save_standard AS SS
+			INNER JOIN
+			grade_standard AS GS
+			ON
+			SS.grade_standard_code = GS.grade_standard_code
+		WHERE
+			point_save_standard_code =  #{code}
+	</select>
+	
+	<select id="getPointExpireStandardDetail" parameterType="String" resultType="AdminPoint">
+		/* 2-3 선택된 포인트 만료 기간 기준 조회 */
+		SELECT
+			point_expire_standard_code,
+			point_expire,
+			code_use
+		FROM
+			point_expire_standard
+		WHERE
+			point_expire_standard_code = #{code}
+	</select>
+
+	<select id="getPointMaxStandardDetail" parameterType="String" resultType="AdminPoint">
+		/* 1-3 선택된 하루 최대 적립 포인트 횟수 기준 조회 */
+		SELECT
+			day_maximum_count_code,
+			use_maximum_count,
+			code_use
+		FROM
+			day_maximum_count
+		WHERE
+			day_maximum_count_code = #{code}
+	</select>
+	
+	<insert id="addPointTypeStandard" parameterType="AdminPoint">
+		/* 5-2 포인트 타입 기준 등록 */
+		INSERT INTO point_save_use_type
+			(point_save_use_type_code, point_save_use_type, code_use, set_datetime, admin_id, up_datetime)
+		VALUES
+			(#{newCode}, #{pointSaveUseType}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+	</insert>
 	
 	<insert id="addPointRefundStandard" parameterType="AdminPoint">
 		<selectKey resultType="String" keyColumn="pointSaveUseTypeCode" keyProperty="pointSaveUseTypeCode" order="BEFORE">
@@ -37,13 +164,13 @@
 			FROM
 				point_save_use_type
 			WHERE
-				point_save_use_type =  #{pointType};	
+				point_save_use_type =  #{pointSaveUseType};	
 		</selectKey>
-		/* 5-2 포인트 환급 기준 등록 */
+		/* 4-2 포인트 환급 기준 등록 */
 		INSERT INTO point_refund_standard
 			(point_refund_standard_code, point_save_use_type_code, minimum_refund_standard, refund_unit, refund_fee_rate, code_use, set_datetime, admin_id, up_datetime)
 		VALUES
-			(#{newCode}, #{pointSaveUseTypeCode}, #{minRefundPoint}, #{refundUnit}, #{refundFeeRate}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+			(#{newCode}, #{pointSaveUseTypeCode}, #{minimumRefundStandard}, #{refundUnit}, #{refundFeeRate}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
 	</insert>
 	
 	<insert id="addPointSaveStandard" parameterType="AdminPoint">
@@ -57,19 +184,11 @@
 			WHERE
 				grade_name = #{gradeName};		
 		</selectKey>
-		/* 4-2 포인트 적립 기준 등록 */
+		/* 3-2 포인트 적립 기준 등록 */
 		INSERT INTO point_save_standard
 			(point_save_standard_code, grade_standard_code, grade_attain_point, use_save_point, code_use, set_datetime, admin_id, up_datetime)
 		VALUES
-			(#{newCode}, #{gradeStandardCode}, #{gradePoint}, #{usePoint}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
-	</insert>
-	
-	<insert id="addPointTypeStandard" parameterType="AdminPoint">
-		/* 3-2 포인트 타입 기준 등록 */
-		INSERT INTO point_save_use_type
-			(point_save_use_type_code, point_save_use_type, code_use, set_datetime, admin_id, up_datetime)
-		VALUES
-			(#{newCode}, #{pointType}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+			(#{newCode}, #{gradeStandardCode}, #{gradeAttainPoint}, #{useSavePoint}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
 	</insert>
 	
 	<insert id="addPointExpireStandard" parameterType="AdminPoint">
@@ -77,7 +196,7 @@
 		INSERT INTO point_expire_standard
 			(point_expire_standard_code, point_expire, code_use, set_datetime, admin_id, up_datetime)
 		VALUES
-			(#{newCode}, #{expirePeriod}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+			(#{newCode}, #{pointExpire}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
 	</insert>
 	
 	<insert id="addPointMaxCountStandard" parameterType="AdminPoint">
@@ -85,11 +204,29 @@
 		INSERT INTO day_maximum_count
 			(day_maximum_count_code, count_benefit_type, use_maximum_count, code_use, set_datetime, admin_id, up_datetime)
 		VALUES
-			(#{newCode}, "포인트", #{useMaxCount}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
+			(#{newCode}, "포인트", #{useMaximumCount}, #{codeUse}, CURDATE(), #{adminId}, CURDATE())		
 	</insert>
+	
+	<select id="getPointTypeStandard" resultType="java.util.LinkedHashMap">
+		/* 5-1 포인트 타입 기준 조회 */
+		SELECT
+			CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED) AS No,
+			point_save_use_type_code AS '포인트 타입 코드',
+			point_save_use_type AS '포인트 타입',
+			CASE 
+			   WHEN code_use = 'Y' THEN '사용중'
+			   WHEN code_use = 'N' THEN '사용중지'
+			END AS '코드 사용 유무',		
+			set_datetime AS '최초 등록일',
+			admin_id AS '관리자 ID',
+			up_datetime AS '최종 수정일'	
+		FROM
+			point_save_use_type
+		ORDER BY No
+	</select>
 		
 	<select id="getPointRefundStandard" resultType="java.util.LinkedHashMap">
-		/* 5-1 포인트 환급 기준 조회 */
+		/* 4-1 포인트 환급 기준 조회 */
 		SELECT
 			CAST(SUBSTRING_INDEX(RS.point_refund_standard_code,'code',-1) AS UNSIGNED) AS No,
 			RS.point_refund_standard_code AS '환급 기준 코드',
@@ -113,8 +250,8 @@
 		ORDER BY No
 	</select>
 	
-	<select id="getGradeStandard" resultType="map">
-		/* 4-1-1 현재 존재하는 등급 기준 조회 */
+	<select id="getGradeStandard" resultType="AdminPoint">
+		/* 3-1-1 현재 존재하는 등급 기준 조회 */
 		SELECT
 			grade_name
 		FROM
@@ -122,7 +259,7 @@
 	</select>
 
 	<select id="getPointSaveStandard" resultType="java.util.LinkedHashMap">
-		/* 4-1 포인트 적립 기준 조회 */
+		/* 3-1 포인트 적립 기준 조회 */
 		SELECT
 			CAST(SUBSTRING_INDEX(PSS.point_save_standard_code,'code',-1) AS UNSIGNED)	AS No,
 			PSS.point_save_standard_code AS '적립 기준 코드',
@@ -142,24 +279,6 @@
 			grade_standard AS GS
 			ON
 			PSS.grade_standard_code = GS.grade_standard_code
-		ORDER BY No
-	</select>
-	
-	<select id="getPointTypeStandard" resultType="java.util.LinkedHashMap">
-		/* 3-1 포인트 타입 기준 조회 */
-		SELECT
-			CAST(SUBSTRING_INDEX(point_save_use_type_code,'code',-1) AS UNSIGNED) AS No,
-			point_save_use_type_code AS '포인트 타입 코드',
-			point_save_use_type AS '포인트 타입',
-			CASE 
-			   WHEN code_use = 'Y' THEN '사용중'
-			   WHEN code_use = 'N' THEN '사용중지'
-			END AS '코드 사용 유무',		
-			set_datetime AS '최초 등록일',
-			admin_id AS '관리자 ID',
-			up_datetime AS '최종 수정일'	
-		FROM
-			point_save_use_type
 		ORDER BY No
 	</select>
 	
