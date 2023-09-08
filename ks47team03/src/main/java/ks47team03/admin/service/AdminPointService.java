@@ -22,6 +22,7 @@ public class AdminPointService {
 	
 	// 포인트 관련 기준 삭제 (5. 포인트 타입)
     public void deletePointTypeStandard(List<String> codeList) {
+        adminPointMapper.deletePointRefundStandardByType(codeList);
         adminPointMapper.deletePointTypeStandard(codeList);
     }
     
