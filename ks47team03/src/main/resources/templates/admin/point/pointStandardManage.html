@@ -84,7 +84,7 @@
 																</button>
 															</div>
 															<div class="modal-body">
-																<form id="insertForm" action="/admin/point/pointStandardManage/tabMax/write" method="Post">
+																<form id="insertForm" method="Post">
 																	<div class="form-group">
 																		<label for="insertCode" class="col-form-label">횟수 기준 코드</label>
 																		<input type="text" class="insertCode form-control" name="newCode" readonly="readonly">
@@ -175,18 +175,7 @@
 																</button>
 															</div>
 															<div class="modal-body">
-																<form>
-																	<div class="form-group">
-																		<label for="deleteCode" class="col-form-label">코드</label>
-																		<select class="deleteCode form-control" name="codeUse">
-																			  	<option value="Y">사용 중</option>
-																			  	<option value="N">사용 중지</option>
-																		</select>
-																	</div>
-																	<div class="form-group">
-																		<label for="deleteNum" class="col-form-label">삭제할 기준 개수</label>
-																		<input type="text" class="deleteNum form-control" value="개수">
-																	</div>
+																<form id="deleteForm">
 																	<div class="form-group">
 																		<label for="adminId" class="col-form-label">관리자 ID</label>
 																		<input type="text" class="adminId form-control" name="adminId" readonly="readonly">
@@ -194,6 +183,9 @@
 																	<div class="form-group">
 																		<label for="insertAdminPw" class="col-form-label">비밀번호</label>
 																		<input type="password" class="insertAdminPw form-control" name="insertAdminPw">
+																	</div>
+																	<div class="form-group">
+																		<p class="deleteNum col-form-label"></p>
 																	</div>
 																	<div class="modal-footer">
 																		<button type="button" class="btn mb-2 btn-secondary resetBtn">입력 취소</button>
@@ -652,8 +644,8 @@
 						  data : $('#insertForm').serialize(),				  
 					  })
 					  .done(function(response){
-						    alert(response.message);
-						  if (response.message === "등록이 완료되었습니다.") {
+						  	alert(response);
+						  if (response === "등록이 완료되었습니다.") {
 				                window.location.href = "/admin/point/pointStandardManage";
 				            } 
 					  });
@@ -683,12 +675,11 @@
 					let tableId = $('.tab-pane').attr('id');
 					const code = $('.checks:checked').closest('tr').find('td').eq(2).text();
 					const requestData = $.ajax({
-						url : `/admin/point/pointStandardManage/tab${tableId}/${code}`,
+						url : `/admin/point/pointStandardManage/tab${tableId}/modify/${code}`,
 						method : 'GET',
 						dataType: 'json'											
 					});					
 					requestData.done(function(response){
-						console.log("fsfsdfsdfsdfs",response);
 						const adminPw = response.adminPw;
 						$('#modifyForm  .insertAdminId').val(response.adminId);	
 						
@@ -762,13 +753,13 @@
 			    // 모든 유효성 검사 후 서버에 데이터 보내서 비밀번호 일치여부 확인하기
 			  	if (isSubmit) {
 					  $.ajax({
-						  url : `/admin/point/pointStandardManage/tab${tableId}/${code}`,
+						  url : `/admin/point/pointStandardManage/tab${tableId}/modify/${code}`,
 						  method : 'PUT',
 						  data : $('#modifyForm').serialize()			  
 					  })
 					  .done(function(response){
-						  alert(response.message);
-						  if (response.message === "수정이 완료되었습니다.") {
+						  alert(response);
+						  if (response === "수정이 완료되었습니다.") {
 				                window.location.href = "/admin/point/pointStandardManage";
 				            } 
 					  });
@@ -782,8 +773,73 @@
 			        alert("삭제할 기준을 선택해 주세요.");
 			    }else {
 					console.log("Sfds");
+					$('#deleteForm .deleteNum').text(`삭제할 기준은 총 ${checkNum}개 입니다.`);
+					
+					const requestData = $.ajax({
+		 		 	url: "/admin/point/returnSessionId",
+					method: 'GET'
+			 		});
+					requestData.done(function( response ) {
+						if(response){
+							const SID = response;
+							$('#deleteForm .adminId').val(SID);
+							}
+							
+						})
+						requestData.fail(function( jqXHR, textStatus ) {
+							alert( "Request failed: " + textStatus );
+						});
 					$('#modalDeleteBtn').modal('show');
 				}
+			});
+			
+			// 비밀번호 입력 확인 후 삭제 처리 (삭제 확인 버튼)
+			$('#deleteBtn').click(e => {
+			    let tableId = $('.tab-pane').attr('id');
+			    const checkedRow = $('.checks:checked').closest('td').next().next();
+			    const codeList = [];
+			    const adminId = $('#deleteForm .adminId').val();
+			    const insertAdminPw = $('#deleteForm .insertAdminPw').val();
+			    
+			    console.log(adminId);
+			    console.log(insertAdminPw);
+			
+			    // 삭제할 코드들 배열에 담기
+			    checkedRow.each((index, element) => {
+			        codeList.push($(element).text());
+			    });
+			console.log(codeList);
+			    const validateEle = $('#deleteForm div').find('select, input');
+			    let isSubmit = true;
+			    validateEle.each((idx, item) => {
+			        if (!validCheck(item)) {
+			            isSubmit = false;
+			            return false;
+			        }
+			    });
+			
+			    // 모든 유효성 검사 후 서버에 데이터 보내서 비밀번호 일치여부 확인하기
+			    if (isSubmit) {
+			        $.ajax({
+			            url: `/admin/point/pointStandardManage/tab${tableId}/delete`,
+			            method: 'DELETE',
+			            contentType: 'application/json',
+			            data: JSON.stringify({
+							            'adminId': adminId,
+							            'insertAdminPw': insertAdminPw,
+							            'codeList': codeList
+							        })
+			        })
+			        .done(function(response) {
+			            alert(response);
+			            if (response === "삭제가 완료되었습니다.") {
+			                window.location.href = "/admin/point/pointStandardManage";
+			            }
+			        })
+			        .fail(function(jqXHR, textStatus) {
+			            alert("Request failed: " + textStatus);
+			        });
+			    }
 			});
 			
 			// 모달 창에서 벗어나면 모든 경고문 지우기

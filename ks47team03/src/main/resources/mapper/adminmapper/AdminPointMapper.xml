@@ -6,9 +6,88 @@
 <!-- dao 작성 -->
 <!-- namespace : implememts와 같은 기능 -->
 <mapper namespace="ks47team03.admin.mapper.AdminPointMapper">
+
+	<delete id="deletePointTypeStandard" parameterType="List">
+		/* 5-5-2 포인트 타입 기준 삭제*/
+		DELETE
+			PT
+		FROM
+			point_save_use_type AS PT
+			LEFT JOIN
+			point_refund_standard AS PR
+			ON
+			PT.point_save_use_type_code = PR.point_save_use_type_code
+		WHERE
+			PT.point_save_use_type_code
+		IN
+		<foreach collection="list" item="code" index="i" open="(" separator="," close=")">
+      		#{code}
+    	</foreach>		
+	</delete>
 	
-	<delete id="delPointMaxCountStandard" parameterType="String">
+	<delete id="deletePointRefundStandardByType" parameterType="List">
+		/* 5-5-1 포인트 타입을 참조하는 포인트 환급 기준 삭제*/
+		DELETE
+		FROM
+			point_refund_standard
+		WHERE
+			point_save_use_type_code
+		IN
+		<foreach collection="list" item="code" index="i" open="(" separator="," close=")">
+      		#{code}
+    	</foreach>
+	</delete>
+	
+	<delete id="deletePointRefundStandard" parameterType="List">
+		/* 4-5 포인트 환급 기준 삭제*/
+		DELETE 
+		FROM
+			point_refund_standard
+		WHERE 
+			point_refund_standard_code 
+		IN 
+		<foreach collection="list" item="code" index="i" open="(" separator="," close=")">
+      		#{code}
+    	</foreach>
+	</delete>
+	
+	<delete id="deletePointSaveStandard" parameterType="List">
+		/* 3-5 포인트 적립 기준 삭제*/
+		DELETE 
+		FROM
+			point_save_standard
+		WHERE 
+			point_save_standard_code 
+		IN 
+		<foreach collection="list" item="code" index="i" open="(" separator="," close=")">
+      		#{code}
+    	</foreach>
+	</delete>
+	
+	<delete id="deletePointExpireStandard" parameterType="List">
+		/* 2-5 포인트 만료 기간 기준  삭제*/
+		DELETE 
+		FROM
+			point_expire_standard
+		WHERE 
+			point_expire_standard_code 
+		IN 
+		<foreach collection="list" item="code" index="i" open="(" separator="," close=")">
+      		#{code}
+    	</foreach>
+	</delete>
+	
+	<delete id="deletePointMaxStandard" parameterType="AdminPoint">
 		/* 1-5 하루 최대 적립 포인트 횟수 기준 삭제 */
+		DELETE 
+		FROM
+			day_maximum_count
+		WHERE 
+			day_maximum_count_code 
+		IN 
+		<foreach collection="list" item="code" index="i" open="(" separator="," close=")">
+      		#{code}
+    	</foreach>
 	</delete>
 	
 	<update id="modifyPointTypeStandard" parameterType="AdminPoint">
@@ -20,7 +99,7 @@
 			admin_id = #{adminId},
 			up_datetime = CURDATE()		
 		WHERE
-			point_save_use_type = #{pointSaveUseTypeCode}
+			point_save_use_type_code = #{pointSaveUseTypeCode}
 	</update>
 	
 	<update id="modifyPointRefundStandard" parameterType="AdminPoint">
@@ -35,7 +114,7 @@
 			admin_id = #{adminId},
 			up_datetime = CURDATE()		
 		WHERE
-			point_refund_standard = #{pointRefundStandardCode}
+			point_refund_standard_code = #{pointRefundStandardCode}
 	</update>
 	
 	<update id="modifyPointSaveStandard" parameterType="AdminPoint">
@@ -48,7 +127,7 @@
 			admin_id = #{adminId},
 			up_datetime = CURDATE()		
 		WHERE
-			point_save_standard = #{pointSaveStandardCode}
+			point_save_standard_code = #{pointSaveStandardCode}
 	</update>
 	
 	<update id="modifyPointExpireStandard" parameterType="AdminPoint">

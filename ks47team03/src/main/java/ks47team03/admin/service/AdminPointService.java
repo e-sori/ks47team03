@@ -20,6 +20,31 @@ public class AdminPointService {
 	private final AdminPointMapper adminPointMapper;
 	private final AdminCommonMapper adminCommonMapper;
 	
+	// 포인트 관련 기준 삭제 (5. 포인트 타입)
+    public void deletePointTypeStandard(List<String> codeList) {
+        adminPointMapper.deletePointTypeStandard(codeList);
+    }
+    
+    // 포인트 관련 기준 삭제 (4. 포인트 환급 기준)
+    public void deletePointRefundStandard(List<String> codeList) {
+        adminPointMapper.deletePointRefundStandard(codeList);
+    }
+    
+    // 포인트 관련 기준 삭제 (3. 포인트 적립 기준)
+    public void deletePointSaveStandard(List<String> codeList) {
+        adminPointMapper.deletePointSaveStandard(codeList);
+    }
+    
+    // 포인트 관련 기준 삭제 (2. 포인트 만료 기간 기준)
+    public void deletePointExpireStandard(List<String> codeList) {
+        adminPointMapper.deletePointExpireStandard(codeList);
+    }
+	
+	// 포인트 관련 기준 삭제 (1. 하루 최대 적립 포인트 횟수 기준)
+	public void deletePointMaxStandard(List<String> codeList) {
+	    adminPointMapper.deletePointMaxStandard(codeList);
+	}
+	
 	// 포인트 관련 기준 수정 (5. 포인트 타입)
     public void modifyPointTypeStandard(AdminPoint adminPoint) {
         adminPointMapper.modifyPointTypeStandard(adminPoint);
@@ -53,8 +78,6 @@ public class AdminPointService {
         for(Map<String, Object> type : pointTypeStandardResultMap) {
             pointTypeGroup.add((String) type.get("포인트 타입"));
         }
-        
-        log.info("asfdasfasfasdf:{}",pointTypeGroup);
         
         return pointTypeGroup;
 	}
@@ -108,6 +131,21 @@ public class AdminPointService {
     public void addPointMaxStandard(AdminPoint adminPoint) {
        adminPointMapper.addPointMaxCountStandard(adminPoint);
     };
+    
+    // 관리자 비밀번호 일치 검사
+    public int checkPw (String insertAdminPw, String adminPw) {
+        final int PWCORRESPOND = 1;
+        final int PWNOTCORRESPOND = 2;
+        
+        int checkPwResult = 0;
+        
+        if(insertAdminPw.equals(adminPw)) {
+            checkPwResult = PWCORRESPOND;
+        }else {
+            checkPwResult = PWNOTCORRESPOND;
+        }   
+        return checkPwResult;
+    }
 	
 	// 새로운 코드 가져오기
     public String getIncreaseCode(String tableDbName) {                      
