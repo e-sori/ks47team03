@@ -10,6 +10,20 @@ import ks47team03.admin.dto.AdminPoint;
 
 @Mapper
 public interface AdminPointMapper {
+    /* 5-5 포인트 타입 기준 삭제*/
+    public void deletePointTypeStandard(List<String> codeList);
+    
+    /* 4-5 포인트 환급 기준 삭제*/
+    public void deletePointRefundStandard(List<String> codeList);
+    
+    /* 3-5 포인트 적립 기준 삭제*/
+    public void deletePointSaveStandard(List<String> codeList);
+    
+    /* 2-5 포인트 만료 기간 기준  삭제*/
+    public void deletePointExpireStandard(List<String> codeList);
+    
+    /* 1-5 하루 최대 적립 포인트 횟수 기준 삭제*/
+    public void deletePointMaxStandard(List<String> codeList);
     
     /* 5-4 포인트 타입 기준 수정*/
     public void modifyPointTypeStandard(AdminPoint adminPoint);
