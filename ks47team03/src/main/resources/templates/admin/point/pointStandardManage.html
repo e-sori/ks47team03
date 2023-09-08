@@ -680,7 +680,6 @@
 						dataType: 'json'											
 					});					
 					requestData.done(function(response){
-						const adminPw = response.adminPw;
 						$('#modifyForm  .insertAdminId').val(response.adminId);	
 						
 						switch(tableId){
