@@ -13,6 +13,9 @@ public interface AdminPointMapper {
     /* 5-5 포인트 타입 기준 삭제*/
     public void deletePointTypeStandard(List<String> codeList);
     
+    /* 5-5-1 포인트 타입을 참조하는 포인트 환급 기준 삭제*/
+    public void deletePointRefundStandardByType(List<String> codeList);
+    
     /* 4-5 포인트 환급 기준 삭제*/
     public void deletePointRefundStandard(List<String> codeList);
     
