@@ -32,6 +32,7 @@ public class AdminPoint {
     private List<String> pointTypeGroup;
       
     private String codeUse;
+    private List<String> codeList;
     private String adminId;
     private LocalDate setDatetime;
     private LocalDate upDatetime;
