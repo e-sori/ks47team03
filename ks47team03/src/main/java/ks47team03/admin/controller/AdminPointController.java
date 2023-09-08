@@ -400,7 +400,6 @@ public class AdminPointController {
         
 	    AdminPoint getPointStandardDetail = adminPointService.getPointMaxStandardDetail(code);
         getPointStandardDetail.setAdminId(SID);
-        log.info("sfdsfsdfsdfsdf:{}",getPointStandardDetail);
 
         return getPointStandardDetail;
 	}
