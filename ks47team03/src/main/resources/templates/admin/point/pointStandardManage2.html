@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{admin/layout/default}">
+	  	  
+	<th:block layout:fragment="customContents">
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-12">
+					<h2 class="mb-2 page-title">포인트 관련 기준 관리</h2>
+					<div class="row my-4">
+						<div class="col-md-12 table-margin-bottom">
+							<div class="card shadow">
+								<div class="card-body">               
+									<!-- tab 버튼 시작 -->
+									<ul class="nav nav-pills nav-fill mb-3 bottom-border" id="pills-tab" role="tablist">
+									    <li class="nav-item">
+									      <a class="nav-link nav-tab active" id="Max-tab" data-toggle="pill" href="#Max" role="tab" aria-controls="Max" aria-selected="true">하루 최대 적립 포인트 횟수 기준</a>
+									    </li>
+									    <li class="nav-item">
+									      <a class="nav-link nav-tab" id="Expire-tab" data-toggle="pill" href="#Expire" role="tab" aria-controls="Expire" aria-selected="false">포인트 유효 기간 기준</a>
+									    </li>
+									    <li class="nav-item">
+									      <a class="nav-link nav-tab" id="Type-tab" data-toggle="pill" href="#Type" role="tab" aria-controls="Type" aria-selected="false">포인트 타입</a>
+									    </li>
+									    <li class="nav-item">
+									      <a class="nav-link nav-tab" id="Save-tab" data-toggle="pill" href="#Save" role="tab" aria-controls="Save" aria-selected="false">포인트 적립 기준</a>
+									    </li>
+									    <li class="nav-item">
+									      <a class="nav-link nav-tab" id="Refund-tab" data-toggle="pill" href="#Refund" role="tab" aria-controls="Refund" aria-selected="false">포인트 환급 기준</a>
+									    </li>
+									</ul>
+									<!-- tab 버튼 끝 -->
+									<div class="tab-content mb-1" id="tabContent">	                 
+										<div class="tab-pane fade show active" id="Max" role="tabpanel" aria-labelledby="Max-tab"> 
+											<h5 class="mb-2 page-small-title">하루 최대 적립 포인트 횟수 기준</h5>
+											<p class="card-small-text" th:attr="isCodeUse = 'false'" th:if="${useMaxCount} == -1"> 사용중인 하루에 적립 가능한 포인트 횟수가 존재하지 않습니다.</p>
+											<p class="card-small-text"  th:attr="isCodeUse = 'true'" th:unless="${useMaxCount} == -1" > 하루에 적립 가능한 포인트 횟수는 최대 [[${useMaxCount}]]번입니다.</p>
+											<!-- 포인트 기준 테이블 시작 -->
+											<table class="table datatables dataTable no-footer table-hover" id="pointStandardManage">
+												<thead>
+													<tr>
+														<th>
+															<input type="checkbox" class="custom-control custom-checkbox checkbox allCheck">
+														</th>
+									                    <th>No.</th>
+									                    <th>횟수 기준 코드</th>
+									                    <th>적립 가능 횟수</th>
+									                    <th>코드 사용 유무</th>
+									                    <th>최초 등록일</th>
+									                    <th>관리자 ID</th>
+									                    <th>최종 수정일</th>
+					                  				</tr>
+					               			 	</thead>
+												<tbody>
+										        	<th:block 	th:unless="${#lists.isEmpty(pointStandardList)}"
+										                		th:each ="p , state: ${pointStandardList}">
+														<tr> 
+															<td>
+																<input type="checkbox" class="custom-control custom-checkbox checkbox checks">
+															</td>
+															<td th:text="${p.No}"></td>
+															<td th:text="${p.dayMaximumCountCode}"></td>
+															<td th:text="${p.useMaximumCount}"></td>
+															<td th:text="${p.codeUse}"></td>
+															<td th:text="${p.setDatetime}"></td>
+															<td th:text="${p.adminId}"></td>
+															<td th:text="${p.upDatetime}"></td>
+														</tr>  
+													</th:block>                
+												</tbody> 
+											</table> 
+											<!-- 포인트 기준 테이블 끝 -->  
+											<!-- 등록버튼 -->
+											<div class="colSpan-left">
+												<button type="button" class="btn mb-2 btn-secondary modalInsert" data-toggle="modal" data-target="#modalInsertBtn">등록</button>
+												<div class="modal fade" id="modalInsertBtn" tabindex="-1" role="dialog" aria-labelledby="modalInsertLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="modalInsertLabel">하루 최대 적립 포인트 횟수 기준 등록</h5>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																<form id="insertForm" method="Post">
+																	<div class="form-group">
+																		<label for="insertCode" class="col-form-label">횟수 기준 코드</label>
+																		<input type="text" class="insertCode form-control" name="newCode" readonly="readonly">
+																	</div>
+																	<div class="form-group">
+																		<label for="insertMaxCount" class="col-form-label">적립 가능 횟수</label>
+																		<input type="text" class="insertMaxCount form-control" name="useMaximumCount">
+																	</div>
+																	<div class="form-group">
+																		<label for="insertCodeUse" class="col-form-label">코드 사용 유무</label>
+																		<select class="insertCodeUse form-control" name="codeUse" >
+																			  	<option value="Y">사용 중</option>
+																			  	<option value="N">사용 중지</option>
+																		</select>
+																	</div>
+																	<div class="form-group">
+																		<label for="insertAdminId" class="col-form-label">관리자 ID</label>
+																		<input type="text" class="insertAdminId form-control" name="adminId" readonly="readonly">
+																	</div>
+																	<div class="form-group">
+																		<label for="insertAdminPw" class="col-form-label">비밀번호</label>
+																		<input type="password" class="insertAdminPw form-control" name="insertAdminPw">
+																	</div>
+																	<div class="modal-footer">
+																		<button type="button" class="btn mb-2 btn-secondary resetBtn">입력 취소</button>
+																		<button type="button" class="btn mb-2 btn-secondary" id="insertBtn">등록 확인</button>																								
+																	</div>
+																</form>
+															</div>
+															
+														</div>
+													</div>
+												</div>
+												<!-- 수정 버튼 -->
+												<button type="button" class="btn mb-2 btn-secondary modalModify">수정</button>
+	           									<div class="modal fade" id="modalModifyBtn" tabindex="-1" role="dialog" aria-labelledby="modalModifyLabel" aria-hidden="true">
+		              								<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="modalModifyLabel" >하루 최대 적립 포인트 횟수 기준 수정</h5>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															    	<span aria-hidden="true">&times;</span>
+															  	</button>
+					                 						</div>
+					                 						<div class="modal-body">
+																<form id="modifyForm"  method="Post">
+																	<div class="form-group">
+																		<label for="insertCode" class="col-form-label">횟수 기준 코드</label>
+																		<input type="text" class="insertCode form-control" name="dayMaximumCountCode" readonly="readonly">
+																	</div>
+																	<div class="form-group">
+																		<label for="insertMaxCount" class="col-form-label">적립 가능 횟수</label>
+																		<input type="text" class="insertMaxCount form-control" name="useMaximumCount">
+																	</div>
+																	<div class="form-group">
+																		<label for="insertCodeUse" class="col-form-label">코드 사용 유무</label>
+																		<select class="insertCodeUse form-control" name="codeUse">
+																			  	<option value="Y">사용 중</option>
+																			  	<option value="N">사용 중지</option>
+																		</select>
+																	</div>
+																	<div class="form-group">
+																		<label for="insertAdminId" class="col-form-label">관리자 ID</label>
+																		<input type="text" class="insertAdminId form-control" name="adminId" readonly="readonly">
+																	</div>
+																	<div class="form-group">
+																		<label for="insertAdminPw" class="col-form-label">비밀번호</label>
+																		<input type="password" class="insertAdminPw form-control" name="insertAdminPw">
+																	</div>
+																	<div class="modal-footer">
+																		<button type="button" class="btn mb-2 btn-secondary resetBtn">입력 취소</button>
+																		<button type="button" class="btn mb-2 btn-secondary" id="modifyBtn" >수정 확인</button>
+																	</div>
+																</form>
+															</div>
+														</div>
+				              						</div>
+				           						</div>
+												<!-- 삭제 버튼 -->
+												<button type="button" class="btn mb-2 btn-secondary modalDelete">삭제</button>
+												<div class="modal fade" id="modalDeleteBtn" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel" aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h5 class="modal-title" id="modalDeleteLabel">하루 최대 적립 포인트 횟수 기준 삭제</h5>
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+															</div>
+															<div class="modal-body">
+																<form id="deleteForm">
+																	<div class="form-group">
+																		<label for="adminId" class="col-form-label">관리자 ID</label>
+																		<input type="text" class="adminId form-control" name="adminId" readonly="readonly">
+																	</div>
+																	<div class="form-group">
+																		<label for="insertAdminPw" class="col-form-label">비밀번호</label>
+																		<input type="password" class="insertAdminPw form-control" name="insertAdminPw">
+																	</div>
+																	<div class="form-group">
+																		<p class="deleteNum col-form-label"></p>
+																	</div>
+																	<div class="modal-footer">
+																		<button type="button" class="btn mb-2 btn-secondary resetBtn">입력 취소</button>
+																		<button type="button" class="btn mb-2 btn-secondary" id="deleteBtn">삭제 확인</button>
+																	</div>	
+																</form>
+															</div>
+														</div>
+													</div>  
+												</div>      
+											</div>                 
+										</div>
+									</div>		             
+								</div>
+							</div>
+						</div>
+					</div> 
+				</div>
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:inline="javascript">
+			
+			let message = '[[${message}]]';
+			console.log(message);
+			if(message != 'null') alert(message);
+			
+			
+			// 데이터 테이블 설정
+			$(function(){
+				$('#pointStandardManage').each(function() {
+					const table = $(this);
+				    table.DataTable({
+					    autoWidth : true,
+					    lengthChange : false, 
+					    pageLength : 10,
+					    searching : false,
+					    info : false,
+					    pagingType : "full_numbers",
+					    columnDefs: [{
+							targets: 0,
+							searchable: false,
+							orderable: false
+	
+					    }]
+					});
+				});
+				$('#pointStandardManage').find('.sorting_asc').toggleClass('sorting_asc');
+			});		
+			
+			const pointTypeGroup = [];
+			let isCodeUse = $('.card-small-text').attr('isCodeUse');
+			let firstValue;
+			let firstCodeValue = 'N';
+			
+			// 유효성 검사 함수
+			const validCheck = element => {
+			let data = $(element).val();
+			let eleId = $(element).attr('class').split(' ')[0];
+			let tableId = $('.tab-pane').attr('id');
+			const formName = $(element).closest('form').attr('id');
+			
+			// input 태그 유효성 검사
+			if ($(element).is('input')){
+				if(typeof data == 'undefined' || data == null || data ==''){
+					if($(element).next().is('span')) $(element).next().remove();
+					$(element).after(`<span class="validCheck">* 필수 입력 항목입니다.</span>`);
+					
+					$(element).focus();
+					
+					return false;
+				}else{
+					// 숫자만 입력 가능한 폼					
+					const intTypes = ['insertMaxCount', 'InsertExpirePeriod', 'insertGradePoint', 'insertUsePoint', 
+					                  'insertMinRefundPoint', 'insertRefundUnit', 'insertRefundFeeRate'];
+					
+					if (intTypes.includes(eleId) && isNaN(data)) {
+						if($(element).next().is('span')) $(element).next().remove();
+						$(element).after(`<span class="validCheck">* 숫자만 입력 가능합니다.</span>`);
+					
+					    $(element).focus();
+					    
+					    return false;
+					}			
+					// 포인트 타입 테이블인 경우 이미 존재하는 타입은 등록할 수 없게 한다.
+					if (tableId === 'Type' && $(element).is(`#${formName} .insertPointType`)) {
+					    for(let pointType of pointTypeGroup){
+				    		if(pointType == $(element).val() && firstValue != $(element).val()){
+				    			if($(element).next().is('span')) $(element).next().remove();
+					            $(element).after(`<span class="validCheck">* 이미 존재하는 포인트 타입입니다.</span>`);
+					            
+					            $(element).focus();
+						           
+					            return false;
+				    		}
+					    }							
+					}
+				}
+			// select 태그 이미 사용 가능한 기준이 존재하는지 체크
+			}else if($(element).is('select')){		
+			    if (tableId === 'Max' || tableId === 'Expire') {								
+					console.log(isCodeUse);			
+			        if ($(`#${formName} select`).val() === 'Y' && isCodeUse && firstCodeValue != 'Y') {
+			        	if($(element).next().is('span')) $(element).next().remove();
+			            $(element).after(`<span class="validCheck">* 이미 사용중인 기준이 존재합니다.</span>`);
+			            
+			            $(element).focus();
+			           
+			            return false;
+			        }
+			    }// 환급 기준 테이블인 경우 이미 사용중인 기준이 존재하는 타입은 기준을 등록할 수 없게 한다.
+				else if (tableId === 'Refund' && $(element).is(`#${formName} .insertPointType`) && formName == 'insertForm') {
+					const pointType = $(`#${formName} .insertPointType`).val();
+				    let $trArr = $('tr');
+				    for(let tr of $trArr){
+			    		if($(tr).find('td').eq(3).text() == pointType && 
+			    				$(tr).find('td').eq(7).text() == '사용중' &&
+			    				$('.insertCodeUse').val() == 'Y')
+			    		{
+			    			if($(element).next().is('span')) $(element).next().remove();
+				            $(element).after(`<span class="validCheck">* 이미 ${pointType}의 사용중인 기준이 존재합니다.</span>`);								           
+				            
+				            $(element).focus();
+				            
+				            return false;
+			    		}
+				    }									        
+				}//적립 기준 테이블인 경우 이미 사용중인 기준이 존재하는 등급은 등록할 수 없게 한다.
+				else if (tableId === 'Save' && $(element).is(`#${formName} .insertGradeName`) && formName == 'insertForm') {
+					const gradeName = $(`#${formName} .insertGradeName`).val();
+				    let $trArr = $('tr');
+				    for(let tr of $trArr){
+			    		if($(tr).find('td').eq(3).text() == gradeName && 
+			    				$(tr).find('td').eq(6).text() == '사용중' &&
+			    				$('.insertCodeUse').val() == 'Y')
+			    		{
+			    			if($(element).next().is('span')) $(element).next().remove();
+				            $(element).after(`<span class="validCheck">* 이미 ${gradeName}의 사용중인 기준이 존재합니다.</span>`);								           
+				            
+				            $(element).focus();
+				            
+				            return false;
+			    		}
+				    }									        
+				}
+			}				
+			  if($(element).next().is('span')) $(element).next().remove(); 
+			  return true;
+		}						
+
+		
+			// ajax와 제이쿼리로 데이터테이블 동적으로 수정
+			$(document).on('click', '.nav-tab', e => {	
+				// 다른 탭으로 이동할때 체크박스 상태 초기화
+				 $('.checkbox').prop('checked', false);       
+				
+				let tableId = $(e.target).attr('aria-controls');  
+				
+				// 클릭한 탭으로 속성 변경
+		        $('.tab-pane').attr('id', tableId).attr('aria-labelledby', `${tableId}-tab`);
+		        $('#pills-tab').find('.active').toggleClass('active');
+		        $(e.target).toggleClass('active');
+		        
+				const requestData = $.ajax({
+		 		 	url: `/admin/point/pointStandardManage/tab${tableId}`,
+					method: 'GET',
+					dataType: 'json'
+		 		});
+				requestData.done(function( response ) {
+					if(response){
+						let pointStandardList = response.pointStandardList;										
+						
+				        // key(title) : <th> , value(data) : <td>에 담아주기 위해 배열 선언 
+				        const newData = [
+				        	 { 
+				        	        data: null, 
+				        	        defaultContent: '<input type="checkbox" class="custom-control custom-checkbox checkbox checks">', 
+				        	        orderable: false, 
+				        	        searchable: false,
+				        	        targets: 0 
+				        	    }
+				        ];				        
+				        
+				        const labels = {
+				        	    No : "No",
+				        	    dayMaximumCountCode : "횟수 기준 코드",
+				        	    useMaximumCount : "적립 가능 횟수",
+				        	    codeUse : "코드 사용 유무",
+				        	    setDateTime : "최초 등록일",
+				        	    adminId : "관리자 ID",
+				        	    upDatetime : "최종 수정일",				      	    
+				        };        
+
+				        // response : 배열 , list : 객체 (배열 안에 객체 여러 개가 존재하는 형태)
+				        for (let obj of pointStandardList){
+				        	for(let key in obj){
+				        		if(tableId == 'Max'){
+				        			newData.push({
+				        				title: labels[key] || key, 
+					                    data: key
+						            });				        			
+				        		}else{
+				        			newData.push({
+						                title: key,  // key 자체를 문자열로 컬럼에 넣어줄 예정
+						                data: key  // key와 일치하는 value를 행으로 넣어줄 예정 (data의 키)
+						            });				        			
+				        		}				        		
+				        	}
+				        	break; // 어차피 컬럼은 객체 하나만 돌아도 되기 때문에 한 번만 돌고 반복문을 끝내준다.
+				        }
+				        				       
+						// 데이터 테이블 파괴
+						$('#pointStandardManage').DataTable().destroy();
+						
+						// thead의 th와 tbody의 td 비우기
+						$('thead tr th:not(:first-child)').remove();
+						$('tbody').remove();
+						
+				        const newDataNum = newData.length-1; 
+				        for(let i = 0 ; i < newDataNum ; i += 1) {
+				        	$('thead tr').append('<th></th>');			        	
+				        }
+												
+						// 위에서 담아준 배열을 이용해서 새로운 데이터테이블 생성
+						$('#pointStandardManage').each(function() {
+							const table = $(this);
+						    table.DataTable({
+							    autoWidth : true,
+							    lengthChange : false, 
+							    pageLength : 10,
+							    searching : false,
+							    info : false,
+							    pagingType : "full_numbers",
+							    columnDefs: [{
+									targets: 0,
+									searchable: false,
+									orderable: false,
+									className: 'sorting_disabled'
+							    }],
+							    data: pointStandardList,
+					            columns: newData
+							});
+						});
+						$('#pointStandardManage').find('.sorting_asc').toggleClass('sorting_asc');
+						
+						// 컬럼 개수 - 7 만큼 form-group 추가
+						const formGroupDivNum = newData.length - 7;
+						const $addDiv = `<div class="form-group"></div>`
+						
+						const $formGroups = $('#insertForm').find('.form-group');
+						$formGroups.each(function(index) {
+						  if (index >= 1 && index < $formGroups.length - 3) {
+						    $(this).remove();
+						  }
+						});
+						
+						for(let num = 0; num < formGroupDivNum; num += 1){
+							$('.form-group').eq(0).after($addDiv);
+						}
+						
+						// 테이블 헤더 변경, 모달 변경		
+						let isTrue = false;
+								
+						switch(tableId){
+						case 'Expire':
+							let pointExpire;
+							for(let list of pointStandardList){
+								if(list['코드 사용 유무'] == '사용중') {
+									pointExpire = list['유효 기간'];
+									isTrue = true;
+									isCodeUse = true;
+								}
+							}
+							
+							$('.page-small-title').text('포인트 유효 기간 기준');
+							$('.card-small-text').text(`포인트 유효 기간은 ${pointExpire}년입니다.`);
+							
+							if(!isTrue) {
+							    $('.card-small-text').text("사용중인 포인트 유효 기간 기준이 존재하지 않습니다.");	
+							}		
+							
+							$('label[for="insertCode"]').text('유효 기간 코드');
+							$('.modal-header').find('#modalInsertLabel').text('포인트 유효 기간 기준 등록');
+							$('.modal-header').find('#modalModifyLabel').text('포인트 유효 기간 기준 수정');
+							$('.modal-header').find('#modalDeleteLabel').text('포인트 유효 기간 기준 삭제');
+							
+							let $addExpireFirst = `<label for="InsertExpirePeriod" class="col-form-label">유효 기간</label>`
+							$addExpireFirst += `<input type="text" class="InsertExpirePeriod form-control" name="pointExpire">`
+					
+							$('.form-group').eq(1).append($addExpireFirst);
+							
+							break;
+						case 'Type':
+							for(let list of pointStandardList){
+								pointTypeGroup.push(list['포인트 타입']);
+							}
+							$('.page-small-title').text('포인트 타입');
+							$('.card-small-text').text('포인트 타입입니다.');
+							console.log(pointStandardList);
+							
+							$('label[for="insertCode"]').text('포인트 타입 코드');
+							$('.modal-header').find('#modalInsertLabel').text('포인트 타입 등록');
+							$('.modal-header').find('#modalModifyLabel').text('포인트 타입 수정');
+							$('.modal-header').find('#modalDeleteLabel').text('포인트 타입 삭제');
+							
+							let $addTypeFirst = `<label for="insertPointSaveUseType" class="col-form-label">포인트 타입</label>`
+							$addTypeFirst += `<input type="text" class="insertPointType form-control" name="pointSaveUseType">`
+							
+							$('.form-group').eq(1).append($addTypeFirst);
+							
+							break;
+						case 'Save':
+							const gradeList = response.gradeList;
+							$('.page-small-title').text('포인트 적립 기준'); 
+							$('.card-small-text').text('포인트 적립 기준입니다.');
+							
+							$('label[for="insertCode"]').text('포인트 적립 기준 코드');							
+							$('.modal-header').find('#modalInsertLabel').text('포인트 적립 기준 등록');
+							$('.modal-header').find('#modalModifyLabel').text('포인트 적립 기준 수정');
+							$('.modal-header').find('#modalDeleteLabel').text('포인트 적립 기준 삭제');
+							
+							let $addSaveFirst = `<label for="insertGradeName" class="col-form-label">등급 이름</label>`
+								$addSaveFirst += `<select class="insertGradeName form-control" name="gradeName">`
+								for (let list of gradeList) {
+									$addSaveFirst += `<option value="${list.gradeName}">${list.gradeName}</option>`;
+								}
+								$addSaveFirst += `</select>` 							
+							let $addSaveSecond = `<label for="insertGradePoint" class="col-form-label">등급 달성 포인트</label>`
+							$addSaveSecond += `<input type="text" class="insertGradePoint form-control" name="gradeAttainPoint">`
+							let $addSaveThird = `<label for="insertUsePoint" class="col-form-label">이용 포인트</label>`
+							$addSaveThird += `<input type="text" class="insertUsePoint form-control" name="useSavePoint">`							
+							
+							$('.form-group').eq(1).append($addSaveFirst);
+							$('.form-group').eq(2).append($addSaveSecond);
+							$('.form-group').eq(3).append($addSaveThird);
+							
+							break;
+						case 'Refund':
+							let pointTypeList = response.pointTypeList;		
+							
+							$('.page-small-title').text('포인트 환급 기준');
+							$('.card-small-text').text('포인트 환급 기준입니다.');
+							
+							$('label[for="insertCode"]').text('포인트 환급 기준 코드');
+							$('.modal-header').find('#modalInsertLabel').text('포인트 환급 기준 등록');
+							$('.modal-header').find('#modalModifyLabel').text('포인트 환급 기준 수정');
+							$('.modal-header').find('#modalDeleteLabel').text('포인트 환급 기준 삭제');
+							
+							let $addRefundFirst = `<label for="insertPointType" class="col-form-label">포인트 타입</label>`
+							$addRefundFirst += `<select class="insertPointType form-control" name="pointSaveUseType">`
+							
+							for (let list of pointTypeList) {
+								if (list['코드 사용 유무'] === '사용중') {
+								  $addRefundFirst += `<option value="${list['포인트 타입']}">${list['포인트 타입']}</option>`;
+								}
+							}
+							$addRefundFirst += `</select>` 	
+							  	
+							let $addRefundSecond = `<label for="insertMinRefundPoint" class="col-form-label">최소 환급 포인트</label>`
+							$addRefundSecond += `<input type="text" class="insertMinRefundPoint form-control" name="minimumRefundStandard">`	
+							let $addRefundThird = `<label for="insertRefundUnit" class="col-form-label">환급 단위</label>`
+							$addRefundThird += `<input type="text" class="insertRefundUnit form-control" name="refundUnit">`	
+							let $addRefundFourth = `<label for="insertRefundFeeRate" class="col-form-label">환급 수수료</label>`
+							$addRefundFourth += `<input type="text" class="insertRefundFeeRate form-control" name="refundFeeRate">`
+							
+							$('.form-group').eq(1).append($addRefundFirst);
+							$('.form-group').eq(2).append($addRefundSecond);
+							$('.form-group').eq(3).append($addRefundThird);
+							$('.form-group').eq(4).append($addRefundFourth);
+							
+							break;
+						case 'Max':
+							let useMaxCount;
+							for(let list of pointStandardList){
+								if(list['codeUse'] == '사용중') {
+									useMaxCount = list['useMaximumCount'];
+									isTrue = true;
+									isCodeUse = true;
+								}
+							}
+							$('.page-small-title').text('하루 최대 적립 포인트 횟수 기준');
+							$('.card-small-text').text(`하루에 적립 가능한 포인트 횟수는 최대 ${useMaxCount}번입니다.`);	
+							
+							if(!isTrue) {
+							    $('.card-small-text').text("사용중인 하루에 적립 가능한 포인트 횟수가 존재하지 않습니다.");	
+							}		
+							
+							$('label[for="insertCode"]').text('횟수 기준 코드');
+							$('.modal-header').find('#modalInsertLabel').text('하루 최대 적립 포인트 횟수 기준 등록');
+							$('.modal-header').find('#modalModifyLabel').text('하루 최대 적립 포인트 횟수 기준 수정');
+							$('.modal-header').find('#modalDeleteLabel').text('하루 최대 적립 포인트 횟수 기준 삭제');
+							
+							let $addMaxFirst = `<label for="insertMaxCount" class="col-form-label">적립 가능 횟수</label>`
+							$addMaxFirst += `<input type="text" class="insertMaxCount form-control" name="useMaximumCount">`
+					
+							$('.form-group').eq(1).append($addMaxFirst);
+							   
+							break;
+						}
+					
+						$('#modifyForm').children().not('.modal-footer').empty();					
+						const newModifyForm = $('#insertForm').children().not('.modal-footer').clone();						
+						$('#modifyForm .modal-footer').before(newModifyForm);
+					
+					}
+					requestData.fail(function( jqXHR, textStatus ) {
+						alert( "Request failed: " + textStatus );
+					});
+
+				});
+			});
+			
+			// 등록 버튼 이벤트 핸들러 (등록 모달에 값 넣기 / 등록 확인 버튼 x)
+			$('.modalInsert').click(e => {
+				let tableId = $('.tab-pane').attr('id');
+				firstValue = $(`#insertForm .insertPointType`).val();
+				const requestData = $.ajax({
+		 		 	url: `/admin/point/pointStandardManage/tab${tableId}/write`,
+					method: 'GET',
+					dataType: 'json'
+		 		});
+				requestData.done(function( response ) {
+					if(response){
+						const newCode = response.newPointStandardCode;
+						const SID = response.SID;
+						$('#insertForm .insertCode').val(newCode);
+						$('#insertForm .insertAdminId').val(SID);
+						}
+						
+					})
+					requestData.fail(function( jqXHR, textStatus ) {
+						alert( "Request failed: " + textStatus );
+					});
+			});
+			
+			// 유효성 검사 후 등록 처리 (등록 확인 버튼)
+			$('#insertBtn').click(e => {
+				let tableId = $('.tab-pane').attr('id');
+			    const validateEle = $('#insertForm div').find('select, input');
+			    let isSubmit = true;
+			    validateEle.each((idx, item) => {
+			        if (!validCheck(item)) {
+			            isSubmit = false;
+			            return false;
+			        }			        
+			    });
+			    
+			 
+			    
+			    // 모든 유효성 검사 후 서버에 데이터 보내서 비밀번호 일치여부 확인하기
+			  	if (isSubmit) {
+					  $.ajax({
+						  url : `/admin/point/pointStandardManage/tab${tableId}/write`,
+						  method : 'POST',
+						  data : $('#insertForm').serialize(),				  
+					  })
+					  .done(function(response){
+						  	alert(response);
+						  if (response === "등록이 완료되었습니다.") {
+				                window.location.href = "/admin/point/pointStandardManage";
+				            } 
+					  });
+				}
+			});
+				
+			// 체크박스 모두 선택 / 개별 선택
+			$(document).on('click', '.checkbox', e => {
+		        if ($(e.target).is($('.allCheck'))) {
+		          const isChecked = $(e.target).prop('checked');
+		          $('.checks').prop('checked', isChecked);
+		        }else if ($(e.target).is($('.checks'))) {
+		          if ($('.checks').length == $('.checks:checked').length) {
+		            $('.allCheck').prop('checked', true);
+		          } else $('.allCheck').prop('checked', false);
+		        }
+			});	
+			
+			// 수정 버튼 이벤트 핸들러 (수정 모달에 값 넣기 / 수정 확인 버튼 x)
+			$('.modalModify').click(e => {
+			    const checkNum = $('.checks:checked').length;
+			    if(checkNum == 0){
+			        alert("수정할 기준을 선택해 주세요.");
+			    } else if(checkNum >= 2 ){
+					alert("한 번에 하나의 기준만 수정 가능합니다.");
+				}else {
+					let tableId = $('.tab-pane').attr('id');
+					const code = $('.checks:checked').closest('tr').find('td').eq(2).text();
+					const requestData = $.ajax({
+						url : `/admin/point/pointStandardManage/tab${tableId}/modify/${code}`,
+						method : 'GET',
+						dataType: 'json'											
+					});					
+					requestData.done(function(response){
+						$('#modifyForm  .insertAdminId').val(response.adminId);	
+						
+						switch(tableId){
+							case "Max" : 
+								$('#modifyForm .insertCode').val(response.dayMaximumCountCode);	
+								$('#modifyForm .insertCode').attr('name','dayMaximumCountCode');					
+								$('#modifyForm  .insertMaxCount').val(response.useMaximumCount);							
+								$('#modifyForm  .insertCodeUse').val(response.codeUse);													
+															   
+								break;
+							case "Expire" :								
+								$('#modifyForm .insertCode').val(response.pointExpireStandardCode);
+								$('#modifyForm .insertCode').attr('name','pointExpireStandardCode');	
+								$('#modifyForm  .InsertExpirePeriod').val(response.pointExpire);							
+								$('#modifyForm  .insertCodeUse').val(response.codeUse);	
+								break;
+							case "Type":
+								response.pointTypeGroup.forEach(e => {
+									pointTypeGroup.push(e);
+								});
+								
+								$('#modifyForm .insertCode').val(response.pointSaveUseTypeCode);
+								$('#modifyForm .insertCode').attr('name','pointSaveUseTypeCode');	
+								$('#modifyForm  .insertPointType').val(response.pointSaveUseType);							
+								$('#modifyForm  .insertCodeUse').val(response.codeUse);	
+								
+								firstValue = $('#modifyForm  .insertPointType').val();
+								break;	
+							case "Save" : 
+								$('#modifyForm .insertCode').val(response.pointSaveStandardCode);
+								$('#modifyForm .insertCode').attr('name','pointSaveStandardCode');	
+								$('#modifyForm  .insertGradeName').val(response.gradeName).attr("disabled", true);							
+								$('#modifyForm  .insertGradePoint').val(response.gradeAttainPoint);							
+								$('#modifyForm  .insertUsePoint').val(response.useSavePoint);							
+								$('#modifyForm  .insertCodeUse').val(response.codeUse);	
+								break;
+							default : 
+								$('#modifyForm .insertCode').val(response.pointRefundStandardCode);
+								$('#modifyForm .insertCode').attr('name','pointRefundStandardCode');	
+								$('#modifyForm  .insertPointType').val(response.pointSaveUseType).attr("disabled", true);							
+								$('#modifyForm  .insertMinRefundPoint').val(response.minimumRefundStandard);							
+								$('#modifyForm  .insertRefundUnit').val(response.refundUnit);							
+								$('#modifyForm  .insertRefundFeeRate').val(response.refundFeeRate);							
+								$('#modifyForm  .insertCodeUse').val(response.codeUse);	
+								break;													
+						}
+						
+						$('#modalModifyBtn').modal('show');
+						firstCodeValue = $('#modifyForm  .insertCodeUse').val();
+					});					
+					requestData.fail(function( jqXHR, textStatus ) {
+						alert( "Request failed: " + textStatus );
+					});
+			    }
+			});
+			
+			// 유효성 검사 후 수정 처리 (수정 확인 버튼)
+			$('#modifyBtn').click(e => {
+				let tableId = $('.tab-pane').attr('id');
+				const code = $('.checks:checked').closest('tr').find('td').eq(2).text();
+			    const validateEle = $('#modifyForm div').find('select, input');
+			    let isSubmit = true;
+			    validateEle.each((idx, item) => {
+			        if (!validCheck(item)) {
+			            isSubmit = false;
+			            return false;
+			        }			        
+			    });
+			    
+			    // 모든 유효성 검사 후 서버에 데이터 보내서 비밀번호 일치여부 확인하기
+			  	if (isSubmit) {
+					  $.ajax({
+						  url : `/admin/point/pointStandardManage/tab${tableId}/modify/${code}`,
+						  method : 'PUT',
+						  data : $('#modifyForm').serialize()			  
+					  })
+					  .done(function(response){
+						  alert(response);
+						  if (response === "수정이 완료되었습니다.") {
+				                window.location.href = "/admin/point/pointStandardManage";
+				            } 
+					  });
+				}
+			});
+			
+			// 삭제 버튼 이벤트 핸들러 (삭제 모달에 값 넣기 / 삭제 확인 버튼 x)
+			$('.modalDelete').click(e => {
+			    const checkNum = $('.checks:checked').length;
+			    if(checkNum == 0){
+			        alert("삭제할 기준을 선택해 주세요.");
+			    }else {
+					console.log("Sfds");
+					$('#deleteForm .deleteNum').text(`삭제할 기준은 총 ${checkNum}개 입니다.`);
+					
+					const requestData = $.ajax({
+		 		 	url: "/admin/point/returnSessionId",
+					method: 'GET'
+			 		});
+					requestData.done(function( response ) {
+						if(response){
+							const SID = response;
+							$('#deleteForm .adminId').val(SID);
+							}
+							
+						})
+						requestData.fail(function( jqXHR, textStatus ) {
+							alert( "Request failed: " + textStatus );
+						});
+					$('#modalDeleteBtn').modal('show');
+				}
+			});
+			
+			// 비밀번호 입력 확인 후 삭제 처리 (삭제 확인 버튼)
+			$('#deleteBtn').click(e => {
+			    let tableId = $('.tab-pane').attr('id');
+			    const checkedRow = $('.checks:checked').closest('td').next().next();
+			    const codeList = [];
+			    const adminId = $('#deleteForm .adminId').val();
+			    const insertAdminPw = $('#deleteForm .insertAdminPw').val();
+			    
+			    console.log(adminId);
+			    console.log(insertAdminPw);
+			
+			    // 삭제할 코드들 배열에 담기
+			    checkedRow.each((index, element) => {
+			        codeList.push($(element).text());
+			    });
+			console.log(codeList);
+			    const validateEle = $('#deleteForm div').find('select, input');
+			    let isSubmit = true;
+			    validateEle.each((idx, item) => {
+			        if (!validCheck(item)) {
+			            isSubmit = false;
+			            return false;
+			        }
+			    });
+			
+			    // 모든 유효성 검사 후 서버에 데이터 보내서 비밀번호 일치여부 확인하기
+			    if (isSubmit) {
+			        $.ajax({
+			            url: `/admin/point/pointStandardManage/tab${tableId}/delete`,
+			            method: 'DELETE',
+			            contentType: 'application/json',
+			            data: JSON.stringify({
+							            'adminId': adminId,
+							            'insertAdminPw': insertAdminPw,
+							            'codeList': codeList
+							        })
+			        })
+			        .done(function(response) {
+			            alert(response);
+			            if (response === "삭제가 완료되었습니다.") {
+			                window.location.href = "/admin/point/pointStandardManage";
+			            }
+			        })
+			        .fail(function(jqXHR, textStatus) {
+			            alert("Request failed: " + textStatus);
+			        });
+			    }
+			});
+			
+			// 모달 창에서 벗어나면 모든 경고문 지우기
+			$('.modal').on('hidden.bs.modal', function () {
+			    $('form').find('span').remove();
+			});
+		
+			// 입력 취소 버튼 클릭 시 readonly 빼고 리셋하기
+			$('.resetBtn').click(e => {
+				$(e.target).closest('form').find('input:not([readonly])').val('');				
+			});
+
+			</script>
+	</th:block>
+</html>
