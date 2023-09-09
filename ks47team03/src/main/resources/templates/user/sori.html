@@ -3,94 +3,112 @@
 			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 			layout:decorate="~{user/layout/default}">
 <th:block layout:fragment="customContents">
-	<!-- ================ start banner area ================= -->
-	<section class="blog-banner-area" id="blog">
-		<div class="container h-100">
-			<img class="img-main" src="user/img/earthmain.jpg"
-					 onmouseover="this.src='user/img/earthmainhover.jpg'"
-					 onmouseout="this.src='user/img/earthmain.jpg'" alt="">
-		</div>
-	</section>
-	<!-- ================ end banner area ================= -->
 
 	<!--================ Main Area =================-->
 	<section class="section-margin calc-60px">
 		<div class="container container-body">
 			<div>
-				<h2>KSMART 47기 3팀 프로젝트 <span class="section-intro__style"> 이소리</span> 구현 기능입니다.</h2>
+				<h2>KSMART 47기 3팀 프로젝트 이소리 구현 기능입니다.</h2>
 				<div class="js-h-blank-20"></div>
-				<div class="card text-center card-product">
-					<div class="img-left">
-						<img src="user/img/member/member1.jpg" width="200px" height="200px" alt="">
-						<ul class="card-product__imgOverlay">
-							<li><a class="btn mb-2 btn-secondary" href="https://leeri-study.tistory.com/"
-										 target="_blank">블로그</a></li>
-							<li><a class="btn mb-2 btn-secondary" href="https://github.com/e-sori"
-										 target="_blank">깃허브</a></li>
-							<li><a class="btn mb-2 btn-secondary" href="https://github.com/e-sori/ks47team03"
-										 target="_blank">프로젝트깃허브</a></li>
-							<li><a class="btn mb-2 btn-secondary"
-										 href="https://obsidian-snowflake-b70.notion.site/I-love-IT-f1a3cc68dacd48f5992b69b38c20ec0b?pvs=4"
-										 target="_blank">노션</a></li>							
-						</ul>
+				<div class="card card-product">
+					<div class="sori_page_title">
+							<a class="btn mb-2 btn-secondary" href="https://leeri-study.tistory.com/"
+										 target="_blank">블로그</a>
+							<a class="btn mb-2 btn-secondary" href="https://github.com/e-sori"
+										 target="_blank">깃허브</a>
+										 <a class="btn mb-2 btn-secondary" href="https://github.com/e-sori/ks47team03"
+										 target="_blank">프로젝트깃허브</a>
+							<div>
+						<div class = "border-sori">각 기능 페이지를 이용하기 위해서는 권한이 필요합니다.</div>
+						<div style=" font-size: 18px;">권한 부여를 위해 권한을 선택해주세요.</h2>
 					</div>
-				</div>
+					<button type="button" class="btn mb-2 btn-secondary btn-margin" id="userBtn">사용자 권한</button>
+					<button type="button" class="btn mb-2 btn-secondary btn-margin" id="adminBtn">관리자 권한</button>
+					</div>
+					<div th:if="${session.SLEVEL != null}">현재 [[${SLEVEL}]] 권한으로 셋팅되어 있습니다.</div>
+					<div th:if="${session.SLEVEL != null}">[[${SLEVEL}]] 페이지 조회 가능합니다.</div>
 			</div>
 			<div class="js-h-blank-50"></div>
 			<div>
 				<p style="font-size: 30px; font-weight: bolder"><span class="fe fe-folder"></span> 사용자 페이지
 				</p>
+				<p>일반 사용자 권한이 있어야 조회 가능합니다.</p>
 			</div>
-			<div class="row">
-				<div class="card card-product js-project-box">
-					<img src="user/img/memberView/soriPointRefundApplyView.jpg" alt="">
-					<ul class="card-product__imgOverlay">
-						<li><a class="btn mb-2 btn-secondary" href="/point/myPointRefund" target="_blank">구현
-							페이지</a></li>
-						<li><a class="btn mb-2 btn-secondary"
-									 href="https://obsidian-snowflake-b70.notion.site/bc94b9bdf7ac494783f05a18cad87456?pvs=4"
-									 target="_blank">기능 소개</a></li>
-					</ul>
-				</div>
-				<div class="card card-product js-project-box">
-					<img src="user/img/memberView/soriPointRefundApplyView.jpg" alt="">
-					<ul class="card-product__imgOverlay">
-						<li><a class="btn mb-2 btn-secondary" href="/mypage/myCup" target="_blank">구현 페이지</a>
-						</li>
-						<li><a class="btn mb-2 btn-secondary"
-									 href="#"
-									 target="_blank">기능 소개</a></li>
-					</ul>
-				</div>
-				<div class="card card-product js-project-box">
-					<img src="user/img/memberView/soriPointRefundApplyView.jpg" alt="">
-					<ul class="card-product__imgOverlay">
-						<li><a class="btn mb-2 btn-secondary" href="/point/myPointSpon" target="_blank">구현
-							페이지</a></li>
-						<li><a class="btn mb-2 btn-secondary"
-									 href="#"
-									 target="_blank">기능 소개</a></li>
-					</ul>
-				</div>
+			<div style="display: flex;">
+				<span class="sori_page">
+						<div >
+							1. 포인트 환급
+						</div>
+						<a href="/point/myPointRefund" class="btn mb-2 btn-secondary btn-margin">구현 페이지</a>
+						<a href="https://obsidian-snowflake-b70.notion.site/bc94b9bdf7ac494783f05a18cad87456?pvs=4"
+									 target="_blank"class="btn mb-2 btn-secondary btn-margin" id="adminBtn">기능 소개</a>
+				</span>
+				<span  class="sori_page">
+						<div>
+							2. 포인트 후원
+						</div>
+						<a href="/point/myPointRefund" class="btn mb-2 btn-secondary btn-margin">구현 페이지</a>
+				</span>
+				<span class="sori_page">
+						<div>
+							3. 컵 대여/반납 내역
+						</div>
+						<a href="/mypage/myCup" class="btn mb-2 btn-secondary btn-margin" id="userBtn">구현 페이지</a>
+				</span>
+				<span class="sori_page">
+						<div>
+							4. 컵 대여/반납 바코드(모의 페이지)
+						</div>
+						<a href="/mypage/myBarcode" class="btn mb-2 btn-secondary btn-margin" id="userBtn">구현 페이지</a>
+				</span>				
 			</div>
 			<div class="js-h-blank-50"></div>
 			<div>
 				<p style="font-size: 30px; font-weight: bolder"><span class="fe fe-folder"></span> 관리자 페이지
 				</p>
+				<p>관리자 권한이 있어야 조회 가능합니다.</p>
 			</div>
-			<div class="row">
-				<div class="card card-product js-project-box">
-					<img src="user/img/memberView/soriPointStandardManageView.jpg" alt="">
-					<ul class="card-product__imgOverlay">
-						<li><a class="btn mb-2 btn-secondary" href="/admin/point/pointStandardManage"
-									 target="_blank">구현 페이지</a></li>
-						<li><a class="btn mb-2 btn-secondary"
-									 href="https://obsidian-snowflake-b70.notion.site/b7e0aa2ce3e74977a07cb083f054370e?pvs=4"
-									 target="_blank">기능 소개</a></li>
-					</ul>
-				</div>
+			<div style="display: flex;">
+					<span class="sori_page">
+						<div>
+							1. 포인트 관련 기준 관리
+						</div>
+						<a href="/admin/point/pointStandardManage" class="btn mb-2 btn-secondary btn-margin" id="userBtn">구현 페이지</a>
+						<a href="https://obsidian-snowflake-b70.notion.site/b7e0aa2ce3e74977a07cb083f054370e?pvs=4"
+									 target="_blank" class="btn mb-2 btn-secondary btn-margin" id="userBtn">기능 소개</a>
+				</span>
 			</div>
 		</div>
 	</section>
+</th:block>
+<th:block layout:fragment="customJs">
+		<script type="text/javascript" th:inline="javascript">			
+			$('#userBtn').click( e => {
+				fetch("/sori/userLogin", {
+				})
+					.then((response) => response.text())
+					.then((data) => {
+						alert("사용자 권한으로 셋팅 되었습니다.");
+						window.location.href = "/sori";
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+			
+			$('#adminBtn').click( e => {
+				fetch("/sori/adminLogin", {
+				})
+					.then((response) => response.text())
+					.then((data) => {
+						alert("관리자 권한으로 셋팅 되었습니다.");
+						window.location.href = "/sori";
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			});
+			
+		</script>
 </th:block>
 </html>
