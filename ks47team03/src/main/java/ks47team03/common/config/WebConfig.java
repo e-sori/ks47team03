@@ -54,6 +54,8 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/")
 		.excludePathPatterns("/projectIntro")
 		.excludePathPatterns("/sori")
+		.excludePathPatterns("/sori/adminLogin")
+		.excludePathPatterns("/sori/userLogin")
 		.excludePathPatterns("/hyeonjeong")
 		.excludePathPatterns("/admin/")
 		.excludePathPatterns("/login")
