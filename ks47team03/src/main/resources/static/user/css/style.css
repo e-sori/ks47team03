@@ -33,6 +33,35 @@
   text-align: center;
 }
 
+.border-sori{
+	font-size: 18px; 
+	border-top: white dashed 2px; 
+	margin-top: 5px;
+    padding-top: 5px;
+}
+
+.sori_page{
+	margin-right: 10px;
+    border: #d0d0d0 dashed 1px;
+    padding-left: 10px;
+    background-color: #e6e6e64d;;
+    padding-top: 5px;
+}
+
+.sori_page_title{
+	text-align: center;
+    background-color: #d3d3d34d;
+    border-radius: 10px;
+    border: #d0d0d0 dashed 1px;
+    padding-top : 10px;
+    padding-bottom: 5px;
+}
+
+.sori_page div{
+    padding-right: 10px
+
+}
+
 .addCupTfoot{
   text-align: right;
 }
