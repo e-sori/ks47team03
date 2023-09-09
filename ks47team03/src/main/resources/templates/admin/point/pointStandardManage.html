@@ -638,17 +638,27 @@
 			    
 			    // 모든 유효성 검사 후 서버에 데이터 보내서 비밀번호 일치여부 확인하기
 			  	if (isSubmit) {
-					  $.ajax({
-						  url : `/admin/point/pointStandardManage/tab${tableId}/write`,
-						  method : 'POST',
-						  data : $('#insertForm').serialize(),				  
-					  })
-					  .done(function(response){
-						  	alert(response);
-						  if (response === "등록이 완료되었습니다.") {
-				                window.location.href = "/admin/point/pointStandardManage";
-				            } 
-					  });
+					const writeSubmitFormData = $('#insertForm').serialize();
+
+					fetch(`/admin/point/pointStandardManage/tab${tableId}/write`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/x-www-form-urlencoded",
+						},
+						body: writeSubmitFormData,
+					})
+					// 만약 리턴받은 데이터를 json으로 파싱한다면 response.json() 사용
+					// 나는 String으로 등록 성공 여부 메세지를 리턴 받았기 때문에 굳이 json 필요없음
+					.then((response) => response.text())
+					.then((data) => {
+								alert(data);
+								if (data === "등록이 완료되었습니다.") {
+								        window.location.href = "/admin/point/pointStandardManage";
+								} 
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
 				}
 			});
 				
