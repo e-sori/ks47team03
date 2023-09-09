@@ -164,32 +164,41 @@ public class UserCommonController {
 		
 		// 멤버 담당 기능 화면1 - 관리자 권한 강제 부여
         @GetMapping("/sori/adminLogin")
-        @ResponseBody
-        public String adminLogin(HttpSession session) {
+        public String adminLogin(Model model, HttpSession session) {
+            String SLEVEL = "관리자";
             session.setAttribute("SID","adminid001");
             session.setAttribute("SLEVEL","관리자");
             session.setAttribute("SNAME","이소리");
             session.setAttribute("SNICKNAME","관리자001");
             
-            return "complete";
+            model.addAttribute("title","이소리 담당 기능 소개");            
+            model.addAttribute("SLEVEL",SLEVEL);  
+            
+            return "user/sori";
         }   
 		
 		// 멤버 담당 기능 화면1 - 사용자 권한 강제 부여
 		@GetMapping("/sori/userLogin")
-		@ResponseBody
-		public String userLogin(HttpSession session) {
+		public String userLogin(Model model, HttpSession session) {
+            String SLEVEL = "일반사용자";
 			session.setAttribute("SID","userid001");
 			session.setAttribute("SLEVEL","일반사용자");
 			session.setAttribute("SNAME","이소리");
 			session.setAttribute("SNICKNAME","낫쏘리");
 			
-			return "complete";
+            model.addAttribute("title","이소리 담당 기능 소개");            
+            model.addAttribute("SLEVEL",SLEVEL);  
+			
+			return "user/sori";
 		}		
 		
 		// 멤버 담당 기능 화면1 - 이소리
         @GetMapping("/sori")
         public String introSori(Model model,  HttpSession session) {
-            model.addAttribute("title","이소리 담당 기능 소개");         
+            String SLEVEL = (String) session.getAttribute("SLEVEL");
+
+            model.addAttribute("title","이소리 담당 기능 소개");            
+            model.addAttribute("SLEVEL",SLEVEL);  
             
             return "user/sori";
         }       
